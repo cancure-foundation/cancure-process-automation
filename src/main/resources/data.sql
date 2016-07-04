@@ -9,6 +9,6 @@ insert into role(id, name) values (3,'ROLE_DOCTOR');
 insert into role(id, name) values (3,'ROLE_SECRETARY');
 insert into role(id, name) values (3,'ROLE_BOARD');
 
-insert into role (user_id, role) values (1, 1);
-insert into role (user_id, role) values (2, 1);
+insert into user_role (user_id, role_id) values (1, 1);
+insert into user_role (user_id, role_id) values (2, 1);
 

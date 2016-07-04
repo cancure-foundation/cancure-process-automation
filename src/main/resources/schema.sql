@@ -67,7 +67,8 @@ create table user (
 	id number(10),
 	name varchar(100),
 	login varchar(100),
-	password varchar(100)
+	password varchar(100),
+	enabled boolean
 );
 
 create table role (
