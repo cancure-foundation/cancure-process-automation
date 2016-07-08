@@ -64,7 +64,7 @@ create table ClientDetails (
 );
 
 create table user (
-	id number(10),
+	id number(10) auto_increment,
 	name varchar(100),
 	login varchar(100),
 	password varchar(100),
@@ -72,11 +72,11 @@ create table user (
 );
 
 create table role (
-	id number(10),
+	id number(10) auto_increment,
 	name varchar(100)
 );
 
 create table user_role (
-  	user_id number(10), 
+  	user_id number(10),
   	role_id number(10)
 );
