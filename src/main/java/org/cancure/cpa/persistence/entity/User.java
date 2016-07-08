@@ -31,8 +31,7 @@ public class User {
 
 	@NotEmpty
 	private String password;
-	
-	@NotEmpty
+
 	private Boolean enabled;
 
 	@ManyToMany(fetch = FetchType.EAGER)
