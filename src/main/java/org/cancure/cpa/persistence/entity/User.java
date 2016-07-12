@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -32,6 +33,7 @@ public class User {
 	@NotEmpty
 	private String password;
 
+	@NotNull
 	private Boolean enabled;
 
 	@ManyToMany(fetch = FetchType.EAGER)
