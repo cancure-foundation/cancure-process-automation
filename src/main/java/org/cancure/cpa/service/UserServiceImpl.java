@@ -23,10 +23,6 @@ public class UserServiceImpl implements UserService {
 		return userRepo.findAll();
 	}
 
-	public User updateUser(User user) {
-		return userRepo.save(user);
-	}
-
 	public Iterable<Role> listRoles() {
 		return roleRepo.findAll();
 	}

@@ -8,7 +8,6 @@ public interface UserService {
 
 	public User addUser(User user);
 	public Iterable<User> listUsers();
-	public User updateUser(User user);
 	public Iterable<Role> listRoles();
 
 

@@ -1,10 +1,8 @@
 
 buildscript {
     repositories {
-    	mavenCentral()
-    	maven {
-	        url "http://nexus.enterprisenet.org:8081/nexus/content/repositories/central/"
-	    }
+    	mavenLocal()
+    	mavenCentral()    	
     }
 
     dependencies {
@@ -15,6 +13,9 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
+apply plugin: 'jacoco'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -27,11 +28,14 @@ jar {
     }
 }
 
+jacoco {
+    toolVersion ="0.7.1.201405082137"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
 repositories {
+	mavenLocal()
 	mavenCentral()
-	maven {
-	        url "http://nexus.enterprisenet.org:8081/nexus/content/repositories/central/"
-	    }
 }
 
 
@@ -48,6 +52,45 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
+jacocoTestReport {
+  group = "Reporting"
+  reports {
+    html.enabled = true
+    xml.enabled = true
+    csv.enabled = true
+    html.destination = "${buildDir}/reports/coverage"
+  }
+  executionData = files('build/jacoco/test.exec')
+}
+
+test { finalizedBy jacocoTestReport }
+
+findbugs {
+  ignoreFailures = true
+  toolVersion = "2.0.1"
+  sourceSets = [sourceSets.main]
+  reportsDir = file("$project.buildDir/reports/findbugs")
+  effort = "max" 
+}
+
+pmd {
+  ignoreFailures = true
+  sourceSets = [sourceSets.main]
+  reportsDir = file("$project.buildDir/reports/pmd")
+  ruleSets = [
+            'java-basic',
+            'java-braces',  
+            'java-empty',           
+            'java-imports',
+            //'java-optimizations',            
+            'java-strings',
+            'java-typeresolution',
+            'java-unnecessary',
+            'java-unusedcode'
+    ] 
+}
+
+
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.0'
+    gradleVersion = '2.14'
 }

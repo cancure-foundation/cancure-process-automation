@@ -25,12 +25,6 @@ public class UserController {
 		return userService.listUsers ();
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/user/update", consumes = "application/json")
-	public User updateUser(@RequestBody User user) {
-		return userService.updateUser (user);
-
-	}
-
 	@RequestMapping("/roles")
 	public Iterable<Role> listRoles() {
 		return userService.listRoles ();
