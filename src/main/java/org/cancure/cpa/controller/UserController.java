@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 	@Autowired
-	private UserService userService;
+	UserService userService;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/user/save", consumes = "application/json")
 	public User addUser(@RequestBody User user) {

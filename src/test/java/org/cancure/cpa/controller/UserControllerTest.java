@@ -1,24 +1,38 @@
 package org.cancure.cpa.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
-import org.junit.Before;
+import org.cancure.cpa.persistence.entity.User;
+import org.cancure.cpa.persistence.repository.RoleRepository;
+import org.cancure.cpa.persistence.repository.RoleRepositoryDummy;
+import org.cancure.cpa.persistence.repository.UserRepository;
+import org.cancure.cpa.persistence.repository.UserRepositoryDummy;
+import org.cancure.cpa.service.UserServiceImpl;
 import org.junit.Test;
 
 public class UserControllerTest {
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void testAddUser() {
-		//fail("Not yet implemented");
+		UserController uc = new UserController();
+		
+		UserRepository userRepo = new UserRepositoryDummy();
+		RoleRepository roleRepo = new RoleRepositoryDummy();
+		
+		UserServiceImpl userService = new UserServiceImpl();
+		userService.setUserRepo(userRepo);
+		userService.setRoleRepo(roleRepo);
+		
+		uc.userService = userService;
+		
+		User user = new User();
+		user.setEnabled(true);
+		user.setLogin("admin");
+		user.setName("Admin");
+		
+		uc.addUser(user);
+		
+		assertEquals(new Integer(1234), user.getId());
 	}
 
 	@Test

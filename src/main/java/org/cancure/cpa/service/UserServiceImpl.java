@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	private UserRepository userRepo;
+	UserRepository userRepo;
 	@Autowired
-	private RoleRepository roleRepo;
+	RoleRepository roleRepo;
 
 	public User addUser(User user) {
 		return userRepo.save(user);
@@ -27,4 +27,12 @@ public class UserServiceImpl implements UserService {
 		return roleRepo.findAll();
 	}
 
+	public void setUserRepo(UserRepository userRepo) {
+		this.userRepo = userRepo;
+	}
+
+	public void setRoleRepo(RoleRepository roleRepo) {
+		this.roleRepo = roleRepo;
+	}
+	
 }
