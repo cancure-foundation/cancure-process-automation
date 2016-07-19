@@ -1,6 +1,6 @@
 package org.cancure.cpa.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.RoleRepository;
@@ -8,13 +8,16 @@ import org.cancure.cpa.persistence.repository.RoleRepositoryDummy;
 import org.cancure.cpa.persistence.repository.UserRepository;
 import org.cancure.cpa.persistence.repository.UserRepositoryDummy;
 import org.cancure.cpa.service.UserServiceImpl;
+import org.junit.Before;
 import org.junit.Test;
 
 public class UserControllerTest {
 
-	@Test
-	public void testAddUser() {
-		UserController uc = new UserController();
+	private UserController uc;
+	
+	@Before
+	public void setup() {
+		uc = new UserController();
 		
 		UserRepository userRepo = new UserRepositoryDummy();
 		RoleRepository roleRepo = new RoleRepositoryDummy();
@@ -24,6 +27,10 @@ public class UserControllerTest {
 		userService.setRoleRepo(roleRepo);
 		
 		uc.userService = userService;
+	}
+	
+	@Test
+	public void testAddUser() {
 		
 		User user = new User();
 		user.setEnabled(true);
@@ -37,7 +44,28 @@ public class UserControllerTest {
 
 	@Test
 	public void testListUsers() {
-		//fail("Not yet implemented");
+		
+		User user = new User();
+		user.setEnabled(true);
+		user.setLogin("admin");
+		user.setName("Admin");
+		uc.addUser(user);
+		
+		user = new User();
+		user.setEnabled(false);
+		user.setLogin("pc");
+		user.setName("PC");
+		uc.addUser(user);
+		
+		Iterable<User> list = uc.listUsers();
+		
+		int count=0;
+		for (User u : list) {
+			count++;
+			assertTrue( u.getName().equals("Admin") || u.getName().equals("PC") );
+		}
+		
+		assertEquals(2, count);
 	}
 
 	@Test
