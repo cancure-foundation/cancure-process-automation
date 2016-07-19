@@ -1,4 +1,3 @@
-
 buildscript {
     repositories {
     	mavenLocal()
@@ -57,20 +56,28 @@ jacocoTestReport {
   reports {
     html.enabled = true
     xml.enabled = true
-    csv.enabled = true
     html.destination = "${buildDir}/reports/coverage"
   }
   executionData = files('build/jacoco/test.exec')
 }
 
-test { finalizedBy jacocoTestReport }
+test { 
+	finalizedBy jacocoTestReport 
+}
 
 findbugs {
   ignoreFailures = true
-  toolVersion = "2.0.1"
+  toolVersion = "3.0.1"
   sourceSets = [sourceSets.main]
   reportsDir = file("$project.buildDir/reports/findbugs")
   effort = "max" 
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
 }
 
 pmd {
@@ -90,7 +97,3 @@ pmd {
     ] 
 }
 
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.14'
-}

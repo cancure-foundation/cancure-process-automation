@@ -79,12 +79,13 @@ create table role (
 
 create table user_role (
   	user_id number(10),
-  	role_id number(10)
+  	role_id number(10),
+  	unique (user_id, role_id)
 );
 
 
 create table patient(
-	prn number(10) primary key,
+	prn number(10) primary key auto_increment,
 	pidn number(10),
 	name varchar(100),
 	dob date,
@@ -114,14 +115,14 @@ create table patient(
 
 
 create table support_organisations (
-	org_id number(10) primary key,
+	org_id number(10) primary key auto_increment,
 	name varchar(100),
 	amount_rec number(10),
 	prn number(10) references patient(prn)
 );
 
 create table patient_family (
-	family_member_id number(10) primary key,
+	family_member_id number(10) primary key auto_increment,
 	relation varchar(30),
 	age number(5),
 	status varchar(30),
@@ -131,7 +132,7 @@ create table patient_family (
 );
 
 create table patient_document (
-	doc_id number(10) primary key,
+	doc_id number(10) primary key auto_increment,
 	doc_category varchar(50),
 	doc_type varchar(100),
 	doc_path varchar(250),
