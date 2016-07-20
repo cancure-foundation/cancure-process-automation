@@ -6,9 +6,9 @@ import org.cancure.cpa.persistence.entity.User;
 
 public interface UserService {
 
-	User addUser(User user);
+	User saveUser(User user);
 	Iterable<User> listUsers();
 	Iterable<Role> listRoles();
-
-
+	User getUser(Integer id);
+	
 }

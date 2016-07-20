@@ -15,8 +15,13 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	RoleRepository roleRepo;
 
-	public User addUser(User user) {
+	public User saveUser(User user) {
 		return userRepo.save(user);
+	}
+	
+	@Override
+	public User getUser(Integer id) {
+		return userRepo.findOne(id);
 	}
 
 	public Iterable<User> listUsers() {

@@ -1,68 +1,77 @@
 package org.cancure.cpa.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.cancure.cpa.Application;
+import org.cancure.cpa.persistence.entity.Role;
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.RoleRepository;
-import org.cancure.cpa.persistence.repository.RoleRepositoryDummy;
 import org.cancure.cpa.persistence.repository.UserRepository;
-import org.cancure.cpa.persistence.repository.UserRepositoryDummy;
-import org.cancure.cpa.service.UserServiceImpl;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = Application.class)
 public class UserControllerTest {
 
+	@Autowired
 	private UserController uc;
 	
-	@Before
-	public void setup() {
-		uc = new UserController();
-		
-		UserRepository userRepo = new UserRepositoryDummy();
-		RoleRepository roleRepo = new RoleRepositoryDummy();
-		
-		UserServiceImpl userService = new UserServiceImpl();
-		userService.setUserRepo(userRepo);
-		userService.setRoleRepo(roleRepo);
-		
-		uc.userService = userService;
-	}
+	@Autowired
+	private UserRepository userRepo;
+	
+	@Autowired
+	private RoleRepository roleRepo;
 	
 	@Test
 	public void testAddUser() {
 		
+		userRepo.deleteAll();
+		
 		User user = new User();
 		user.setEnabled(true);
+		user.setPassword("1234");
 		user.setLogin("admin");
 		user.setName("Admin");
 		
-		uc.addUser(user);
+		User addedUser = uc.saveUser(user);
 		
-		assertEquals(new Integer(1234), user.getId());
+		assertEquals(addedUser.getEnabled(), user.getEnabled());
+		assertTrue(addedUser.getEnabled());
+		assertTrue(addedUser.getId() != null);
 	}
 
 	@Test
 	public void testListUsers() {
+		userRepo.deleteAll();
 		
 		User user = new User();
 		user.setEnabled(true);
-		user.setLogin("admin");
-		user.setName("Admin");
-		uc.addUser(user);
+		user.setPassword("1234");
+		user.setLogin("admin1");
+		user.setName("Admin1");
+		uc.saveUser(user);
 		
 		user = new User();
 		user.setEnabled(false);
-		user.setLogin("pc");
-		user.setName("PC");
-		uc.addUser(user);
+		user.setPassword("1234");
+		user.setLogin("pc1");
+		user.setName("PC1");
+		uc.saveUser(user);
 		
 		Iterable<User> list = uc.listUsers();
 		
 		int count=0;
 		for (User u : list) {
 			count++;
-			assertTrue( u.getName().equals("Admin") || u.getName().equals("PC") );
+			assertTrue( u.getName().equals("Admin1") || u.getName().equals("PC1") );
 		}
 		
 		assertEquals(2, count);
@@ -70,12 +79,61 @@ public class UserControllerTest {
 
 	@Test
 	public void testUpdateUser() {
-		//fail("Not yet implemented");
+		
+		userRepo.deleteAll();
+		
+		User user = new User();
+		user.setEnabled(true);
+		user.setPassword("1234");
+		user.setLogin("admin1");
+		user.setName("Admin1");
+		
+		User addedUser = uc.saveUser(user);
+		Integer userId = addedUser.getId();
+		
+		User addedUserFull = uc.getUser(userId);
+		
+		// Create Role
+		roleRepo.deleteAll();		
+		Role role = new Role();
+		role.setName("Admin");		
+		Role savedRole = roleRepo.save(role);
+		//---------------
+		
+		Set<Role> roles = new HashSet<>();
+		roles.add(savedRole);
+		addedUserFull.setRoles(roles);
+		
+		addedUserFull.setName("Modified");
+		
+		uc.saveUser(addedUserFull);
+		
+		User editedUser = uc.getUser(userId);
+		
+		assertEquals(userId, editedUser.getId());
+		assertEquals(1, editedUser.getRoles().size());
+		assertEquals("Admin", editedUser.getRoles().toArray(new Role[0])[0].getName());
+		assertEquals("admin1", editedUser.getLogin());
+		assertEquals("Modified", editedUser.getName());
 	}
 
 	@Test
 	public void testListRoles() {
-		//fail("Not yet implemented");
+		roleRepo.deleteAll();
+		
+		Role role = new Role();
+		role.setName("Admin");
+		
+		roleRepo.save(role);
+		
+		Iterable<Role> allRoles = uc.listRoles();
+		int count=0;
+		for (Role u : allRoles) {
+			count++;
+			assertTrue( u.getName().equals("Admin") );
+		}
+		
+		assertEquals(1, count);
 	}
 
 }
