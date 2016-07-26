@@ -1,0 +1,55 @@
+<section class="content-header">
+    <h1>           
+        User List
+        </h1>
+    <ol class="breadcrumb">
+        <li><a><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">Contact Me</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+
+	<div class="row">
+        <div class="col-md-12">
+            <!-- The time line -->
+            <ul class="timeline">
+                <li class="time-label">
+                    <span class="bg-red-gradient">
+                        Users
+                    </span>
+                </li>
+                
+                 <li ng-repeat="user in userList">
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time text-bold">{{user.name}}</span>
+                        <h3 class="timeline-header">{{user.name}}</h3>
+                        <h3 class="timeline-header">{{user.login}}</h3>
+                        <h3 class="timeline-header">{{user.enabled}}</h3>
+                        <div class="timeline-body">
+                            <role><a>Roles</a></role> 
+                            <br> 
+                            <div id={{user.id}} ng-repeat="role in user.roles">
+                                {{role.name}}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="time-label">
+                    <span class="bg-green-gradient">
+                        Nov 2010 - Jan 2015
+                    </span>
+                </li>
+                
+                <li>
+                    <i class="fa fa-clock-o bg-gray"></i>
+                </li>
+            </ul>
+        </div><!-- /.col -->
+    </div>
+
+
+</section>
+<!-- /.content -->

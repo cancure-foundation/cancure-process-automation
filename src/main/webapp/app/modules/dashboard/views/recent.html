@@ -1,0 +1,55 @@
+﻿<!--
+Author: Ranjithprabhu K
+Page Description: Recent Projects page
+Date: 24 Jan 2016
+-->
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Recent Projects
+
+        </h1>
+        <ol class="breadcrumb">
+            <li><a><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Recent</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+    <div class="row">
+
+
+        <div class="col-md-12" data-ng-repeat="recent in vm.recents">
+            <div class="box box-{{recent.theme}} box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{recent.heading}}</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-toggle="collapse" data-target="#content{{recent.id}}"><span class="fa fa-caret-down"></span></button>
+                    </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body collapse in" id="content{{recent.id}}">
+                    <div class="col-md-3">
+                        <img src="../../../../images/recent/{{recent.image}}.jpg" class="img-responsive">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="box-body">
+
+                            <strong><i class="glyphicon glyphicon-hand-right margin-r-5"></i>  Title</strong>
+                            <a href="http://{{recent.url}}" target="_blank"> <h3 class="margin-top-none">{{recent.title}}</h3></a>
+                            <hr>
+                            <strong><i class="glyphicon glyphicon-info-sign margin-r-5"></i> Description</strong>
+                            <p class="text-muted">{{recent.description}}</p>
+                            <hr>
+                            <strong><i class="fa fa-user-md margin-r-5"></i> My Role</strong>
+                            <p>
+                                <span data-ng-repeat="role in recent.roles" class="label label-{{role.theme}} margin-r-5">{{role.myRole}}</span>
+                            </p>
+                        </div>
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+            </div>
+        </div>
+        </div>
+    </section><!-- /.content -->
+

@@ -1,0 +1,48 @@
+﻿<!--
+Author: Ranjithprabhu K
+Page Description: Dashboard page
+Date: 05 Jan 2016
+-->
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+           My Design Portfolio
+
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Portfolio</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="no-touch">
+
+            <div class="wrap">
+
+                <div class="gallery-box" data-ng-repeat="portfolio in vm.portfolioData">
+                    <div class="boxInner">
+                        <img src="../../../../images/portfolio/{{portfolio.image}}.jpg" />
+                        <div class="titleBox">{{portfolio.title}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- /.content -->
+
+<script type="text/javascript">
+    $(function () {
+        // See if this is a touch device
+        if ('ontouchstart' in window) {
+            // Set the correct body class
+            $('.no-touch').removeClass('no-touch').addClass('touch');
+
+            // Add the touch toggle to show text
+            $('div.boxInner img').click(function () {
+                $(this).closest('.boxInner').toggleClass('touchFocus');
+            });
+        }
+    });
+</script>
