@@ -1,0 +1,31 @@
+﻿<!--
+Author: Ranjithprabhu K
+Page Description: Dashboard page
+Date: 05 Jan 2016
+-->
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Websites
+
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Websites</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Info boxes -->
+        <div class="row">
+            <a class="col-md-4 col-sm-6 col-xs-12" ng-repeat="web in vm.websites" href="{{web.link}}" target="_blank">
+                <div class="box">
+                    <img src="../../../../images/websites/{{web.image}}.jpg" class="img-responsive" />
+                    <h4 class="website-text">{{web.title}}</h4>
+                </div>
+            </a>
+        </div>
+       
+    </section><!-- /.content -->
+
