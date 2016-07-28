@@ -3,7 +3,15 @@
   <process id="patientRegn" name="Patient Registration" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <userTask id="usertask1" name="Patient Registration"></userTask>
-    <userTask id="usertask2" name="PreliminaryExamination"></userTask>
+    
+    <userTask id="usertask2" name="PreliminaryExamination">
+    	<potentialOwner>
+	      <resourceAssignmentExpression>
+	        <formalExpression>group(ROLE_PROGRAM_COORDINATOR)</formalExpression>
+	      </resourceAssignmentExpression>
+	    </potentialOwner>
+    </userTask>
+    
     <userTask id="usertask3" name="BackgroundCheck"></userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow1" sourceRef="usertask3" targetRef="exclusivegateway1"></sequenceFlow>
