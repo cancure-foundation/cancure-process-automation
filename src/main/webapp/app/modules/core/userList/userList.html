@@ -1,0 +1,46 @@
+<section class="content-header">
+    <h1>           
+        User List
+        </h1>
+    <ol class="breadcrumb">
+        <li><a><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">Contact Me</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info" style="min-height:453px;">
+                <div class="panel-heading">
+                    User List
+                </div>
+                <div class="panel-body">
+
+                    <table class="table">
+                        <th>Name</th>
+                        <th>Enabled</th>
+                        <th>Roles</th>
+                        <th>Action</th>
+                        <tr class="" ng-repeat="user in userList">
+                            <td>{{user.name}}</td>
+                            <td>{{user.enabled}}</td>
+                            <td>
+                                <role><a>Roles</a></role>
+                                <br>
+                                <div id={{user.id}} ng-repeat="role in user.roles">
+                                    {{role.name}}
+                                </div>
+                            </td>
+                            <td>
+                                Edit
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.content -->

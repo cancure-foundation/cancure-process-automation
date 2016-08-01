@@ -1,50 +1,26 @@
-<div class="login">
-    <!--
-    <header>        
-    </header>
--->
-    <div class="login-wrapper">
-        <div class="container">
-            <div class="col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading text-center">
-                        Sign In
+<div class="login-wrapper">
+    <div class="login-page">
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4">
+                <h1>CANCURE</h1>
+                <form name="vm.loginForm" data-ng-submit="vm.login(vm.formData);">
+                    <div class="form-content">
+                        <div class="form-group">
+                            <input class="form-control input-underline input-lg" placeholder="Username" required type="text" data-ng-model="vm.formData.Username">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control input-underline input-lg" placeholder="Password" required type="password" data-ng-model="vm.formData.Password">
+                        </div>
                     </div>
-                    <div class="panel-body">
-                        <form name="vm.loginForm" class="form-horizontal" data-ng-submit="vm.login(vm.getUser);">
-                            <md-content class="autoScroll">
-                                <md-input-container class="md-icon-float md-block">
-                                    <label>Username</label>
-                                    <!--                                <md-icon class="fa fa-user"></md-icon>-->
-                                    <input type="text" required name="username" data-ng-model="vm.getUser.Username">
-                                </md-input-container>
-
-                                <md-input-container class="md-icon-float md-block">
-                                    <label>Password</label>
-                                    <!--                                <md-icon class="fa fa-lock"></md-icon>-->
-                                    <input type="password" required name="password" data-ng-model="vm.getUser.Password">
-                                </md-input-container>
-                            </md-content>
-                            <div class="col-xs-12 login-control" style="padding:0px">
-                                <button type="submit" class="btn btn-block btn-success">
-                                    Login <span class="glyphicon glyphicon-play"></span>
-                                </button>
-                            </div>
-                            <div class="col-xs-12 margin-top-20" style="padding:0px">
-                                <span class="pull-right">
-                            <a href="#">Forgot Password?</a>
-                        </span>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                    <button type="submit" class="btn rounded-btn" data-ng-hide="vm.loggingIn">
+                        Log in
+                    </button>
+                    <i class="fa fa-refresh fa-spin" data-ng-show="vm.loggingIn"></i>
+                </form>
             </div>
         </div>
     </div>
-
-    <!--
-    <footer>       
-    </footer>
--->
-
+    <div class="caption">
+        can <span>care.</span> can <span>share.</span> can <span>cure.</span>
+    </div>
 </div>

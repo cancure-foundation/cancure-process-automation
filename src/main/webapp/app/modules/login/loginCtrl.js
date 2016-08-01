@@ -1,37 +1,23 @@
-﻿login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', 'loginService', 'Flash','apiService',
-function ($rootScope, $scope, $state, $location, loginService, Flash, apiService) {
+login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'apiService', 'appSettings',
+
+function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings) {
         var vm = this;
 
-        vm.getUser = {};
-        vm.setUser = {};
-        vm.signIn = true;
+        vm.formData = {};
+        vm.loggingIn = false;
 
         //access login
         vm.login = function (data) {
-            if (data.Username == "admin") {
-                if (data.Password == "admin") {
-                    $state.go('app.dashboard');
-                }
-                else
-                    Flash.create('danger', 'Invalid Password', 'large-text');
-            }
-            else
-                Flash.create('danger', 'Invalid Username', 'large-text');
-        };
-
-        //get registration details
-        vm.register = function () {
-            if (vm.setUser.confirmPassword == vm.setUser.Password){
-                loginService.registerUser(vm.setUser).then(function (response) {
-                    if (response.message == 'success')
-                console.log('after post>>',response);
-                //if (response.length > 0)
-                //    $state.go('app');
-                //else
-                //    Flash.create('danger', 'Invalid Credentials', 'large-text');
-            });
+            vm.loggingIn = true;
+//            return;
+            if (data.Username == "admin" && data.Password == "admin") {
+                appSettings.userName = data.Username;
+                $state.go('app.home');
+            } else {
+                vm.loggingIn = false;
+                vm.formData = {};
+                Flash.create('danger', 'Invalid Username. Try Again!', 'large-text');
             }
         };
 
-    }]);
-
+    }])
