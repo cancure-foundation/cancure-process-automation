@@ -36,3 +36,17 @@ var appConfig = {
 };
 
 app.constant('appSettings', appConfig);
+
+// directive to show pre-loading screen
+app.directive("mAppLoading",function( $animate ) {
+        return({
+            link: link,
+            restrict: "C"
+        });
+        function link( scope, element, attributes ) {         	  
+        	setTimeout(function (){
+        		element.fadeOut();
+        	},3000)
+        }
+    }
+);

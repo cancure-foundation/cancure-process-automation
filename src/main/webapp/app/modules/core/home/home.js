@@ -213,7 +213,7 @@ function ($rootScope, $scope, $state, $location, Flash, appSettings) {
         });
 
         var init = function () {
-            console.log(appSettings)
+            
         };
 
         // init function, execution starts here
