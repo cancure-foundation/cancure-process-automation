@@ -43,10 +43,10 @@ app.directive("mAppLoading",function( $animate ) {
             link: link,
             restrict: "C"
         });
-        function link( scope, element, attributes ) {         	  
+        function link( scope, element, attributes ) { 
         	setTimeout(function (){
         		element.fadeOut();
-        	},3000)
+        	}, 3000)
         }
     }
 );
