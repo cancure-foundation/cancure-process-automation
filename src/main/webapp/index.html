@@ -1,9 +1,3 @@
-<!-- Author: Ranjithprabhu K
-     Date: 24 Dec 2015
-	 Author URL: http://ranjithprabhu.in
-	 Version: 1.0.0
---->
-
 <!DOCTYPE html>
 <html>
 
@@ -54,6 +48,7 @@
     <script src="app/app.js"></script>
     <script src="app/appCtrl.js"></script>
     <script src="app/common/apiService.js"></script>
+    <script src="app/common/httpInterceptor.js"></script>
 
     <!--Login Module-->
     <script src="app/modules/login/loginConfig.js"></script>
@@ -65,9 +60,36 @@
     <script src="app/modules/core/userList/userList.js"></script>
     <script src="app/modules/core/home/home.js"></script>
     <script src="app/modules/core/searchUser/searchUser.js"></script>
-    
-
-    <div flash-message="5000"></div>
+    <script src="app/modules/core/myQueue/myQueue.js"></script>
+    <script src="app/modules/core/patientRegHistory/patientRegHistory.js"></script>
+    <!--  pre loading screen UI : start -->
+    <style type="text/css">
+	    .m-app-loading {
+			position: fixed;
+			top: 0px;
+			height: 100%;
+			width: 100%;
+			color: #fff;
+			background-color: #000;
+			display: table;
+			text-align: center;
+			z-index : 1;
+		}
+		.m-app-loading .messaging {
+			display: table-cell;
+			vertical-align: middle;
+			font-size: 64px;
+		}
+    </style>
+	<div class="m-app-loading" ng-animate-children>        
+    	<div class="messaging">        	
+            Cancure 
+    	</div>
+	</div>
+	<!--  pre loading screen UI : end -->
+	
+	<div flash-message="5000"></div>
+	
     <ui-view></ui-view>
 
 </body>
