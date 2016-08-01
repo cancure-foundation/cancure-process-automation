@@ -66,15 +66,34 @@
     <script src="app/modules/core/home/home.js"></script>
     <script src="app/modules/core/searchUser/searchUser.js"></script>
     
-    <ui-view></ui-view>
+    <!--  pre loading screen UI : start -->
+    <style type="text/css">
+	    .m-app-loading {
+			position: fixed;
+			top: 0px;
+			height: 100%;
+			width: 100%;
+			color: #fff;
+			background-color: #000;
+			display: table;
+			text-align: center;
+		}
+
+		.m-app-loading .messaging {
+			display: table-cell;
+			vertical-align: middle;
+			font-size: 64px;
+		}
+    </style>
 	<div class="m-app-loading" ng-animate-children>        
-    	<div class="messaging">
-        	
-                                    Cancure
-            
-            
+    	<div class="messaging">        	
+            Cancure
     	</div>
 	</div>
+	<!--  pre loading screen UI : end -->
+	
+    <ui-view></ui-view>
+    
 </body>
 
 </html>

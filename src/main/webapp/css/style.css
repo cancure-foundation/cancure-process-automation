@@ -72,23 +72,6 @@
 	margin-top: 80px !important;
 }
 
-.m-app-loading {
-	position: fixed;
-	top: 0px;
-	height: 100%;
-	width: 100%;
-	color: #fff;
-	background-color: #000;
-	display: table;
-	text-align: center;
-}
-
-.m-app-loading .messaging {
-	display: table-cell;
-	vertical-align: middle;
-	font-size: 64px;
-}
-
 /*============ng-click style============*/
 [ng-click], [data-ng-click], a {
 	cursor: pointer;
