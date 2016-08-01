@@ -26,10 +26,10 @@ var appConfig = {
     dateFormat: "mm/dd/yy", // app date format
     baseURL: 'http://localhost:8080/', // app service URL
     requestURL: {
-        authRequest: 'oauth/token',
-        userRoles : 'roles',
-        createUser: 'user/save',
-        userList: 'user/list'
+        authRequest: 'oauth/token', // oauth request
+        userRoles : 'roles', // fetching user roles
+        createUser: 'user/save', // creating user
+        userList: 'user/list' // listing out the user
     },
     theme: 'skin-yellow', // app default theme
     layout: "" // app default layout
