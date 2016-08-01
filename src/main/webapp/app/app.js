@@ -2,7 +2,6 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'flash',
     //main modules
     'login', 'core']);
 
-
 app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', function ($stateProvider, $locationProvider, $urlRouterProvider, $modalInstance) {
 
     //IdleScreenList
