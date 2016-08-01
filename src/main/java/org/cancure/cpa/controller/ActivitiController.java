@@ -26,14 +26,14 @@ public class ActivitiController {
 		return "Greetings from Spring Boot!";
 	}
 
-	@RequestMapping("/start100/{patientId}")
+	/*@RequestMapping("/start100/{patientId}")
 	public String hello(@PathVariable String patientId) {
 
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("applicantName", "John Doe");
 		variables.put("email", "john.doe@activiti.com");
 		variables.put("phoneNumber", "123456789");
-		variables.put("patientId", patientId);
+		variables.put("prn", patientId);
 		ProcessInstance procInst = runtimeService.startProcessInstanceByKey(
 				"activitiReview", patientId, variables);
 
@@ -51,7 +51,7 @@ public class ActivitiController {
 	public String move100(@PathVariable String patientId) {
 		patientRegistrationService.movePatientRegn(patientId, null);
 		return "Done";
-	}
+	}*/
 
 		
 
@@ -59,10 +59,10 @@ public class ActivitiController {
 	public String startPatientRegn(@PathVariable String patientId) {
 
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("applicantName", "John Doe");
+		variables.put("patientName", "John Doe");
 		variables.put("email", "john.doe@activiti.com");
 		variables.put("phoneNumber", "123456789");
-		variables.put("patientId", patientId);
+		variables.put("prn", patientId);
 
 		return patientRegistrationService.startPatientRegnProcess(variables,
 				patientId);

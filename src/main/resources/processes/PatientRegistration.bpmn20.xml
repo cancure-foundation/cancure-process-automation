@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
-  <process id="patientRegn" name="Patient Registration" isExecutable="true">
+  <process id="patientRegn" name="PatientRegistration" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="usertask1" name="Patient Registration">
+    <userTask id="usertask1" name="PatientRegistration">
+    	<documentation>
+    		Patient registers with Cancure providing personal details, family details, ID proofs
+    		, income proofs etc. 
+    	</documentation>
     	<potentialOwner>
 	      <resourceAssignmentExpression>
 	        <formalExpression>group(ROLE_PROGRAM_COORDINATOR)</formalExpression>
@@ -11,6 +15,10 @@
     </userTask>
     
     <userTask id="usertask2" name="PreliminaryExamination">
+    	<documentation>
+    		Doctor conducts preliminary examination and provides reports. 
+    		HPOC estimates the treatment costs.
+    	</documentation>
     	<potentialOwner>
 	      <resourceAssignmentExpression>
 	        <formalExpression>group(ROLE_HOSPITAL_POC)</formalExpression>
@@ -19,6 +27,9 @@
     </userTask>
     
     <userTask id="usertask3" name="BackgroundCheck">
+    	<documentation>
+    		PC performs background check on the patient.
+    	</documentation>
     	<potentialOwner>
 	      <resourceAssignmentExpression>
 	        <formalExpression>group(ROLE_PROGRAM_COORDINATOR)</formalExpression>
@@ -35,7 +46,10 @@
     <sequenceFlow id="flow3" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="usertask2" targetRef="usertask3"></sequenceFlow>
     <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask4" name="MB Doctor Approval">
+    <userTask id="usertask4" name="MBDoctorApproval">
+    	<documentation>
+    		MB Doctors verifies the cost estimations and provides their input. 
+    	</documentation>
     	<potentialOwner>
 	      <resourceAssignmentExpression>
 	        <formalExpression>group(ROLE_PROGRAM_COORDINATOR)</formalExpression>
@@ -46,6 +60,9 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bgCheck=='PASS'}]]></conditionExpression>
     </sequenceFlow>
     <userTask id="usertask5" name="SecretaryApproval">
+    	<documentation>
+    		Secretary verifies the patient's details.
+    	</documentation>
     	<potentialOwner>
 	      <resourceAssignmentExpression>
 	        <formalExpression>group(ROLE_SECRETARY)</formalExpression>
@@ -59,6 +76,9 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Reject'}]]></conditionExpression>
     </sequenceFlow>
     <userTask id="usertask6" name="ECApproval">
+    	<documentation>
+    		Executive Committee verifies the patient's details and approves or rejects Cancure help. 
+    	</documentation>
     	<potentialOwner>
 	      <resourceAssignmentExpression>
 	        <formalExpression>group(ROLE_BOARD)</formalExpression>
@@ -69,6 +89,10 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Recommend'}]]></conditionExpression>
     </sequenceFlow>
     <userTask id="usertask7" name="PatientIDCardGeneration">
+    	<documentation>
+    		Cancure approves patient's registration and patient's ID card is generated.
+    		Partners are notified.
+    	</documentation>
     	<potentialOwner>
 	      <resourceAssignmentExpression>
 	        <formalExpression>group(ROLE_PROGRAM_COORDINATOR)</formalExpression>

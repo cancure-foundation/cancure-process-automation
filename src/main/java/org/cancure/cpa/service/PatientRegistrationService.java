@@ -1,5 +1,7 @@
 package org.cancure.cpa.service;
 
+import static org.cancure.cpa.common.Constants.PATIENT_REG_PROCESS_DEF_KEY;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,8 +18,7 @@ public class PatientRegistrationService {
 
 	private static Logger logger = Logger
 			.getLogger(PatientRegistrationService.class);
-	private static String procDefKey = "patientRegn";
-
+	
 	@Autowired
 	private RuntimeService runtimeService;
 
@@ -28,7 +29,7 @@ public class PatientRegistrationService {
 			String patientId) {
 
 		ProcessInstance procInst = runtimeService.startProcessInstanceByKey(
-				procDefKey, patientId, variables);
+				PATIENT_REG_PROCESS_DEF_KEY, patientId, variables);
 		return "Started Proc instance! :: " + procInst.getId();
 	}
 
@@ -125,9 +126,9 @@ public class PatientRegistrationService {
 		}
 	}
 
-	private Task findTask(String patientId) {
+	public Task findTask(String patientId) {
 		ProcessInstance procInsts = runtimeService.createProcessInstanceQuery()
-				.processDefinitionKey(procDefKey)
+				.processDefinitionKey(PATIENT_REG_PROCESS_DEF_KEY)
 				.processInstanceBusinessKey(patientId).singleResult();
 		Task taskData = taskService.createTaskQuery()
 				.processInstanceId(procInsts.getProcessInstanceId())
