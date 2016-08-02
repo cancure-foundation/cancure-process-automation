@@ -12,7 +12,7 @@ app.constant('appSettings', {
 		createUser: 'user/save', // creating user
 		userList: 'user/list' // listing out the user
 	},
-	theme: 'skin-blue', // app default theme
+	theme: 'skin-yellow', // app default theme
 	layout: "" // app default layout
 		
 });
