@@ -46,6 +46,7 @@ app.directive("mAppLoading",function( $animate ) {
         function link( scope, element, attributes ) { 
         	setTimeout(function (){
         		element.fadeOut();
+        		document.getElementsByTagName("body")[0].style.overflow = "auto";
         	}, 3000)
         }
     }
