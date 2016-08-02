@@ -53,17 +53,16 @@
                     <li class="dropdown user user-menu">
                         <a class="dropdown-toggle" data-toggle="dropdown">
                             <img src="../../images/ranjith.png" class="user-image" alt="User Image" />
-                            <span class="hidden-xs">Ranjithprabhu</span>
+                            <span class="hidden-xs">{{loginUserName}}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
                                 <img src="../../images/ranjith.png" class="img-circle" alt="User Image">
                                 
-                                    <h3>Ranjithprabhu. K</h3>
-                                <p class="text-center">
-                                    Software Engineer
-                                     <small>Playing in Web - since 2010</small>
+                                    <h3>{{loginUserName}}</h3>
+                                <p class="text-center" ng-repeat="role in roles">
+                                    {{role.name}}
                                  </p>
                             </li>
                             <!-- Menu Footer-->

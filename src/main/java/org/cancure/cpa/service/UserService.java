@@ -10,5 +10,5 @@ public interface UserService {
 	Iterable<User> listUsers();
 	Iterable<Role> listRoles();
 	User getUser(Integer id);
-	
+	User getUserByLogin(String login);
 }

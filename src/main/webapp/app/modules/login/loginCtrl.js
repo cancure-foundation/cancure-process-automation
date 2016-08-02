@@ -24,7 +24,18 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', 'F
 				appSettings.access_token = success.access_token; // sets the access token to app settings
 				vm.loggingIn = false; // turns the flag off for logginIn
 				vm.formData = {}; // clears the login form data
-				$state.go('app.home'); // route to the home page
+				
+				apiService.serviceRequest({
+					URL : 'user/login/' + data.Username,
+					errorMsg : 'Cannot find user ' + data.Username
+				}, function (userData) {
+					appSettings.loginUserName = userData.name;
+					appSettings.roles = userData.roles;
+					$state.go('app.home'); // route to the home page
+				}, function fail(fail){
+					vm.loggingIn = false; // turns the flag off for logginIn
+					vm.formData = {}; // clears the login form data
+				});
 			
 			}, function fail(fail){
 				

@@ -3,7 +3,9 @@ function ($rootScope, $scope, $state, $location, Flash, appSettings) {
 
         $rootScope.theme = appSettings.theme;
         $rootScope.layout = appSettings.layout;
-
+        $rootScope.loginUserName = appSettings.loginUserName;
+        $rootScope.roles = appSettings.roles;
+        
         var vm = this;
 
         //avalilable themes
