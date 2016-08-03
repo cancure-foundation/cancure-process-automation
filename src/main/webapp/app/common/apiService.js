@@ -1,4 +1,4 @@
-app.service('apiService', ['$http', '$q', 'appSettings', 'Flash', function ($http, $q, appSettings, Flash) {
+app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', function ($http, $q,  $state, $cookies, appSettings, Flash) {
 
     var apiService = {};
 
@@ -19,8 +19,8 @@ app.service('apiService', ['$http', '$q', 'appSettings', 'Flash', function ($htt
         });
         // success function
         request.error(function (response) {
-            Flash.create('danger', (params.errorMsg) ? params.errorMsg : 'Action Failed. Try Again!', 'large-text');
             (fail) ? fail(response): null;
+            Flash.create('danger', (params.errorMsg) ? params.errorMsg : 'Action Failed. Try Again!', 'large-text');
         });
 
     };
@@ -38,8 +38,24 @@ app.service('apiService', ['$http', '$q', 'appSettings', 'Flash', function ($htt
         return deferred.promise; // returning the promise object
     }
 
+    // function to be called on logout
+    var logoutAction = function (){
+    	// removes all cookies
+    	var cookies = $cookies.getAll();
+    	angular.forEach(cookies, function (value, key) {
+    		$cookies.remove(key);
+    	});
+    	// removes all appSettings
+    	appSettings.access_token = undefined; // clears access_token
+    	appSettings.loginUserName = undefined;  // clears loginUserName
+    	appSettings.roles = undefined;  // clears roles
+    	delete $http.defaults.headers.common.Authorization;  // clears Authorization header
+    	$state.go('login'); // route to the login page
+    }
+    
     apiService.serviceRequest = serviceRequest; // function to place http request
     apiService.asyncServiceRequest = asyncServiceRequest; // function to place async service request
+    apiService.logoutAction = logoutAction; // function to be called on logout
 
     return apiService;
 

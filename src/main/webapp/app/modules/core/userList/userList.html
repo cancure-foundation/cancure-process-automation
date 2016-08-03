@@ -18,21 +18,21 @@
                 <div class="panel-body">
 
                     <table class="table">
-                        <th>Name</th>
-                        <th>Enabled</th>
-                        <th>Roles</th>
-                        <th>Action</th>
+                        <th class="col-xs-3">Name</th>
+                        <th class="col-xs-3">Enabled</th>
+                        <th class="col-xs-3">Roles</th>
+                        <th class="col-xs-3">Action</th>
                         <tr class="" ng-repeat="user in userList">
-                            <td>{{user.name}}</td>
-                            <td>{{user.enabled}}</td>
-                            <td>
+                            <td class="col-xs-3">{{user.name}}</td>
+                            <td class="col-xs-3">{{user.enabled}}</td>
+                            <td class="col-xs-3">
                                 <role><a>Roles</a></role>
                                 <br>
                                 <div id={{user.id}} ng-repeat="role in user.roles">
                                     {{role.name}}
                                 </div>
                             </td>
-                            <td>
+                            <td class="col-xs-3">
                                 Edit
                             </td>
                         </tr>
