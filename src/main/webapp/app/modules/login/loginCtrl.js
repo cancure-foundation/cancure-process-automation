@@ -1,6 +1,6 @@
 login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'apiService', 'appSettings', '$http',
 
-    function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings,$http) {
+    function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings, $http) {
 		var vm = this;
 	
 		vm.formData = {Username : 'cancure', Password : 'cancure'};
@@ -36,8 +36,7 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', 'F
 			}, function fail(fail){
 				Flash.create('danger', 'Authentication Failed. Try Again!', 'large-text');
 				vm.loggingIn = false; // turns the flag off for logginIn
-				vm.formData = {}; // clears the login form data
-				
+				vm.formData = {}; // clears the login form data				
             });
 		};
 
