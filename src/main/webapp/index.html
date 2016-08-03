@@ -49,6 +49,7 @@
     <script src="app/appCtrl.js"></script>
     <script src="app/common/apiService.js"></script>
     <script src="app/common/httpInterceptor.js"></script>
+    <script src="app/common/appConstant.js"></script>
 
     <!--Login Module-->
     <script src="app/modules/login/loginConfig.js"></script>
@@ -74,7 +75,7 @@
 			background-color: #000;
 			display: table;
 			text-align: center;
-			z-index : 1;
+			z-index : 99999;
 		}
 		.m-app-loading .messaging {
 			display: table-cell;
@@ -94,5 +95,4 @@
     <ui-view></ui-view>
     
 </body>
-
 </html>

@@ -32,6 +32,11 @@ public class UserServiceImpl implements UserService {
 		return roleRepo.findAll();
 	}
 
+	@Override
+	public User getUserByLogin(String login) {
+		return userRepo.findByLogin(login);
+	}
+	
 	public void setUserRepo(UserRepository userRepo) {
 		this.userRepo = userRepo;
 	}
@@ -39,5 +44,5 @@ public class UserServiceImpl implements UserService {
 	public void setRoleRepo(RoleRepository roleRepo) {
 		this.roleRepo = roleRepo;
 	}
-	
+
 }
