@@ -40,7 +40,7 @@ core.config(["$stateProvider", function ($stateProvider) {
     $stateProvider.state('app.searchUser', {
         url: '/searchUser',
         templateUrl: 'app/modules/core/searchUser/searchUser.html',
-        controller: 'searchUser',
+        controller: 'searchUserController',
         controllerAs: 'vm',
         data: {
             pageTitle: 'Search'

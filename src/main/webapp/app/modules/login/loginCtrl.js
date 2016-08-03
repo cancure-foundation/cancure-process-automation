@@ -9,6 +9,7 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', 'F
 		//access login
 		vm.login = function (data) {
 			vm.loggingIn = true;
+			// oauth service
 			apiService.serviceRequest({
 				method : 'POST',
 				URL : appSettings.requestURL.authRequest + '?password='+ data.Password +'&username='+ data.Username +'&grant_type=password&scope=read%20write&client_secret=cancure123456&client_id=cancureapp',
@@ -17,28 +18,23 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', 'F
 					'Authorization' : 'Basic Y2FuY3VyZWFwcDpjYW5jdXJlMTIzNDU2'
 				},
 				errorMsg : 'Unable to Authenticate. Try Again!'
-			}, function (success){
-				
+			}, function (success){				
 				$http.defaults.headers.common.Authorization = 'Bearer ' + success.access_token; // sets the access token for all http request
-				appSettings.userName = data.Username; // sets the userName into the app setting
 				appSettings.access_token = success.access_token; // sets the access token to app settings
-				vm.loggingIn = false; // turns the flag off for logginIn
-				vm.formData = {}; // clears the login form data
 				
+				// login service
 				apiService.serviceRequest({
 					URL : 'user/login/' + data.Username,
 					errorMsg : 'Cannot find user ' + data.Username
 				}, function (userData) {
-					appSettings.loginUserName = userData.name;
-					appSettings.roles = userData.roles;
+					appSettings.loginUserName = userData.name; // sets the userName into the app setting
+					appSettings.roles = userData.roles;  // sets the roles into the app setting
 					$state.go('app.home'); // route to the home page
 				}, function fail(fail){
-					vm.loggingIn = false; // turns the flag off for logginIn
 					vm.formData = {}; // clears the login form data
-				});
-			
+				});			
 			}, function fail(fail){
-				
+				Flash.create('danger', 'Authentication Failed. Try Again!', 'large-text');
 				vm.loggingIn = false; // turns the flag off for logginIn
 				vm.formData = {}; // clears the login form data
 				
