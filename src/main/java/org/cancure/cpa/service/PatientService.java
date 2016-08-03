@@ -1,11 +1,15 @@
 package org.cancure.cpa.service;
 
-import org.cancure.cpa.persistence.entity.Patient;
+import java.io.IOException;
+
+import org.cancure.cpa.controller.beans.PatientBean;
 
 public interface PatientService {
 
-	String save(Patient p);
+    PatientBean save(PatientBean p) throws IOException;
 	
-	Patient get(Integer id);
+	PatientBean get(Integer id);
+	
+	
 	
 }

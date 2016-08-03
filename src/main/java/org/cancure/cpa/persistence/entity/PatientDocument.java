@@ -9,9 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -23,22 +20,24 @@ public class PatientDocument {
     @Column(name="doc_id")
     private Integer docId;
     
-    @NotEmpty
+    
     @Column(name="doc_category")
     private String docCategory;
     
-    @NotEmpty
+    
     @Column(name="doc_type")
     private String docType;
     
-    @NotEmpty
+    
     @Column(name="doc_path")
     private String docPath;
-
-    @JsonIgnore
+    
+    /*@JsonIgnore
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="prn")
-    private Patient patientDoc;
+    private Patient patientDoc;*/
+    @Column(name="prn")
+    private Integer prn;
 
     public Integer getDocId() {
         return docId;
@@ -72,13 +71,21 @@ public class PatientDocument {
         this.docPath = docPath;
     }
 
-    public Patient getPatientDoc() {
+    public Integer getPrn() {
+        return prn;
+    }
+
+    public void setPrn(Integer prn) {
+        this.prn = prn;
+    }
+
+    /*public Patient getPatientDoc() {
         return patientDoc;
     }
 
     public void setPatientDoc(Patient patientDoc) {
         this.patientDoc = patientDoc;
-    }
-
+    }*/
+    
     
 }
