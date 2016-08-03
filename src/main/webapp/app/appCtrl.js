@@ -13,6 +13,7 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', '$cook
 		} else {
 			Flash.create('warning', 'Please log in !','large-text');
 			$state.go('login');
+			return;
 		}
 
 		vm.loginUserName = appSettings.loginUserName;

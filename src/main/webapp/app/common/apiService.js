@@ -19,8 +19,8 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
         });
         // success function
         request.error(function (response) {
-            Flash.create('danger', (params.errorMsg) ? params.errorMsg : 'Action Failed. Try Again!', 'large-text');
             (fail) ? fail(response): null;
+            Flash.create('danger', (params.errorMsg) ? params.errorMsg : 'Action Failed. Try Again!', 'large-text');
         });
 
     };

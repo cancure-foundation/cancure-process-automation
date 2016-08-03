@@ -18,8 +18,7 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', '$
 					'Authorization' : 'Basic Y2FuY3VyZWFwcDpjYW5jdXJlMTIzNDU2'
 				},
 				errorMsg : 'Unable to Authenticate. Try Again!'
-			}, function (success){		
-				
+			}, function (success){					
 				$http.defaults.headers.common.Authorization = 'Bearer ' + success.access_token; // sets the access token for all http request
 				$cookies.put('access_token', success.access_token); // sets the access_token values to the cookies
 				// login service
@@ -34,9 +33,8 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', '$
 					vm.formData = {}; // clears the login form data
 				});			
 			}, function fail(fail){
-				Flash.create('danger', 'Authentication Failed. Try Again!', 'large-text');
 				vm.loggingIn = false; // turns the flag off for logginIn
-				vm.formData = {}; // clears the login form data				
+				vm.formData = {}; // clears the login form data							
             });
 		};
 
