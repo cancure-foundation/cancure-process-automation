@@ -1,11 +1,20 @@
-app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'appSettings', 'apiService',
-                           function ($rootScope, $scope, $state, $location, Flash, appSettings, apiService) {
+app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', '$cookies', 'Flash', 'appSettings', 'apiService',
+                           function ($rootScope, $scope, $state, $location, $cookies, Flash, appSettings, apiService) {
 
 	var vm = this;  
 	/**
 	 * exection starts with the init function
 	 */
-	var init = function (){    	  
+	var init = function (){    	
+		if ($cookies.get('userName')) {
+			appSettings.loginUserName = $cookies.get('userName'); // sets the userName to app settings
+			appSettings.roles = JSON.parse($cookies.get('roles')); // sets the roles to app settings
+			appSettings.access_token = $cookies.get('access_token'); // sets the access token to app settings
+		} else {
+			Flash.create('warning', 'Please log in !','large-text');
+			$state.go('login');
+		}
+
 		vm.loginUserName = appSettings.loginUserName;
 		vm.roles = appSettings.roles;
 		

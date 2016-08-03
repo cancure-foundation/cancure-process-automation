@@ -1,6 +1,6 @@
-login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'apiService', 'appSettings', '$http',
+login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', '$cookies', 'Flash', 'apiService', 'appSettings', '$http',
 
-    function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings, $http) {
+    function ($rootScope, $scope, $state, $location, $cookies, Flash, apiService, appSettings, $http) {
 		var vm = this;
 	
 		vm.formData = {Username : 'cancure', Password : 'cancure'};
@@ -18,17 +18,17 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', 'F
 					'Authorization' : 'Basic Y2FuY3VyZWFwcDpjYW5jdXJlMTIzNDU2'
 				},
 				errorMsg : 'Unable to Authenticate. Try Again!'
-			}, function (success){				
-				$http.defaults.headers.common.Authorization = 'Bearer ' + success.access_token; // sets the access token for all http request
-				appSettings.access_token = success.access_token; // sets the access token to app settings
+			}, function (success){		
 				
+				$http.defaults.headers.common.Authorization = 'Bearer ' + success.access_token; // sets the access token for all http request
+				$cookies.put('access_token', success.access_token); // sets the access_token values to the cookies
 				// login service
 				apiService.serviceRequest({
 					URL : 'user/login/' + data.Username,
 					errorMsg : 'Cannot find user ' + data.Username
 				}, function (userData) {
-					appSettings.loginUserName = userData.name; // sets the userName into the app setting
-					appSettings.roles = userData.roles;  // sets the roles into the app setting
+					$cookies.put('userName', userData.name);  // sets the userName values to the cookies
+					$cookies.put('roles', JSON.stringify(userData.roles));  // sets the roles values to the cookies
 					$state.go('app.home'); // route to the home page
 				}, function fail(fail){
 					vm.formData = {}; // clears the login form data

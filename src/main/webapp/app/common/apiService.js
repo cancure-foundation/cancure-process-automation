@@ -1,4 +1,4 @@
-app.service('apiService', ['$http', '$q', '$state', 'appSettings', 'Flash', function ($http, $q,  $state, appSettings, Flash) {
+app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', function ($http, $q,  $state, $cookies, appSettings, Flash) {
 
     var apiService = {};
 
@@ -40,6 +40,12 @@ app.service('apiService', ['$http', '$q', '$state', 'appSettings', 'Flash', func
 
     // function to be called on logout
     var logoutAction = function (){
+    	// removes all cookies
+    	var cookies = $cookies.getAll();
+    	angular.forEach(cookies, function (value, key) {
+    		$cookies.remove(key);
+    	});
+    	// removes all appSettings
     	appSettings.access_token = undefined; // clears access_token
     	appSettings.loginUserName = undefined;  // clears loginUserName
     	appSettings.roles = undefined;  // clears roles
