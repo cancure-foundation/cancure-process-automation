@@ -1,0 +1,207 @@
+<section class="content-header">
+    <h1>
+        Patient History
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Patient History</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-7">        
+        	<form data-ng-submit="vm.submitForm();" name="vm.registerForm">
+	            <div class="panel panel-info">
+	            	<div class="panel-heading">
+	                    Patient details
+	                </div>
+                	<div class="panel-body">
+                        <md-content class="autoScroll">
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Pending Registration Number (PRN)</label>
+                                <md-icon class="fa fa-user"></md-icon>
+                                <input type="number" required name="prn" data-ng-model="vm.formData.prn">
+                            </md-input-container>
+
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Patient ID Number (PIDN)</label>
+                                <md-icon class="fa fa-user"></md-icon>
+                                <input type="number" required name="pidn" data-ng-model="vm.formData.pidn">
+                            </md-input-container>
+
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Name</label>
+                                <md-icon class="fa fa-user"></md-icon>
+                                <input type="text" required name="Name" data-ng-model="vm.formData.Nname">
+                            </md-input-container>
+
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Date of Birth</label>
+                                <md-icon class="fa fa-calendar"></md-icon>
+                                <input type="date" required name="dob" data-ng-model="vm.formData.dob">
+                            </md-input-container>
+                            
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Gender</label>
+                                <md-icon class="fa fa-chevron-right"></md-icon>
+                                <select required data-ng-model="vm.formData.gender">
+	                                <option value="male">Male</option>
+	      							<option value="female">Female</option>
+                                </select>
+                            </md-input-container>
+                            
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Age</label>
+                                <md-icon class="fa fa-signal"></md-icon>
+                                <input type="text" required name="age" data-ng-model="vm.formData.age">
+                            </md-input-container>
+                            
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Blood Group</label>
+                                <md-icon class="fa fa-plus"></md-icon>
+                                <input type="text" required name="bloodGroup" data-ng-model="vm.formData.bloodGroup">
+                            </md-input-container>
+                            
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Contact No.</label>
+                                <md-icon class="fa fa-phone"></md-icon>
+                                <input type="text" required name="contact" data-ng-model="vm.formData.contact">
+                            </md-input-container>
+                                                        
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Address for Communication</label>
+                                <md-icon class="fa fa-home"></md-icon>
+                                <input type="text" required name="address" data-ng-model="vm.formData.address">
+                            </md-input-container>
+                            
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Employment status</label>
+                                <md-icon class="fa fa-briefcase"></md-icon>
+                                <input type="text" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                           
+                           <md-input-container class="md-icon-float md-block">
+                                <label>Is the patient the sole bread winner of the family</label>
+                                <md-icon class="fa fa-briefcase"></md-icon>
+                                <input type="checkbox" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Assets Owned</label>
+                                <md-icon class="fa fa-briefcase"></md-icon>
+                                <input type="text" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                        </md-content>
+            		</div>
+        		</div>
+        		<div class="panel panel-info">            		
+                    <div class="panel-heading">
+	                    Supporting docs
+	                </div>
+                    <div class="panel-body">
+                		<md-content class="autoScroll">                            
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Identity, Address and Age Proof</label>
+                                <md-icon class="fa fa-user"></md-icon>
+                                <input type="file" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Income Proof</label>
+                                <md-icon class="fa fa-dollar"></md-icon>
+                                <input type="file" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>                           
+                        </md-content>
+                	</div>
+        		</div>
+        		<div class="panel panel-info">            		
+                    <div class="panel-heading">
+	                    Family details
+	                </div>
+                    <div class="panel-body">
+                		<md-content class="autoScroll">                            
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Employment status</label>
+                                <md-icon class="fa fa-briefcase"></md-icon>
+                                <input type="text" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Employment status</label>
+                                <md-icon class="fa fa-briefcase"></md-icon>
+                                <input type="text" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>                           
+                        </md-content>
+                	</div>
+        		</div>
+        		<div class="panel panel-info">            		
+                    <div class="panel-heading">
+	                    Supporting Orgs
+	                </div>
+                    <div class="panel-body">
+                		<md-content class="autoScroll">  
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Is the Patient Receiving Support from Other</label>
+                                <md-icon class="fa fa-heart"></md-icon>
+                                <input type="checkbox" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Organisation Name</label>
+                                <md-icon class="fa fa-chevron-right"></md-icon>
+                                <input type="text" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Amount recd:</label>
+                                <md-icon class="fa fa-dollar"></md-icon>
+                                <input type="text" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Type of support</label>
+                                <md-icon class="fa fa-gift"></md-icon>
+                                <input type="text" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>                
+                        </md-content>
+                	</div>
+        		</div>
+        		<div class="panel panel-info">            		
+                    <div class="panel-heading">
+	                    Diagnosis details
+	                </div>
+                    <div class="panel-body">
+                		<md-content class="autoScroll">                            
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Doctor s Name</label>
+                                <md-icon class="fa fa-user"></md-icon>
+                                <input type="text" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Diagnosis</label>
+                                <md-icon class="fa fa-search"></md-icon>
+                                <input type="text" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Hospital</label>
+                                <md-icon class="fa fa-plus"></md-icon>
+                                <input type="text" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                             <md-input-container class="md-icon-float md-block">
+                                <label>Month/Year when patient was diagnosed</label>
+                                <md-icon class="fa fa-calendar"></md-icon>
+                                <input type="date" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                             <md-input-container class="md-icon-float md-block">
+                                <label>Doctor's comments</label>
+                                <md-icon class="fa fa-comment"></md-icon>
+                                <input type="text" required name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                            </md-input-container>
+                        </md-content>
+                        <md-content class="autoScroll">
+                            <div class="text-center">
+                                <md-button class="md-raised md-primary" type="button" ng-click="vm.onSend()">Send <i class="fa fa-angle-double-right"></i></md-button>
+                                <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
+                            </div>                            
+                        </md-content>
+                	</div>
+        		</div>
+        	</form>
+    	</div>
+    </div>
+</section>

@@ -78,9 +78,14 @@ function ($rootScope, $scope, $state, $location, Flash, appSettings) {
         },
             {
                 title: "Search List",
-                icon: "phone",
+                icon: "search",
                 state: "searchUser"
-        }
+        },
+            {
+            title: "Patient Registration",
+            icon: "pencil",
+            state: "patientRegistration"
+            }
     ];
 
         //set the theme selected

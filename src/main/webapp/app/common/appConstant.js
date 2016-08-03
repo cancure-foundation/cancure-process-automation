@@ -10,7 +10,8 @@ app.constant('appSettings', {
 		authRequest: 'oauth/token', // oauth request
 		userRoles : 'roles', // fetching user roles
 		createUser: 'user/save', // creating user
-		userList: 'user/list' // listing out the user
+		userList: 'user/list', // listing out the user
+		patientRegistration: 'patient/save' // patient registration
 	},
 	theme: 'skin-yellow', // app default theme
 	layout: "" // app default layout
