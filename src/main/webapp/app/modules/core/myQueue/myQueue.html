@@ -38,7 +38,7 @@ Date: 05 Jan 2016
 	                    		<tr ng-repeat="task in tasks">
 	                    			<td>{{task.prn}}</td>
 	                    			<td>{{task.patientName}}</td>
-	                    			<td ng-click="changeView('/app/patientreghistory?{{task.prn}}')">{{task.nextTask}}</td>
+	                    			<td ng-click="changeView(task.prn)">{{task.nextTask}}</td>
 	                    			<td>{{task.createTime}}</td>
 	                    		</tr>
 	                    	</tbody>

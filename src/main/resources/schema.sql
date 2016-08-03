@@ -74,7 +74,8 @@ create table user (
 
 create table role (
 	id number(10) primary key auto_increment,
-	name varchar(100)
+	name varchar(100),
+	display_name varchar(100)
 );
 
 create table user_role (
@@ -100,7 +101,7 @@ create table patient(
 	assets_owned varchar(150),
 	photo_location varchar(256),
 	bystander_name varchar(100),
-	bystander_contact number(10),
+	bystander_contact varchar(20),
 	bystander_relation varchar(30) ,
 	know_about_cancure varchar(100),
 	recommendation_name varchar(100),
@@ -138,3 +139,17 @@ create table patient_document (
 	doc_path varchar(250),
 	prn number(10) references patient(prn)
 );
+
+create table patient_investigation (
+	investigation_id number(10) primary key auto_increment,
+	investigator_type varchar(100) references investigator_type(name),
+ 	investigator_id number(10),
+ 	investigation_date date,
+ 	comments varchar(2000),
+ 	status varchar(20),
+ 	prn number(10) references patient(prn)
+ );
+ 
+ create table investigator_type (
+	name varchar(20) primary key
+ );

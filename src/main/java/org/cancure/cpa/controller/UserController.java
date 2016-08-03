@@ -30,6 +30,11 @@ public class UserController {
 	public User getUser(@PathVariable("id") Integer id) {
 		return userService.getUser(id);
 	}
+	
+	@RequestMapping("/user/login/{login}")
+	public User getUserByLogin(@PathVariable("login") String login) {
+		return userService.getUserByLogin(login);
+	}
 
 	@RequestMapping("/roles")
 	public Iterable<Role> listRoles() {

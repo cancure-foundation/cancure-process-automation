@@ -101,19 +101,19 @@
     <sequenceFlow id="flow12" sourceRef="exclusivegateway2" targetRef="usertask7">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Approved'}]]></conditionExpression>
     </sequenceFlow>
-    <serviceTask id="servicetask1" name="UpdatePartners" activiti:expression="#{patientRegistrationService.updatePartners(patientId)}" activiti:resultVariableName="completion"></serviceTask>
+    <serviceTask id="servicetask1" name="UpdatePartners" activiti:expression="#{patientRegistrationService.updatePartners(prn)}" activiti:resultVariableName="completion"></serviceTask>
     <sequenceFlow id="flow17" sourceRef="usertask7" targetRef="servicetask1"></sequenceFlow>
     <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="usertask3" cancelActivity="true">
       <timerEventDefinition>
         <timeDuration>${patientRegistrationService.maxBgCheckTime}</timeDuration>
       </timerEventDefinition>
     </boundaryEvent>
-    <serviceTask id="servicetask2" name="ClosureTasks" activiti:expression="#{patientRegistrationService.performClosureTasks(patientId)}"></serviceTask>
+    <serviceTask id="servicetask2" name="ClosureTasks" activiti:expression="#{patientRegistrationService.performClosureTasks(prn)}"></serviceTask>
     <exclusiveGateway id="exclusivegateway5" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow23" sourceRef="exclusivegateway5" targetRef="usertask5">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${mbApproved == "Approved"}]]></conditionExpression>
     </sequenceFlow>
-    <serviceTask id="servicetask4" name="ECApprovalCountCheck" activiti:expression="#{execution.setVariable(&quot;ecApproved&quot;,patientRegistrationService.ecApprovalCountCheck(patientId))}"></serviceTask>
+    <serviceTask id="servicetask4" name="ECApprovalCountCheck" activiti:expression="#{execution.setVariable(&quot;ecApproved&quot;,patientRegistrationService.ecApprovalCountCheck(prn))}"></serviceTask>
     <sequenceFlow id="flow25" sourceRef="usertask6" targetRef="servicetask4"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway6" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow28" sourceRef="exclusivegateway6" targetRef="servicetask2">
@@ -122,7 +122,7 @@
     <sequenceFlow id="flow29" sourceRef="exclusivegateway6" targetRef="usertask7">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ecApproved == 'Approved'}]]></conditionExpression>
     </sequenceFlow>
-    <serviceTask id="servicetask5" name="MB Approval Count Check" activiti:expression="#{execution.setVariable(&quot;mbApproved&quot;,patientRegistrationService.approvalCountCheck(patientId))}"></serviceTask>
+    <serviceTask id="servicetask5" name="MB Approval Count Check" activiti:expression="#{execution.setVariable(&quot;mbApproved&quot;,patientRegistrationService.approvalCountCheck(prn))}"></serviceTask>
     <sequenceFlow id="flow31" sourceRef="usertask4" targetRef="servicetask5"></sequenceFlow>
     <sequenceFlow id="flow32" sourceRef="servicetask5" targetRef="exclusivegateway5"></sequenceFlow>
     <sequenceFlow id="flow33" sourceRef="exclusivegateway5" targetRef="usertask4">

@@ -111,7 +111,7 @@ public class PatientRegistrationService {
 		actVars.put(mbDocApprovedVarKey, mbApprovedDocs);
 		taskService.complete(taskData.getId(), actVars);
 		return mbApprovedDocs;
-	}
+	} 
 
 	public String approvalCountCheck(String patientId) {
 

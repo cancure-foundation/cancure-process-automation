@@ -9,6 +9,7 @@ import java.util.Map;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -110,29 +111,57 @@ public class MyTasksServiceImpl implements MyTasksService {
 		return map;
 	}
 
-	public Map<String, String> getNextTask(String patientId, String processKey) {
-		ProcessInstance procInsts = runtimeService.createProcessInstanceQuery()
-				.processDefinitionKey(processKey)
-				.processInstanceBusinessKey(patientId).singleResult();
-		Task taskData = taskService.createTaskQuery()
-				.processInstanceId(procInsts.getProcessInstanceId())
-				.singleResult();
+    public Map<String, String> getNextTask(String patientId, String processKey) {
+        ProcessInstance procInsts = runtimeService.createProcessInstanceQuery().processDefinitionKey(processKey)
+                .processInstanceBusinessKey(patientId).singleResult();
 
-		return extractOneTask(taskData);
-	}
+        if (procInsts == null) { // No active executions. Check history.
+            HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
+                    .processDefinitionKey(processKey).processInstanceBusinessKey(patientId).singleResult();
+
+            if (historicProcessInstance == null) {
+                return new HashMap();
+            } else {
+                Map<String, String> nextTaskMap = new HashMap<>();
+                nextTaskMap.put("nextTask", "");
+                nextTaskMap.put("endTime", historicProcessInstance.getEndTime().toString());
+                nextTaskMap.put("description", historicProcessInstance.getDescription());
+                return nextTaskMap;
+            }
+        } else {
+
+            Task taskData = taskService.createTaskQuery().processInstanceId(procInsts.getProcessInstanceId())
+                    .singleResult();
+
+            return extractOneTask(taskData);
+        }
+    }
 	
 	public Map<String, Object> getTaskHistory(String patientId, String processKey) {
 		ProcessInstance procInsts = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(processKey)
 				.processInstanceBusinessKey(patientId).singleResult();
-		/*
-		List<Task> taskData = taskService.createTaskQuery()
-				.processInstanceId(procInsts.getProcessInstanceId()).list();
+			
+		String processInstanceId;
 		
-		return extractTaskAttributes(taskData);*/
+		if (procInsts == null) { // No active executions. Check history.
+		    HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
+		    .processDefinitionKey(processKey)
+		    .processInstanceBusinessKey(patientId).singleResult();
+		    
+		    if (historicProcessInstance == null) {
+		        return new HashMap();
+		    } else {
+		        processInstanceId = historicProcessInstance.getSuperProcessInstanceId();
+		    }
+		    
+		} else {
+		    processInstanceId = procInsts.getProcessInstanceId();
+		}
+		
 		
 		List<HistoricTaskInstance> taskHistory = historyService.createHistoricTaskInstanceQuery()
-			.processInstanceId(procInsts.getProcessInstanceId()).includeProcessVariables()
+			.processInstanceId(processInstanceId).includeProcessVariables()
 			.orderByTaskCreateTime().asc().list();
 		
 		return extractHistoryTaskAttributes(taskHistory);

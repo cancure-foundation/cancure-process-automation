@@ -35,12 +35,32 @@ core.config(["$stateProvider", function ($stateProvider) {
             pageTitle: 'User List'
         }
     });
+    
+    $stateProvider.state('app.patientRegHistory', {
+        url: '/patientRegHistory/:prn',
+        templateUrl: 'app/modules/core/patientRegHistory/patientRegHistory.html',
+        controller: 'PatientRegHistoryController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Patient Registration History'
+        }
+    });
+    
+    $stateProvider.state('app.myQueue', {
+        url: '/myQueue',
+        templateUrl: 'app/modules/core/myQueue/myQueue.html',
+        controller: 'myQueueController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'My Queue'
+        }
+    });
 
     // Search page state
     $stateProvider.state('app.searchUser', {
         url: '/searchUser',
         templateUrl: 'app/modules/core/searchUser/searchUser.html',
-        controller: 'searchUser',
+        controller: 'searchUserController',
         controllerAs: 'vm',
         data: {
             pageTitle: 'Search'

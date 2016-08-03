@@ -6,10 +6,10 @@
                 <form name="vm.loginForm" data-ng-submit="vm.login(vm.formData);">
                     <div class="form-content">
                         <div class="form-group">
-                            <input class="form-control input-underline input-lg" placeholder="Username" required type="text" data-ng-model="vm.formData.Username">
+                            <input class="form-control input-underline input-lg" placeholder="Username" required type="text" data-ng-model="vm.formData.Username" ng-disabled="vm.loggingIn">
                         </div>
                         <div class="form-group">
-                            <input class="form-control input-underline input-lg" placeholder="Password" required type="password" data-ng-model="vm.formData.Password">
+                            <input class="form-control input-underline input-lg" placeholder="Password" required type="password" data-ng-model="vm.formData.Password" ng-disabled="vm.loggingIn">
                         </div>
                     </div>
                     <button type="submit" class="btn rounded-btn" data-ng-hide="vm.loggingIn">

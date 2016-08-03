@@ -1,15 +1,14 @@
-core.controller("myQueueController", ['$scope', '$http', '$location', 
+core.controller("myQueueController", ['$scope', '$http', '$location', '$state', 'apiService', 'appSettings',
 
-	function ($scope, $http, $location) {
-	
+	function ($scope, $http, $location, $state, apiService, appSettings) {
 		apiService.serviceRequest({
-	        URL: '/tasks/role/ROLE_PROGRAM_COORDINATOR'
+	        URL: 'tasks/role/ROLE_PROGRAM_COORDINATOR'
 	    }, function (response) {
-	    	$scope.tasks = data;
+	    	$scope.tasks = response;
 	    });
 		
-	    $scope.changeView = function(location){
-	    	$location.path(location);
+	    $scope.changeView = function(prn){
+	    	$state.go('app.patientRegHistory', { prn: prn });
 		}
 	}
 ]);

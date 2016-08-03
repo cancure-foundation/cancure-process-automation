@@ -9,9 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -23,10 +20,10 @@ public class SupportOrganisation {
     @Column(name="org_id")
     private Integer orgId;
     
-    @NotEmpty
+    
     private String name;
     
-    @NotEmpty
+    
     @Column(name="amount_rec")
     private Integer amountRec;
     
@@ -67,13 +64,7 @@ public class SupportOrganisation {
         this.patient = patient;
     }
    
-
-   
-
-    
-    }
+}
     
     
     
-    
-

@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'flash',
+var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'flash', 'ngCookies',
     //main modules
     'login', 'core']);
 
@@ -38,3 +38,15 @@ app.directive("mAppLoading",function( $animate ) {
         }
     }
 );
+
+// directive to show page loader
+app.directive('loadMask', ['$compile', '$rootScope', function ($compile, $rootScope) {
+    return {
+        restrict: 'A',
+        template: '<div class="m-app-loading"><div class="messaging">Cancure</div></div>',
+        link: function (scope, ele, attrs) {
+            // get timeout value from directive attribute and set to flash timeout
+            
+        }
+    };
+}]);

@@ -1,120 +1,65 @@
-app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'appSettings',
-function ($rootScope, $scope, $state, $location, Flash, appSettings) {
+app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', '$cookies', 'Flash', 'appSettings', 'apiService',
+                           function ($rootScope, $scope, $state, $location, $cookies, Flash, appSettings, apiService) {
 
-        $rootScope.theme = appSettings.theme;
-        $rootScope.layout = appSettings.layout;
+	var vm = this;  
+	/**
+	 * exection starts with the init function
+	 */
+	var init = function (){    	
+		if ($cookies.get('userName')) {
+			appSettings.loginUserName = $cookies.get('userName'); // sets the userName to app settings
+			appSettings.roles = JSON.parse($cookies.get('roles')); // sets the roles to app settings
+			appSettings.access_token = $cookies.get('access_token'); // sets the access token to app settings
+		} else {
+			Flash.create('warning', 'Please log in !','large-text');
+			$state.go('login');
+			return;
+		}
 
-        var vm = this;
+		vm.loginUserName = appSettings.loginUserName;
+		vm.roles = appSettings.roles;
+		
+		$rootScope.theme = appSettings.theme;
+		$rootScope.layout = appSettings.layout;
 
-        //avalilable themes
-        vm.themes = [
-            {
-                theme: "purple",
-                color: "skin-purple",
-                title: "Dark - Purple Skin",
-                icon: ""
-        }, {
-                theme: "black",
-                color: "skin-black",
-                title: "Dark - Black Skin",
-                icon: ""
-        }, {
-                theme: "blue",
-                color: "skin-blue",
-                title: "Dark - Blue Skin",
-                icon: ""
-        },
-            {
-                theme: "green",
-                color: "skin-green",
-                title: "Dark - Green Skin",
-                icon: ""
-        }, {
-                theme: "yellow",
-                color: "skin-yellow",
-                title: "Dark - Yellow Skin",
-                icon: ""
-        }, {
-                theme: "red",
-                color: "skin-red",
-                title: "Dark - Red Skin",
-                icon: ""
-        }
-    ];
+		//avalilable themes
+		vm.themes = appSettings.themeList;
 
-        //available layouts
-        vm.layouts = [
-            {
-                name: "Boxed",
-                layout: "layout-boxed"
-        },
-            {
-                name: "Fixed",
-                layout: "fixed"
-        },
-            {
-                name: "Sidebar Collapse",
-                layout: "sidebar-collapse"
-        },
-    ];
+		//available layouts
+		vm.layouts = appSettings.layoutList;
 
+		//Main menu items of the dashboard
+		vm.menuItems = appSettings.menuList;
+	}
 
-        //Main menu items of the dashboard
-        vm.menuItems = [
-            {
-                title: "Home",
-                icon: "dashboard",
-                state: "home"
-        },
-            {
-                title: "Create User",
-                icon: "gears",
-                state: "createUser"
-        },
-            {
-                title: "User List",
-                icon: "phone",
-                state: "userList"
-        },
-            {
-                title: "Search List",
-                icon: "search",
-                state: "searchUser"
-        },
-            {
-            title: "Patient Registration",
-            icon: "pencil",
-            state: "patientRegistration"
-            }
-    ];
+	//set the Layout in normal view
+	vm.setLayout = function (value) {
+		$rootScope.layout = value;
+	};
+	
+	//control sidebar open & close in mobile and normal view
+	vm.sideBar = function (value) {
+		if ($(window).width() <= 767) {
+			if ($("body").hasClass('sidebar-open'))
+				$("body").removeClass('sidebar-open');
+			else
+				$("body").addClass('sidebar-open');
+		} else {
+			if (value == 1) {
+				if ($("body").hasClass('sidebar-collapse'))
+					$("body").removeClass('sidebar-collapse');
+				else
+					$("body").addClass('sidebar-collapse');
+			}
+		}
+	};
+	/*
+	 *  function to perform logout action
+	 */
+	vm.logout = function (){
+		apiService.logoutAction();
+	}   
 
-        //set the theme selected
-        vm.setTheme = function (value) {
-            $rootScope.theme = value;
-        };
-
-
-        //set the Layout in normal view
-        vm.setLayout = function (value) {
-            $rootScope.layout = value;
-        };
-
-
-        //controll sidebar open & close in mobile and normal view
-        vm.sideBar = function (value) {
-            if ($(window).width() <= 767) {
-                if ($("body").hasClass('sidebar-open'))
-                    $("body").removeClass('sidebar-open');
-                else
-                    $("body").addClass('sidebar-open');
-            } else {
-                if (value == 1) {
-                    if ($("body").hasClass('sidebar-collapse'))
-                        $("body").removeClass('sidebar-collapse');
-                    else
-                        $("body").addClass('sidebar-collapse');
-                }
-            }
-        };
+	init(); //exection starts with the init function
 
 }]);
