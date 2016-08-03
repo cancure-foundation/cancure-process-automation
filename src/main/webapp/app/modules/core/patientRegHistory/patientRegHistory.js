@@ -1,21 +1,12 @@
-﻿/*==========================================================
-    Author      : Ranjithprabhu K
-    Date Created: 13 Jan 2016
-    Description : Controller to handle Experience page
-    Change Log
-    s.no      date    author     description     
-
-
- ===========================================================*/
-
-core.controller("PatientRegHistoryController", ['$rootScope', '$scope', '$state', '$location', '$http', 'dashboardService', 'Flash',
-function ($rootScope, $scope, $state, $location, $http, dashboardService, Flash) {
-    var vm = this;
+﻿core.controller("PatientRegHistoryController", ['$rootScope', '$scope', '$state', '$stateParams', 'apiService', 'appSettings',
+function ($rootScope, $scope, $state, $stateParams, apiService, appSettings) {
+    
+	var vm = this;
     
     apiService.serviceRequest({
-        URL: '/tasks/history/1239'
+        URL: 'tasks/history' + $stateParams.prn
     }, function (response) {
-    	$scope.taskHistory = data;
+    	$scope.taskHistory = response;
     });
     
 }]);

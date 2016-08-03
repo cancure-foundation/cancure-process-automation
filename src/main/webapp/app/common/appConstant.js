@@ -80,7 +80,17 @@ app.constant('appSettings', {
 			title: "Search List",
 			icon: "phone",
 			state: "searchUser"
-		}
+		},
+        {
+            title: "Patient History",
+            icon: "phone",
+            state: "patientRegHistory"
+	    },
+        {
+            title: "My Queue",
+            icon: "phone",
+            state: "myQueue"
+	    }
 	]
 
 });

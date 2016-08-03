@@ -42,10 +42,10 @@ public class ActivitiController {
 	public String startPatientRegn(@PathVariable String patientId) {
 
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("patientName", "John Doe");
+		variables.put("patientName", "John Doe" + patientId);
 		variables.put("email", "john.doe@activiti.com");
 		variables.put("phoneNumber", "123456789");
-		variables.put("patientId", patientId);
+		variables.put("prn", patientId);
 
 		return patientRegistrationService.startPatientRegnProcess(variables,
 				patientId);
