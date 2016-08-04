@@ -33,3 +33,12 @@ insert into patient_document values(1,'income','hello','hello',1);
 insert into patient_document values(2,'id','license','/tmp/patient/license.jpg',1);
 
 insert into patient_investigation values(1,'doctor',1,'2008-7-05','Blood Cancer','PASS',1);
+
+insert into ACT_GE_PROPERTY
+values ('schema.version', '5.20.0.1', 1);
+
+insert into ACT_GE_PROPERTY
+values ('schema.history', 'create(5.20.0.1)', 1);
+
+insert into ACT_GE_PROPERTY
+values ('next.dbid', '1', 1);
