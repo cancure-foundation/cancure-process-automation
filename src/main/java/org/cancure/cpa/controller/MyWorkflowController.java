@@ -29,10 +29,20 @@ public class MyWorkflowController {
 	}
 	
 	@RequestMapping("/tasks/role/{role}")
-	public List<Map<String, String>> getPendingTasks(@PathVariable("role") String role){
-		List<String> roles = new ArrayList<>();
-		roles.add(role);
-		return myTasksService.getMyTasks(roles);
+	public List<Map<String, String>> getPendingTasks(@PathVariable("role") String roles){
+		if (roles != null) {
+			String[] roleArray = roles.split("__");
+			List<String> rolesList = new ArrayList<>();
+			for (String r : roleArray){
+				if (!r.isEmpty()){
+					rolesList.add(r);
+				}
+			}
+			
+			return myTasksService.getMyTasks(rolesList);
+		}
+		
+		return new ArrayList<>();
 	}
 
 	@RequestMapping("/tasks/{prn}")

@@ -141,6 +141,10 @@ create table patient_document (
 	prn number(10) references patient(prn)
 );
 
+ create table investigator_type (
+	name varchar(20) primary key
+ );
+
 create table patient_investigation (
 	investigation_id number(10) primary key auto_increment,
 	investigator_type varchar(100) references investigator_type(name),
@@ -151,12 +155,6 @@ create table patient_investigation (
  	task_id varchar(10),
  	prn number(10) references patient(prn)
  );
- 
- create table investigator_type (
-	name varchar(20) primary key
- );
-
- 
  
  create table ACT_GE_PROPERTY (
     NAME_ varchar(64),

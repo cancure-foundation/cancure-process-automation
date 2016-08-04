@@ -137,6 +137,7 @@ public class MyTasksServiceImpl implements MyTasksService {
     private Map<String, String> toMap(PatientBean patient) {
         Map<String, String> map = new HashMap<>();
         if (patient != null) {
+        	map.put("prn", patient.getPrn().toString());
             map.put("name", patient.getName());
             map.put("address", patient.getAddress());
             map.put("contact", patient.getContact());
