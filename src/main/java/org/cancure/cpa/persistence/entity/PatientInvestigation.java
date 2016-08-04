@@ -36,6 +36,9 @@ public class PatientInvestigation {
     
     private String status;
     
+    @Column(name="task_id")
+    private String taskId;
+    
     /*@JsonIgnore
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="prn")
@@ -82,6 +85,15 @@ public class PatientInvestigation {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 
     public String getComments() {

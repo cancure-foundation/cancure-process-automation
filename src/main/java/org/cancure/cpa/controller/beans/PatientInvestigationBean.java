@@ -2,16 +2,15 @@ package org.cancure.cpa.controller.beans;
 
 import java.util.Date;
 
-
-
 public class PatientInvestigationBean {
 
     private Integer prn;
     private String investigatorType;
     private Integer investigatorId;
     private Date investigationDate;
-    private String status; 
+    private String status;
     private String comments;
+    private String taskId;
 
     public String getInvestigatorType() {
         return investigatorType;
@@ -60,7 +59,13 @@ public class PatientInvestigationBean {
     public void setStatus(String status) {
         this.status = status;
     }
-    
 
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
 
 }

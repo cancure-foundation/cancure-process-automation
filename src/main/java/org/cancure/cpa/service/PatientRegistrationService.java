@@ -79,7 +79,7 @@ public class PatientRegistrationService {
 		logger.info("Moving Task Id ..." + taskId);
 		taskService.complete(taskId, activitiVars);
 
-		return "Moved Task Id: " + taskId;
+		return taskId;
 	}
 
 	public String performClosureTasks(String patientId) {
@@ -90,9 +90,10 @@ public class PatientRegistrationService {
 		return COMPLETED_STR;
 	}
 
-	public ArrayList<String> mbApprove(String patientId, String doctorId) {
+	public String mbApprove(String patientId, String doctorId) {
 
 		Task taskData = findTask(patientId);
+		String taskId=taskData.getId();
 
 		HashMap<String, Object> actVars = new HashMap<String, Object>();
 		String executionId = taskData.getExecutionId();
@@ -110,7 +111,7 @@ public class PatientRegistrationService {
 
 		actVars.put(mbDocApprovedVarKey, mbApprovedDocs);
 		taskService.complete(taskData.getId(), actVars);
-		return mbApprovedDocs;
+		return taskId;
 	} 
 
 	public String approvalCountCheck(String patientId) {
@@ -131,9 +132,10 @@ public class PatientRegistrationService {
 		}
 	}
 
-	public ArrayList<String> ecApprove(String patientId, String ecId) {
+	public String ecApprove(String patientId, String ecId) {
 
 		Task taskData = findTask(patientId);
+		String taskId= taskData.getId();
 		HashMap<String, Object> actVars = new HashMap<String, Object>();
 		String executionId = taskData.getExecutionId();
 
@@ -149,12 +151,13 @@ public class PatientRegistrationService {
 		}
 		actVars.put(approvedEcVarKey, approvedEcs);
 		taskService.complete(taskData.getId(), actVars);
-		return approvedEcs;
+		return taskId;
 	}
 
-	public ArrayList<String> ecReject(String patientId, String ecId) {
+	public String ecReject(String patientId, String ecId) {
 
 		Task taskData = findTask(patientId);
+		String taskId= taskData.getId();
 		HashMap<String, Object> actVars = new HashMap<String, Object>();
 		String executionId = taskData.getExecutionId();
 
@@ -169,7 +172,7 @@ public class PatientRegistrationService {
 		}
 		actVars.put(rejectedEcVarKey, rejectedEcs);
 		taskService.complete(taskData.getId(), actVars);
-		return rejectedEcs;
+		return taskId;
 	}
 
 	public String ecApprovalCountCheck(String patientId) {
@@ -215,3 +218,4 @@ public class PatientRegistrationService {
 		return taskData;
 	}
 }
+

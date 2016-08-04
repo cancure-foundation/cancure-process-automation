@@ -3,11 +3,12 @@ package org.cancure.cpa.controller.beans;
 import org.springframework.web.multipart.MultipartFile;
 
 public class PatientDocumentBean {
-    
+
     private Integer prn;
     private String docCategory;
     private String docType;
     private String docPath;
+    private String taskId;
     private MultipartFile patientFile;
 
     public String getDocCategory() {
@@ -34,6 +35,14 @@ public class PatientDocumentBean {
         this.docPath = docPath;
     }
 
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
     public MultipartFile getPatientFile() {
         return patientFile;
     }
@@ -49,6 +58,5 @@ public class PatientDocumentBean {
     public void setPrn(Integer prn) {
         this.prn = prn;
     }
-    
-    
+
 }

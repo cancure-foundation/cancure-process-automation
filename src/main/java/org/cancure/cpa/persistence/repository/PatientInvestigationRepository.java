@@ -5,4 +5,10 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface PatientInvestigationRepository extends CrudRepository<PatientInvestigation, Integer > {
 
+    PatientInvestigation findByTaskId(String taskId);
+
+    
 }
+
+
+

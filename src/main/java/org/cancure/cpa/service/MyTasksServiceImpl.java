@@ -13,6 +13,11 @@ import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.cancure.cpa.controller.beans.PatientBean;
+import org.cancure.cpa.persistence.entity.PatientDocument;
+import org.cancure.cpa.persistence.entity.PatientInvestigation;
+import org.cancure.cpa.persistence.entity.User;
+import org.cancure.cpa.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +32,18 @@ public class MyTasksServiceImpl implements MyTasksService {
 
 	@Autowired
 	private HistoryService historyService;
+	
+	@Autowired
+	private PatientService patientService;
+	
+	@Autowired
+	private PatientInvestigationService patientInvestigationService;
+	
+	@Autowired
+	private PatientDocumentService patientDocumentService;
+	
+	@Autowired
+    private UserRepository userRepository;
 	
 	@Override
 	public List<Map<String, String>> getMyTasks(List<String> roles) {
@@ -54,15 +71,18 @@ public class MyTasksServiceImpl implements MyTasksService {
 		return list;
 	}
 	
-	private Map<String, Object> extractHistoryTaskAttributes(List<HistoricTaskInstance> tasks) {
+	private Map<String, Object> extractHistoryTaskAttributes(List<HistoricTaskInstance> tasks,String patientID) {
 		Map<String, Object> parentMap = new HashMap<>();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-		parentMap.put("patient", "John Doe");
+		PatientBean patient=patientService.get(Integer.parseInt(patientID));
+		parentMap.put("patient", toMap(patient));
 		
 		Map taskMap = new HashMap<>();
 		
 		for (HistoricTaskInstance t : tasks) {
-			Map<String, String> map = new HashMap<>();
+			Map<String, Object> map = new HashMap<>();
+			//List<PatientInvestigationBean> patientInvestigationBean=new ArrayList<>();
+			//patientInvestigationBean=patient.getPatientInvestigation();
 			map.put("executionId", t.getExecutionId());
 			if (t.getCreateTime() != null) {
 				map.put("createTime", sdf.format(t.getCreateTime()));
@@ -70,12 +90,20 @@ public class MyTasksServiceImpl implements MyTasksService {
 			if (t.getEndTime() != null) {
 				map.put("endTime",  sdf.format(t.getEndTime()));
 			}
+			/*for(PatientInvestigationBean temp:patientInvestigationBean){
+			    PatientInvestigation patientInvestigation=patientInvestigationService.findByTask_id(t.getId());			    
+			}*/
+			PatientInvestigation patientInvestigation=patientInvestigationService.findByTaskId(t.getId());  
+			List<PatientDocument> patientDocuments=patientDocumentService.findByTaskId(t.getId());
 			map.put("id", t.getId());
 			map.put("nextTask", t.getName());
 			map.put("description", t.getDescription());
+			map.put("documents", toMap(patientDocuments));
+			map.put("investigation", toMap(patientInvestigation));
+			
 			Map<String, Object> processVars = t.getProcessVariables();
 			Object patientId = processVars.get("prn");
-			Object patientName = processVars.get("patientName");
+			Object patientName = patient.getName();
 			if (patientId != null) {
 				map.put("prn", patientId.toString());
 			}
@@ -90,6 +118,82 @@ public class MyTasksServiceImpl implements MyTasksService {
 		parentMap.put("tasks", taskMap);
 		return parentMap;
 	}
+	
+	private List<Map<String, String>> toMap(List<PatientDocument> patientDocuments) {
+	    List<Map<String, String>> list = new ArrayList<>();
+	    if (patientDocuments != null) {
+	        for (PatientDocument doc : patientDocuments) {
+	            Map<String, String> map = new HashMap<>();
+	            map.put("docCategory", doc.getDocCategory());
+	            map.put("docType", doc.getDocType());
+	            map.put("docId", doc.getDocId().toString());
+	            list.add(map);
+	        }
+	    }
+	    
+	    return list;
+	}
+	
+    private Map<String, String> toMap(PatientBean patient) {
+        Map<String, String> map = new HashMap<>();
+        if (patient != null) {
+            map.put("name", patient.getName());
+            map.put("address", patient.getAddress());
+            map.put("contact", patient.getContact());
+            map.put("employmentStatus", patient.getEmploymentStatus());
+            map.put("solebreadwinner", patient.getSolebreadwinner().toString());
+            map.put("assetsOwned", patient.getAssetsOwned());
+            map.put("gender", patient.getGender());
+            map.put("typeOfSupport", patient.getTypeOfSupport());
+        }
+
+        return map;
+    }
+    
+    private Map<String, String> toMap(PatientInvestigation patientInvestigation) {
+        Map<String, String> map = new HashMap<>();
+        if (patientInvestigation != null) {
+            map.put("comments", patientInvestigation.getComments());
+            map.put("investigatorType", patientInvestigation.getInvestigatorType());
+            map.put("status", patientInvestigation.getStatus());
+            map.put("investigationDate", patientInvestigation.getInvestigationDate().toString());
+
+            Integer investigatorId = patientInvestigation.getInvestigatorId();
+            if (investigatorId != null) {
+                map.put("investigatorId", investigatorId + "");
+                map.put("investigatorName",
+                        getInvestigator(patientInvestigation.getInvestigatorType(), investigatorId));
+            }
+        }
+
+        return map;
+    }
+
+
+    private String getInvestigator(String investigatorType, Integer investigatorId) {
+
+        String investigatorName = "";
+        switch (investigatorType) {
+        case "Doctor":
+            investigatorName = "Doctor Todo";
+            break;
+        case "Program Coordinator":
+            investigatorName = findInvestigator(investigatorId);
+            break;
+        case "Secretary":
+            investigatorName = findInvestigator(investigatorId);
+            break;
+        default:
+            investigatorName = "n/a";
+        }
+
+        return investigatorName;
+    }
+    
+    private String findInvestigator(Integer investigatorId) {
+        User user = userRepository.findOne(investigatorId);
+        return user == null? "" : user.getName();
+    }
 	
 	private Map<String, String> extractOneTask(Task t){
 		Map<String, String> map = new HashMap<>();
@@ -152,7 +256,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 		    if (historicProcessInstance == null) {
 		        return new HashMap();
 		    } else {
-		        processInstanceId = historicProcessInstance.getSuperProcessInstanceId();
+		        processInstanceId = historicProcessInstance.getId();
 		    }
 		    
 		} else {
@@ -164,7 +268,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 			.processInstanceId(processInstanceId).includeProcessVariables()
 			.orderByTaskCreateTime().asc().list();
 		
-		return extractHistoryTaskAttributes(taskHistory);
+		return extractHistoryTaskAttributes(taskHistory,patientId);
 		
 	}
 	

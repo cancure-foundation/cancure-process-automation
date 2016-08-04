@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
+import org.cancure.cpa.persistence.entity.PatientInvestigation;
 
 public interface PatientInvestigationService {
 
@@ -14,4 +15,9 @@ public interface PatientInvestigationService {
 
     String savePatientExamination(PatientInvestigationBean patientInvestigationBean,
             List<PatientDocumentBean> patientDocumentBean) throws IOException;
+    
+    PatientInvestigation findByTaskId(String taskId);
+    
+    
 }
+

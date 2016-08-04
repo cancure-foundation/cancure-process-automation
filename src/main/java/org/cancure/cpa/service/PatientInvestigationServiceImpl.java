@@ -1,6 +1,7 @@
 package org.cancure.cpa.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -37,6 +38,7 @@ public class PatientInvestigationServiceImpl implements PatientInvestigationServ
         PatientInvestigation bean = new PatientInvestigation();
         BeanUtils.copyProperties(patientInvestigationBean, bean);
         bean.setStatus(status);
+        bean.setInvestigationDate(new Date());
         patientInvestigationRepo.save(bean);
         return "Success";
     }
@@ -79,4 +81,12 @@ public class PatientInvestigationServiceImpl implements PatientInvestigationServ
         return "Success";
     }
 
+    @Override
+    public PatientInvestigation findByTaskId(String taskId) {
+        
+        PatientInvestigation patientInvestigation=patientInvestigationRepo.findByTaskId(taskId);
+        return patientInvestigation;
+    }
+
 }
+

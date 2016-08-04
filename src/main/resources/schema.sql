@@ -137,6 +137,7 @@ create table patient_document (
 	doc_category varchar(50),
 	doc_type varchar(100),
 	doc_path varchar(250),
+	task_id varchar(10),
 	prn number(10) references patient(prn)
 );
 
@@ -147,6 +148,7 @@ create table patient_investigation (
  	investigation_date date,
  	comments varchar(2000),
  	status varchar(20),
+ 	task_id varchar(10),
  	prn number(10) references patient(prn)
  );
  

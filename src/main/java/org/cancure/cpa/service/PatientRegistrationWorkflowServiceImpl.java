@@ -5,12 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Component
 public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrationWorkflowService {
@@ -23,6 +24,7 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     @Autowired
     private PatientInvestigationService patientInvestigationService;
 
+    @Transactional
     public void registerPatient(PatientBean patient) throws IOException {
 
         patientService.save(patient);
@@ -38,50 +40,65 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
 
     }
 
+    @Transactional
     public void preliminaryExamination(PatientInvestigationBean patientInvestigationBean,
             List<PatientDocumentBean> patientDocumentBean) throws IOException {
-
-        patientInvestigationService.savePatientExamination(patientInvestigationBean, patientDocumentBean);
         
-        patientRegistrationService.movePatientRegn(patientInvestigationBean.getPrn().toString(), null);
+        String taskId=patientRegistrationService.movePatientRegn(patientInvestigationBean.getPrn().toString(), null);
+        patientInvestigationBean.setTaskId(taskId);
+        for(PatientDocumentBean patientDocument :patientDocumentBean){
+            patientDocument.setTaskId(taskId);
+        }
+        patientInvestigationService.savePatientExamination(patientInvestigationBean, patientDocumentBean);
+
     }
     
+    @Transactional
     public void backGroundCheck(PatientInvestigationBean patientInvestigationBean,String status) throws IOException {
         
-        patientInvestigationService.savePatientInvestigation(patientInvestigationBean,status);
         Map<String, Object> actVars = new HashMap<String, Object>();
         actVars.put("bgCheck", status);
-        patientRegistrationService.movePatientRegn(String.valueOf(patientInvestigationBean.getPrn()), actVars);
-        
+        String taskId=patientRegistrationService.movePatientRegn(String.valueOf(patientInvestigationBean.getPrn()), actVars);
+        patientInvestigationBean.setTaskId(taskId);
+        patientInvestigationService.savePatientInvestigation(patientInvestigationBean,status);
     }
     
+    @Transactional
     public void doctorRecommendation(PatientInvestigationBean patientInvestigationBean) throws IOException {
-        
+
+        String taskId=patientRegistrationService.mbApprove(String.valueOf(patientInvestigationBean.getPrn()),String.valueOf(patientInvestigationBean.getInvestigatorId()));
+        patientInvestigationBean.setTaskId(taskId);
         patientInvestigationService.savePatientInvestigation(patientInvestigationBean,null);
-        patientRegistrationService.mbApprove(String.valueOf(patientInvestigationBean.getPrn()),String.valueOf(patientInvestigationBean.getInvestigatorId()));
     }
     
+    @Transactional
     public void secretaryRecommendation(PatientInvestigationBean patientInvestigationBean,String status) throws IOException {
         
-        patientInvestigationService.savePatientInvestigation(patientInvestigationBean,status);
         Map<String, Object> actVars = new HashMap<String, Object>();
         actVars.put("secApproval", status);
-        patientRegistrationService.movePatientRegn(String.valueOf(patientInvestigationBean.getPrn()), actVars);
+        String taskId=patientRegistrationService.movePatientRegn(String.valueOf(patientInvestigationBean.getPrn()), actVars);
+        patientInvestigationBean.setTaskId(taskId);
+        patientInvestigationService.savePatientInvestigation(patientInvestigationBean,status);
     }
     
+    @Transactional
     public void executiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean) throws IOException {
         
+        String taskId=patientRegistrationService.ecApprove(String.valueOf(patientInvestigationBean.getPrn()),String.valueOf(patientInvestigationBean.getInvestigatorId()));
+        patientInvestigationBean.setTaskId(taskId);
         patientInvestigationService.savePatientInvestigation(patientInvestigationBean,null);
-        patientRegistrationService.ecApprove(String.valueOf(patientInvestigationBean.getPrn()),String.valueOf(patientInvestigationBean.getInvestigatorId()));
     }
     
+    @Transactional
     public void executiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean) throws IOException {
-        
+
+        String taskId=patientRegistrationService.ecReject(String.valueOf(patientInvestigationBean.getPrn()),String.valueOf(patientInvestigationBean.getInvestigatorId()));
+        patientInvestigationBean.setTaskId(taskId);      
         patientInvestigationService.savePatientInvestigation(patientInvestigationBean,null);
-        patientRegistrationService.ecReject(String.valueOf(patientInvestigationBean.getPrn()),String.valueOf(patientInvestigationBean.getInvestigatorId()));
     }
 
     @Override
+    @Transactional
     public void patientIDCard(Integer prn) throws IOException {
         // Generate PIDN
         // To do
