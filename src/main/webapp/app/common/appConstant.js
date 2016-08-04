@@ -11,7 +11,7 @@ app.constant('appSettings', {
 		userRoles : 'roles', // fetching user roles
 		createUser: 'user/save', // creating user
 		userList: 'user/list', // listing out the user
-		patientRegistration: 'patient/save' // patient registration
+		patientRegistration: 'patientregistration/patient/save' // patient registration
 	},
 	
 	theme: 'skin-yellow', // app default theme	
