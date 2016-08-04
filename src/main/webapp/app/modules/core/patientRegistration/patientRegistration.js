@@ -14,14 +14,14 @@ function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings)
         vm.submitForm = function () {
             Flash.create('info', 'Please wait while we register patient.', 'large-text');
 
-            var patientData = angular.copy(vm.formData);
+            var patientbean = angular.copy(vm.formData);
             //serverData.enabled = true;
-            alert(serverData.name);
+            alert(patientbean.name);
             // making the server call
             apiService.serviceRequest({
                 URL: appSettings.requestURL.patientRegistration,
                 method: 'POST',
-                payLoad: patientData
+                payLoad: patientbean
             }, function (response) {
                 Flash.create('success', 'Patient Successfully Registered.', 'large-text');
                 vm.formData = {};
