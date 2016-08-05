@@ -12,7 +12,7 @@
     <form data-ng-submit="vm.submitForm();" name="vm.registerForm">
         <div>
             <md-button class="md-raised md-primary" type="submit">Register <i class="fa fa-angle-double-right"></i></md-button>
-            <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
+            <md-button class="md-raised" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
         </div>
         <br>
         <div class="row">
@@ -31,7 +31,7 @@
                                         <input type="text" required name="Name" data-ng-model="vm.formData.name">
                                     </md-input-container>
 
-                                    <md-input-container class="md-icon-float md-block">
+                                    <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
                                         <label>Type of support requested from Cancure</label>
                                         <md-icon class="fa fa-chevron-right"></md-icon>
                                         <md-select data-ng-model="vm.formData.typeOfSupport" required placeholder="Type of Support">
@@ -276,7 +276,7 @@
 
         <div>
             <md-button class="md-raised md-primary" type="submit">Register <i class="fa fa-angle-double-right"></i></md-button>
-            <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
+            <md-button class="md-raised" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
         </div>
     </form>
 </section>
