@@ -23,49 +23,49 @@ public class PatientWorkFlowController {
     @RequestMapping(value="/patientregistration/patient/save", method=RequestMethod.POST, produces = "application/json")
     public String save(@RequestBody PatientBean patientbean) throws IOException {
         patientRegistrationWorkflowService.registerPatient(patientbean);
-        return "{'status' : 'SUCCESS'}";
+        return "{\"status\" : \"SUCCESS\"}";
     }
     
     @RequestMapping(value= "/patientregistration/preliminaryexamination/save" , method=RequestMethod.POST)
     public String saveExamination(PatientInvestigationBean patientInvestigationBean,List<PatientDocumentBean> patientDocumentBean) throws IOException {
         patientRegistrationWorkflowService.preliminaryExamination(patientInvestigationBean,patientDocumentBean);
-        return "{'status' : 'SUCCESS'}";
+        return "{\"status\" : \"SUCCESS\"}";
     }
     
     @RequestMapping(value= "/patientregistration/backgroundcheck/save/{status}", method=RequestMethod.POST)
     public String saveBGC(@RequestBody PatientInvestigationBean patientInvestigationBean,@PathVariable("status") String status) throws IOException {
         patientRegistrationWorkflowService.backGroundCheck(patientInvestigationBean,status);
-        return "{'status' : 'SUCCESS'}";
+        return "{\"status\" : \"SUCCESS\"}";
     }
     
     @RequestMapping(value= "/patientregistration/mbdoctorrecommendation/save", method=RequestMethod.POST)
     public String saveDoctorRecommendation(@RequestBody PatientInvestigationBean patientInvestigationBean) throws IOException {
         patientRegistrationWorkflowService.doctorRecommendation(patientInvestigationBean);
-        return "{'status' : 'SUCCESS'}";
+        return "{\"status\" : \"SUCCESS\"}";
     }
     
     @RequestMapping(value= "/patientregistration/secretaryrecommendation/save/{status}", method=RequestMethod.POST)
     public String saveSecretaryRecommendation(@RequestBody PatientInvestigationBean patientInvestigationBean,@PathVariable("status") String status) throws IOException {
         patientRegistrationWorkflowService.secretaryRecommendation(patientInvestigationBean,status); 
-        return "{'status' : 'SUCCESS'}";
+        return "{\"status\" : \"SUCCESS\"}";
     }
     
    @RequestMapping(value= "patientregistration/executiveboardrecommendation/accept/save", method=RequestMethod.POST)
     public String saveExecutiveBoardRecommendationAccept(@RequestBody PatientInvestigationBean patientInvestigationBean) throws IOException {
         patientRegistrationWorkflowService.executiveBoardRecommendationAccept(patientInvestigationBean); 
-        return "{'status' : 'SUCCESS'}";
+        return "{\"status\" : \"SUCCESS\"}";
     }
    
    @RequestMapping(value= "patientregistration/executiveboardrecommendation/reject/save", method=RequestMethod.POST)
    public String saveExecutiveBoardRecommendationReject(@RequestBody PatientInvestigationBean patientInvestigationBean) throws IOException {
         patientRegistrationWorkflowService.executiveBoardRecommendationReject(patientInvestigationBean); 
-        return "{'status' : 'SUCCESS'}";
+        return "{\"status\" : \"SUCCESS\"}";
    }
    
    @RequestMapping(value= "patientregistration/Patientidcard/{prn}")
    public String savePatientIDCard(@PathVariable("prn") Integer prn) throws IOException {
         patientRegistrationWorkflowService.patientIDCard(prn);
-        return "{'status' : 'SUCCESS'}";
+        return "{\"status\" : \"SUCCESS\"}";
    }
     
 }
