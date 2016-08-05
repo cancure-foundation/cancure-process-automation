@@ -146,6 +146,50 @@
                     </div>
                 </div>
             </div>
+             <div class="col-md-4 col-sm-12">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        Other details
+                    </div>
+                    <div class="panel-body">
+                        <md-content>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Bystander Name</label>
+                                <input type="text" name="bystanderName" data-ng-model="vm.formData.bystanderName">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Bystander Contact</label>
+                                <input type="number" name="bystanderContact" data-ng-model="vm.formData.bystanderContact">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Bystander Relation</label>
+                                <input type="text" name="bystanderRelation" data-ng-model="vm.formData.bystanderRelation">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>How do you know about Cancure</label>
+                                <input type="text" name="knowAboutCancure" data-ng-model="vm.formData.knowAboutCancure">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Recommendated by</label>
+                                <input type="text" name="recommendationName" data-ng-model="vm.formData.recommendationName">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Recommendation type</label>
+                                <md-select data-ng-model="vm.formData.recommendationType" placeholder="Recommendation type">
+                                    <md-option value="LSG">LSG</md-option>
+                                    <md-option value="CCF">CCF</md-option>
+                                    <md-option value="MB">MB</md-option>
+                                    <md-option value="MedicalFraternity">Medical Fraternity</md-option>
+                                    <md-option value="LifeMember">Life Member</md-option>
+                                    <md-option value="OtherMember">Other Member</md-option>
+                                    <md-option value="VIP">VIP</md-option>
+                                    <md-option value="SIP">SIP</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </md-content>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-4 col-sm-12">
                 <div class="panel panel-success" style="height: 523px;">
                     <div class="panel-heading">
@@ -176,51 +220,7 @@
                         </md-content>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 col-sm-12">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        Other details
-                    </div>
-                    <div class="panel-body">
-                        <md-content class="autoScroll">
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Bystander Name</label>
-                                <input type="text" name="bystanderName" data-ng-model="vm.formData.bystanderName">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Bystander Contact</label>
-                                <input type="number" name="bystanderContact" data-ng-model="vm.formData.bystanderContact">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Bystander Relation</label>
-                                <input type="text" name="bystanderRelation" data-ng-model="vm.formData.bystanderRelation">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>How do you know about Cancure</label>
-                                <input type="text" name="knowAboutCancure" data-ng-model="vm.formData.knowAboutCancure">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Recommendated by</label>
-                                <input type="text" name="recommendationName" data-ng-model="vm.formData.recommendationName">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Recommendation type</label>
-                                <md-select data-ng-model="vm.formData.recommendationType">
-                                    <md-option value="LSG">LSG</md-option>
-                                    <md-option value="CCF">CCF</md-option>
-                                    <md-option value="MB">MB</md-option>
-                                    <md-option value="MedicalFraternity">Medical Fraternity</md-option>
-                                    <md-option value="LifeMember">Life Member</md-option>
-                                    <md-option value="OtherMember">Other Member</md-option>
-                                    <md-option value="VIP">VIP</md-option>
-                                    <md-option value="SIP">SIP</md-option>
-                                </md-select>
-                            </md-input-container>
-                        </md-content>
-                    </div>
-                </div>
-            </div>
+            </div>           
         </div>
         <div class="row">
             <div class="col-md-4 col-sm-12">

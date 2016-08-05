@@ -37,6 +37,11 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', '$cook
 		$rootScope.layout = value;
 	};
 	
+	//set the theme selected
+    vm.setTheme = function (value) {
+        $rootScope.theme = value;
+    };
+    
 	//control sidebar open & close in mobile and normal view
 	vm.sideBar = function (value) {
 		if ($(window).width() <= 767) {
