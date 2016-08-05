@@ -1,0 +1,118 @@
+.login-wrapper {
+    background-color: rgba(0, 0, 0, .5);
+    height: calc(100%);
+    width: 100%;
+    overflow: hidden;
+    background-image: url(../../../images/login/background.jpg);
+    background-size: cover;
+    position: relative;
+}
+.login-page {
+    overflow: auto;
+    text-align: center;
+    color: #fff;
+    padding: 5em;
+}
+.login-page .col-lg-4 {
+    padding: 0;
+}
+.login-page .input-lg {
+    height: 46px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.3333333;
+    border-radius: 0;
+}
+.login-page .input-underline {
+    background: 0 0;
+    border: none;
+    box-shadow: none;
+    border-bottom: 2px solid rgba(255, 255, 255, .5);
+    color: #FFF;
+    border-radius: 0;
+}
+.login-page .input-underline:focus {
+    border-bottom: 2px solid #fff;
+    box-shadow: none;
+}
+.login-page .rounded-btn {
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    color: rgba(255, 255, 255, 0.8);
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+    line-height: 40px;
+    padding: 0 25px;
+}
+.login-page .rounded-btn:hover,
+.login-page .rounded-btn:focus,
+.login-page .rounded-btn:active,
+.login-page .rounded-btn:visited {
+    color: rgba(255, 255, 255, 1);
+    border: 2px solid rgba(255, 255, 255, 1);
+    outline: none;
+}
+.login-page h1 {
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 45px;
+    color: #fff;
+}
+.login-page i {
+    font-size: 2.5em;
+}
+.login-page .form-group {
+    padding: 8px 0;
+    input::-webkit-input-placeholder {
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    input:-moz-placeholder {
+        /* Firefox 18- */
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    input::-moz-placeholder {
+        /* Firefox 19+ */
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    input:-ms-input-placeholder {
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+}
+.login-page .form-content {
+    padding: 20px 0px 40px 0px;
+}
+.login-wrapper .caption {
+    height: 90px;
+    padding: 12px 0px;
+    background-color: rgba(255, 255, 255, .20);
+    position: absolute;
+    bottom: 0px;
+    left: 15%;
+    right: 15%;
+    text-transform: uppercase;
+    font-size: 55px;
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+}
+.login-wrapper .caption span {
+    color: #f4961c;
+}
+@media screen and (max-width: 1025px) {
+    .login-page {
+        padding: 5em;
+    }
+    .login-wrapper .caption {
+        height: 75px;
+        padding: 18px 0px;
+        font-size: 30px;
+    }
+}
+@media screen and (max-width: 850px) {
+    .login-wrapper .caption {
+        height: 55px;
+        padding: 12px 0px;
+        font-size: 25px;
+    }
+}

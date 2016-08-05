@@ -15,8 +15,13 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	RoleRepository roleRepo;
 
-	public User addUser(User user) {
+	public User saveUser(User user) {
 		return userRepo.save(user);
+	}
+	
+	@Override
+	public User getUser(Integer id) {
+		return userRepo.findOne(id);
 	}
 
 	public Iterable<User> listUsers() {
@@ -27,6 +32,11 @@ public class UserServiceImpl implements UserService {
 		return roleRepo.findAll();
 	}
 
+	@Override
+	public User getUserByLogin(String login) {
+		return userRepo.findByLogin(login);
+	}
+	
 	public void setUserRepo(UserRepository userRepo) {
 		this.userRepo = userRepo;
 	}
@@ -34,5 +44,5 @@ public class UserServiceImpl implements UserService {
 	public void setRoleRepo(RoleRepository roleRepo) {
 		this.roleRepo = roleRepo;
 	}
-	
+
 }

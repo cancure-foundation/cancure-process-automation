@@ -113,13 +113,13 @@ public class OAuth2ServerConfiguration {
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 			clients
-				.jdbc(dataSource)
-				.withClient("cancureapp")
+				.jdbc(dataSource);
+				/*.withClient("cancureapp")
 					.authorizedGrantTypes("password", "refresh_token")
 					.authorities("USER")
 					.scopes("read", "write")
 					.resourceIds(RESOURCE_ID)
-					.secret("cancure123456");
+					.secret("cancure123456");*/
 		}
 
 		@Bean

@@ -1,9 +1,8 @@
 package org.cancure.cpa.persistence.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="patient")
@@ -22,103 +19,106 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer prn;
     
-    @NotEmpty
+    
     @Column(name="pidn",unique = true, nullable = false)
     private Integer pidn;
     
-    @NotEmpty
+   
     private String name;
 
-    @NotEmpty
+   
     private Date dob;
     
-    @NotEmpty
+   
     private String gender;
     
-    @NotEmpty
+    
     private Integer age;
     
-    @NotEmpty
+    
     @Column(name="blood_group")
     private String bloodGroup;
     
-    @NotEmpty
+    
     @Column(name="contact")
     private String contact;
     
-    @NotEmpty
+    
     private String address;
     
-    @NotEmpty
+    
     @Column(name="employment_status")
     private String employmentStatus;
     
-    @NotEmpty
+    
     @Column(name="soleBreadWinner")
     private Boolean solebreadwinner;
     
-    @NotEmpty
+    
     @Column(name="assets_owned")
     private String assetsOwned;
     
-    @NotEmpty
+    
     @Column(name="photo_location")
     private String photoLocation;
     
-    @NotEmpty
+    
     @Column(name="bystander_name")
     private String bystanderName;
     
-    @NotEmpty
+    
     @Column(name="bystander_contact")
     private String bystanderContact;
     
-    @NotEmpty
+    
     @Column(name="bystander_relation")
     private String bystanderRelation;
     
-    @NotEmpty
+    
     @Column(name="know_about_cancure")
     private String knowAboutCancure;
     
-    @NotEmpty
+    
     @Column(name="recommendation_name")
     private String recommendationName;
     
-    @NotEmpty
+    
     @Column(name="recommendation_type")
     private String recommendationType;
     
-    @NotEmpty
+    
     @Column(name="doctor_name")
     private String doctorName;
     
-    @NotEmpty
+    
     private String hospital;
     
-    @NotEmpty
+    
     private String diagnosis;
     
-    @NotEmpty
+    
     @Column(name="diagnosis_date")
     private Date diagnosisDate;
     
-    @NotEmpty
+    
     @Column(name="doctor_comments")
     private String doctorComments ;
     
-    @NotEmpty
+    
     @Column(name="type_of_support")
     private String typeOfSupport ;
     
     @OneToMany(mappedBy="familyPatient")
-    private Set<PatientFamily> patientFamily=new HashSet<PatientFamily>();
+    private List<PatientFamily> patientFamily=new ArrayList<PatientFamily>();
     
     @OneToMany(mappedBy="patient")
-     private Set<SupportOrganisation> organisation=new HashSet<SupportOrganisation>();
+     private List<SupportOrganisation> organisation=new ArrayList<SupportOrganisation>();
     
-    @OneToMany(mappedBy="patientDoc")
-    private Set<PatientDocument> document=new HashSet<PatientDocument>();
+  //@OneToMany(mappedBy="patientDoc")
+  //private List<PatientDocument> document=new ArrayList<PatientDocument>();
+    
+    /*@OneToMany(mappedBy="patientInvs")
+    private List<PatientInvestigation> patientInvestigation=new ArrayList<PatientInvestigation>();*/
 
     public Integer getPrn() {
         return prn;
@@ -320,31 +320,37 @@ public class Patient {
         this.typeOfSupport = typeOfSupport;
     }
 
-    public Set<PatientFamily> getPatientFamily() {
+    public List<PatientFamily> getPatientFamily() {
         return patientFamily;
     }
 
-    public void setPatientFamily(Set<PatientFamily> patientFamily) {
+    public void setPatientFamily(List<PatientFamily> patientFamily) {
         this.patientFamily = patientFamily;
     }
 
-    public Set<SupportOrganisation> getOrganisation() {
+    public List<SupportOrganisation> getOrganisation() {
         return organisation;
     }
 
-    public void setOrganisation(Set<SupportOrganisation> organisation) {
+    public void setOrganisation(List<SupportOrganisation> organisation) {
         this.organisation = organisation;
     }
 
-    public Set<PatientDocument> getDocument() {
+ /*   public List<PatientDocument> getDocument() {
         return document;
     }
 
-    public void setDocument(Set<PatientDocument> document) {
+    public void setDocument(List<PatientDocument> document) {
         this.document = document;
     }
+*/
+    /*public List<PatientInvestigation> getPatientInvestigation() {
+        return patientInvestigation;
+    }
 
-   
-    
+    public void setPatientInvestigation(List<PatientInvestigation> patientInvestigation) {
+        this.patientInvestigation = patientInvestigation;
+    }
+*/
     
 }

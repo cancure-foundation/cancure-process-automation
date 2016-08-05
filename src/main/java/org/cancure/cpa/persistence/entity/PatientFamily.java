@@ -25,19 +25,19 @@ public class PatientFamily {
     @Column(name="family_member_id")
     private Integer familyMemberId ;
     
-    @NotEmpty
+   
     private String relation ;
 
-    @NotEmpty
+    
     private Integer age;
     
-    @NotEmpty
+    
     private String status;
     
-    @NotEmpty
+    
     private Long income;
     
-    @NotEmpty
+    
     @Column(name="other_income")
     private Long otherIncome ;
    

@@ -4,6 +4,7 @@ import org.cancure.cpa.persistence.entity.Role;
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,13 +17,23 @@ public class UserController {
 	UserService userService;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/user/save", consumes = "application/json")
-	public User addUser(@RequestBody User user) {
-		return userService.addUser (user);
+	public User saveUser(@RequestBody User user) {
+		return userService.saveUser (user);
 	}
 
 	@RequestMapping("/user/list")
 	public Iterable<User> listUsers() {
 		return userService.listUsers ();
+	}
+	
+	@RequestMapping("/user/{id}")
+	public User getUser(@PathVariable("id") Integer id) {
+		return userService.getUser(id);
+	}
+	
+	@RequestMapping("/user/login/{login}")
+	public User getUserByLogin(@PathVariable("login") String login) {
+		return userService.getUserByLogin(login);
 	}
 
 	@RequestMapping("/roles")

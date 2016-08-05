@@ -1,0 +1,403 @@
+<section class="content-header">
+    <h1>
+        Patient History
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Patient History</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+	
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- The time line -->
+            <ul class="timeline">
+            	<li>
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <h3 class="timeline-header">{{taskHistory.patient.name}}</h3>
+                        <div class="timeline-body">
+	                        <div class="row">
+		                        <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Patient Registration Number :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	1234{{taskHistory.patient.prn}}
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b></b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            </div>
+					            </div>
+				            </div>
+			            </div>
+                    </div>
+                </li>
+                
+                <li class="time-label" ng-if="taskHistory.tasks.PatientRegistration">
+                    <span ng-class="(taskHistory.tasks.PatientRegistration.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
+                        {{taskHistory.tasks.PatientRegistration.createTime}}
+                    </span>
+                </li>
+                <li ng-if="taskHistory.tasks.PatientRegistration">
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time">{{taskHistory.tasks.PatientRegistration.description}}</span>
+                        <h3 class="timeline-header"><b>{{taskHistory.tasks.PatientRegistration.nextTask}}</b></h3>
+						<div class="timeline-body">
+							<div class="row">
+		                        <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Patient Registration Number :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	1234{{taskHistory.patient.prn}}
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Gender :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.gender}}
+						            </div>
+					            </div>
+				            </div>
+				            <div class="row">
+		                        <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Address :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.address}}
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Contact No :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.contact}}
+						            </div>
+					            </div>
+				            </div>
+				            <div class="row">
+		                        <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Assets Owned :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.assetsOwned}}
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Employment Status :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.employmentStatus}}
+						            </div>
+					            </div>
+				            </div>
+				            
+				            <div class="row">
+		                        <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Sole Bread Winner :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.solebreadwinner}}
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>??? :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.employmentStatus}}
+						            </div>
+					            </div>
+				            </div>
+						</div>
+                    </div>
+                </li>
+                
+                <li class="time-label" ng-if="taskHistory.tasks.PreliminaryExamination">
+                    <span ng-class="(taskHistory.tasks.PreliminaryExamination.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
+                        {{taskHistory.tasks.PreliminaryExamination.createTime}}
+                    </span>
+                </li>
+                <li ng-if="taskHistory.tasks.PreliminaryExamination.endTime">
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time">{{taskHistory.tasks.PreliminaryExamination.description}}</span>
+                        <h3 class="timeline-header"><b>{{taskHistory.tasks.PreliminaryExamination.nextTask}}</b></h3>
+                        <div class="timeline-body">
+	                        <b>Doctor :</b> {{taskHistory.tasks.PreliminaryExamination.investigation.investigatorName}} <br>
+		                    <b>Comments :</b>    {{taskHistory.tasks.PreliminaryExamination.investigation.comments}}
+                        </div>
+                        
+                    </div>
+                </li>
+                
+                <li ng-if="!taskHistory.tasks.PreliminaryExamination.endTime">
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time">{{taskHistory.tasks.PreliminaryExamination.description}}</span>
+                        <h3 class="timeline-header"><b>{{taskHistory.tasks.PreliminaryExamination.nextTask}}</b></h3>
+                        <div class="timeline-body">
+	                        <b>Doctor :</b> Dr. Doctor<br>
+	                         <form data-ng-submit="vm.submitForm();" name="vm.registerForm">
+		                        <md-content class="autoScroll">
+		                            <md-input-container class="md-icon-float md-block">
+		                                <label>Doctor's recommendation</label>
+		                                <md-icon class="fa fa-user"></md-icon>
+		                                <textarea rows="5" class="form-control" required name="name" data-ng-model="vm.formData.name" />
+		                            </md-input-container>
+		                            
+		                            <md-input-container class="md-icon-float md-block">
+		                                <label>Documents</label>
+		                                <md-icon class="fa fa-user"></md-icon>
+		                                <input type="file" multiple name="documents" data-ng-model="vm.formData.documents">
+		                            </md-input-container>
+		                            
+		                            <div class="text-left">
+		                                <md-button class="md-raised md-primary" type="button" ng-click="vm.onSend()">Submit <i class="fa fa-angle-double-right"></i></md-button>
+		                            </div>                          
+		                        </md-content>
+		                        
+		                    </form>
+                        </div>
+                        
+                    </div>
+                </li>
+                
+                <li class="time-label" ng-if="taskHistory.tasks.BackgroundCheck">
+                    <span ng-class="(taskHistory.tasks.BackgroundCheck.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
+                        {{taskHistory.tasks.BackgroundCheck.createTime}}
+                    </span>
+                </li>
+                <li ng-if="taskHistory.tasks.BackgroundCheck.endTime">
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time">{{taskHistory.tasks.BackgroundCheck.description}}</span>
+                        <h3 class="timeline-header"><b>{{taskHistory.tasks.BackgroundCheck.nextTask}}</b></h3>
+                        <div class="timeline-body">
+	                        Background verification comments.
+                        </div>
+                        
+                    </div>
+                </li>
+                <li ng-if="!taskHistory.tasks.BackgroundCheck.endTime">
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time">{{taskHistory.tasks.BackgroundCheck.description}}</span>
+                        <h3 class="timeline-header"><b>{{taskHistory.tasks.BackgroundCheck.nextTask}}</b></h3>
+                        <div class="timeline-body">
+	                        <form data-ng-submit="vm.submitForm();" name="vm.registerForm">
+		                        <md-content class="autoScroll">
+		                            <md-input-container class="md-icon-float md-block">
+		                                <label>Background verification Comments</label>
+		                                <md-icon class="fa fa-user"></md-icon>
+		                                <textarea rows="5" class="form-control" required name="name" data-ng-model="vm.formData.name" />
+		                            </md-input-container>
+		                            
+		                            <div class="text-left">
+		                                <md-button class="md-raised md-primary" type="button" ng-click="vm.onSend()">Submit <i class="fa fa-angle-double-right"></i></md-button>
+		                            </div>                          
+		                        </md-content>
+		                        
+		                    </form>
+                        </div>
+                        
+                    </div>
+                </li>
+                
+                <li class="time-label" ng-if="taskHistory.tasks.MBDoctorApproval">
+                    <span ng-class="(taskHistory.tasks.MBDoctorApproval.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
+                        {{taskHistory.tasks.MBDoctorApproval.createTime}}
+                    </span>
+                </li>
+                <li ng-if="taskHistory.tasks.MBDoctorApproval.endTime">
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time">{{taskHistory.tasks.MBDoctorApproval.description}}</span>
+                        <h3 class="timeline-header"><b>{{taskHistory.tasks.MBDoctorApproval.nextTask}}</b></h3>
+                        <div class="timeline-body">
+                            <table class="table table-hover">
+		                    	<thead>
+		                    		<tr>
+		                    			<th>Doctor</th>
+		                    			<th>Comments</th>
+		                    			<th>Date</th>	
+		                    		</tr>
+		                    	</thead>
+		                    	<tbody>
+		                    		<tr ng-repeat="task in tasks">
+		                    			<td>Dr. Doctor</td>
+		                    			<td>Recommendation</td>
+		                    			<td>17-Jul-2016</td>		                    		
+		                    		</tr>
+		                    	</tbody>
+		                    </table>
+                        </div>
+                        
+                    </div>
+                </li>
+                
+                <li ng-if="!taskHistory.tasks.MBDoctorApproval.endTime">
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time">{{taskHistory.tasks.MBDoctorApproval.description}}</span>
+                        <h3 class="timeline-header"><b>{{taskHistory.tasks.MBDoctorApproval.nextTask}}</b></h3>
+                        <div class="timeline-body">
+	                        <form data-ng-submit="vm.submitForm();" name="vm.registerForm">
+		                        <md-content class="autoScroll">
+		                        	
+		                        	<md-input-container class="md-icon-float md-block">
+		                                <label>Doctor</label>
+		                                <md-icon class="fa fa-chevron-right"></md-icon>
+		                                <md-select data-ng-model="vm.formData.gender" required placeholder="Select a Doctor">
+		                                    <md-option ng-value="doc" ng-repeat="doc in doctors" >{{doc}}</md-option>
+		                                </md-select>
+		                            </md-input-container>
+		                            
+		                            <md-input-container class="md-icon-float md-block">
+		                                <label>Doctor's Comments</label>
+		                                <md-icon class="fa fa-user"></md-icon>
+		                                <textarea rows="5" class="form-control" required name="name" data-ng-model="vm.formData.name" />
+		                            </md-input-container>
+		                            
+		                            <div class="text-left">
+		                                <md-button class="md-raised md-primary" type="button" ng-click="vm.onSend()">Submit <i class="fa fa-angle-double-right"></i></md-button>
+		                            </div>                          
+		                        </md-content>
+		                        
+		                    </form>
+                        </div>
+                        
+                    </div>
+                </li>
+                
+                
+                <li class="time-label" ng-if="taskHistory.tasks.SecretaryApproval">
+                    <span ng-class="(taskHistory.tasks.SecretaryApproval.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
+                        {{taskHistory.tasks.SecretaryApproval.createTime}}
+                    </span>
+                </li>
+                <li ng-if="taskHistory.tasks.SecretaryApproval">
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time">{{taskHistory.tasks.SecretaryApproval.description}}</span>
+                        <h3 class="timeline-header"><b>{{taskHistory.tasks.SecretaryApproval.nextTask}}</b></h3>
+                        <div class="timeline-body">
+	                        Secretary's comments.
+	                        Secretary's decision.
+                        </div>
+                        
+                    </div>
+                </li>
+                
+                <li class="time-label" ng-if="taskHistory.tasks.ECApproval">
+                    <span ng-class="(taskHistory.tasks.ECApproval.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
+                        {{taskHistory.tasks.ECApproval.createTime}}
+                    </span>
+                </li>
+                <li ng-if="taskHistory.tasks.ECApproval">
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time">{{taskHistory.tasks.ECApproval.description}}</span>
+                        <h3 class="timeline-header"><b>{{taskHistory.tasks.ECApproval.nextTask}}</b></h3>
+                        <div class="timeline-body">
+	                        EC's comments.
+	                        EC's decision.
+                        </div>
+                        
+                    </div>
+                </li>
+                
+                <li class="time-label" ng-if="taskHistory.tasks.PatientIDCardGeneration">
+                    <span ng-class="(taskHistory.tasks.PatientIDCardGeneration.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
+                        {{taskHistory.tasks.PatientIDCardGeneration.createTime}}
+                    </span>
+                </li>
+                <li ng-if="taskHistory.tasks.PatientIDCardGeneration">
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time">{{taskHistory.tasks.PatientIDCardGeneration.description}}</span>
+                        <h3 class="timeline-header"><b>{{taskHistory.tasks.PatientIDCardGeneration.nextTask}}</b></h3>
+                        <div class="timeline-body">
+	                        ID Card generation.
+                        </div>
+                        
+                    </div>
+                </li>
+                
+                <li class="time-label">
+                    <span class="bg-green-gradient">
+                        Nov 2010 - Jan 2015
+                    </span>
+                </li>
+                <li>
+                    <i class="fa fa-pencil-square-o bg-yellow-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time text-bold"> Part Time</span>
+                        <h3 class="timeline-header"><a>Web & Graphic Designer - Premier Group of Companies</a></h3>
+                        <div class="timeline-body">
+                            <ul>
+                                <li>Designing Loogo, Visiting Card, Brochures, Flex etc.,</li>
+                                <li>Designing static Websites</li>
+                                <li>Hosting and Domain Management</li>
+                                <li>Did UI Designs and Mockups as a Freelancer</li>
+                            </ul>
+
+                        </div>
+                        <div class="timeline-footer">
+                            <p>
+                                <span class="label label-danger">Photo Shop</span>
+                                <span class="label label-success">Corel Draw</span>
+                                <span class="label label-info">HTML</span>
+                                <span class="label label-warning">CSS</span>
+                                <span class="label label-primary">Bootstrap</span>
+                                <span class="pull-right">
+                                    <a class="btn btn-google btn-xs" ui-sref="app.websites">View Websites</a>
+                                    <a class="btn btn-facebook btn-xs" ui-sref="app.portfolio">View Portfolio</a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa fa-clock-o bg-gray"></i>
+                </li>
+            </ul>
+        </div><!-- /.col -->
+    </div>
+</section><!-- /.content -->
