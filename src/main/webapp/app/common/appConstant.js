@@ -77,11 +77,6 @@ app.constant('appSettings', {
 			icon: "phone",
 			state: "userList"
 		},
-		{
-			title: "Search List",
-			icon: "phone",
-			state: "searchUser"
-		},
         {
             title: "Patient History",
             icon: "phone",

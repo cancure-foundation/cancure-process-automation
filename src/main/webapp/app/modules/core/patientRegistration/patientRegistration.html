@@ -10,103 +10,226 @@
 <!-- Main content -->
 <section class="content">
     <form data-ng-submit="vm.submitForm();" name="vm.registerForm">
-    <div>
-        <md-button class="md-raised md-primary" type="submit">Register <i class="fa fa-angle-double-right"></i></md-button>
-        <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
-    </div>
-    <br>
-    <div class="row">        
-        <form data-ng-submit="vm.submitForm();" name="vm.registerForm">
-            
-            <div class="col-md-4">
+        <div>
+            <md-button class="md-raised md-primary" type="submit">Register <i class="fa fa-angle-double-right"></i></md-button>
+            <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         Patient details
                     </div>
                     <div class="panel-body">
+                        <md-content class="autoScroll" style="overflow:hidden">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <md-input-container class="md-icon-float md-block">
+                                        <label>Name</label>
+                                        <md-icon class="fa fa-user"></md-icon>
+                                        <input type="text" required name="Name" data-ng-model="vm.formData.name">
+                                    </md-input-container>
+
+                                    <md-input-container class="md-icon-float md-block">
+                                        <label>Type of support requested from Cancure</label>
+                                        <md-icon class="fa fa-chevron-right"></md-icon>
+                                        <md-select data-ng-model="vm.formData.typeOfSupport" required placeholder="Type of Support">
+                                            <md-option value="FinancialSupport">Financial support</md-option>
+                                            <md-option value="LabTests">Lab Tests</md-option>
+                                            <md-option value="Treatment">Treatment</md-option>
+                                            <md-option value="Medicines">Medicines</md-option>
+                                        </md-select>
+                                    </md-input-container>
+
+                                    <md-input-container class="md-icon-float md-block">
+                                        <label>Gender</label>
+                                        <md-icon class="fa fa-chevron-right"></md-icon>
+                                        <md-select data-ng-model="vm.formData.gender" required>
+                                            <md-option value="male">Male</md-option>
+                                            <md-option value="female">Female</md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+
+                                <div class="col-md-4 col-sm-12">
+                                    <md-input-container class="md-icon-float md-block">
+                                        <label>Age</label>
+                                        <md-icon class="fa fa-signal"></md-icon>
+                                        <input type="text" required name="age" data-ng-model="vm.formData.age">
+                                    </md-input-container>
+
+                                    <md-input-container class="md-icon-float md-block">
+                                        <label>Date of Birth</label>
+                                        <md-icon class="fa fa-calendar"></md-icon>
+                                        <input type="date" required name="dob" data-ng-model="vm.formData.dob">
+                                    </md-input-container>
+
+                                    <md-input-container class="md-icon-float md-block">
+                                        <label>Blood Group</label>
+                                        <md-icon class="fa fa-plus"></md-icon>
+                                        <input type="text" name="bloodGroup" data-ng-model="vm.formData.bloodGroup">
+                                    </md-input-container>
+                                </div>
+
+                                <div class="col-md-4 col-sm-12">
+                                    <md-input-container class="md-icon-float md-block">
+                                        <label>Contact No.</label>
+                                        <md-icon class="fa fa-phone"></md-icon>
+                                        <input type="number" required name="contact" data-ng-model="vm.formData.contact">
+                                    </md-input-container>
+
+                                    <md-input-container class="md-icon-float md-block">
+                                        <label>Address for Communication</label>
+                                        <md-icon class="fa fa-home"></md-icon>
+                                        <input type="text" required name="address" data-ng-model="vm.formData.address">
+                                    </md-input-container>
+
+                                    <md-input-container class="md-icon-float md-block">
+                                        <label>Employment status</label>
+                                        <md-icon class="fa fa-briefcase"></md-icon>
+                                        <input type="text" name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <md-input-container class="md-icon-float md-block">
+                                        <md-checkbox data-ng-model="vm.formData.solebreadwinner">
+                                            Is the patient the sole bread winner of the family
+                                        </md-checkbox>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <md-input-container class="md-icon-float md-block">
+                                        <label>Assets Owned</label>
+                                        <md-icon class="fa fa-briefcase"></md-icon>
+                                        <input type="text" name="assetsOwned" data-ng-model="vm.formData.assetsOwned">
+                                    </md-input-container>
+                                </div>
+                            </div>
+                        </md-content>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <div class="panel panel-success" style="height: 523px;">
+                    <div class="panel-heading">
+                        Family details
+                    </div>
+                    <div class="panel-body">
                         <md-content class="autoScroll">
                             <md-input-container class="md-icon-float md-block">
-                                <label>Name</label>
-                                <md-icon class="fa fa-user"></md-icon>
-                                <input type="text" required name="Name" data-ng-model="vm.formData.name">
+                                <label>Relation</label>
+                                <input type="text" name="patientFamily.relation" data-ng-model="vm.formData.patientFamily.relation">
                             </md-input-container>
-
-                            <md-input-container class="md-icon-float md-block" >
-                                <label>Date of Birth</label>
-                                <md-icon class="fa fa-calendar"></md-icon>
-                                <input type="date" required name="dob" data-ng-model="vm.formData.dob">
-                            </md-input-container>
-
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Gender</label>
-                                <md-icon class="fa fa-chevron-right"></md-icon>
-                                <md-select data-ng-model="vm.formData.gender" required>
-                                    <md-option ng-value="male" >Male</md-option>
-                                    <md-option ng-value="female" >Female</md-option>
-                                </md-select>
-                            </md-input-container>
-
                             <md-input-container class="md-icon-float md-block">
                                 <label>Age</label>
-                                <md-icon class="fa fa-signal"></md-icon>
-                                <input type="text" required name="age" data-ng-model="vm.formData.age">
+                                <input type="text" name="patientFamily.age" data-ng-model="vm.formData.patientFamily.age">
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
-                                <label>Type of support requested from Cancure</label>
-                                <md-icon class="fa fa-chevron-right"></md-icon>
-                                <md-select data-ng-model="vm.formData.typeOfSupport" required placeholder="Type of Support">
-                                    <md-option ng-value="FinancialSupport" >Financial support</md-option>
-                                    <md-option ng-value="LabTests" >Lab Tests</md-option>
-                                    <md-option ng-value="Treatment" >Treatment</md-option>
-                                    <md-option ng-value="Medicines" >Medicines</md-option>
-                                </md-select>
+                                <label>Status</label>
+                                <input type="text" name="patientFamily.status" data-ng-model="vm.formData.patientFamily.status">
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
-                                <label>Blood Group</label>
-                                <md-icon class="fa fa-plus"></md-icon>
-                                <input type="text" name="bloodGroup" data-ng-model="vm.formData.bloodGroup">
-                            </md-input-container>
-
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Contact No.</label>
-                                <md-icon class="fa fa-phone"></md-icon>
-                                <input type="number" required name="contact" data-ng-model="vm.formData.contact">
-                            </md-input-container>
-
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Address for Communication</label>
-                                <md-icon class="fa fa-home"></md-icon>
-                                <input type="text" required name="address" data-ng-model="vm.formData.address">
-                            </md-input-container>
-
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Employment status</label>
-                                <md-icon class="fa fa-briefcase"></md-icon>
-                                <input type="text" name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
-                            </md-input-container>
-
-                           <md-input-container class="md-icon-float md-block">
-                                <md-checkbox data-ng-model="vm.formData.solebreadwinner" >
-                                  Is the patient the sole bread winner of the family
-                                </md-checkbox>
+                                <label>Monthly Income</label>
+                                <input type="text" name="patientFamily.income" data-ng-model="vm.formData.patientFamily.income">
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
-                                <label>Assets Owned</label>
-                                <md-icon class="fa fa-briefcase"></md-icon>
-                                <input type="text" name="assetsOwned" data-ng-model="vm.formData.assetsOwned">
+                                <label>Other Income</label>
+                                <input type="text" name="patientFamily.otherIncome" data-ng-model="vm.formData.patientFamily.otherIncome">
                             </md-input-container>
                         </md-content>
                     </div>
                 </div>
             </div>
-            
-            <div class="col-md-4">
-                <div class="panel panel-info">            		
+            <div class="col-md-4 col-sm-12">
+                <div class="panel panel-success" style="height: 523px;">
+                    <div class="panel-heading">
+                        Diagnosis details
+                    </div>
+                    <div class="panel-body">
+                        <md-content class="autoScroll">
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Doctor's Name</label>
+                                <md-icon class="fa fa-user"></md-icon>
+                                <input type="text" name="doctorName" data-ng-model="vm.formData.doctorName">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Diagnosis</label>
+                                <md-icon class="fa fa-search"></md-icon>
+                                <input type="text" name="diagnosis" data-ng-model="vm.formData.diagnosis">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Hospital</label>
+                                <md-icon class="fa fa-plus"></md-icon>
+                                <input type="text" name="hospital" data-ng-model="vm.formData.hospital">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Doctor's comments</label>
+                                <md-icon class="fa fa-comment"></md-icon>
+                                <input type="text" name="doctorComments" data-ng-model="vm.formData.doctorComments">
+                            </md-input-container>
+                        </md-content>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        Other details
+                    </div>
+                    <div class="panel-body">
+                        <md-content class="autoScroll">
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Bystander Name</label>
+                                <input type="text" name="bystanderName" data-ng-model="vm.formData.bystanderName">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Bystander Contact</label>
+                                <input type="number" name="bystanderContact" data-ng-model="vm.formData.bystanderContact">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Bystander Relation</label>
+                                <input type="text" name="bystanderRelation" data-ng-model="vm.formData.bystanderRelation">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>How do you know about Cancure</label>
+                                <input type="text" name="knowAboutCancure" data-ng-model="vm.formData.knowAboutCancure">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Recommendated by</label>
+                                <input type="text" name="recommendationName" data-ng-model="vm.formData.recommendationName">
+                            </md-input-container>
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Recommendation type</label>
+                                <md-select data-ng-model="vm.formData.recommendationType">
+                                    <md-option value="LSG">LSG</md-option>
+                                    <md-option value="CCF">CCF</md-option>
+                                    <md-option value="MB">MB</md-option>
+                                    <md-option value="MedicalFraternity">Medical Fraternity</md-option>
+                                    <md-option value="LifeMember">Life Member</md-option>
+                                    <md-option value="OtherMember">Other Member</md-option>
+                                    <md-option value="VIP">VIP</md-option>
+                                    <md-option value="SIP">SIP</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </md-content>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <div class="panel panel-warning" style="height: 303px;">
                     <div class="panel-heading">
                         Supporting docs
                     </div>
                     <div class="panel-body">
-                        <md-content class="autoScroll">                            
+                        <md-content class="autoScroll">
                             <md-input-container class="md-icon-float md-block">
                                 Identity, Address and Age Proof
                                 <md-icon class="fa fa-user"></md-icon>
@@ -115,150 +238,45 @@
                             <md-input-container class="md-icon-float md-block">
                                 Income Proof
                                 <md-icon class="fa fa-dollar"></md-icon>
-                                <input type="file" name="employmentStatus" data-ng-model="vm.formData.employmentStatus"  style="border:none" />
-                            </md-input-container>                           
+                                <input type="file" name="employmentStatus" data-ng-model="vm.formData.employmentStatus" style="border:none" />
+                            </md-input-container>
                         </md-content>
                     </div>
                 </div>
             </div>
-            
-            <div class="col-md-4">
-                <div class="panel panel-info">            		
+
+            <div class="col-md-4 col-sm-12">
+                <div class="panel panel-warning">
                     <div class="panel-heading">
                         Supporting Orgs
                     </div>
                     <div class="panel-body">
-                        <md-content class="autoScroll">                              
+                        <md-content class="autoScroll">
                             <md-input-container class="md-icon-float md-block">
                                 <md-checkbox data-ng-model="vm.formData.solebreadwinner">
-                                  Is the Patient Receiving Support from Other
+                                    Is the Patient Receiving Support from Other
                                 </md-checkbox>
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
                                 <label>Organisation Name</label>
                                 <md-icon class="fa fa-chevron-right"></md-icon>
-                                <input type="text"  name="employmentStatus" data-ng-model="vm.formData.organisation.name">
+                                <input type="text" name="employmentStatus" data-ng-model="vm.formData.organisation.name">
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
                                 <label>Amount recd:</label>
                                 <md-icon class="fa fa-dollar"></md-icon>
-                                <input type="text"  name="employmentStatus" data-ng-model="vm.formData.organisation.amountRec">
-                            </md-input-container>   
-                        </md-content>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-info">            		
-                    <div class="panel-heading">
-                        Diagnosis details
-                    </div>
-                    <div class="panel-body">
-                        <md-content class="autoScroll">                            
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Doctor's Name</label>
-                                <md-icon class="fa fa-user"></md-icon>
-                                <input type="text"  name="doctorName" data-ng-model="vm.formData.doctorName">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Diagnosis</label>
-                                <md-icon class="fa fa-search"></md-icon>
-                                <input type="text"  name="diagnosis" data-ng-model="vm.formData.diagnosis">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Hospital</label>
-                                <md-icon class="fa fa-plus"></md-icon>
-                                <input type="text"  name="hospital" data-ng-model="vm.formData.hospital">
-                            </md-input-container>
-                             <md-input-container class="md-icon-float md-block">
-                                <label>Doctor's comments</label>
-                                <md-icon class="fa fa-comment"></md-icon>
-                                <input type="text"  name="doctorComments" data-ng-model="vm.formData.doctorComments">
+                                <input type="text" name="employmentStatus" data-ng-model="vm.formData.organisation.amountRec">
                             </md-input-container>
                         </md-content>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">    
-                <div class="panel panel-info">            		
-                    <div class="panel-heading">
-                        Family details
-                    </div>
-                    <div class="panel-body">
-                        <md-content class="autoScroll">                            
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Relation</label>
-                                <input type="text"  name="patientFamily.relation" data-ng-model="vm.formData.patientFamily.relation">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Age</label>
-                                <input type="text"  name="patientFamily.age" data-ng-model="vm.formData.patientFamily.age">
-                            </md-input-container>       
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Status</label>
-                                <input type="text"  name="patientFamily.status" data-ng-model="vm.formData.patientFamily.status">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Monthly Income</label>
-                                <input type="text"  name="patientFamily.income" data-ng-model="vm.formData.patientFamily.income">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Other Income</label>
-                                <input type="text"  name="patientFamily.otherIncome" data-ng-model="vm.formData.patientFamily.otherIncome">
-                            </md-input-container>
-                        </md-content>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-info">            		
-                    <div class="panel-heading">
-                        Other details
-                    </div>
-                    <div class="panel-body">
-                        <md-content class="autoScroll">                            
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Bystander Name</label>
-                                <input type="text"  name="bystanderName" data-ng-model="vm.formData.bystanderName">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Bystander Contact</label>
-                                <input type="number"  name="bystanderContact" data-ng-model="vm.formData.bystanderContact">
-                            </md-input-container>
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Bystander Relation</label>
-                                <input type="text"  name="bystanderRelation" data-ng-model="vm.formData.bystanderRelation">
-                            </md-input-container>
-                             <md-input-container class="md-icon-float md-block">
-                                <label>How do you know about Cancure</label>
-                                <input type="text"  name="knowAboutCancure" data-ng-model="vm.formData.knowAboutCancure">
-                            </md-input-container>
-                             <md-input-container class="md-icon-float md-block">
-                                <label>Recommendated by</label>
-                                <input type="text"  name="recommendationName" data-ng-model="vm.formData.recommendationName">
-                            </md-input-container>
-                             <md-input-container class="md-icon-float md-block">
-                                <label>Recommendation type</label>
-                                 <md-select data-ng-model="vm.formData.recommendationType">
-                                    <md-option ng-value="LSG" >LSG</md-option>
-                                    <md-option ng-value="CCF" >CCF</md-option>
-                                    <md-option ng-value="MB" >MB</md-option>
-                                    <md-option ng-value="MedicalFraternity" >Medical Fraternity</md-option>
-                                     <md-option ng-value="LifeMember" >Life Member</md-option>
-                                     <md-option ng-value="OtherMember" >Other Member</md-option>
-                                     <md-option ng-value="VIP" >VIP</md-option>
-                                     <md-option ng-value="SIP" >SIP</md-option>
-                                </md-select>
-                            </md-input-container>
-                        </md-content>
-                    </div>
-                </div>
-            </div>
-    </div>
-    
-    <div>
-        <md-button class="md-raised md-primary" type="submit">Register <i class="fa fa-angle-double-right"></i></md-button>
-        <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
-    </div>
-</form>
+
+        </div>
+
+        <div>
+            <md-button class="md-raised md-primary" type="submit">Register <i class="fa fa-angle-double-right"></i></md-button>
+            <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
+        </div>
+    </form>
 </section>
