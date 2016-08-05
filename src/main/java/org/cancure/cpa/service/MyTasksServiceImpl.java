@@ -112,7 +112,22 @@ public class MyTasksServiceImpl implements MyTasksService {
 				map.put("patientName", patientName.toString());
 			}
 
-			taskMap.put(t.getName(), map);
+			Object existingObject = taskMap.get(t.getName());
+			if (existingObject == null) {
+			    taskMap.put(t.getName(), map);
+			} else {
+			    if (existingObject instanceof List) {
+			        List<Object> listOfTask = (List)existingObject;
+			        listOfTask.add(map);
+			        taskMap.put(t.getName(), listOfTask);
+			    } else {
+			        List<Object> listOfTask = new ArrayList<>();
+	                listOfTask.add(existingObject);
+	                listOfTask.add(map);
+	                taskMap.put(t.getName(), listOfTask);
+			    }
+			}
+			
 		}
 		
 		parentMap.put("tasks", taskMap);

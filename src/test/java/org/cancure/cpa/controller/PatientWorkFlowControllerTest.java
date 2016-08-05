@@ -952,7 +952,7 @@ public class PatientWorkFlowControllerTest {
         
         //--------------- EC Approval 4--------------------------------
         PatientInvestigationBean ec4PatientInvestigation=new PatientInvestigationBean(); 
-        ec4PatientInvestigation.setComments("Rejecting treatment");
+        ec4PatientInvestigation.setComments("Approving treatment by EC4");
         ec4PatientInvestigation.setInvestigatorId(9);
         ec4PatientInvestigation.setInvestigatorType("Executive Committe");
         ec4PatientInvestigation.setPrn(patientId);
