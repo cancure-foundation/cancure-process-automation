@@ -87,11 +87,6 @@ app.constant('appSettings', {
             icon: "phone",
             state: "patientRegHistory"
 	    },
-        {
-            title: "My Queue",
-            icon: "phone",
-            state: "myQueue"
-	    },
 	    {
             title: "Patient Registration",
             icon: "pencil",
