@@ -378,7 +378,7 @@ public class PatientWorkFlowControllerTest {
         PatientDocumentBean preExamPatientDocument = new PatientDocumentBean();
         PatientInvestigationBean preExamPatientInvestigation=new PatientInvestigationBean(); 
         List<PatientDocumentBean> preExamDocumentList = new ArrayList<PatientDocumentBean>();
-        preExamPatientDocument.setDocCategory("ScanReport");
+        preExamPatientDocument.setDocCategory("ScanReport " + patientId);
         preExamPatientDocument.setPrn(patientId);
         preExamDocumentList.add(preExamPatientDocument);
         preExamPatientDocument = new PatientDocumentBean();
@@ -398,7 +398,7 @@ public class PatientWorkFlowControllerTest {
         
         //------------- Background Check -------------------------------
         PatientInvestigationBean bgPatientInvestigation=new PatientInvestigationBean(); 
-        bgPatientInvestigation.setComments("Seems genuine");
+        bgPatientInvestigation.setComments("Seems genuine " + patientId);
         bgPatientInvestigation.setInvestigatorId(2);
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
         bgPatientInvestigation.setPrn(patientId);
@@ -409,7 +409,7 @@ public class PatientWorkFlowControllerTest {
         
       //------------- MBDoctor Approval 1 -------------------------------
         PatientInvestigationBean mbPatientInvestigation=new PatientInvestigationBean(); 
-        mbPatientInvestigation.setComments("Can be treated");
+        mbPatientInvestigation.setComments("Can be treated " + patientId);
         mbPatientInvestigation.setInvestigatorId(3);
         mbPatientInvestigation.setInvestigatorType("Doctor");
         mbPatientInvestigation.setPrn(patientId);
@@ -431,7 +431,7 @@ public class PatientWorkFlowControllerTest {
         
       //------------- MBDoctor Approval 3 -------------------------------
         PatientInvestigationBean mb3PatientInvestigation=new PatientInvestigationBean(); 
-        mb3PatientInvestigation.setComments("Can be treated");
+        mb3PatientInvestigation.setComments("Can be treated2 " + patientId);
         mb3PatientInvestigation.setInvestigatorId(4);
         mb3PatientInvestigation.setInvestigatorType("Doctor");
         mb3PatientInvestigation.setPrn(patientId);
@@ -442,7 +442,7 @@ public class PatientWorkFlowControllerTest {
         
         //--------------- Secretary Approval --------------------------------
         PatientInvestigationBean secPatientInvestigation=new PatientInvestigationBean(); 
-        secPatientInvestigation.setComments("Reject treatment");
+        secPatientInvestigation.setComments("Reject treatment " + patientId);
         secPatientInvestigation.setInvestigatorId(5);
         secPatientInvestigation.setInvestigatorType("Secretary");
         secPatientInvestigation.setPrn(patientId);
@@ -592,7 +592,7 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean ec1PatientInvestigation=new PatientInvestigationBean(); 
         ec1PatientInvestigation.setComments("Approving treatment");
         ec1PatientInvestigation.setInvestigatorId(6);
-        ec1PatientInvestigation.setInvestigatorType("Executive Committe");
+        ec1PatientInvestigation.setInvestigatorType("Executive Committee");
         ec1PatientInvestigation.setPrn(patientId);
         pc.saveExecutiveBoardRecommendationAccept(ec1PatientInvestigation);
         
@@ -603,7 +603,7 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean ec2PatientInvestigation=new PatientInvestigationBean(); 
         ec2PatientInvestigation.setComments("Approving treatment");
         ec2PatientInvestigation.setInvestigatorId(7);
-        ec2PatientInvestigation.setInvestigatorType("Executive Committe");
+        ec2PatientInvestigation.setInvestigatorType("Executive Committee");
         ec2PatientInvestigation.setPrn(patientId);
         pc.saveExecutiveBoardRecommendationAccept(ec2PatientInvestigation);
         
@@ -615,7 +615,7 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean ec3PatientInvestigation=new PatientInvestigationBean(); 
         ec3PatientInvestigation.setComments("Approving treatment");
         ec3PatientInvestigation.setInvestigatorId(8);
-        ec3PatientInvestigation.setInvestigatorType("Executive Committe");
+        ec3PatientInvestigation.setInvestigatorType("Executive Committee");
         ec3PatientInvestigation.setPrn(patientId);
         pc.saveExecutiveBoardRecommendationAccept(ec3PatientInvestigation);
         
@@ -919,7 +919,7 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean ec1PatientInvestigation=new PatientInvestigationBean(); 
         ec1PatientInvestigation.setComments("Approving treatment");
         ec1PatientInvestigation.setInvestigatorId(6);
-        ec1PatientInvestigation.setInvestigatorType("Executive Committe");
+        ec1PatientInvestigation.setInvestigatorType("Executive Committee");
         ec1PatientInvestigation.setPrn(patientId);
         pc.saveExecutiveBoardRecommendationAccept(ec1PatientInvestigation);
         
@@ -930,7 +930,7 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean ec2PatientInvestigation=new PatientInvestigationBean(); 
         ec2PatientInvestigation.setComments("Approving treatment");
         ec2PatientInvestigation.setInvestigatorId(7);
-        ec2PatientInvestigation.setInvestigatorType("Executive Committe");
+        ec2PatientInvestigation.setInvestigatorType("Executive Committee");
         ec2PatientInvestigation.setPrn(patientId);
         pc.saveExecutiveBoardRecommendationAccept(ec2PatientInvestigation);
         
@@ -942,7 +942,7 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean ec3PatientInvestigation=new PatientInvestigationBean(); 
         ec3PatientInvestigation.setComments("Rejecting treatment");
         ec3PatientInvestigation.setInvestigatorId(8);
-        ec3PatientInvestigation.setInvestigatorType("Executive Committe");
+        ec3PatientInvestigation.setInvestigatorType("Executive Committee");
         ec3PatientInvestigation.setPrn(patientId);
         pc.saveExecutiveBoardRecommendationReject(ec3PatientInvestigation);
         
@@ -954,7 +954,7 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean ec4PatientInvestigation=new PatientInvestigationBean(); 
         ec4PatientInvestigation.setComments("Approving treatment by EC4");
         ec4PatientInvestigation.setInvestigatorId(9);
-        ec4PatientInvestigation.setInvestigatorType("Executive Committe");
+        ec4PatientInvestigation.setInvestigatorType("Executive Committee");
         ec4PatientInvestigation.setPrn(patientId);
         pc.saveExecutiveBoardRecommendationAccept(ec4PatientInvestigation);
         
