@@ -967,6 +967,111 @@ public class PatientWorkFlowControllerTest {
         assertEquals("", patIdNextTask.get("nextTask"));
              
     }
+
+    @Test
+    public void testSaveTillBgCheck() throws IOException {
+
+        PatientBean patient = new PatientBean();
+        PatientFamilyBean patientFamily = new PatientFamilyBean();
+        SupportOrganisationBean supportOrganisation = new SupportOrganisationBean();
+        PatientDocumentBean patientDocument = new PatientDocumentBean();
+
+        List<PatientFamilyBean> patientFamilyList = new ArrayList<PatientFamilyBean>();
+        List<SupportOrganisationBean> organisationList = new ArrayList<SupportOrganisationBean>();
+        List<PatientDocumentBean> documentList = new ArrayList<PatientDocumentBean>();
+
+        patient.setName("Rahul");
+        patient.setAddress("kochi");
+        patient.setGender("male");
+        patient.setSolebreadwinner(true);
+        patient.setAge(23);
+        patient.setEmploymentStatus("Unemployed");
+
+        patientFamily.setRelation("Father");
+        patientFamily.setStatus("Dependent");
+        patientFamily.setPrn(patient.getPrn());
+        patientFamilyList.add(patientFamily);
+        patientFamily = new PatientFamilyBean();
+        patientFamily.setRelation("Mother");
+        patientFamily.setStatus("Dependent");
+        patientFamily.setPrn(patient.getPrn());
+        patientFamilyList.add(patientFamily);
+        patient.setPatientFamily(patientFamilyList);
+
+        supportOrganisation.setName("Sunrise");
+        supportOrganisation.setPrn(patient.getPrn());
+        organisationList.add(supportOrganisation);
+        supportOrganisation = new SupportOrganisationBean();
+        supportOrganisation.setName("MedicalCare");
+        supportOrganisation.setPrn(patient.getPrn());
+        organisationList.add(supportOrganisation);
+        patient.setOrganisation(organisationList);
+
+        patientDocument.setDocCategory("AgeProof");
+        patientDocument.setPrn(patient.getPrn());
+        documentList.add(patientDocument);
+        patientDocument = new PatientDocumentBean();
+        patientDocument.setDocCategory("AddressProof");
+        patientDocument.setPrn(patient.getPrn());
+        documentList.add(patientDocument);
+        patient.setDocument(documentList);
+
+        pc.save(patient);
+
+        assertTrue(patient.getName().equals("Rahul"));
+        assertTrue(patient.getGender().equals("male"));
+
+        int count = 0;
+        for (PatientFamilyBean p : patient.getPatientFamily()) {
+            count++;
+            assertTrue(p.getRelation().equals("Father") || p.getRelation().equals("Mother"));
+        }
+        assertEquals(2, count);
+
+        assertTrue(patient.getOrganisation().get(0).getName().equals("Sunrise"));
+        assertEquals(2, patient.getOrganisation().size());
+
+        assertTrue(patient.getDocument().get(1).getDocCategory().equals("AddressProof"));
+        assertEquals(2, patient.getDocument().size());
+        
+        //----------- Preliminary Examination ---------------------------------------
+        
+        Integer patientId = patient.getPrn();
+        System.out.println("######### Patient Id is " + patientId);
+        
+        PatientDocumentBean preExamPatientDocument = new PatientDocumentBean();
+        PatientInvestigationBean preExamPatientInvestigation=new PatientInvestigationBean(); 
+        List<PatientDocumentBean> preExamDocumentList = new ArrayList<PatientDocumentBean>();
+        preExamPatientDocument.setDocCategory("ScanReport");
+        preExamPatientDocument.setPrn(patientId);
+        preExamDocumentList.add(preExamPatientDocument);
+        preExamPatientDocument = new PatientDocumentBean();
+        preExamPatientDocument.setDocCategory("BloodTestReport");
+        preExamPatientDocument.setPrn(patientId);
+        preExamDocumentList.add(preExamPatientDocument);
+        
+        preExamPatientInvestigation.setComments("Blood Cancer");
+        preExamPatientInvestigation.setInvestigatorType("Doctor");
+        preExamPatientInvestigation.setInvestigatorId(1);
+        preExamPatientInvestigation.setPrn(patientId);
+        
+        pc.saveExamination(preExamPatientInvestigation, preExamDocumentList);
+        
+        Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
+        assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));
+        
+        //------------- Background Check -------------------------------
+        PatientInvestigationBean bgPatientInvestigation=new PatientInvestigationBean(); 
+        bgPatientInvestigation.setComments("Seems genuine");
+        bgPatientInvestigation.setInvestigatorId(2);
+        bgPatientInvestigation.setInvestigatorType("Program Coordinator");
+        bgPatientInvestigation.setPrn(patientId);
+        pc.saveBGC(bgPatientInvestigation, "PASS");
+        
+        Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
+        assertEquals("MBDoctorApproval", bgNextTask.get("nextTask"));   
+        
+    }
     
    /* @Test
     public void testSaveExamination() throws IOException{

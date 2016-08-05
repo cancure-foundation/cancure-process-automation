@@ -18,9 +18,29 @@
             	<li>
                     <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
                     <div class="timeline-item">
-                        <h3 class="timeline-header">Add Patient Name here</h3>
+                        <h3 class="timeline-header">{{taskHistory.patient.name}}</h3>
                         <div class="timeline-body">
-			            	<b>Patient Registration Number :</b> 12345
+	                        <div class="row">
+		                        <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Patient Registration Number :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	1234{{taskHistory.patient.prn}}
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b></b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            </div>
+					            </div>
+				            </div>
 			            </div>
                     </div>
                 </li>
@@ -35,15 +55,97 @@
                     <div class="timeline-item">
                         <span class="time">{{taskHistory.tasks.PatientRegistration.description}}</span>
                         <h3 class="timeline-header"><b>{{taskHistory.tasks.PatientRegistration.nextTask}}</b></h3>
-                        <div class="timeline-body">
-                            <ul>
-                                <li>Developing Web applications</li>      
-                                <li>Developing E-Comm sites</li>
-                                <li>Integrating web apps with API</li>
-                            </ul>
-
-                        </div>
-                        
+						<div class="timeline-body">
+							<div class="row">
+		                        <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Patient Registration Number :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	1234{{taskHistory.patient.prn}}
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Gender :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.gender}}
+						            </div>
+					            </div>
+				            </div>
+				            <div class="row">
+		                        <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Address :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.address}}
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Contact No :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.contact}}
+						            </div>
+					            </div>
+				            </div>
+				            <div class="row">
+		                        <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Assets Owned :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.assetsOwned}}
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Employment Status :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.employmentStatus}}
+						            </div>
+					            </div>
+				            </div>
+				            
+				            <div class="row">
+		                        <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>Sole Bread Winner :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.solebreadwinner}}
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	<b>??? :</b>
+						            </div>
+					            </div>
+					            <div class="col-md-3 col-sd-12">
+			                        <div class="timeline-body">
+						            	{{taskHistory.patient.employmentStatus}}
+						            </div>
+					            </div>
+				            </div>
+						</div>
                     </div>
                 </li>
                 
@@ -58,10 +160,8 @@
                         <span class="time">{{taskHistory.tasks.PreliminaryExamination.description}}</span>
                         <h3 class="timeline-header"><b>{{taskHistory.tasks.PreliminaryExamination.nextTask}}</b></h3>
                         <div class="timeline-body">
-	                        <b>Doctor :</b> Dr. Doctor<br>
-		                        
-		                       Recommendation........... 
-		                       
+	                        <b>Doctor :</b> {{taskHistory.tasks.PreliminaryExamination.investigation.investigatorName}} <br>
+		                    <b>Comments :</b>    {{taskHistory.tasks.PreliminaryExamination.investigation.comments}}
                         </div>
                         
                     </div>
@@ -104,7 +204,7 @@
                         {{taskHistory.tasks.BackgroundCheck.createTime}}
                     </span>
                 </li>
-                <li ng-if="taskHistory.tasks.BackgroundCheck.endDate">
+                <li ng-if="taskHistory.tasks.BackgroundCheck.endTime">
                     <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
                     <div class="timeline-item">
                         <span class="time">{{taskHistory.tasks.BackgroundCheck.description}}</span>
@@ -115,7 +215,7 @@
                         
                     </div>
                 </li>
-                <li ng-if="!taskHistory.tasks.BackgroundCheck.endDate">
+                <li ng-if="!taskHistory.tasks.BackgroundCheck.endTime">
                     <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
                     <div class="timeline-item">
                         <span class="time">{{taskHistory.tasks.BackgroundCheck.description}}</span>
@@ -167,6 +267,40 @@
 		                    		</tr>
 		                    	</tbody>
 		                    </table>
+                        </div>
+                        
+                    </div>
+                </li>
+                
+                <li ng-if="!taskHistory.tasks.MBDoctorApproval.endTime">
+                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <span class="time">{{taskHistory.tasks.MBDoctorApproval.description}}</span>
+                        <h3 class="timeline-header"><b>{{taskHistory.tasks.MBDoctorApproval.nextTask}}</b></h3>
+                        <div class="timeline-body">
+	                        <form data-ng-submit="vm.submitForm();" name="vm.registerForm">
+		                        <md-content class="autoScroll">
+		                        	
+		                        	<md-input-container class="md-icon-float md-block">
+		                                <label>Doctor</label>
+		                                <md-icon class="fa fa-chevron-right"></md-icon>
+		                                <md-select data-ng-model="vm.formData.gender" required placeholder="Select a Doctor">
+		                                    <md-option ng-value="doc" ng-repeat="doc in doctors" >{{doc}}</md-option>
+		                                </md-select>
+		                            </md-input-container>
+		                            
+		                            <md-input-container class="md-icon-float md-block">
+		                                <label>Doctor's Comments</label>
+		                                <md-icon class="fa fa-user"></md-icon>
+		                                <textarea rows="5" class="form-control" required name="name" data-ng-model="vm.formData.name" />
+		                            </md-input-container>
+		                            
+		                            <div class="text-left">
+		                                <md-button class="md-raised md-primary" type="button" ng-click="vm.onSend()">Submit <i class="fa fa-angle-double-right"></i></md-button>
+		                            </div>                          
+		                        </md-content>
+		                        
+		                    </form>
                         </div>
                         
                     </div>
