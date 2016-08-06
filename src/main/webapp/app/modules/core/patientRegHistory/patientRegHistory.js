@@ -8,6 +8,7 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings) {
         URL: 'tasks/history/' + $stateParams.prn
     }, function (response) {
     	$scope.taskHistory = response;
+    	$scope.nextTask = response.nextTask;
     });
     
 }]);

@@ -79,6 +79,8 @@ public class MyTasksServiceImpl implements MyTasksService {
 		
 		Map taskMap = new HashMap<>();
 		
+		String nextTask = null;
+		
 		for (HistoricTaskInstance t : tasks) {
 			Map<String, Object> map = new HashMap<>();
 			//List<PatientInvestigationBean> patientInvestigationBean=new ArrayList<>();
@@ -112,6 +114,26 @@ public class MyTasksServiceImpl implements MyTasksService {
 				map.put("patientName", patientName.toString());
 			}
 
+			if ("MBDoctorApproval".equals(t.getName()) || "ECApproval".equals(t.getName())) {
+				
+				List<Object> existingObject = (List)taskMap.get(t.getName());
+				if (existingObject != null) {
+					existingObject.add(map);
+				} else {
+					List<Object> listOfTask = new ArrayList<>();
+					listOfTask.add(map);
+					taskMap.put(t.getName(), listOfTask);
+				}
+				
+			} else {
+				taskMap.put(t.getName(), map);
+			}
+			
+			if (t.getEndTime() == null) {
+				nextTask = t.getName();
+			}
+			
+			/*
 			Object existingObject = taskMap.get(t.getName());
 			if (existingObject == null) {
 			    taskMap.put(t.getName(), map);
@@ -127,9 +149,12 @@ public class MyTasksServiceImpl implements MyTasksService {
 	                taskMap.put(t.getName(), listOfTask);
 			    }
 			}
-			
+*/			
 		}
 		
+		if (nextTask != null) {
+			parentMap.put("nextTask", nextTask);
+		}
 		parentMap.put("tasks", taskMap);
 		return parentMap;
 	}
