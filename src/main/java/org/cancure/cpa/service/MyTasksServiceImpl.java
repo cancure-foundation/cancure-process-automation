@@ -133,23 +133,6 @@ public class MyTasksServiceImpl implements MyTasksService {
 				nextTask = t.getName();
 			}
 			
-			/*
-			Object existingObject = taskMap.get(t.getName());
-			if (existingObject == null) {
-			    taskMap.put(t.getName(), map);
-			} else {
-			    if (existingObject instanceof List) {
-			        List<Object> listOfTask = (List)existingObject;
-			        listOfTask.add(map);
-			        taskMap.put(t.getName(), listOfTask);
-			    } else {
-			        List<Object> listOfTask = new ArrayList<>();
-	                listOfTask.add(existingObject);
-	                listOfTask.add(map);
-	                taskMap.put(t.getName(), listOfTask);
-			    }
-			}
-*/			
 		}
 		
 		if (nextTask != null) {
@@ -249,7 +232,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 			map.put("prn", patientId.toString());
 		}
 		
-		if (patientId != null){
+		if (patientName != null){
 			map.put("patientName", patientName.toString());
 		}
 		
@@ -262,7 +245,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 
         if (procInsts == null) { // No active executions. Check history.
             HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
-                    .processDefinitionKey(processKey).processInstanceBusinessKey(patientId).singleResult();
+                    .processDefinitionKey(processKey).processInstanceBusinessKey(patientId).includeProcessVariables().singleResult();
 
             if (historicProcessInstance == null) {
                 return new HashMap();
@@ -271,12 +254,20 @@ public class MyTasksServiceImpl implements MyTasksService {
                 nextTaskMap.put("nextTask", "");
                 nextTaskMap.put("endTime", historicProcessInstance.getEndTime().toString());
                 nextTaskMap.put("description", historicProcessInstance.getDescription());
+                nextTaskMap.put("prn", patientId);
+                
+                Map<String, Object> processVars = historicProcessInstance.getProcessVariables();
+        		Object patientName = processVars.get("patientName");
+        		if (patientName != null){
+        			nextTaskMap.put("patientName", patientName.toString());
+        		}
+        		
                 return nextTaskMap;
             }
         } else {
 
             Task taskData = taskService.createTaskQuery().processInstanceId(procInsts.getProcessInstanceId())
-                    .singleResult();
+            		.includeProcessVariables().singleResult();
 
             return extractOneTask(taskData);
         }
