@@ -15,7 +15,9 @@
                     <button type="submit" class="btn rounded-btn" data-ng-hide="vm.loggingIn">
                         Log in
                     </button>
-                    <i class="fa fa-refresh fa-spin" data-ng-show="vm.loggingIn"></i>
+                    <span data-ng-show="vm.loggingIn">
+                    	<i class="fa fa-refresh fa-spin"></i>
+                    </span>
                 </form>
             </div>
         </div>

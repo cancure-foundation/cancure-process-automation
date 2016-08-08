@@ -56,6 +56,9 @@ body {
     margin-left: 230px;
     z-index: 820;
 }
+.main-footer {
+    margin-left: 0px;
+}
 .layout-top-nav .content-wrapper,
 .layout-top-nav .right-side,
 .layout-top-nav .main-footer {
@@ -112,7 +115,8 @@ body {
 }
 .fixed .content-wrapper,
 .fixed .right-side {
-    padding-top: 50px;
+    margin-top: 50px;
+    overflow-y : auto;
 }
 @media (max-width: 767px) {
     .fixed .content-wrapper,
