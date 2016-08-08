@@ -33,7 +33,6 @@ app.directive("mAppLoading",function( $animate ) {
         function link( scope, element, attributes ) { 
         	setTimeout(function (){
         		element.fadeOut(); // fades out the pre-loader UI
-        		document.getElementsByTagName("body")[0].style.overflow = "auto"; // makes the body tag overflow auto
         	}, 3000)
         }
     }
