@@ -86,6 +86,11 @@ app.constant('appSettings', {
             title: "Patient Registration",
             icon: "pencil",
             state: "patientRegistration"
+        },
+	    {
+            title: "Doctors",
+            icon: "pencil",
+            state: "doctor"
         }
 	]
 

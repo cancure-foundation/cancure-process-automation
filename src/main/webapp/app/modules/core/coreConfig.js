@@ -87,4 +87,15 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
 
+    // Search page state
+    $stateProvider.state('app.doctor', {
+        url: '/doctor',
+        templateUrl: 'app/modules/core/doctor/doctor.html',
+        controller: 'doctorController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Doctors'
+        }
+    });
+    
 }]);
