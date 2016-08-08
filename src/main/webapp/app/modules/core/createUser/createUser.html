@@ -6,13 +6,13 @@
 </section>
 <!-- Main content -->
 <section class="content">
-    <div class="row">
-        <div class="col-md-7">
-            <div class="panel panel-info" style="min-height:453px;">
-                <div class="panel-heading">
-                    Add a new user
-                </div>
-                <div class="panel-body">
+    <div class="panel panel-info" style="min-height:453px;">
+        <div class="panel-heading">
+            Add a new user
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-7 col-xs-12">
                     <form data-ng-submit="vm.submitForm();" name="vm.registerForm">
                         <md-content class="autoScroll">
                             <md-input-container class="md-icon-float md-block">
@@ -38,21 +38,24 @@
                                 <md-icon class="fa fa-envelope"></md-icon>
                                 <input type="password" required name="email" data-ng-model="vm.formData.retypepassword">
                             </md-input-container>
-                            <md-input-container class=" md-block">
-                                <md-checkbox ng-click="vm.roleSelection(role.id)" checklist-value="role.id" ng-repeat="role in roles">
-                                    {{role.name}}
-                                </md-checkbox>
-                            </md-input-container>
-                            <div class="text-center">
-                                <md-button class="md-raised md-primary" type="button" ng-click="vm.onSend()">Send <i class="fa fa-angle-double-right"></i></md-button>
-                                <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
-                            </div>
-                        </md-content>
-                    </form>
+                </div>
+                <div class="col-md-5 col-xs-12">
+                    <md-input-container class=" md-block">
+                        <md-checkbox ng-click="vm.roleSelection(role.id)" checklist-value="role.id" ng-repeat="role in roles" style="display:block;margin-bottom: 18px;">
+                            {{role.name}}
+                        </md-checkbox>
+                    </md-input-container>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <md-button class="md-raised md-primary" type="button" ng-click="vm.onSend()">Send <i class="fa fa-angle-double-right"></i></md-button>
+                    <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
+                </div>
+            </div>
+            </md-content>
+            </form>
         </div>
-
     </div>
 </section>
 <!-- /.content -->
