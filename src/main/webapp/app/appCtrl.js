@@ -7,13 +7,10 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', '$cook
 	 */
 	var init = function (){    	
 		// to set the height for center content so as to enable the scroll
-		var windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight|| 0);
-		var centerContent = document.getElementById('center-content-wrapper');
-		var uiViewHolder = document.getElementById('center-ui-view');
-		if (centerContent) {
-			centerContent.style.height = (windowHeight - 50) + 'px'; // reduces the header height
-			uiViewHolder.style.minHeight = (windowHeight - 100 - 1) + 'px'; // reduces the header and footer height along with 1px as a work around
-		}
+		angular.element(window).bind('resize', function(){
+			apiService.adjustScreenHeight();
+		});
+		apiService.adjustScreenHeight();
 		
 		if ($cookies.get('userName')) {
 			appSettings.loginUserName = $cookies.get('userName'); // sets the userName to app settings
