@@ -9,8 +9,10 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', '$cook
 		// to set the height for center content so as to enable the scroll
 		var windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight|| 0);
 		var centerContent = document.getElementById('center-content-wrapper');
+		var uiViewHolder = document.getElementById('center-ui-view');
 		if (centerContent) {
-			centerContent.style.height = (windowHeight - 50) + 'px';
+			centerContent.style.height = (windowHeight - 50) + 'px'; // reduces the header height
+			uiViewHolder.style.minHeight = (windowHeight - 100 - 1) + 'px'; // reduces the header and footer height along with 1px as a work around
 		}
 		
 		if ($cookies.get('userName')) {
