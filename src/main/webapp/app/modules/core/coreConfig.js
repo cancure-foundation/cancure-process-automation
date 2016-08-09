@@ -76,5 +76,16 @@ core.config(["$stateProvider", function ($stateProvider) {
             pageTitle: 'Patient Registration'
         }
     });
+    
+    //  S
+    $stateProvider.state('app.searchPatient', {
+        url: '/searchPatient',
+        templateUrl: 'app/modules/core/searchPatient/searchPatient.html',
+        controller: 'SearchPatientController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Search Patient'
+        }
+    });
 
 }]);
