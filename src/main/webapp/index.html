@@ -44,6 +44,7 @@
     <script src="js/angular-aria.min.js"></script>
     <script src="js/angular-messages.min.js"></script>
     <script src="js/angular-flash.js"></script>
+     <script src="js/app-loader.js"></script>
     <script src="js/angular-sanitize.js"></script>
     <script src="js/ui-bootstrap-tpls-0.13.0.min.js"></script>
 
@@ -89,13 +90,15 @@
     </style>
 	<div class="m-app-loading" ng-animate-children>        
     	<div class="messaging">        	
-    		Cancure
-            <!-- <img src="../../../images/loader2.gif" /> --> 
+    		<!-- Cancure -->
+            <img src="../../../images/loader.gif" /> 
     	</div>
 	</div>
 	<!--  pre loading screen UI : end -->
 	
 	<div flash-message="5000"></div>
+	
+	<app-loader ng-show="showLoader"></app-loader>
 	
     <ui-view></ui-view>
     

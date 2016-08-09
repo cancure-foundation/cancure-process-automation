@@ -1,4 +1,4 @@
-app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', function ($http, $q,  $state, $cookies, appSettings, Flash) {
+app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', 'Loader', function ($http, $q,  $state, $cookies, appSettings, Flash, Loader) {
 
     var apiService = {};
 
@@ -20,6 +20,7 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
         // success function
         request.error(function (response) {
             (fail) ? fail(response): null;
+            Loader.destroy();
             Flash.create('danger', (params.errorMsg) ? params.errorMsg : 'Action Failed. Try Again!', 'large-text');
         });
 
