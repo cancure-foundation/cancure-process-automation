@@ -13,49 +13,46 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-7 col-xs-12">
-                    <form data-ng-submit="vm.submitForm();" name="vm.registerForm">
-                        <md-content class="autoScroll">
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Name</label>
-                                <md-icon class="fa fa-user"></md-icon>
-                                <input type="text" required name="name" data-ng-model="vm.formData.name">
-                            </md-input-container>
+                    <form ng-submit="vm.onSend();" name="vm.registerForm">
+                        <md-input-container class="md-icon-float md-block">
+                            <label>Name</label>
+                            <md-icon class="fa fa-user"></md-icon>
+                            <input type="text" data-ng-model="vm.formData.name" ng-required="true" />
+                        </md-input-container>
 
-                            <md-input-container class="md-icon-float md-block">
-                                <label>User Id</label>
-                                <md-icon class="fa fa-user"></md-icon>
-                                <input type="text" required name="phone" data-ng-model="vm.formData.login">
-                            </md-input-container>
+                        <md-input-container class="md-icon-float md-block">
+                            <label>User Id</label>
+                            <md-icon class="fa fa-user"></md-icon>
+                            <input type="text" data-ng-model="vm.formData.login" ng-required="true" />
+                        </md-input-container>
 
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Password</label>
-                                <md-icon class="fa fa-user"></md-icon>
-                                <input type="password" required name="phone" data-ng-model="vm.formData.password">
-                            </md-input-container>
+                        <md-input-container class="md-icon-float md-block">
+                            <label>Password</label>
+                            <md-icon class="fa fa-user"></md-icon>
+                            <input type="password" data-ng-model="vm.formData.password" ng-required="true" />
+                        </md-input-container>
 
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Re type Password</label>
-                                <md-icon class="fa fa-envelope"></md-icon>
-                                <input type="password" required name="email" data-ng-model="vm.formData.retypepassword">
-                            </md-input-container>
+                        <md-input-container class="md-icon-float md-block">
+                            <label>Re type Password</label>
+                            <md-icon class="fa fa-envelope"></md-icon>
+                            <input type="password" data-ng-model="vm.formData.retypepassword" ng-required="true" />
+                        </md-input-container>
                 </div>
                 <div class="col-md-5 col-xs-12">
                     <md-input-container class=" md-block">
-                        <md-checkbox ng-click="vm.roleSelection(role.id)" checklist-value="role.id" ng-repeat="role in roles" style="display:block;margin-bottom: 18px;">
-                            {{role.name}}
-                        </md-checkbox>
+                        <div ng-repeat="role in roles">
+                            <md-checkbox ng-click="vm.roleSelection(role.id)" checklist-value="role.id" style="display:block;margin-bottom: 18px;" ng-required="true">
+                                {{role.name}}
+                            </md-checkbox>
+                        </div>
                     </md-input-container>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 text-center">
-                    <md-button class="md-raised md-primary" type="button" ng-click="vm.onSend()">Send <i class="fa fa-angle-double-right"></i></md-button>
-                    <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
-                </div>
+            <div class="col-xs-12 text-center">
+                <md-button class="md-raised md-primary" ng-disabled="vm.registerForm.$invalid" type="button" ng-click="vm.onSend()">Create User </md-button>
+                <md-button class="md-raised md-warn" type="reset">Clear</md-button>
             </div>
-            </md-content>
             </form>
         </div>
     </div>
 </section>
-<!-- /.content -->
