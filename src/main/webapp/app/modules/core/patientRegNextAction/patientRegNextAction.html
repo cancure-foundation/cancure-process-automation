@@ -1,0 +1,77 @@
+<section class="content-header">
+    <h1>
+        Patient Registration Workflow - Next Action
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Patient Registration Workflow - Next Action</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+        <div class="col-md-7">
+            <div class="panel panel-info" style="min-height:453px;">
+                <div class="panel-heading">
+                    {{nextTaskObject.nextTask}}
+                </div>
+                <div class="panel-body">
+                	<div class="row">
+                        <div class="col-md-3 col-sd-12">
+	                        <div class="timeline-body">
+				            	<b>PRN :</b>
+				            </div>
+			            </div>
+			            <div class="col-md-9 col-sd-12">
+	                        <div class="timeline-body">
+				            	{{prn}}
+				            </div>
+			            </div>
+			        </div>
+			        <div class="row">
+                        <div class="col-md-3 col-sd-12">
+	                        <div class="timeline-body">
+				            	<b>Patient Name :</b>
+				            </div>
+			            </div>
+			            <div class="col-md-9 col-sd-12">
+	                        <div class="timeline-body">
+				            	{{nextTaskObject.patientName}}
+				            </div>
+			            </div>
+			        </div>
+					        
+                    <form data-ng-submit="vm.submitForm();" name="vm.registerForm">
+                        <md-content class="autoScroll">
+					        
+					        <md-input-container ng-if = "doctorList">
+                            	<md-icon class="fa fa-user"></md-icon>
+								<md-select ng-model="vm.formData.people" placeholder="Select a Doctor">
+									<md-option ng-value="doc.id" ng-repeat="doc in doctorList">{{doc.name}}</md-option> 
+								</md-select> 
+							</md-input-container>
+
+                            <md-input-container ng-if = "uploadNeeded" class="md-icon-float md-block">
+                                <label>Upload</label>
+                                <md-icon class="fa fa-user"></md-icon>
+                                <input type="file" required name="file" data-ng-model="vm.formData.file">
+                            </md-input-container>
+
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Comments</label>
+                                <md-icon class="fa fa-user"></md-icon>
+                                <input type="text" required name="comments" data-ng-model="vm.formData.comments">
+                            </md-input-container>
+
+                            <div class="text-center">
+                                <md-button class="md-raised md-primary" type="button" ng-click="vm.onSend()">Submit <i class="fa fa-angle-double-right"></i></md-button>
+                                <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
+                            </div>
+                        </md-content>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section><!-- /.content -->

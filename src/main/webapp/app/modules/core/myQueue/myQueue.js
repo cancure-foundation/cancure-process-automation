@@ -1,12 +1,9 @@
 core.controller("myQueueController", ['$scope', '$http', '$location', '$state', 'apiService', 'appSettings',
 
 	function ($scope, $http, $location, $state, apiService, appSettings) {
-		var roleStr = '';
-		for (var i=0; i < appSettings.roles.length; i++){
-			roleStr += (appSettings.roles[i].name + '__');
-		}
+		
 		apiService.serviceRequest({
-			URL: 'tasks/role/' + roleStr
+			URL: 'tasks/my'
 	    }, function (response) {
 	    	$scope.tasks = response;
 	    });
