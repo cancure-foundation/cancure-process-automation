@@ -5,13 +5,7 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', '$cook
 	/**
 	 * exection starts with the init function
 	 */
-	var init = function (){    	
-		// to set the height for center content so as to enable the scroll
-		angular.element(window).bind('resize', function(){
-			apiService.adjustScreenHeight();
-		});
-		apiService.adjustScreenHeight();
-		
+	var init = function (){  
 		if ($cookies.get('userName')) {
 			appSettings.loginUserName = $cookies.get('userName'); // sets the userName to app settings
 			appSettings.roles = JSON.parse($cookies.get('roles')); // sets the roles to app settings
@@ -21,6 +15,17 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', '$cook
 			$state.go('login');
 			return;
 		}
+		
+		// to set the height for center content so as to enable the scroll
+		angular.element(window).bind('resize', function(){
+			apiService.adjustScreenHeight();
+		});
+		apiService.adjustScreenHeight();
+		
+		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 
+			var centerContent = document.getElementById('center-content-wrapper');
+			centerContent.scrollTop -= centerContent.scrollTop; // scrolls each view to top on state change
+		});
 
 		vm.loginUserName = appSettings.loginUserName;
 		vm.roles = appSettings.roles;
