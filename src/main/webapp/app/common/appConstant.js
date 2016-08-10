@@ -70,7 +70,7 @@ app.constant('appSettings', {
 		{
             title: "Manage User",
             icon: "phone",
-            state: "manageUser"
+            state: "manageUser.createUser"
 	    },
         {
             title: "Patient History",
