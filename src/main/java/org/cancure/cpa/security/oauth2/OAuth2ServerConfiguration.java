@@ -66,6 +66,27 @@ public class OAuth2ServerConfiguration {
 			resources.resourceId(RESOURCE_ID);
 		}
 
+		/**
+		 * /user/list ROLE_ADMIN
+		 * /user/whoami ANY ONE
+		 * /user/login/<user> 
+		 * 
+		 * /tasks/my Any authenticated user
+		 * /tasks/role/ Any authenticated user
+		 *  /tasks/{prn} Any authenticated user
+		 *  /tasks/history/{prn} Any authenticated user
+		 *  
+		 *  /patient/ Any authenticated user
+		 *  /patientregistration/patient/save ROLE_PROGRAM_COORDINATOR
+		 *  /patientregistration/preliminaryexamination/save ROLE_HOSPITAL_POC
+		 *  /patientregistration/backgroundcheck/save/ ROLE_PROGRAM_COORDINATOR
+		 *  /patientregistration/mbdoctorrecommendation/save ROLE_HOSPITAL_POC
+		 *  /patientregistration/secretaryrecommendation/save/ ROLE_SECRETARY
+		 *  /patientregistration/executiveboardrecommendation/accept/save ROLE_EXECUTIVE_COMMITTEE
+		 *  /patientregistration/executiveboardrecommendation/reject/save ROLE_EXECUTIVE_COMMITTEE
+		 *  /patientregistration/Patientidcard/ ROLE_PROGRAM_COORDINATOR
+		 * 
+		 */ 
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			// @formatter:off

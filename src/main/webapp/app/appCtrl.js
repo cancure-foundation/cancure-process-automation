@@ -6,6 +6,13 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', '$cook
 	 * exection starts with the init function
 	 */
 	var init = function (){    	
+		// to set the height for center content so as to enable the scroll
+		var windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight|| 0);
+		var centerContent = document.getElementById('center-content-wrapper');
+		if (centerContent) {
+			centerContent.style.height = (windowHeight - 50) + 'px';
+		}
+		
 		if ($cookies.get('userName')) {
 			appSettings.loginUserName = $cookies.get('userName'); // sets the userName to app settings
 			appSettings.roles = JSON.parse($cookies.get('roles')); // sets the roles to app settings

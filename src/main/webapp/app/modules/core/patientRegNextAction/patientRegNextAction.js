@@ -2,7 +2,8 @@
 function ($rootScope, $scope, $state, $stateParams, apiService, appSettings) {
     
 	var vm = this;
-    
+	vm.formData = {};
+	 
 	/*
 	 *	/patientregistration/preliminaryexamination/save ROLE_HOSPITAL_POC
 	 *  /patientregistration/backgroundcheck/save/ ROLE_PROGRAM_COORDINATOR
@@ -18,18 +19,19 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings) {
 	    }, function (response) {
 	    	$scope.prn = $stateParams.prn;
 	    	$scope.nextTaskObject = response;
-	    	getInvestigatorTypes();
+	    	//getInvestigatorTypes();
+	    	setupPeople();
 	    });
     }
     
-    var getInvestigatorTypes = function() {
+    /*var getInvestigatorTypes = function() {
 	    apiService.serviceRequest({
 	        URL: 'common/investigatorTypes'
 	    }, function (response) {
 	    	$scope.investigatorTypes = response;
 	    	setupPeople();
 	    });
-    }
+    }*/
     
     var getDoctors = function() {
 	    apiService.serviceRequest({
@@ -53,6 +55,38 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings) {
 	    	$scope.uploadNeeded = true;
 	    }
     } 
+    
+    
+     vm.submitTask = function() {
+    	var url = '';
+    	if ($scope.nextTaskObject.nextTask == 'PreliminaryExamination'){
+    		url = '/patientregistration/preliminaryexamination/save';
+    	} else if ($scope.nextTaskObject.nextTask == 'BackgroundCheck') {
+    		url = '/patientregistration/backgroundcheck/save/'; //status
+    	} else if ($scope.nextTaskObject.nextTask == 'MBDoctorApproval') {
+    		url = '/patientregistration/mbdoctorrecommendation/save';
+    	} else if ($scope.nextTaskObject.nextTask == 'SecretaryApproval') {
+    		url = '/patientregistration/secretaryrecommendation/save/'; //status
+    	} else if ($scope.nextTaskObject.nextTask == 'ECApproval') {
+    		url = '/patientregistration/executiveboardrecommendation/'; //accept/save or reject/save
+    	} else if ($scope.nextTaskObject.nextTask == 'PatientIDCardGeneration') {
+    		url = '/patientregistration/Patientidcard/'; //prn
+    	} else {
+    		
+    	}
+    	
+    	var serverData = angular.copy(vm.formData);
+    	serverData.patientInvestigationBean = {}
+    	serverData.patientInvestigationBean.prn = $scope.prn;
+    	serverData.patientInvestigationBean.investigatorType = 'Program Coordinator'; //Secretary, Executive Committee, Doctor
+    	serverData.patientInvestigationBean.investigatorId = serverData.people;
+    	serverData.patientInvestigationBean.status = '';
+    	serverData.patientInvestigationBean.comments = serverData.comments;
+    	//JSON.stringify().
+    	alert(url);
+    	alert(JSON.stringify(serverData));
+    	
+    }
     
     init();
     

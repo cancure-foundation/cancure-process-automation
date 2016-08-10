@@ -2,6 +2,7 @@ package org.cancure.cpa.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
@@ -27,7 +28,11 @@ public class PatientWorkFlowController {
     }
     
     @RequestMapping(value= "/patientregistration/preliminaryexamination/save" , method=RequestMethod.POST)
-    public String saveExamination(PatientInvestigationBean patientInvestigationBean,List<PatientDocumentBean> patientDocumentBean) throws IOException {
+    public String saveExamination(@RequestBody Map<String, Object> map) throws IOException {
+    	
+    	PatientInvestigationBean patientInvestigationBean = (PatientInvestigationBean)map.get("patientInvestigationBean");
+    	List<PatientDocumentBean> patientDocumentBean = (List<PatientDocumentBean>)map.get("patientDocumentBean");
+    	
         patientRegistrationWorkflowService.preliminaryExamination(patientInvestigationBean,patientDocumentBean);
         return "{\"status\" : \"SUCCESS\"}";
     }

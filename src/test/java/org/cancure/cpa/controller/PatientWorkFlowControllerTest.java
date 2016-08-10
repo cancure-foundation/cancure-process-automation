@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -142,7 +143,11 @@ public class PatientWorkFlowControllerTest {
         preExamPatientInvestigation.setInvestigatorId(1);
         preExamPatientInvestigation.setPrn(patientId);
         
-        pc.saveExamination(preExamPatientInvestigation, preExamDocumentList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("patientInvestigationBean", preExamPatientInvestigation);
+        map.put("patientDocumentBean", preExamDocumentList);
+        
+        pc.saveExamination(map);
         
         Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));
@@ -286,7 +291,11 @@ public class PatientWorkFlowControllerTest {
         preExamPatientInvestigation.setInvestigatorId(1);
         preExamPatientInvestigation.setPrn(patientId);
         
-        pc.saveExamination(preExamPatientInvestigation, preExamDocumentList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("patientInvestigationBean", preExamPatientInvestigation);
+        map.put("patientDocumentBean", preExamDocumentList);
+        
+        pc.saveExamination(map);
         
         Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));
@@ -391,7 +400,11 @@ public class PatientWorkFlowControllerTest {
         preExamPatientInvestigation.setInvestigatorId(1);
         preExamPatientInvestigation.setPrn(patientId);
         
-        pc.saveExamination(preExamPatientInvestigation, preExamDocumentList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("patientInvestigationBean", preExamPatientInvestigation);
+        map.put("patientDocumentBean", preExamDocumentList);
+        
+        pc.saveExamination(map);
         
         Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));
@@ -539,7 +552,11 @@ public class PatientWorkFlowControllerTest {
         preExamPatientInvestigation.setInvestigatorId(1);
         preExamPatientInvestigation.setPrn(patientId);
         
-        pc.saveExamination(preExamPatientInvestigation, preExamDocumentList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("patientInvestigationBean", preExamPatientInvestigation);
+        map.put("patientDocumentBean", preExamDocumentList);
+        
+        pc.saveExamination(map);
         
         Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));
@@ -866,7 +883,10 @@ public class PatientWorkFlowControllerTest {
         preExamPatientInvestigation.setInvestigatorId(1);
         preExamPatientInvestigation.setPrn(patientId);
         
-        pc.saveExamination(preExamPatientInvestigation, preExamDocumentList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("patientInvestigationBean", preExamPatientInvestigation);
+        map.put("patientDocumentBean", preExamDocumentList);
+        pc.saveExamination(map);
         
         Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));
@@ -1055,7 +1075,10 @@ public class PatientWorkFlowControllerTest {
         preExamPatientInvestigation.setInvestigatorId(1);
         preExamPatientInvestigation.setPrn(patientId);
         
-        pc.saveExamination(preExamPatientInvestigation, preExamDocumentList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("patientInvestigationBean", preExamPatientInvestigation);
+        map.put("patientDocumentBean", preExamDocumentList);
+        pc.saveExamination(map);
         
         Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));

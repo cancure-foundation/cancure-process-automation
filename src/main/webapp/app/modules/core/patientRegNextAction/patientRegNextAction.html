@@ -41,7 +41,7 @@
 			            </div>
 			        </div>
 					        
-                    <form data-ng-submit="vm.submitForm();" name="vm.registerForm">
+                    <form name="vm.registerForm">
                         <md-content class="autoScroll">
 					        
 					        <md-input-container ng-if = "doctorList">
@@ -64,7 +64,7 @@
                             </md-input-container>
 
                             <div class="text-center">
-                                <md-button class="md-raised md-primary" type="button" ng-click="vm.onSend()">Submit <i class="fa fa-angle-double-right"></i></md-button>
+                                <md-button class="md-raised md-primary" type="button" ng-click="vm.submitTask()">Submit <i class="fa fa-angle-double-right"></i></md-button>
                                 <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
                             </div>
                         </md-content>
