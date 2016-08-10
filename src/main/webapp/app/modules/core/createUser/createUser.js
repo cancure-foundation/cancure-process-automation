@@ -16,7 +16,10 @@ function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings,
         init();
 
         //function to handle save button click
-        vm.onSend = function () {
+        vm.onSend = function () { 
+        	if (vm.formData.roles.length == 0) 
+        		Flash.create('warning', 'Please select atleast 1 role to proceed.', 'large-text');
+        	
         	Loader.create('Please wait while we register you...');
 
             var serverData = angular.copy(vm.formData);

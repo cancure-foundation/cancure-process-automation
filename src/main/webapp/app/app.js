@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'flash', 'ngCookies', 'loader',
+var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'flash', 'ngCookies', 'loader', 
     //main modules
     'login', 'core']);
 
