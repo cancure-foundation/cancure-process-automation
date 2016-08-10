@@ -1,4 +1,4 @@
-app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', function ($http, $q,  $state, $cookies, appSettings, Flash) {
+app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', 'Loader', function ($http, $q,  $state, $cookies, appSettings, Flash, Loader) {
 
     var apiService = {};
 
@@ -20,6 +20,7 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
         // success function
         request.error(function (response) {
             (fail) ? fail(response): null;
+            Loader.destroy();
             Flash.create('danger', (params.errorMsg) ? params.errorMsg : 'Action Failed. Try Again!', 'large-text');
         });
 
@@ -36,7 +37,7 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
         });
 
         return deferred.promise; // returning the promise object
-    }
+    };
 
     // function to be called on logout
     var logoutAction = function (){
@@ -51,11 +52,23 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
     	appSettings.roles = undefined;  // clears roles
     	delete $http.defaults.headers.common.Authorization;  // clears Authorization header
     	$state.go('login'); // route to the login page
-    }
+    };
+    
+    // function to set the center wrapper height so that UI does not fall when content is less
+    var adjustScreenHeight = function (){
+    	var windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight|| 0);
+		var centerContent = document.getElementById('center-content-wrapper');
+		var uiViewHolder = document.getElementById('center-ui-view');
+		if (centerContent) {
+			centerContent.style.height = (windowHeight - 50) + 'px'; // reduces the header height
+			uiViewHolder.style.minHeight = (windowHeight - 100 - 1) + 'px'; // reduces the header and footer height along with 1px as a work around
+		}
+    };
     
     apiService.serviceRequest = serviceRequest; // function to place http request
     apiService.asyncServiceRequest = asyncServiceRequest; // function to place async service request
     apiService.logoutAction = logoutAction; // function to be called on logout
+    apiService.adjustScreenHeight = adjustScreenHeight; // function to set the center wrapper height so that UI does not fall when content is less
 
     return apiService;
 

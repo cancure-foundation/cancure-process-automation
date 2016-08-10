@@ -1,5 +1,5 @@
-core.controller("CreateUserController", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'apiService', 'appSettings',
-function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings) {
+core.controller("CreateUserController", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'apiService', 'appSettings', 'Loader',
+function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings, Loader) {
         var vm = this;
         vm.formData = {};
         vm.formData.roles = [];
@@ -16,8 +16,11 @@ function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings)
         init();
 
         //function to handle save button click
-        vm.onSend = function () {
-            Flash.create('info', 'Please wait while we register you.', 'large-text');
+        vm.onSend = function () { 
+        	if (vm.formData.roles.length == 0) 
+        		Flash.create('warning', 'Please select atleast 1 role to proceed.', 'large-text');
+        	
+        	Loader.create('Please wait while we register you...');
 
             var serverData = angular.copy(vm.formData);
             delete serverData.retypepassword;
@@ -29,6 +32,7 @@ function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings)
                 method: 'POST',
                 payLoad: serverData
             }, function (response) {
+            	Loader.destroy();
                 Flash.create('success', 'User Successfully Registered.', 'large-text');
                 vm.formData = {};
             });
