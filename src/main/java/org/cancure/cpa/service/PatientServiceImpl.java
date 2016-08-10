@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientFamilyBean;
@@ -94,4 +95,9 @@ public class PatientServiceImpl implements PatientService {
 		return patientBean;
 	}
 
+	@Override
+    public Iterable<Patient> searchByName(String name) {
+        return patientRepo.findByNameContainingIgnoreCase("%" + name + "%");
+    }
+	
 }
