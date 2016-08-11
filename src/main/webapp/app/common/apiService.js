@@ -5,14 +5,16 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
     // function to place http request
     var serviceRequest = function (params, success, fail) {
 
-        var request = $http({
-            method: params.method || "GET",
-            url: appSettings.baseURL + params.URL,
-            data: params.payLoad || {},
-            headers: params.headers || {
-                'Content-Type': 'application/json'
-            }
-        });
+    	var requestParams = angular.merge({
+    		method: params.method || "GET",
+    		url: appSettings.baseURL + params.URL,
+    		data: params.payLoad || {},
+    		headers: params.headers || {
+    			'Content-Type': 'application/json'
+    		}
+    	}, params.addOns);
+        
+    	var request = $http(requestParams);
         // success function
         request.success(function (response) {
             success(response);
