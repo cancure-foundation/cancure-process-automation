@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientFamilyBean;
@@ -18,6 +19,7 @@ import org.cancure.cpa.persistence.repository.PatientRepository;
 import org.cancure.cpa.persistence.repository.SupportOrganisationRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,9 @@ public class PatientServiceImpl implements PatientService {
 	@Autowired
 	private PatientFamilyRepository patientFamilyRepo;
 	
+	@Value("${spring.files.save.path}")
+    private String fileSavePath;
+	
 	@Transactional
 	@Override
 	public PatientBean save(PatientBean patientBean) throws  IOException {
@@ -54,7 +59,7 @@ public class PatientServiceImpl implements PatientService {
         temp2 = patientBean.getOrganisation();
 
         Integer id = patient.getPrn();
-        new File("d:\\Database\\" + id).mkdirs();
+        new File(fileSavePath + "/" + id).mkdirs();
         List<PatientDocumentBean> temp = new ArrayList<>();
         temp = patientBean.getDocument();
 
@@ -74,9 +79,9 @@ public class PatientServiceImpl implements PatientService {
         for (PatientDocumentBean a : temp) {
             PatientDocument patientDocument = new PatientDocument();
             if (a.getPatientFile() != null) {
-                File file = new File("d:/Database/" + id + "/" + a.getPatientFile().getOriginalFilename());
+                File file = new File(fileSavePath + "/" + id + "/" + a.getPatientFile().getOriginalFilename());
                 a.getPatientFile().transferTo(file);
-                a.setDocPath("d:/Database/" + id + "/" + a.getPatientFile().getOriginalFilename());
+                a.setDocPath(fileSavePath + "/" + id + "/" + a.getPatientFile().getOriginalFilename());
             }
             BeanUtils.copyProperties(a, patientDocument);
             patientDocument.setPrn(id);
@@ -94,4 +99,9 @@ public class PatientServiceImpl implements PatientService {
 		return patientBean;
 	}
 
+	@Override
+    public Iterable<Patient> searchByName(String name) {
+        return patientRepo.findByNameContainingIgnoreCase("%" + name + "%");
+    }
+	
 }

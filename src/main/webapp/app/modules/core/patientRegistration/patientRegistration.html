@@ -28,13 +28,13 @@
                                     <md-input-container class="md-icon-float md-block">
                                         <label>Name</label>
                                         <md-icon class="fa fa-user"></md-icon>
-                                        <input type="text" required name="Name" data-ng-model="vm.formData.name">
+                                        <input type="text" name="name" data-ng-model="vm.formData.name"  ng-required="true"/>
                                     </md-input-container>
 
                                     <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
                                         <label>Type of support requested from Cancure</label>
                                         <md-icon class="fa fa-chevron-right"></md-icon>
-                                        <md-select data-ng-model="vm.formData.typeOfSupport" required placeholder="Type of Support">
+                                        <md-select data-ng-model="vm.formData.typeOfSupport" placeholder="Type of Support"  ng-required="true">
                                             <md-option value="FinancialSupport">Financial support</md-option>
                                             <md-option value="LabTests">Lab Tests</md-option>
                                             <md-option value="Treatment">Treatment</md-option>
@@ -45,7 +45,7 @@
                                     <md-input-container class="md-icon-float md-block">
                                         <label>Gender</label>
                                         <md-icon class="fa fa-chevron-right"></md-icon>
-                                        <md-select data-ng-model="vm.formData.gender" required>
+                                        <md-select data-ng-model="vm.formData.gender" name="gender" ng-required="true">
                                             <md-option value="male">Male</md-option>
                                             <md-option value="female">Female</md-option>
                                         </md-select>
@@ -56,19 +56,19 @@
                                     <md-input-container class="md-icon-float md-block">
                                         <label>Age</label>
                                         <md-icon class="fa fa-signal"></md-icon>
-                                        <input type="text" required name="age" data-ng-model="vm.formData.age">
+                                        <input type="text" data-ng-model="vm.formData.age" ng-required="true">
                                     </md-input-container>
 
                                     <md-input-container class="md-icon-float md-block">
                                         <label>Date of Birth</label>
                                         <md-icon class="fa fa-calendar"></md-icon>
-                                        <input type="date" required name="dob" data-ng-model="vm.formData.dob">
+                                        <input type="date" data-ng-model="vm.formData.dob" ng-required="true">
                                     </md-input-container>
 
                                     <md-input-container class="md-icon-float md-block">
                                         <label>Blood Group</label>
                                         <md-icon class="fa fa-plus"></md-icon>
-                                        <input type="text" name="bloodGroup" data-ng-model="vm.formData.bloodGroup">
+                                        <input type="text" data-ng-model="vm.formData.bloodGroup" ng-required="true">
                                     </md-input-container>
                                 </div>
 
@@ -76,19 +76,19 @@
                                     <md-input-container class="md-icon-float md-block">
                                         <label>Contact No.</label>
                                         <md-icon class="fa fa-phone"></md-icon>
-                                        <input type="number" required name="contact" data-ng-model="vm.formData.contact">
+                                        <input type="number" data-ng-model="vm.formData.contact" ng-required="true">
                                     </md-input-container>
 
                                     <md-input-container class="md-icon-float md-block">
                                         <label>Address for Communication</label>
                                         <md-icon class="fa fa-home"></md-icon>
-                                        <input type="text" required name="address" data-ng-model="vm.formData.address">
+                                        <input type="text" name="address" data-ng-model="vm.formData.address" ng-required="true">
                                     </md-input-container>
 
                                     <md-input-container class="md-icon-float md-block">
                                         <label>Employment status</label>
                                         <md-icon class="fa fa-briefcase"></md-icon>
-                                        <input type="text" name="employmentStatus" data-ng-model="vm.formData.employmentStatus">
+                                        <input type="text" name="employmentStatus" data-ng-model="vm.formData.employmentStatus" ng-required="true">
                                     </md-input-container>
                                 </div>
                             </div>
@@ -124,29 +124,29 @@
                         <md-content class="autoScroll">
                             <md-input-container class="md-icon-float md-block">
                                 <label>Relation</label>
-                                <input type="text" name="patientFamily.relation" data-ng-model="vm.formData.patientFamily.relation">
+                                <input type="text" name="patientFamilyRelation" data-ng-model="vm.formData.patientFamily.relation">
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
                                 <label>Age</label>
-                                <input type="text" name="patientFamily.age" data-ng-model="vm.formData.patientFamily.age">
+                                <input type="text" name="patientFamilyAge" data-ng-model="vm.formData.patientFamily.age">
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
                                 <label>Status</label>
-                                <input type="text" name="patientFamily.status" data-ng-model="vm.formData.patientFamily.status">
+                                <input type="text" name="patientFamilyStatus" data-ng-model="vm.formData.patientFamily.status">
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
                                 <label>Monthly Income</label>
-                                <input type="text" name="patientFamily.income" data-ng-model="vm.formData.patientFamily.income">
+                                <input type="text" name="patientFamilyIncome" data-ng-model="vm.formData.patientFamily.income">
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
                                 <label>Other Income</label>
-                                <input type="text" name="patientFamily.otherIncome" data-ng-model="vm.formData.patientFamily.otherIncome">
+                                <input type="text" name="patientFamilyOtherIncome" data-ng-model="vm.formData.patientFamily.otherIncome">
                             </md-input-container>
                         </md-content>
                     </div>
                 </div>
             </div>
-             <div class="col-md-4 col-sm-12">
+            <div class="col-md-4 col-sm-12">
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         Other details
@@ -175,7 +175,7 @@
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
                                 <label>Recommendation type</label>
-                                <md-select data-ng-model="vm.formData.recommendationType" placeholder="Recommendation type">
+                                <md-select data-ng-model="vm.formData.recommendationType" placeholder="Recommendation type" ng-required="true">
                                     <md-option value="LSG">LSG</md-option>
                                     <md-option value="CCF">CCF</md-option>
                                     <md-option value="MB">MB</md-option>
@@ -220,7 +220,7 @@
                         </md-content>
                     </div>
                 </div>
-            </div>           
+            </div>
         </div>
         <div class="row">
             <div class="col-md-4 col-sm-12">
@@ -233,12 +233,12 @@
                             <md-input-container class="md-icon-float md-block">
                                 Identity, Address and Age Proof
                                 <md-icon class="fa fa-user"></md-icon>
-                                <input type="file" name="employmentStatus" data-ng-model="vm.formData.employmentStatus" style="border:none" />
+                                <input type="file" aria-label="ageProof" file-model="ageProof" style="border:none"/>
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
                                 Income Proof
                                 <md-icon class="fa fa-dollar"></md-icon>
-                                <input type="file" name="employmentStatus" data-ng-model="vm.formData.employmentStatus" style="border:none" />
+                                <input type="file" aria-label="incomeProof" file-model="incomeProof" style="border:none"/>
                             </md-input-container>
                         </md-content>
                     </div>
@@ -253,19 +253,19 @@
                     <div class="panel-body">
                         <md-content class="autoScroll">
                             <md-input-container class="md-icon-float md-block">
-                                <md-checkbox data-ng-model="vm.formData.solebreadwinner">
+                                <md-checkbox data-ng-model="vm.formData.supportFromOther">
                                     Is the Patient Receiving Support from Other
                                 </md-checkbox>
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
                                 <label>Organisation Name</label>
                                 <md-icon class="fa fa-chevron-right"></md-icon>
-                                <input type="text" name="employmentStatus" data-ng-model="vm.formData.organisation.name">
+                                <input type="text" name="organisationName" data-ng-model="vm.formData.organisationName">
                             </md-input-container>
                             <md-input-container class="md-icon-float md-block">
                                 <label>Amount recd:</label>
                                 <md-icon class="fa fa-dollar"></md-icon>
-                                <input type="text" name="employmentStatus" data-ng-model="vm.formData.organisation.amountRec">
+                                <input type="text" name="amountRec" data-ng-model="vm.formData.organisationAmountRec">
                             </md-input-container>
                         </md-content>
                     </div>

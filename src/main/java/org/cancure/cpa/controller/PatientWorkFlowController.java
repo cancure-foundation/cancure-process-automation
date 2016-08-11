@@ -2,13 +2,14 @@ package org.cancure.cpa.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import org.cancure.cpa.controller.beans.PatientBean;
+import org.cancure.cpa.controller.beans.PatientDocumentAndInvestigationBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
 import org.cancure.cpa.service.PatientRegistrationWorkflowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,17 +22,19 @@ public class PatientWorkFlowController {
     @Autowired
     private PatientRegistrationWorkflowService patientRegistrationWorkflowService;   
   
-    @RequestMapping(value="/patientregistration/patient/save", method=RequestMethod.POST, produces = "application/json")
-    public String save(@RequestBody PatientBean patientbean) throws IOException {
+    @RequestMapping(value="/patientregistration/patient/save", method=RequestMethod.POST)
+    public String save(PatientBean patientbean) throws IOException {
         patientRegistrationWorkflowService.registerPatient(patientbean);
         return "{\"status\" : \"SUCCESS\"}";
     }
     
     @RequestMapping(value= "/patientregistration/preliminaryexamination/save" , method=RequestMethod.POST)
-    public String saveExamination(@RequestBody Map<String, Object> map) throws IOException {
+    public String saveExamination(PatientDocumentAndInvestigationBean patientDocumentAndInvestigationBean) throws IOException {
     	
-    	PatientInvestigationBean patientInvestigationBean = (PatientInvestigationBean)map.get("patientInvestigationBean");
-    	List<PatientDocumentBean> patientDocumentBean = (List<PatientDocumentBean>)map.get("patientDocumentBean");
+    	PatientInvestigationBean patientInvestigationBean = patientDocumentAndInvestigationBean.getPatientInvestigationBean();
+    	List<PatientDocumentBean> patientDocumentBean = patientDocumentAndInvestigationBean.getPatientDocumentBean();
+    	
+    	patientInvestigationBean.setInvestigatorType("Doctor");
     	
         patientRegistrationWorkflowService.preliminaryExamination(patientInvestigationBean,patientDocumentBean);
         return "{\"status\" : \"SUCCESS\"}";

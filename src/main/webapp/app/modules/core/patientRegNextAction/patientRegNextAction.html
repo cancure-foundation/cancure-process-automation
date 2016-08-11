@@ -45,22 +45,23 @@
                         <md-content class="autoScroll">
 					        
 					        <md-input-container ng-if = "doctorList">
-                            	<md-icon class="fa fa-user"></md-icon>
-								<md-select ng-model="vm.formData.people" placeholder="Select a Doctor">
-									<md-option ng-value="doc.id" ng-repeat="doc in doctorList">{{doc.name}}</md-option> 
+					        	<label>Select</label>
+					        	<md-icon class="fa fa-user"></md-icon>
+								<md-select data-ng-model="vm.formData.people" placeholder="Select a Doctor">
+									<md-option value="{{doc.doctorId}}" ng-repeat="doc in doctorList">{{doc.name}}</md-option> 
 								</md-select> 
 							</md-input-container>
 
                             <md-input-container ng-if = "uploadNeeded" class="md-icon-float md-block">
                                 <label>Upload</label>
                                 <md-icon class="fa fa-user"></md-icon>
-                                <input type="file" required name="file" data-ng-model="vm.formData.file">
+                                <input type="file" file-model="patientFile" aria-label="patientFile">
                             </md-input-container>
 
                             <md-input-container class="md-icon-float md-block">
                                 <label>Comments</label>
                                 <md-icon class="fa fa-user"></md-icon>
-                                <input type="text" required name="comments" data-ng-model="vm.formData.comments">
+                                <textarea required name="comments" data-ng-model="vm.formData.comments"></textarea>
                             </md-input-container>
 
                             <div class="text-center">

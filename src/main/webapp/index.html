@@ -44,6 +44,7 @@
     <script src="js/angular-aria.min.js"></script>
     <script src="js/angular-messages.min.js"></script>
     <script src="js/angular-flash.js"></script>
+     <script src="js/app-loader.js"></script>
     <script src="js/angular-sanitize.js"></script>
     <script src="js/ui-bootstrap-tpls-0.13.0.min.js"></script>
 
@@ -63,12 +64,13 @@
     <script src="app/modules/core/createUser/createUser.js"></script>
     <script src="app/modules/core/userList/userList.js"></script>
     <script src="app/modules/core/home/home.js"></script>
-    <script src="app/modules/core/searchUser/searchUser.js"></script>
+    <script src="app/modules/core/manageUser/manageUser.js"></script>
     <script src="app/modules/core/myQueue/myQueue.js"></script>
     <script src="app/modules/core/patientRegHistory/patientRegHistory.js"></script>
     <script src="app/modules/core/patientRegistration/patientRegistration.js"></script>
     <script src="app/modules/core/patientRegNextAction/patientRegNextAction.js"></script>
     <script src="app/modules/core/doctor/doctor.js"></script>
+    <script src="app/modules/core/searchPatient/searchPatient.js"></script>
     
     <!--  pre loading screen UI : start -->
     <style type="text/css">
@@ -91,13 +93,15 @@
     </style>
 	<div class="m-app-loading" ng-animate-children>        
     	<div class="messaging">        	
-    		Cancure
-            <!-- <img src="../../../images/loader2.gif" /> --> 
+    		<!-- Cancure -->
+            <img src="../../../images/loader.gif" /> 
     	</div>
 	</div>
 	<!--  pre loading screen UI : end -->
 	
 	<div flash-message="5000"></div>
+	
+	<app-loader ng-show="showLoader"></app-loader>
 	
     <ui-view></ui-view>
     

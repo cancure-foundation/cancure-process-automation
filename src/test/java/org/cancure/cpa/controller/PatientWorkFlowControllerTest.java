@@ -12,6 +12,7 @@ import java.util.Map;
 import org.cancure.cpa.Application;
 import org.cancure.cpa.common.Constants;
 import org.cancure.cpa.controller.beans.PatientBean;
+import org.cancure.cpa.controller.beans.PatientDocumentAndInvestigationBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientFamilyBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
@@ -96,11 +97,11 @@ public class PatientWorkFlowControllerTest {
         patient.setOrganisation(organisationList);
 
         patientDocument.setDocCategory("AgeProof");
-        patientDocument.setPrn(patient.getPrn());
+        patientDocument.setPrn(patient.getPrn() + "");
         documentList.add(patientDocument);
         patientDocument = new PatientDocumentBean();
         patientDocument.setDocCategory("AddressProof");
-        patientDocument.setPrn(patient.getPrn());
+        patientDocument.setPrn(patient.getPrn() + "");
         documentList.add(patientDocument);
         patient.setDocument(documentList);
 
@@ -131,23 +132,23 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean preExamPatientInvestigation=new PatientInvestigationBean(); 
         List<PatientDocumentBean> preExamDocumentList = new ArrayList<PatientDocumentBean>();
         preExamPatientDocument.setDocCategory("ScanReport");
-        preExamPatientDocument.setPrn(patientId);
+        preExamPatientDocument.setPrn(patientId + "");
         preExamDocumentList.add(preExamPatientDocument);
         preExamPatientDocument = new PatientDocumentBean();
         preExamPatientDocument.setDocCategory("BloodTestReport");
-        preExamPatientDocument.setPrn(patientId);
+        preExamPatientDocument.setPrn(patientId + "");
         preExamDocumentList.add(preExamPatientDocument);
         
         preExamPatientInvestigation.setComments("Blood Cancer");
         preExamPatientInvestigation.setInvestigatorType("Doctor");
-        preExamPatientInvestigation.setInvestigatorId(1);
-        preExamPatientInvestigation.setPrn(patientId);
+        preExamPatientInvestigation.setInvestigatorId("1");
+        preExamPatientInvestigation.setPrn(patientId + "");
         
-        Map<String, Object> map = new HashMap<>();
-        map.put("patientInvestigationBean", preExamPatientInvestigation);
-        map.put("patientDocumentBean", preExamDocumentList);
+        PatientDocumentAndInvestigationBean patientDocumentAndInvestigationBean = new PatientDocumentAndInvestigationBean();
+        patientDocumentAndInvestigationBean.setPatientInvestigationBean(preExamPatientInvestigation);
+        patientDocumentAndInvestigationBean.setPatientDocumentBean(preExamDocumentList);
         
-        pc.saveExamination(map);
+        pc.saveExamination(patientDocumentAndInvestigationBean);
         
         Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));
@@ -155,9 +156,9 @@ public class PatientWorkFlowControllerTest {
         //------------- Background Check -------------------------------
         PatientInvestigationBean bgPatientInvestigation=new PatientInvestigationBean(); 
         bgPatientInvestigation.setComments("Seems genuine");
-        bgPatientInvestigation.setInvestigatorId(2);
+        bgPatientInvestigation.setInvestigatorId("2");
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
-        bgPatientInvestigation.setPrn(patientId);
+        bgPatientInvestigation.setPrn(patientId + "");
         pc.saveBGC(bgPatientInvestigation, "PASS");
         
         Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -166,9 +167,9 @@ public class PatientWorkFlowControllerTest {
       //------------- MBDoctor Approval 1 -------------------------------
         PatientInvestigationBean mbPatientInvestigation=new PatientInvestigationBean(); 
         mbPatientInvestigation.setComments("Can be treated");
-        mbPatientInvestigation.setInvestigatorId(3);
+        mbPatientInvestigation.setInvestigatorId(3 + "");
         mbPatientInvestigation.setInvestigatorType("Doctor");
-        mbPatientInvestigation.setPrn(patientId);
+        mbPatientInvestigation.setPrn(patientId + "");
         pc.saveDoctorRecommendation(mbPatientInvestigation);
         
         Map<String, String> mb1NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -177,9 +178,9 @@ public class PatientWorkFlowControllerTest {
         //------------- MBDoctor Approval 2 -------------------------------
         PatientInvestigationBean mb2PatientInvestigation=new PatientInvestigationBean(); 
         mb2PatientInvestigation.setComments("Can be treated");
-        mb2PatientInvestigation.setInvestigatorId(4);
+        mb2PatientInvestigation.setInvestigatorId(4 + "");
         mb2PatientInvestigation.setInvestigatorType("Doctor");
-        mb2PatientInvestigation.setPrn(patientId);
+        mb2PatientInvestigation.setPrn(patientId + "");
         pc.saveDoctorRecommendation(mb2PatientInvestigation);
         
         Map<String, String> mb2NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -188,9 +189,9 @@ public class PatientWorkFlowControllerTest {
         //--------------- Secretary Approval --------------------------------
         PatientInvestigationBean secPatientInvestigation=new PatientInvestigationBean(); 
         secPatientInvestigation.setComments("Approving treatment");
-        secPatientInvestigation.setInvestigatorId(5);
+        secPatientInvestigation.setInvestigatorId(5 + "");
         secPatientInvestigation.setInvestigatorType("Secretary");
-        secPatientInvestigation.setPrn(patientId);
+        secPatientInvestigation.setPrn(patientId + "");
         pc.saveSecretaryRecommendation(secPatientInvestigation, "Approved");
         
         Map<String, String> secNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -244,11 +245,11 @@ public class PatientWorkFlowControllerTest {
         patient.setOrganisation(organisationList);
 
         patientDocument.setDocCategory("AgeProof");
-        patientDocument.setPrn(patient.getPrn());
+        patientDocument.setPrn(patient.getPrn() + "");
         documentList.add(patientDocument);
         patientDocument = new PatientDocumentBean();
         patientDocument.setDocCategory("AddressProof");
-        patientDocument.setPrn(patient.getPrn());
+        patientDocument.setPrn(patient.getPrn() + "");
         documentList.add(patientDocument);
         patient.setDocument(documentList);
 
@@ -279,23 +280,23 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean preExamPatientInvestigation=new PatientInvestigationBean(); 
         List<PatientDocumentBean> preExamDocumentList = new ArrayList<PatientDocumentBean>();
         preExamPatientDocument.setDocCategory("ScanReport");
-        preExamPatientDocument.setPrn(patientId);
+        preExamPatientDocument.setPrn(patientId + "");
         preExamDocumentList.add(preExamPatientDocument);
         preExamPatientDocument = new PatientDocumentBean();
         preExamPatientDocument.setDocCategory("BloodTestReport");
-        preExamPatientDocument.setPrn(patientId);
+        preExamPatientDocument.setPrn(patientId + "");
         preExamDocumentList.add(preExamPatientDocument);
         
         preExamPatientInvestigation.setComments("Blood Cancer");
         preExamPatientInvestigation.setInvestigatorType("Doctor");
-        preExamPatientInvestigation.setInvestigatorId(1);
-        preExamPatientInvestigation.setPrn(patientId);
+        preExamPatientInvestigation.setInvestigatorId("1");
+        preExamPatientInvestigation.setPrn(patientId + "");
         
-        Map<String, Object> map = new HashMap<>();
-        map.put("patientInvestigationBean", preExamPatientInvestigation);
-        map.put("patientDocumentBean", preExamDocumentList);
+        PatientDocumentAndInvestigationBean patientDocumentAndInvestigationBean = new PatientDocumentAndInvestigationBean();
+        patientDocumentAndInvestigationBean.setPatientInvestigationBean(preExamPatientInvestigation);
+        patientDocumentAndInvestigationBean.setPatientDocumentBean(preExamDocumentList);
         
-        pc.saveExamination(map);
+        pc.saveExamination(patientDocumentAndInvestigationBean);
         
         Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));
@@ -303,9 +304,9 @@ public class PatientWorkFlowControllerTest {
         //------------- Background Check -------------------------------
         PatientInvestigationBean bgPatientInvestigation=new PatientInvestigationBean(); 
         bgPatientInvestigation.setComments("Not Genuine");
-        bgPatientInvestigation.setInvestigatorId(2);
+        bgPatientInvestigation.setInvestigatorId("2");
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
-        bgPatientInvestigation.setPrn(patientId);
+        bgPatientInvestigation.setPrn(patientId + "");
         pc.saveBGC(bgPatientInvestigation,"FAIL");
         
         Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -353,11 +354,11 @@ public class PatientWorkFlowControllerTest {
         patient.setOrganisation(organisationList);
 
         patientDocument.setDocCategory("AgeProof");
-        patientDocument.setPrn(patient.getPrn());
+        patientDocument.setPrn(patient.getPrn() + "");
         documentList.add(patientDocument);
         patientDocument = new PatientDocumentBean();
         patientDocument.setDocCategory("AddressProof");
-        patientDocument.setPrn(patient.getPrn());
+        patientDocument.setPrn(patient.getPrn() + "");
         documentList.add(patientDocument);
         patient.setDocument(documentList);
 
@@ -388,23 +389,22 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean preExamPatientInvestigation=new PatientInvestigationBean(); 
         List<PatientDocumentBean> preExamDocumentList = new ArrayList<PatientDocumentBean>();
         preExamPatientDocument.setDocCategory("ScanReport " + patientId);
-        preExamPatientDocument.setPrn(patientId);
+        preExamPatientDocument.setPrn(patientId + "");
         preExamDocumentList.add(preExamPatientDocument);
         preExamPatientDocument = new PatientDocumentBean();
         preExamPatientDocument.setDocCategory("BloodTestReport");
-        preExamPatientDocument.setPrn(patientId);
+        preExamPatientDocument.setPrn(patientId + "");
         preExamDocumentList.add(preExamPatientDocument);
         
         preExamPatientInvestigation.setComments("Blood Cancer");
         preExamPatientInvestigation.setInvestigatorType("Doctor");
-        preExamPatientInvestigation.setInvestigatorId(1);
-        preExamPatientInvestigation.setPrn(patientId);
+        preExamPatientInvestigation.setInvestigatorId("1");
+        preExamPatientInvestigation.setPrn(patientId + "");
         
-        Map<String, Object> map = new HashMap<>();
-        map.put("patientInvestigationBean", preExamPatientInvestigation);
-        map.put("patientDocumentBean", preExamDocumentList);
-        
-        pc.saveExamination(map);
+        PatientDocumentAndInvestigationBean patientDocumentAndInvestigationBean = new PatientDocumentAndInvestigationBean();
+        patientDocumentAndInvestigationBean.setPatientInvestigationBean(preExamPatientInvestigation);
+        patientDocumentAndInvestigationBean.setPatientDocumentBean(preExamDocumentList);
+        pc.saveExamination(patientDocumentAndInvestigationBean);
         
         Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));
@@ -412,9 +412,9 @@ public class PatientWorkFlowControllerTest {
         //------------- Background Check -------------------------------
         PatientInvestigationBean bgPatientInvestigation=new PatientInvestigationBean(); 
         bgPatientInvestigation.setComments("Seems genuine " + patientId);
-        bgPatientInvestigation.setInvestigatorId(2);
+        bgPatientInvestigation.setInvestigatorId("2");
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
-        bgPatientInvestigation.setPrn(patientId);
+        bgPatientInvestigation.setPrn(patientId + "");
         pc.saveBGC(bgPatientInvestigation, "PASS");
         
         Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -423,9 +423,9 @@ public class PatientWorkFlowControllerTest {
       //------------- MBDoctor Approval 1 -------------------------------
         PatientInvestigationBean mbPatientInvestigation=new PatientInvestigationBean(); 
         mbPatientInvestigation.setComments("Can be treated " + patientId);
-        mbPatientInvestigation.setInvestigatorId(3);
+        mbPatientInvestigation.setInvestigatorId("3");
         mbPatientInvestigation.setInvestigatorType("Doctor");
-        mbPatientInvestigation.setPrn(patientId);
+        mbPatientInvestigation.setPrn(patientId + "");
         pc.saveDoctorRecommendation(mbPatientInvestigation);
         
         Map<String, String> mb1NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -445,9 +445,9 @@ public class PatientWorkFlowControllerTest {
       //------------- MBDoctor Approval 3 -------------------------------
         PatientInvestigationBean mb3PatientInvestigation=new PatientInvestigationBean(); 
         mb3PatientInvestigation.setComments("Can be treated2 " + patientId);
-        mb3PatientInvestigation.setInvestigatorId(4);
+        mb3PatientInvestigation.setInvestigatorId("4");
         mb3PatientInvestigation.setInvestigatorType("Doctor");
-        mb3PatientInvestigation.setPrn(patientId);
+        mb3PatientInvestigation.setPrn(patientId + "");
         pc.saveDoctorRecommendation(mb3PatientInvestigation);
         
         Map<String, String> mb3NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -456,9 +456,9 @@ public class PatientWorkFlowControllerTest {
         //--------------- Secretary Approval --------------------------------
         PatientInvestigationBean secPatientInvestigation=new PatientInvestigationBean(); 
         secPatientInvestigation.setComments("Reject treatment " + patientId);
-        secPatientInvestigation.setInvestigatorId(5);
+        secPatientInvestigation.setInvestigatorId("5");
         secPatientInvestigation.setInvestigatorType("Secretary");
-        secPatientInvestigation.setPrn(patientId);
+        secPatientInvestigation.setPrn(patientId + "");
         pc.saveSecretaryRecommendation(secPatientInvestigation, "Reject");
         
         Map<String, String> secNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -505,11 +505,11 @@ public class PatientWorkFlowControllerTest {
         patient.setOrganisation(organisationList);
 
         patientDocument.setDocCategory("AgeProof");
-        patientDocument.setPrn(patient.getPrn());
+        patientDocument.setPrn(patient.getPrn() + "");
         documentList.add(patientDocument);
         patientDocument = new PatientDocumentBean();
         patientDocument.setDocCategory("AddressProof");
-        patientDocument.setPrn(patient.getPrn());
+        patientDocument.setPrn(patient.getPrn() + "");
         documentList.add(patientDocument);
         patient.setDocument(documentList);
 
@@ -540,23 +540,23 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean preExamPatientInvestigation=new PatientInvestigationBean(); 
         List<PatientDocumentBean> preExamDocumentList = new ArrayList<PatientDocumentBean>();
         preExamPatientDocument.setDocCategory("ScanReport");
-        preExamPatientDocument.setPrn(patientId);
+        preExamPatientDocument.setPrn(patientId + "");
         preExamDocumentList.add(preExamPatientDocument);
         preExamPatientDocument = new PatientDocumentBean();
         preExamPatientDocument.setDocCategory("BloodTestReport");
-        preExamPatientDocument.setPrn(patientId);
+        preExamPatientDocument.setPrn(patientId + "");
         preExamDocumentList.add(preExamPatientDocument);
         
         preExamPatientInvestigation.setComments("Blood Cancer");
         preExamPatientInvestigation.setInvestigatorType("Doctor");
-        preExamPatientInvestigation.setInvestigatorId(1);
-        preExamPatientInvestigation.setPrn(patientId);
+        preExamPatientInvestigation.setInvestigatorId("1");
+        preExamPatientInvestigation.setPrn(patientId + "");
         
-        Map<String, Object> map = new HashMap<>();
-        map.put("patientInvestigationBean", preExamPatientInvestigation);
-        map.put("patientDocumentBean", preExamDocumentList);
+        PatientDocumentAndInvestigationBean patientDocumentAndInvestigationBean = new PatientDocumentAndInvestigationBean();
+        patientDocumentAndInvestigationBean.setPatientInvestigationBean(preExamPatientInvestigation);
+        patientDocumentAndInvestigationBean.setPatientDocumentBean(preExamDocumentList);
         
-        pc.saveExamination(map);
+        pc.saveExamination(patientDocumentAndInvestigationBean);
         
         Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));
@@ -564,9 +564,9 @@ public class PatientWorkFlowControllerTest {
         //------------- Background Check -------------------------------
         PatientInvestigationBean bgPatientInvestigation=new PatientInvestigationBean(); 
         bgPatientInvestigation.setComments("Seems genuine");
-        bgPatientInvestigation.setInvestigatorId(2);
+        bgPatientInvestigation.setInvestigatorId("2");
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
-        bgPatientInvestigation.setPrn(patientId);
+        bgPatientInvestigation.setPrn(patientId + "");
         pc.saveBGC(bgPatientInvestigation, "PASS");
         
         Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -575,9 +575,9 @@ public class PatientWorkFlowControllerTest {
       //------------- MBDoctor Approval 1 -------------------------------
         PatientInvestigationBean mbPatientInvestigation=new PatientInvestigationBean(); 
         mbPatientInvestigation.setComments("Can be treated");
-        mbPatientInvestigation.setInvestigatorId(3);
+        mbPatientInvestigation.setInvestigatorId("3");
         mbPatientInvestigation.setInvestigatorType("Doctor");
-        mbPatientInvestigation.setPrn(patientId);
+        mbPatientInvestigation.setPrn(patientId + "");
         pc.saveDoctorRecommendation(mbPatientInvestigation);
         
         Map<String, String> mb1NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -586,9 +586,9 @@ public class PatientWorkFlowControllerTest {
         //------------- MBDoctor Approval 2 -------------------------------
         PatientInvestigationBean mb2PatientInvestigation=new PatientInvestigationBean(); 
         mb2PatientInvestigation.setComments("Can be treated");
-        mb2PatientInvestigation.setInvestigatorId(4);
+        mb2PatientInvestigation.setInvestigatorId("4");
         mb2PatientInvestigation.setInvestigatorType("Doctor");
-        mb2PatientInvestigation.setPrn(patientId);
+        mb2PatientInvestigation.setPrn(patientId + "");
         pc.saveDoctorRecommendation(mb2PatientInvestigation);
         
         Map<String, String> mb2NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -597,9 +597,9 @@ public class PatientWorkFlowControllerTest {
         //--------------- Secretary Approval --------------------------------
         PatientInvestigationBean secPatientInvestigation=new PatientInvestigationBean(); 
         secPatientInvestigation.setComments("Not Satisfied,Forward to EC");
-        secPatientInvestigation.setInvestigatorId(5);
+        secPatientInvestigation.setInvestigatorId("5");
         secPatientInvestigation.setInvestigatorType("Secretary");
-        secPatientInvestigation.setPrn(patientId);
+        secPatientInvestigation.setPrn(patientId + "");
         pc.saveSecretaryRecommendation(secPatientInvestigation, "Recommend");
         
         Map<String, String> secNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -608,9 +608,9 @@ public class PatientWorkFlowControllerTest {
         //--------------- EC Approval 1--------------------------------
         PatientInvestigationBean ec1PatientInvestigation=new PatientInvestigationBean(); 
         ec1PatientInvestigation.setComments("Approving treatment");
-        ec1PatientInvestigation.setInvestigatorId(6);
+        ec1PatientInvestigation.setInvestigatorId("6");
         ec1PatientInvestigation.setInvestigatorType("Executive Committee");
-        ec1PatientInvestigation.setPrn(patientId);
+        ec1PatientInvestigation.setPrn(patientId + "");
         pc.saveExecutiveBoardRecommendationAccept(ec1PatientInvestigation);
         
         Map<String, String> ec1NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -619,9 +619,9 @@ public class PatientWorkFlowControllerTest {
         //--------------- EC Approval 2--------------------------------
         PatientInvestigationBean ec2PatientInvestigation=new PatientInvestigationBean(); 
         ec2PatientInvestigation.setComments("Approving treatment");
-        ec2PatientInvestigation.setInvestigatorId(7);
+        ec2PatientInvestigation.setInvestigatorId("7");
         ec2PatientInvestigation.setInvestigatorType("Executive Committee");
-        ec2PatientInvestigation.setPrn(patientId);
+        ec2PatientInvestigation.setPrn(patientId + "");
         pc.saveExecutiveBoardRecommendationAccept(ec2PatientInvestigation);
         
         Map<String, String> ec2NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -631,9 +631,9 @@ public class PatientWorkFlowControllerTest {
         //--------------- EC Approval 3--------------------------------
         PatientInvestigationBean ec3PatientInvestigation=new PatientInvestigationBean(); 
         ec3PatientInvestigation.setComments("Approving treatment");
-        ec3PatientInvestigation.setInvestigatorId(8);
+        ec3PatientInvestigation.setInvestigatorId("8");
         ec3PatientInvestigation.setInvestigatorType("Executive Committee");
-        ec3PatientInvestigation.setPrn(patientId);
+        ec3PatientInvestigation.setPrn(patientId + "");
         pc.saveExecutiveBoardRecommendationAccept(ec3PatientInvestigation);
         
         Map<String, String> ec3NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -836,11 +836,11 @@ public class PatientWorkFlowControllerTest {
         patient.setOrganisation(organisationList);
 
         patientDocument.setDocCategory("AgeProof");
-        patientDocument.setPrn(patient.getPrn());
+        patientDocument.setPrn(patient.getPrn() + "");
         documentList.add(patientDocument);
         patientDocument = new PatientDocumentBean();
         patientDocument.setDocCategory("AddressProof");
-        patientDocument.setPrn(patient.getPrn());
+        patientDocument.setPrn(patient.getPrn() + "");
         documentList.add(patientDocument);
         patient.setDocument(documentList);
 
@@ -871,22 +871,22 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean preExamPatientInvestigation=new PatientInvestigationBean(); 
         List<PatientDocumentBean> preExamDocumentList = new ArrayList<PatientDocumentBean>();
         preExamPatientDocument.setDocCategory("ScanReport");
-        preExamPatientDocument.setPrn(patientId);
+        preExamPatientDocument.setPrn(patientId + "");
         preExamDocumentList.add(preExamPatientDocument);
         preExamPatientDocument = new PatientDocumentBean();
         preExamPatientDocument.setDocCategory("BloodTestReport");
-        preExamPatientDocument.setPrn(patientId);
+        preExamPatientDocument.setPrn(patientId + "");
         preExamDocumentList.add(preExamPatientDocument);
         
         preExamPatientInvestigation.setComments("Blood Cancer");
         preExamPatientInvestigation.setInvestigatorType("Doctor");
-        preExamPatientInvestigation.setInvestigatorId(1);
-        preExamPatientInvestigation.setPrn(patientId);
+        preExamPatientInvestigation.setInvestigatorId("1");
+        preExamPatientInvestigation.setPrn(patientId + "");
         
-        Map<String, Object> map = new HashMap<>();
-        map.put("patientInvestigationBean", preExamPatientInvestigation);
-        map.put("patientDocumentBean", preExamDocumentList);
-        pc.saveExamination(map);
+        PatientDocumentAndInvestigationBean patientDocumentAndInvestigationBean = new PatientDocumentAndInvestigationBean();
+        patientDocumentAndInvestigationBean.setPatientInvestigationBean(preExamPatientInvestigation);
+        patientDocumentAndInvestigationBean.setPatientDocumentBean(preExamDocumentList);
+        pc.saveExamination(patientDocumentAndInvestigationBean);
         
         Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));
@@ -894,9 +894,9 @@ public class PatientWorkFlowControllerTest {
         //------------- Background Check -------------------------------
         PatientInvestigationBean bgPatientInvestigation=new PatientInvestigationBean(); 
         bgPatientInvestigation.setComments("Seems genuine");
-        bgPatientInvestigation.setInvestigatorId(2);
+        bgPatientInvestigation.setInvestigatorId("2");
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
-        bgPatientInvestigation.setPrn(patientId);
+        bgPatientInvestigation.setPrn(patientId + "");
         pc.saveBGC(bgPatientInvestigation, "PASS");
         
         Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -905,9 +905,9 @@ public class PatientWorkFlowControllerTest {
       //------------- MBDoctor Approval 1 -------------------------------
         PatientInvestigationBean mbPatientInvestigation=new PatientInvestigationBean(); 
         mbPatientInvestigation.setComments("Can be treated");
-        mbPatientInvestigation.setInvestigatorId(3);
+        mbPatientInvestigation.setInvestigatorId("3");
         mbPatientInvestigation.setInvestigatorType("Doctor");
-        mbPatientInvestigation.setPrn(patientId);
+        mbPatientInvestigation.setPrn(patientId + "");
         pc.saveDoctorRecommendation(mbPatientInvestigation);
         
         Map<String, String> mb1NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -916,9 +916,9 @@ public class PatientWorkFlowControllerTest {
         //------------- MBDoctor Approval 2 -------------------------------
         PatientInvestigationBean mb2PatientInvestigation=new PatientInvestigationBean(); 
         mb2PatientInvestigation.setComments("Can be treated");
-        mb2PatientInvestigation.setInvestigatorId(4);
+        mb2PatientInvestigation.setInvestigatorId("4");
         mb2PatientInvestigation.setInvestigatorType("Doctor");
-        mb2PatientInvestigation.setPrn(patientId);
+        mb2PatientInvestigation.setPrn(patientId + "");
         pc.saveDoctorRecommendation(mb2PatientInvestigation);
         
         Map<String, String> mb2NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -927,9 +927,9 @@ public class PatientWorkFlowControllerTest {
         //--------------- Secretary Approval --------------------------------
         PatientInvestigationBean secPatientInvestigation=new PatientInvestigationBean(); 
         secPatientInvestigation.setComments("Not Satisfied,Forward to EC");
-        secPatientInvestigation.setInvestigatorId(5);
+        secPatientInvestigation.setInvestigatorId("5");
         secPatientInvestigation.setInvestigatorType("Secretary");
-        secPatientInvestigation.setPrn(patientId);
+        secPatientInvestigation.setPrn(patientId + "");
         pc.saveSecretaryRecommendation(secPatientInvestigation, "Recommend");
         
         Map<String, String> secNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -938,9 +938,9 @@ public class PatientWorkFlowControllerTest {
         //--------------- EC Approval 1--------------------------------
         PatientInvestigationBean ec1PatientInvestigation=new PatientInvestigationBean(); 
         ec1PatientInvestigation.setComments("Approving treatment");
-        ec1PatientInvestigation.setInvestigatorId(6);
+        ec1PatientInvestigation.setInvestigatorId("6");
         ec1PatientInvestigation.setInvestigatorType("Executive Committee");
-        ec1PatientInvestigation.setPrn(patientId);
+        ec1PatientInvestigation.setPrn(patientId + "");
         pc.saveExecutiveBoardRecommendationAccept(ec1PatientInvestigation);
         
         Map<String, String> ec1NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -949,9 +949,9 @@ public class PatientWorkFlowControllerTest {
         //--------------- EC Approval 2--------------------------------
         PatientInvestigationBean ec2PatientInvestigation=new PatientInvestigationBean(); 
         ec2PatientInvestigation.setComments("Approving treatment");
-        ec2PatientInvestigation.setInvestigatorId(7);
+        ec2PatientInvestigation.setInvestigatorId("7");
         ec2PatientInvestigation.setInvestigatorType("Executive Committee");
-        ec2PatientInvestigation.setPrn(patientId);
+        ec2PatientInvestigation.setPrn(patientId + "");
         pc.saveExecutiveBoardRecommendationAccept(ec2PatientInvestigation);
         
         Map<String, String> ec2NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -961,9 +961,9 @@ public class PatientWorkFlowControllerTest {
         //--------------- EC Approval 3--------------------------------
         PatientInvestigationBean ec3PatientInvestigation=new PatientInvestigationBean(); 
         ec3PatientInvestigation.setComments("Rejecting treatment");
-        ec3PatientInvestigation.setInvestigatorId(8);
+        ec3PatientInvestigation.setInvestigatorId("8");
         ec3PatientInvestigation.setInvestigatorType("Executive Committee");
-        ec3PatientInvestigation.setPrn(patientId);
+        ec3PatientInvestigation.setPrn(patientId + "");
         pc.saveExecutiveBoardRecommendationReject(ec3PatientInvestigation);
         
         Map<String, String> ec3NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -973,9 +973,9 @@ public class PatientWorkFlowControllerTest {
         //--------------- EC Approval 4--------------------------------
         PatientInvestigationBean ec4PatientInvestigation=new PatientInvestigationBean(); 
         ec4PatientInvestigation.setComments("Approving treatment by EC4");
-        ec4PatientInvestigation.setInvestigatorId(9);
+        ec4PatientInvestigation.setInvestigatorId("9");
         ec4PatientInvestigation.setInvestigatorType("Executive Committee");
-        ec4PatientInvestigation.setPrn(patientId);
+        ec4PatientInvestigation.setPrn(patientId + "");
         pc.saveExecutiveBoardRecommendationAccept(ec4PatientInvestigation);
         
         Map<String, String> ec4NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
@@ -1028,11 +1028,11 @@ public class PatientWorkFlowControllerTest {
         patient.setOrganisation(organisationList);
 
         patientDocument.setDocCategory("AgeProof");
-        patientDocument.setPrn(patient.getPrn());
+        patientDocument.setPrn(patient.getPrn() + "");
         documentList.add(patientDocument);
         patientDocument = new PatientDocumentBean();
         patientDocument.setDocCategory("AddressProof");
-        patientDocument.setPrn(patient.getPrn());
+        patientDocument.setPrn(patient.getPrn() + "");
         documentList.add(patientDocument);
         patient.setDocument(documentList);
 
@@ -1063,22 +1063,22 @@ public class PatientWorkFlowControllerTest {
         PatientInvestigationBean preExamPatientInvestigation=new PatientInvestigationBean(); 
         List<PatientDocumentBean> preExamDocumentList = new ArrayList<PatientDocumentBean>();
         preExamPatientDocument.setDocCategory("ScanReport");
-        preExamPatientDocument.setPrn(patientId);
+        preExamPatientDocument.setPrn(patientId + "");
         preExamDocumentList.add(preExamPatientDocument);
         preExamPatientDocument = new PatientDocumentBean();
         preExamPatientDocument.setDocCategory("BloodTestReport");
-        preExamPatientDocument.setPrn(patientId);
+        preExamPatientDocument.setPrn(patientId + "");
         preExamDocumentList.add(preExamPatientDocument);
         
         preExamPatientInvestigation.setComments("Blood Cancer");
         preExamPatientInvestigation.setInvestigatorType("Doctor");
-        preExamPatientInvestigation.setInvestigatorId(1);
-        preExamPatientInvestigation.setPrn(patientId);
+        preExamPatientInvestigation.setInvestigatorId("1");
+        preExamPatientInvestigation.setPrn(patientId + "");
         
-        Map<String, Object> map = new HashMap<>();
-        map.put("patientInvestigationBean", preExamPatientInvestigation);
-        map.put("patientDocumentBean", preExamDocumentList);
-        pc.saveExamination(map);
+        PatientDocumentAndInvestigationBean patientDocumentAndInvestigationBean = new PatientDocumentAndInvestigationBean();
+        patientDocumentAndInvestigationBean.setPatientInvestigationBean(preExamPatientInvestigation);
+        patientDocumentAndInvestigationBean.setPatientDocumentBean(preExamDocumentList);
+        pc.saveExamination(patientDocumentAndInvestigationBean);
         
         Map<String, String> patRegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("BackgroundCheck", patRegNextTask.get("nextTask"));
@@ -1086,9 +1086,9 @@ public class PatientWorkFlowControllerTest {
         //------------- Background Check -------------------------------
         PatientInvestigationBean bgPatientInvestigation=new PatientInvestigationBean(); 
         bgPatientInvestigation.setComments("Seems genuine");
-        bgPatientInvestigation.setInvestigatorId(2);
+        bgPatientInvestigation.setInvestigatorId("2");
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
-        bgPatientInvestigation.setPrn(patientId);
+        bgPatientInvestigation.setPrn(patientId + "");
         pc.saveBGC(bgPatientInvestigation, "PASS");
         
         Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);

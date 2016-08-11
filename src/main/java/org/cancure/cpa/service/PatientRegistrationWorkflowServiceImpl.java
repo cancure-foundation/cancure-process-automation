@@ -46,8 +46,11 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
         
         String taskId=patientRegistrationService.movePatientRegn(patientInvestigationBean.getPrn().toString(), null);
         patientInvestigationBean.setTaskId(taskId);
-        for(PatientDocumentBean patientDocument :patientDocumentBean){
-            patientDocument.setTaskId(taskId);
+        
+        if (patientDocumentBean != null){
+	        for(PatientDocumentBean patientDocument :patientDocumentBean){
+	            patientDocument.setTaskId(taskId);
+	        }
         }
         patientInvestigationService.savePatientExamination(patientInvestigationBean, patientDocumentBean);
 

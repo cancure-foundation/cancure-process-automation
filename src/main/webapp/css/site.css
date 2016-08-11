@@ -148,8 +148,31 @@ div.no-touch .boxInner:hover .titleBox, div.touch .boxInner.touchFocus .titleBox
 
 .alert {
 	position: fixed;
-	top: 50px;
+	top: 20%;
 	left: 25%;
 	width: 50%;
 	z-index: 999999;
+}
+
+app-loader {
+	text-align: center;
+	display: table;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .8);
+	z-index: 1500;
+}
+
+app-loader .loaderClass {
+	color: #fff;
+	width: 100%;
+	height: 100%;
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 18px;
+}
+
+app-loader .loaderClass i {
+	font-size: 36px;
 }

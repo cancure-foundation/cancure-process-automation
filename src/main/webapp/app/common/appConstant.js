@@ -68,15 +68,10 @@ app.constant('appSettings', {
 			state: "home"
 		},
 		{
-			title: "Create User",
-			icon: "gears",
-			state: "createUser"
-		},
-		{
-			title: "User List",
-			icon: "phone",
-			state: "userList"
-		},
+            title: "Manage User",
+            icon: "phone",
+            state: "manageUser.createUser"
+	    },
         {
             title: "Patient History",
             icon: "phone",
@@ -91,6 +86,11 @@ app.constant('appSettings', {
             title: "Doctors",
             icon: "pencil",
             state: "doctor"
+	    },
+	    {
+            title: "Patient Search",
+            icon: "search",
+            state: "searchPatient"
         }
 	]
 

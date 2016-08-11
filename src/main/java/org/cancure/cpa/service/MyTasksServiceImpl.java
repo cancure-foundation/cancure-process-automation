@@ -165,7 +165,8 @@ public class MyTasksServiceImpl implements MyTasksService {
             map.put("address", patient.getAddress());
             map.put("contact", patient.getContact());
             map.put("employmentStatus", patient.getEmploymentStatus());
-            map.put("solebreadwinner", patient.getSolebreadwinner().toString());
+			map.put("solebreadwinner", patient.getSolebreadwinner() != null
+					? String.valueOf(patient.getSolebreadwinner()) : Boolean.FALSE.toString());
             map.put("assetsOwned", patient.getAssetsOwned());
             map.put("gender", patient.getGender());
             map.put("typeOfSupport", patient.getTypeOfSupport());

@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'flash', 'ngCookies',
+var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'flash', 'ngCookies', 'loader', 
     //main modules
     'login', 'core']);
 
@@ -37,15 +37,19 @@ app.directive("mAppLoading",function( $animate ) {
         }
     }
 );
-
-// directive to show page loader
-app.directive('loadMask', ['$compile', '$rootScope', function ($compile, $rootScope) {
+//directive for file upload
+app.directive('fileModel', ['$parse', function ($parse) {
     return {
         restrict: 'A',
-        template: '<div class="m-app-loading"><div class="messaging">Cancure</div></div>',
-        link: function (scope, ele, attrs) {
-            // get timeout value from directive attribute and set to flash timeout
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
             
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
         }
     };
 }]);

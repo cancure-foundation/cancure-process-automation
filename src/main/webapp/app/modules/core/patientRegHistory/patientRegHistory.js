@@ -2,9 +2,8 @@
 function ($rootScope, $scope, $state, $stateParams, apiService, appSettings) {
     
 	var vm = this;
-    $scope.doctors = ['Dr. Grey', 'Dr. House', 'Dr. Anand', 'Dr.Mercy', 'Dr. Annamma'];
     
-    var init = function() {
+	var init = function() {
 	    apiService.serviceRequest({
 	        URL: 'tasks/history/' + $stateParams.prn
 	    }, function (response) {
