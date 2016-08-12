@@ -16,13 +16,17 @@ function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings,
         	
         	var fd = new FormData();
        
-        	fd.append("document[0].docCategory", 'Age Proof');
-        	fd.append("document[0].docType", 'Aadhaar');
-        	fd.append("document[0].patientFile",  $scope.ageProof);
-
-        	fd.append("document[1].docCategory", 'Age Proof');
-        	fd.append("document[1].docType", 'Income Proof');
-        	fd.append("document[1].patientFile", $scope.incomeProof);
+        	if ($scope.ageProof) {
+	        	fd.append("document[0].docCategory", 'Age Proof');
+	        	fd.append("document[0].docType", 'Aadhaar');
+	        	fd.append("document[0].patientFile",  $scope.ageProof);
+        	}
+        	
+        	if ($scope.incomeProof) {
+	        	fd.append("document[1].docCategory", 'Age Proof');
+	        	fd.append("document[1].docType", 'Income Proof');
+	        	fd.append("document[1].patientFile", $scope.incomeProof);
+        	}
         	
         	angular.forEach(vm.formData, function (v, k) {
         		fd.append(k,v);
@@ -46,6 +50,7 @@ function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings,
             	Loader.destroy();
                 Flash.create('success', 'Patient Successfully Registered.', 'large-text');
                 vm.formData = {};
+                $state.go('app.home');
             });
         }
 

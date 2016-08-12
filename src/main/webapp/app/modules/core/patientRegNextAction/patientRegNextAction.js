@@ -151,7 +151,7 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
         	Loader.destroy();
             Flash.create('success', 'Completed Successfully.', 'large-text');
             vm.formData = {};
-            
+            $state.go('app.patientRegHistory',  { prn: $scope.prn} );
         });
     }
      
