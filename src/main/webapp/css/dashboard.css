@@ -599,6 +599,9 @@ a:focus {
         margin-left: 50px!important;
         z-index: 840;
     }
+     .sidebar-mini.sidebar-collapse .main-footer {
+        margin-left: 0px!important;       
+    }
     .sidebar-mini.sidebar-collapse .main-sidebar {
         -webkit-transform: translate(0, 0);
         -ms-transform: translate(0, 0);
