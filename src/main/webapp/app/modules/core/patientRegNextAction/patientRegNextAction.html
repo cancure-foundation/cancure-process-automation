@@ -41,7 +41,7 @@
 			            </div>
 			        </div>
 					        
-                    <form name="vm.registerForm">
+                    <form name="vm.registerForm" ng-submit="vm.submitTask();" >
                         <md-content class="autoScroll">
 					        
 					        <md-input-container ng-if = "doctorList">
@@ -61,11 +61,19 @@
                             <md-input-container class="md-icon-float md-block">
                                 <label>Comments</label>
                                 <md-icon class="fa fa-user"></md-icon>
-                                <textarea required name="comments" data-ng-model="vm.formData.comments"></textarea>
+                                <textarea ng-required="true" name="comments" data-ng-model="vm.formData.comments"></textarea>
                             </md-input-container>
 
+							<md-input-container ng-if = "vm.statuses">
+					        	<label>Select Status</label>
+					        	<md-icon class="fa fa-user"></md-icon>
+								<md-select data-ng-model="vm.formData.status" placeholder="Select a status" ng-required="true">
+									<md-option value="{{sts.id}}" ng-repeat="sts in vm.statuses">{{sts.name}}</md-option> 
+								</md-select> 
+							</md-input-container>
+							
                             <div class="text-center">
-                                <md-button class="md-raised md-primary" type="button" ng-click="vm.submitTask()">Submit <i class="fa fa-angle-double-right"></i></md-button>
+                                <md-button class="md-raised md-primary" type="submit">Submit <i class="fa fa-angle-double-right"></i></md-button>
                                 <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
                             </div>
                         </md-content>

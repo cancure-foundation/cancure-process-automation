@@ -2,16 +2,18 @@ package org.cancure.cpa.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentAndInvestigationBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
+import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.service.PatientRegistrationWorkflowService;
+import org.cancure.cpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +24,9 @@ public class PatientWorkFlowController {
     @Autowired
     private PatientRegistrationWorkflowService patientRegistrationWorkflowService;   
   
+    @Autowired
+	private UserService userService;
+    
     @RequestMapping(value="/patientregistration/patient/save", method=RequestMethod.POST)
     public String save(PatientBean patientbean) throws IOException {
         patientRegistrationWorkflowService.registerPatient(patientbean);
@@ -40,32 +45,45 @@ public class PatientWorkFlowController {
         return "{\"status\" : \"SUCCESS\"}";
     }
     
-    @RequestMapping(value= "/patientregistration/backgroundcheck/save/{status}", method=RequestMethod.POST)
-    public String saveBGC(@RequestBody PatientInvestigationBean patientInvestigationBean,@PathVariable("status") String status) throws IOException {
-        patientRegistrationWorkflowService.backGroundCheck(patientInvestigationBean,status);
-        return "{\"status\" : \"SUCCESS\"}";
-    }
+	@RequestMapping(value = "/patientregistration/backgroundcheck/save/{status}", method = RequestMethod.POST)
+	public String saveBGC(PatientInvestigationBean patientInvestigationBean, @PathVariable("status") String status,
+			OAuth2Authentication auth) throws IOException {
+		
+		Integer userId = null;
+		if (auth != null) {
+			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
+			User user = userService.getUserByLogin(login);
+			userId = user.getId();
+		} else {
+			throw new RuntimeException("Not logged in");
+		}
+
+		patientInvestigationBean.setInvestigatorId(userId.toString());
+		patientInvestigationBean.setInvestigatorType("Program Coordinator");
+		patientRegistrationWorkflowService.backGroundCheck(patientInvestigationBean, status);
+		return "{\"status\" : \"SUCCESS\"}";
+	}
     
     @RequestMapping(value= "/patientregistration/mbdoctorrecommendation/save", method=RequestMethod.POST)
-    public String saveDoctorRecommendation(@RequestBody PatientInvestigationBean patientInvestigationBean) throws IOException {
+    public String saveDoctorRecommendation(PatientInvestigationBean patientInvestigationBean) throws IOException {
         patientRegistrationWorkflowService.doctorRecommendation(patientInvestigationBean);
         return "{\"status\" : \"SUCCESS\"}";
     }
     
     @RequestMapping(value= "/patientregistration/secretaryrecommendation/save/{status}", method=RequestMethod.POST)
-    public String saveSecretaryRecommendation(@RequestBody PatientInvestigationBean patientInvestigationBean,@PathVariable("status") String status) throws IOException {
+    public String saveSecretaryRecommendation(PatientInvestigationBean patientInvestigationBean,@PathVariable("status") String status) throws IOException {
         patientRegistrationWorkflowService.secretaryRecommendation(patientInvestigationBean,status); 
         return "{\"status\" : \"SUCCESS\"}";
     }
     
    @RequestMapping(value= "patientregistration/executiveboardrecommendation/accept/save", method=RequestMethod.POST)
-    public String saveExecutiveBoardRecommendationAccept(@RequestBody PatientInvestigationBean patientInvestigationBean) throws IOException {
+    public String saveExecutiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean) throws IOException {
         patientRegistrationWorkflowService.executiveBoardRecommendationAccept(patientInvestigationBean); 
         return "{\"status\" : \"SUCCESS\"}";
     }
    
    @RequestMapping(value= "patientregistration/executiveboardrecommendation/reject/save", method=RequestMethod.POST)
-   public String saveExecutiveBoardRecommendationReject(@RequestBody PatientInvestigationBean patientInvestigationBean) throws IOException {
+   public String saveExecutiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean) throws IOException {
         patientRegistrationWorkflowService.executiveBoardRecommendationReject(patientInvestigationBean); 
         return "{\"status\" : \"SUCCESS\"}";
    }

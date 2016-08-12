@@ -54,40 +54,63 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
 	    		$scope.nextTaskObject.nextTask == 'BackgroundCheck') {
 	    	$scope.uploadNeeded = true;
 	    }
+	    
+	    
+	    if ($scope.nextTaskObject.nextTask == 'BackgroundCheck') {
+	    	vm.statuses = [{'id': 'PASS', 'name' : 'Pass'}, {'id': 'FAIL', 'name' : 'Fail'}];
+	    }
+	    
+	    if ($scope.nextTaskObject.nextTask == 'secretaryrecommendation') {
+	    	vm.statuses = [{'id': 'Recommend', 'name' : 'Forward to EC'}, {'id': 'Approved', 'name' : 'Approve'},
+	    	               {'id': 'Reject', 'name' : 'Reject'}, {'id': 'SendBackToPC', 'name' : 'Need Clarification'}];
+	    }
+	    
+	    if ($scope.nextTaskObject.nextTask == 'executiveboardrecommendation') {
+	    	vm.statuses = [{'id': 'accept/save', 'name' : 'Approve'}, {'id': 'Rejected', 'name' : 'Reject'}];
+	    }
     } 
     
     
      vm.submitTask = function() {
-    	var serverData = angular.copy(vm.formData);
+    	/*var serverData = angular.copy(vm.formData);
     	serverData.patientInvestigationBean = {};
     	serverData.patientInvestigationBean.prn = $scope.prn;
     	//serverData.patientInvestigationBean.investigatorType = 'Program Coordinator'; //Secretary, Executive Committee, Doctor
     	serverData.patientInvestigationBean.investigatorId = serverData.people;
     	//serverData.patientInvestigationBean.status = '';
     	serverData.patientInvestigationBean.comments = serverData.comments;
-    	
+    	*/
+    	Loader.create('Please wait ...');
+    	 
     	var url = '';
+    	/*if (!vm.formData.status) {
+    		alert('Please select a status');
+    	}*/
+    	//return;
     	
     	//alert(JSON.stringify(serverData));
     	
+    	var prefix = '';
     	if ($scope.nextTaskObject.nextTask == 'PreliminaryExamination'){
+    		
     		url = 'patientregistration/preliminaryexamination/save';
-    		multipartSubmit(url);
+    		prefix = 'patientInvestigationBean.';
+    		
     	} else if ($scope.nextTaskObject.nextTask == 'BackgroundCheck') {
-    		url = 'patientregistration/backgroundcheck/save/'; //status
-    		multipartSubmit(url);
+    		url = 'patientregistration/backgroundcheck/save/' + vm.formData.status; //status
     	} else if ($scope.nextTaskObject.nextTask == 'MBDoctorApproval') {
     		url = 'patientregistration/mbdoctorrecommendation/save';
     	} else if ($scope.nextTaskObject.nextTask == 'SecretaryApproval') {
-    		url = 'patientregistration/secretaryrecommendation/save/'; //status
+    		url = 'patientregistration/secretaryrecommendation/save/' + vm.formData.status; //status
     	} else if ($scope.nextTaskObject.nextTask == 'ECApproval') {
-    		url = 'patientregistration/executiveboardrecommendation/'; //accept/save or reject/save
+    		url = 'patientregistration/executiveboardrecommendation/' + vm.formData.status; //accept/save or reject/save
     	} else if ($scope.nextTaskObject.nextTask == 'PatientIDCardGeneration') {
     		url = 'patientregistration/Patientidcard/'; //prn
     	} else {
     		
     	}
     	
+    	multipartSubmit(url, prefix);
     	
     	//JSON.stringify().
     	//alert(url);
@@ -95,15 +118,15 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
     	
     }
     
-    var multipartSubmit = function(url) {
+    var multipartSubmit = function(url, prefix) {
     	var fd = new FormData();
     	
-    	fd.append("patientInvestigationBean.prn", $scope.prn);
-    	fd.append("patientInvestigationBean.investigatorId", vm.formData.people);
-    	fd.append("patientInvestigationBean.comments", vm.formData.comments);
+    	fd.append(prefix + "prn", $scope.prn);
+    	fd.append(prefix + "investigatorId", vm.formData.people);
+    	fd.append(prefix + "comments", vm.formData.comments);
     	
-    	alert($scope.patientFile);
-    	return;
+    	/*alert($scope.patientFile);
+    	return;*/
     	if ($scope.patientFile) {
 	    	fd.append("patientDocumentBean[0].prn", $scope.prn); 
 	    	fd.append("patientDocumentBean[0].docCategory", 'Preliminary Examination');
