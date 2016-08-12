@@ -21,11 +21,14 @@ public class MyWorkflowController {
 
 	@RequestMapping("/tasks/my")
 	public List<Map<String, String>> getPendingTasks(OAuth2Authentication auth) {
-		List<String> roles = new ArrayList<>();
-		auth.getAuthorities().forEach(x -> roles.add(x.getAuthority()));
-
-		return myTasksService.getMyTasks(roles);
-
+		if (auth != null) {
+			List<String> roles = new ArrayList<>();
+			auth.getAuthorities().forEach(x -> roles.add(x.getAuthority()));
+	
+			return myTasksService.getMyTasks(roles);
+		} else {
+			throw new RuntimeException("Not logged in");
+		}
 	}
 	
 	@RequestMapping("/tasks/role/{role}")
@@ -44,7 +47,7 @@ public class MyWorkflowController {
 		
 		return new ArrayList<>();
 	}
-
+	
 	@RequestMapping("/tasks/{prn}")
 	public Map<String, String> getTasks(@PathVariable("prn") String prn) {
 		

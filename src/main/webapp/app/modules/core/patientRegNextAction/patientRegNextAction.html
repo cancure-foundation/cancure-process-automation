@@ -1,0 +1,85 @@
+<section class="content-header">
+    <h1>
+        Patient Registration Workflow - Next Action
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Patient Registration Workflow - Next Action</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+	<div class="row">
+        <div class="col-md-7">
+            <div class="panel panel-info" style="min-height:453px;">
+                <div class="panel-heading">
+                    {{nextTaskObject.nextTask}}
+                </div>
+                <div class="panel-body">
+                	<div class="row">
+                        <div class="col-md-3 col-sd-12">
+	                        <div class="timeline-body">
+				            	<b>PRN :</b>
+				            </div>
+			            </div>
+			            <div class="col-md-9 col-sd-12">
+	                        <div class="timeline-body">
+				            	{{prn}}
+				            </div>
+			            </div>
+			        </div>
+			        <div class="row">
+                        <div class="col-md-3 col-sd-12">
+	                        <div class="timeline-body">
+				            	<b>Patient Name :</b>
+				            </div>
+			            </div>
+			            <div class="col-md-9 col-sd-12">
+	                        <div class="timeline-body">
+				            	{{nextTaskObject.patientName}}
+				            </div>
+			            </div>
+			        </div>
+					        
+                    <form name="vm.registerForm" ng-submit="vm.submitTask();" >
+                        <md-content class="autoScroll">
+					        
+					        <md-input-container ng-if = "doctorList">
+					        	<label>Select</label>
+					        	<md-icon class="fa fa-user"></md-icon>
+								<md-select data-ng-model="vm.formData.people" placeholder="Select a Doctor">
+									<md-option value="{{doc.doctorId}}" ng-repeat="doc in doctorList">{{doc.name}}</md-option> 
+								</md-select> 
+							</md-input-container>
+
+                            <md-input-container ng-if="uploadNeeded" class="md-icon-float md-block">
+                                Select File
+                                <md-icon class="fa fa-user"></md-icon>
+                                <input type="file" file-model="patientFile" aria-label="patientFile">
+                            </md-input-container>
+
+                            <md-input-container class="md-icon-float md-block">
+                                <label>Comments</label>
+                                <md-icon class="fa fa-user"></md-icon>
+                                <textarea ng-required="true" name="comments" data-ng-model="vm.formData.comments"></textarea>
+                            </md-input-container>
+
+							<md-input-container ng-if = "vm.statuses">
+					        	<label>Select Status</label>
+					        	<md-icon class="fa fa-user"></md-icon>
+								<md-select data-ng-model="vm.formData.status" placeholder="Select a status" ng-required="true">
+									<md-option value="{{sts.id}}" ng-repeat="sts in vm.statuses">{{sts.name}}</md-option> 
+								</md-select> 
+							</md-input-container>				
+                        </md-content>
+                         <div class="text-center">
+                                <md-button class="md-raised md-primary" type="submit">Submit <i class="fa fa-angle-double-right"></i></md-button>
+                                <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section><!-- /.content -->
