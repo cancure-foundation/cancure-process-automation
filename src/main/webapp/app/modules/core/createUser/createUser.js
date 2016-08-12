@@ -5,10 +5,12 @@ core.controller("CreateUserController", ['$scope', '$timeout', 'Flash', 'apiServ
 	vm.formData.roles = [];
 
 	var init = function () {
+		Loader.create('Fetching Data. Please wait');
 		apiService.serviceRequest({
 			URL: appSettings.requestURL.userRoles
 		}, function (response) {
 			$scope.roles = response; // assigns the roles to roles object in the scope
+			Loader.destroy();
 		});
 	};
 
