@@ -81,7 +81,7 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
     	serverData.patientInvestigationBean.comments = serverData.comments;
     	*/
     	Loader.create('Please wait ...');
-    	 debugger
+    
     	var url = '';
     	/*if (!vm.formData.status) {
     		alert('Please select a status');
