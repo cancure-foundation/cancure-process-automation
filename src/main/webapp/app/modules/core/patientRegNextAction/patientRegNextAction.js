@@ -1,5 +1,5 @@
-﻿core.controller("patientRegNextActionController", ['$rootScope', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', 'Loader',
-function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loader) {
+﻿core.controller("patientRegNextActionController", ['$rootScope', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', 'Loader', 'Flash',
+function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loader, Flash) {
     
 	var vm = this;
 	vm.formData = {};
@@ -60,12 +60,12 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
 	    	vm.statuses = [{'id': 'PASS', 'name' : 'Pass'}, {'id': 'FAIL', 'name' : 'Fail'}];
 	    }
 	    
-	    if ($scope.nextTaskObject.nextTask == 'secretaryrecommendation') {
+	    if ($scope.nextTaskObject.nextTask == 'SecretaryApproval') {
 	    	vm.statuses = [{'id': 'Recommend', 'name' : 'Forward to EC'}, {'id': 'Approved', 'name' : 'Approve'},
 	    	               {'id': 'Reject', 'name' : 'Reject'}, {'id': 'SendBackToPC', 'name' : 'Need Clarification'}];
 	    }
 	    
-	    if ($scope.nextTaskObject.nextTask == 'executiveboardrecommendation') {
+	    if ($scope.nextTaskObject.nextTask == 'ECApproval') {
 	    	vm.statuses = [{'id': 'accept/save', 'name' : 'Approve'}, {'id': 'Rejected', 'name' : 'Reject'}];
 	    }
     } 
@@ -105,11 +105,15 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
     	} else if ($scope.nextTaskObject.nextTask == 'ECApproval') {
     		url = 'patientregistration/executiveboardrecommendation/' + vm.formData.status; //accept/save or reject/save
     	} else if ($scope.nextTaskObject.nextTask == 'PatientIDCardGeneration') {
-    		url = 'patientregistration/Patientidcard/'; //prn
+    		url = 'patientregistration/Patientidcard/' + $scope.prn; //prn
     	} else {
     		
     	}
     	
+    	/*console.log($scope);
+    	console.log($scope.patientFile);
+    	return;
+    	*/
     	multipartSubmit(url, prefix);
     	
     	//JSON.stringify().
@@ -125,8 +129,7 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
     	fd.append(prefix + "investigatorId", vm.formData.people);
     	fd.append(prefix + "comments", vm.formData.comments);
     	
-    	/*alert($scope.patientFile);
-    	return;*/
+    	
     	if ($scope.patientFile) {
 	    	fd.append("patientDocumentBean[0].prn", $scope.prn); 
 	    	fd.append("patientDocumentBean[0].docCategory", 'Preliminary Examination');

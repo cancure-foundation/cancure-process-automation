@@ -66,24 +66,62 @@ public class PatientWorkFlowController {
     
     @RequestMapping(value= "/patientregistration/mbdoctorrecommendation/save", method=RequestMethod.POST)
     public String saveDoctorRecommendation(PatientInvestigationBean patientInvestigationBean) throws IOException {
+    	
+    	patientInvestigationBean.setInvestigatorType("Doctor");
         patientRegistrationWorkflowService.doctorRecommendation(patientInvestigationBean);
         return "{\"status\" : \"SUCCESS\"}";
     }
-    
-    @RequestMapping(value= "/patientregistration/secretaryrecommendation/save/{status}", method=RequestMethod.POST)
-    public String saveSecretaryRecommendation(PatientInvestigationBean patientInvestigationBean,@PathVariable("status") String status) throws IOException {
+
+	@RequestMapping(value = "/patientregistration/secretaryrecommendation/save/{status}", method = RequestMethod.POST)
+	public String saveSecretaryRecommendation(PatientInvestigationBean patientInvestigationBean,
+			@PathVariable("status") String status, OAuth2Authentication auth) throws IOException {
+	
+    	Integer userId = null;
+		if (auth != null) {
+			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
+			User user = userService.getUserByLogin(login);
+			userId = user.getId();
+		} else {
+			throw new RuntimeException("Not logged in");
+		}
+		
+		patientInvestigationBean.setInvestigatorId(userId.toString());
+    	patientInvestigationBean.setInvestigatorType("Secretary");
         patientRegistrationWorkflowService.secretaryRecommendation(patientInvestigationBean,status); 
         return "{\"status\" : \"SUCCESS\"}";
     }
     
    @RequestMapping(value= "patientregistration/executiveboardrecommendation/accept/save", method=RequestMethod.POST)
-    public String saveExecutiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean) throws IOException {
+    public String saveExecutiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean, OAuth2Authentication auth) throws IOException {
+	   Integer userId = null;
+		if (auth != null) {
+			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
+			User user = userService.getUserByLogin(login);
+			userId = user.getId();
+		} else {
+			throw new RuntimeException("Not logged in");
+		}
+		
+		patientInvestigationBean.setInvestigatorId(userId.toString());
+    	patientInvestigationBean.setInvestigatorType("Executive Committee");
         patientRegistrationWorkflowService.executiveBoardRecommendationAccept(patientInvestigationBean); 
         return "{\"status\" : \"SUCCESS\"}";
     }
    
    @RequestMapping(value= "patientregistration/executiveboardrecommendation/reject/save", method=RequestMethod.POST)
-   public String saveExecutiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean) throws IOException {
+   public String saveExecutiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean, OAuth2Authentication auth) throws IOException {
+	   Integer userId = null;
+		if (auth != null) {
+			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
+			User user = userService.getUserByLogin(login);
+			userId = user.getId();
+		} else {
+			throw new RuntimeException("Not logged in");
+		}
+		
+		patientInvestigationBean.setInvestigatorId(userId.toString());
+		patientInvestigationBean.setInvestigatorType("Executive Committee");
+   	
         patientRegistrationWorkflowService.executiveBoardRecommendationReject(patientInvestigationBean); 
         return "{\"status\" : \"SUCCESS\"}";
    }

@@ -322,7 +322,7 @@
                         {{taskHistory.tasks.SecretaryApproval.createTime}}
                     </span>
                 </li>
-                <li ng-if="taskHistory.tasks.SecretaryApproval">
+                <li ng-if="taskHistory.tasks.SecretaryApproval.endTime">
                     <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
                     <div class="timeline-item">
                         <span class="time">{{taskHistory.tasks.SecretaryApproval.description}}</span>
@@ -336,7 +336,7 @@
 					            </div>
 					            <div class="col-md-10 col-sd-12">
 			                        <div class="timeline-body">
-						            	{{taskHistory.tasks.SecretaryApproval.comments}}
+						            	{{taskHistory.tasks.SecretaryApproval.investigation.comments}}
 						            </div>
 					            </div>
 				            </div>
@@ -348,7 +348,7 @@
 					            </div>
 					            <div class="col-md-10 col-sd-12">
 			                        <div class="timeline-body">
-						            	{{taskHistory.tasks.SecretaryApproval.status}}
+						            	{{taskHistory.tasks.SecretaryApproval.investigation.status}}
 						            </div>
 					            </div>
 				            </div>
@@ -414,7 +414,7 @@
                         {{taskHistory.tasks.PatientIDCardGeneration.createTime}}
                     </span>
                 </li>
-                <li ng-if="taskHistory.tasks.PatientIDCardGeneration">
+                <li ng-if="taskHistory.tasks.PatientIDCardGeneration.endTime">
                     <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
                     <div class="timeline-item">
                         <span class="time">{{taskHistory.tasks.PatientIDCardGeneration.description}}</span>

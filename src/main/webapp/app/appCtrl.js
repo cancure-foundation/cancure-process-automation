@@ -23,9 +23,9 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', '$cook
 		apiService.adjustScreenHeight();
 		
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 
-			var centerContent = document.getElementById('center-content-wrapper');
+			/*var centerContent = document.getElementById('center-content-wrapper');
 			centerContent.scrollTop -= centerContent.scrollTop; // scrolls each view to top on state change
-		});
+*/		});
 
 		vm.loginUserName = appSettings.loginUserName;
 		vm.roles = appSettings.roles;

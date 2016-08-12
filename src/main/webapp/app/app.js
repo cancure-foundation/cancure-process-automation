@@ -44,8 +44,9 @@ app.directive('fileModel', ['$parse', function ($parse) {
         link: function(scope, element, attrs) {
             var model = $parse(attrs.fileModel);
             var modelSetter = model.assign;
-            
+            debugger
             element.bind('change', function(){
+            	debugger
                 scope.$apply(function(){
                     modelSetter(scope, element[0].files[0]);
                 });
