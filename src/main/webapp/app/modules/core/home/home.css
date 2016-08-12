@@ -10,13 +10,19 @@
     z-index: 1;
     color: #fff;
 }
+@media (max-width: 767px) {
+    .homepage-wrapper {
+        margin-top: 50px;
+    }
+    .top-static-homepage {
+        top: 100px;
+    }
+}
 .top-static-homepage .title {
     font-size: 24px;
 }
 .homepage {
     margin: 15px;
-    /*    top: 65px;*/
-    /*    position: relative;*/
 }
 .homepage .owl-carousel {
     padding-bottom: 15px;
