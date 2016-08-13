@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class PatientDocumentBean {
 
-    private Integer prn;
+    private String prn;
     private String docCategory;
     private String docType;
     private String docPath;
@@ -51,11 +51,11 @@ public class PatientDocumentBean {
         this.patientFile = patientFile;
     }
 
-    public Integer getPrn() {
+    public String getPrn() {
         return prn;
     }
 
-    public void setPrn(Integer prn) {
+    public void setPrn(String prn) {
         this.prn = prn;
     }
 

@@ -55,6 +55,16 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
     
+    $stateProvider.state('app.patientRegNextAction', {
+        url: '/patientRegNextAction/:prn',
+        templateUrl: 'app/modules/core/patientRegNextAction/patientRegNextAction.html',
+        controller: 'patientRegNextActionController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Patient Registration Next Action'
+        }
+    });
+    
     $stateProvider.state('app.myQueue', {
         url: '/myQueue',
         templateUrl: 'app/modules/core/myQueue/myQueue.html',
@@ -87,4 +97,15 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
 
+    // Search page state
+    $stateProvider.state('app.doctor', {
+        url: '/doctor',
+        templateUrl: 'app/modules/core/doctor/doctor.html',
+        controller: 'doctorController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Doctors'
+        }
+    });
+    
 }]);

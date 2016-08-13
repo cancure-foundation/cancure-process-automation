@@ -1,9 +1,9 @@
-core.controller("ManageUserController", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'apiService', 'appSettings', 'Loader', 
-function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings, Loader) {
+core.controller("ManageUserController", ['$scope', '$state', 'Flash', 'apiService', 'appSettings', 'Loader', 
+function ($scope, $state, Flash, apiService, appSettings, Loader) {
         var vm = this;       
        
         var init = function () {
-        	vm.currentNavItem = 'createUser'; // sets the current selected item
+        	vm.currentNavItem = $state.current.name; // sets the current selected item
         };
 
         // init function, execution starts here

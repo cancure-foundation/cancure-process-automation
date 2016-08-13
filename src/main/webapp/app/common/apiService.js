@@ -23,7 +23,8 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
         request.error(function (response) {
             (fail) ? fail(response): null;
             Loader.destroy();
-            Flash.create('danger', (params.errorMsg) ? params.errorMsg : 'Action Failed. Try Again!', 'large-text');
+            if (!params.hideErrMsg)
+            	Flash.create('danger', (params.errorMsg) ? params.errorMsg : 'Action Failed. Try Again!', 'large-text');
         });
 
     };
@@ -58,12 +59,14 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
     
     // function to set the center wrapper height so that UI does not fall when content is less
     var adjustScreenHeight = function (){
-    	var windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight|| 0);
-		var centerContent = document.getElementById('center-content-wrapper');
-		var uiViewHolder = document.getElementById('center-ui-view');
+    	var windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight|| 0),
+    		windowWidth = Math.max(document.documentElement.clientWidth, window.innerWidth|| 0),
+    		headerHeight = windowWidth < 800 ? 100 : 50,
+			centerContent = document.getElementById('center-content-wrapper'),
+			uiViewHolder = document.getElementById('center-ui-view');    	
 		if (centerContent) {
-			centerContent.style.height = (windowHeight - 50) + 'px'; // reduces the header height
-			uiViewHolder.style.minHeight = (windowHeight - 100 - 1) + 'px'; // reduces the header and footer height along with 1px as a work around
+			centerContent.style.height = (windowHeight - headerHeight) + 'px'; // reduces the header height
+			uiViewHolder.style.minHeight = (windowHeight - headerHeight - 50) + 'px'; // reduces the header and footer height along with 1px as a work around
 		}
     };
     

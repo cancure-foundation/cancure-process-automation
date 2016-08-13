@@ -79,7 +79,7 @@
                 $timeout.cancel(timeOut);
                 $timeout(function () {
                     $rootScope.hasFlash = false;
-                });
+                }, 100);
             };
             return dataFactory;
         }

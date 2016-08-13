@@ -95,6 +95,7 @@ body {
     z-index: 800;
 }
 .main-footer {
+	height : 50px;
     background: #fff;
     padding: 15px;
     color: #444;
@@ -121,7 +122,7 @@ body {
 @media (max-width: 767px) {
     .fixed .content-wrapper,
     .fixed .right-side {
-        padding-top: 100px;
+        margin-top: 100px;
     }
 }
 .fixed.layout-boxed .wrapper {
@@ -598,6 +599,9 @@ a:focus {
     .sidebar-mini.sidebar-collapse .main-footer {
         margin-left: 50px!important;
         z-index: 840;
+    }
+     .sidebar-mini.sidebar-collapse .main-footer {
+        margin-left: 0px!important;       
     }
     .sidebar-mini.sidebar-collapse .main-sidebar {
         -webkit-transform: translate(0, 0);

@@ -33,7 +33,7 @@
                 <div class="col-md-5 col-xs-12">
                     <md-input-container class=" md-block">
                         <div ng-repeat="role in roles">
-                            <md-checkbox ng-click="vm.roleSelection(role.id)" checklist-value="role.id" style="display:block;margin-bottom: 18px;" ng-required="true">
+                            <md-checkbox ng-checked="vm.exists(role.id);" ng-click="vm.roleSelection(role.id, vm.formData.roles)" checklist-value="role.id" style="display:block;margin-bottom: 18px;" ng-required="true">
                                 {{role.name}}
                             </md-checkbox>
                         </div>
