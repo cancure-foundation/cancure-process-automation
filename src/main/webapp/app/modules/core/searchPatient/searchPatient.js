@@ -4,14 +4,20 @@ core.controller("SearchPatientController", ['$rootScope', '$scope', '$state', '$
 	var vm = this;	
 	var init = function () {
 		vm.formData = {};
+		
 	};
 
 	// init function, execution starts here
 	init();
 
 	//function to handle save button click
-	vm.submitForm = function () {
+	vm.search = function () {
 
+		if (!vm.formData.searchBy || !vm.formData.searchText) {
+			Flash.create('warning', 'Please enter the search criteria.', 'large-text');    
+			return;
+		}
+		
 		var url = 'patient/search/' +  vm.formData.searchText;
 		delete vm.patientList; //deletes the patient list so as to hide the search result container
 
@@ -26,15 +32,19 @@ core.controller("SearchPatientController", ['$rootScope', '$scope', '$state', '$
 		} 
 
 		apiService.serviceRequest({
-			URL: url
+			URL: url,
+			hideErrMsg : true
 		}, function (response) {
-			Flash.create('success', 'Search completed with ' + response.length + ' results', 'large-text');
-			vm.patientList = response;
-			setTimeout(function (){
-				var centerContent = document.getElementById('center-content-wrapper');
-				if (centerContent)
-					centerContent.scrollTop += 500; // scrolls view to search result area
-			}, 100);
+			Flash.dismiss();
+			if (response.length == 0) {
+				vm.noSearchResult = true;
+			} else {
+				vm.patientList = response;
+				vm.noSearchResult = false;
+			}
+		},function (){
+			Flash.dismiss();
+			vm.noSearchResult = true;
 		});
 	};     
 	//
