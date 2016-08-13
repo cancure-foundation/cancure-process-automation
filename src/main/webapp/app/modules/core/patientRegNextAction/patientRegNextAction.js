@@ -66,7 +66,7 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
 	    }
 	    
 	    if ($scope.nextTaskObject.nextTask == 'ECApproval') {
-	    	vm.statuses = [{'id': 'accept/save', 'name' : 'Approve'}, {'id': 'Rejected', 'name' : 'Reject'}];
+	    	vm.statuses = [{'id': 'accept/save', 'name' : 'Approve'}, {'id': 'reject/save', 'name' : 'Reject'}];
 	    }
     } 
     
@@ -111,9 +111,9 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
     	}
     	
     	/*console.log($scope);
-    	console.log($scope.patientFile);
-    	return;
-    	*/
+    	console.log(vm.formData.people);
+    	return;*/
+    	
     	multipartSubmit(url, prefix);
     	
     	//JSON.stringify().
@@ -152,6 +152,7 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
             Flash.create('success', 'Completed Successfully.', 'large-text');
             vm.formData = {};
             $state.go('app.patientRegHistory',  { prn: $scope.prn} );
+
         });
     }
      

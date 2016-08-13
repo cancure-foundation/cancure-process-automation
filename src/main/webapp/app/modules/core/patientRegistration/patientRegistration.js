@@ -32,11 +32,13 @@ function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings,
         		fd.append(k,v);
         	});
 
+
         	fd.append("organisation[0].name", vm.formData.organisationName);
         	fd.append("organisation[0].amountRec", vm.formData.organisationAmountRec);
         	
         	//alert(vm.formData.organisation[0].name);
         	
+
             // making the server call
             apiService.serviceRequest({
                 URL: appSettings.requestURL.patientRegistration,

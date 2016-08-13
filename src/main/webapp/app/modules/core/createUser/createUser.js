@@ -1,5 +1,5 @@
-core.controller("CreateUserController", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'apiService', 'appSettings', 'Loader',
-function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings, Loader) {
+core.controller("CreateUserController", ['$scope', 'Flash', 'apiService', 'appSettings', 'Loader',
+function ($scope, Flash, apiService, appSettings, Loader) {
         var vm = this;
         vm.formData = {};
         vm.formData.roles = [];
@@ -21,7 +21,7 @@ function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings,
         		Flash.create('warning', 'Please select atleast 1 role to proceed.', 'large-text');
         		return;
         	}
-        	
+
         	Loader.create('Please wait while we register you...');
 
             var serverData = angular.copy(vm.formData);
@@ -35,8 +35,11 @@ function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings,
                 payLoad: serverData
             }, function (response) {
             	Loader.destroy();
-                Flash.create('success', 'User Successfully Registered.', 'large-text');
+                Flash.create('success', 'User Successfully Registered.', 'large-text');                
                 vm.formData = {};
+                vm.formData.roles = [];
+                vm.registerForm.$setUntouched();
+                vm.registerForm.$setPristine();
             });
         }
 

@@ -41,9 +41,9 @@ public class PatientInvestigationServiceImpl implements PatientInvestigationServ
         	bean.setPrn(Integer.parseInt(patientInvestigationBean.getPrn()));
         }
         if (patientInvestigationBean.getInvestigatorId() != null) {
-        	bean.setInvestigationId(Integer.parseInt(patientInvestigationBean.getInvestigatorId()));
+        	bean.setInvestigatorId(Integer.parseInt(patientInvestigationBean.getInvestigatorId()));
         }
-        bean.setStatus(status);
+        //bean.setStatus(status);
         bean.setInvestigationDate(new Date());
         patientInvestigationRepo.save(bean);
         return "Success";

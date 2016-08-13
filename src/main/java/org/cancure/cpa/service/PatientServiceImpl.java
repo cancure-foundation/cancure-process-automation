@@ -94,6 +94,9 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public PatientBean get(Integer id) {
 		Patient patient = patientRepo.findOne(id);
+		if (patient == null) {
+			return null;
+		}
 		PatientBean patientBean = new PatientBean();
 		BeanUtils.copyProperties(patient, patientBean);
 		return patientBean;

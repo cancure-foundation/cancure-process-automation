@@ -26,7 +26,7 @@ public class PatientWorkFlowController {
   
     @Autowired
 	private UserService userService;
-    
+
     @RequestMapping(value="/patientregistration/patient/save", method=RequestMethod.POST)
     public String save(PatientBean patientbean) throws IOException {
         patientRegistrationWorkflowService.registerPatient(patientbean);
@@ -102,6 +102,7 @@ public class PatientWorkFlowController {
 			throw new RuntimeException("Not logged in");
 		}
 		
+		patientInvestigationBean.setStatus("Approved");
 		patientInvestigationBean.setInvestigatorId(userId.toString());
     	patientInvestigationBean.setInvestigatorType("Executive Committee");
         patientRegistrationWorkflowService.executiveBoardRecommendationAccept(patientInvestigationBean); 
@@ -119,6 +120,7 @@ public class PatientWorkFlowController {
 			throw new RuntimeException("Not logged in");
 		}
 		
+		patientInvestigationBean.setStatus("Rejected");
 		patientInvestigationBean.setInvestigatorId(userId.toString());
 		patientInvestigationBean.setInvestigatorType("Executive Committee");
    	

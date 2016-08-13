@@ -6,8 +6,10 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.cancure.cpa.Application;
 import org.cancure.cpa.common.Constants;
@@ -17,18 +19,17 @@ import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientFamilyBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
 import org.cancure.cpa.controller.beans.SupportOrganisationBean;
-import org.cancure.cpa.persistence.entity.Patient;
-import org.cancure.cpa.persistence.entity.PatientFamily;
-import org.cancure.cpa.persistence.repository.PatientDocumentRepository;
-import org.cancure.cpa.persistence.repository.PatientFamilyRepository;
-import org.cancure.cpa.persistence.repository.PatientInvestigationRepository;
-import org.cancure.cpa.persistence.repository.PatientRepository;
-import org.cancure.cpa.persistence.repository.SupportOrganisationRepository;
+import org.cancure.cpa.persistence.entity.Role;
+import org.cancure.cpa.persistence.entity.User;
+import org.cancure.cpa.persistence.repository.UserRepository;
 import org.cancure.cpa.service.MyTasksService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,6 +41,9 @@ public class PatientWorkFlowControllerTest {
     
     @Autowired
     private MyTasksService myTasksService;
+    
+    @Autowired
+    private UserRepository userRepository;
     
     /*@Autowired
     private PatientRepository patientRepo;
@@ -56,6 +60,39 @@ public class PatientWorkFlowControllerTest {
     @Autowired
     private PatientInvestigationRepository PatientInvestigationRepo;
     */
+    
+    private OAuth2Authentication getAuth() {
+    	return getAuth("cancure");
+    }
+    
+    private OAuth2Authentication getAuth(String login) {
+    	Authentication authentication = new UsernamePasswordAuthenticationToken("cancure", "cancure");
+    	OAuth2Authentication userAuthentication = new OAuth2Authentication(null, authentication);
+        Map<String, String> map = new HashMap<>();
+        map.put("username", login);
+        userAuthentication.setDetails(map);
+        OAuth2Authentication auth = new OAuth2Authentication(null, userAuthentication);
+        return auth;
+    }
+    
+    private void createRole(String username, String name, String password) {
+    	Set<Role> roles = new HashSet<>();
+        Role role = new Role();
+        role.setId(7); // Executive Committee
+        roles.add(role);
+        
+        User user = new User();
+        user.setLogin(username);
+        user.setName(name);
+        user.setPassword(password);
+        user.setRoles(roles);
+        user.setEnabled(true);
+        try {
+			userRepository.save(user);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+    }
     
     @Test
     public void testSave() throws IOException {
@@ -159,7 +196,8 @@ public class PatientWorkFlowControllerTest {
         bgPatientInvestigation.setInvestigatorId("2");
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
         bgPatientInvestigation.setPrn(patientId + "");
-        pc.saveBGC(bgPatientInvestigation, "PASS");
+        
+        pc.saveBGC(bgPatientInvestigation, "PASS", getAuth());
         
         Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("MBDoctorApproval", bgNextTask.get("nextTask"));
@@ -192,7 +230,7 @@ public class PatientWorkFlowControllerTest {
         secPatientInvestigation.setInvestigatorId(5 + "");
         secPatientInvestigation.setInvestigatorType("Secretary");
         secPatientInvestigation.setPrn(patientId + "");
-        pc.saveSecretaryRecommendation(secPatientInvestigation, "Approved");
+        pc.saveSecretaryRecommendation(secPatientInvestigation, "Approved", getAuth());
         
         Map<String, String> secNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("PatientIDCardGeneration", secNextTask.get("nextTask"));
@@ -307,7 +345,7 @@ public class PatientWorkFlowControllerTest {
         bgPatientInvestigation.setInvestigatorId("2");
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
         bgPatientInvestigation.setPrn(patientId + "");
-        pc.saveBGC(bgPatientInvestigation,"FAIL");
+        pc.saveBGC(bgPatientInvestigation,"FAIL", getAuth());
         
         Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("", bgNextTask.get("nextTask"));
@@ -415,7 +453,7 @@ public class PatientWorkFlowControllerTest {
         bgPatientInvestigation.setInvestigatorId("2");
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
         bgPatientInvestigation.setPrn(patientId + "");
-        pc.saveBGC(bgPatientInvestigation, "PASS");
+        pc.saveBGC(bgPatientInvestigation, "PASS", getAuth());
         
         Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("MBDoctorApproval", bgNextTask.get("nextTask"));
@@ -459,7 +497,7 @@ public class PatientWorkFlowControllerTest {
         secPatientInvestigation.setInvestigatorId("5");
         secPatientInvestigation.setInvestigatorType("Secretary");
         secPatientInvestigation.setPrn(patientId + "");
-        pc.saveSecretaryRecommendation(secPatientInvestigation, "Reject");
+        pc.saveSecretaryRecommendation(secPatientInvestigation, "Reject", getAuth());
         
         Map<String, String> secNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("", secNextTask.get("nextTask"));
@@ -531,6 +569,11 @@ public class PatientWorkFlowControllerTest {
         assertTrue(patient.getDocument().get(1).getDocCategory().equals("AddressProof"));
         assertEquals(2, patient.getDocument().size());
         
+        createRole("ec1", "EC1", "password"); 
+        createRole("ec2", "EC2", "password"); 
+        createRole("ec3", "EC3", "password"); 
+        createRole("ec4", "EC4", "password");
+        
         //----------- Preliminary Examination ---------------------------------------
         
         Integer patientId = patient.getPrn();
@@ -567,7 +610,7 @@ public class PatientWorkFlowControllerTest {
         bgPatientInvestigation.setInvestigatorId("2");
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
         bgPatientInvestigation.setPrn(patientId + "");
-        pc.saveBGC(bgPatientInvestigation, "PASS");
+        pc.saveBGC(bgPatientInvestigation, "PASS", getAuth());
         
         Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("MBDoctorApproval", bgNextTask.get("nextTask"));
@@ -600,7 +643,7 @@ public class PatientWorkFlowControllerTest {
         secPatientInvestigation.setInvestigatorId("5");
         secPatientInvestigation.setInvestigatorType("Secretary");
         secPatientInvestigation.setPrn(patientId + "");
-        pc.saveSecretaryRecommendation(secPatientInvestigation, "Recommend");
+        pc.saveSecretaryRecommendation(secPatientInvestigation, "Recommend", getAuth());
         
         Map<String, String> secNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("ECApproval", secNextTask.get("nextTask"));
@@ -611,7 +654,7 @@ public class PatientWorkFlowControllerTest {
         ec1PatientInvestigation.setInvestigatorId("6");
         ec1PatientInvestigation.setInvestigatorType("Executive Committee");
         ec1PatientInvestigation.setPrn(patientId + "");
-        pc.saveExecutiveBoardRecommendationAccept(ec1PatientInvestigation);
+        pc.saveExecutiveBoardRecommendationAccept(ec1PatientInvestigation, getAuth("ec1"));
         
         Map<String, String> ec1NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("ECApproval", ec1NextTask.get("nextTask"));
@@ -622,7 +665,7 @@ public class PatientWorkFlowControllerTest {
         ec2PatientInvestigation.setInvestigatorId("7");
         ec2PatientInvestigation.setInvestigatorType("Executive Committee");
         ec2PatientInvestigation.setPrn(patientId + "");
-        pc.saveExecutiveBoardRecommendationAccept(ec2PatientInvestigation);
+        pc.saveExecutiveBoardRecommendationAccept(ec2PatientInvestigation, getAuth("ec2"));
         
         Map<String, String> ec2NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("ECApproval", ec2NextTask.get("nextTask"));
@@ -634,7 +677,7 @@ public class PatientWorkFlowControllerTest {
         ec3PatientInvestigation.setInvestigatorId("8");
         ec3PatientInvestigation.setInvestigatorType("Executive Committee");
         ec3PatientInvestigation.setPrn(patientId + "");
-        pc.saveExecutiveBoardRecommendationAccept(ec3PatientInvestigation);
+        pc.saveExecutiveBoardRecommendationAccept(ec3PatientInvestigation, getAuth("ec3"));
         
         Map<String, String> ec3NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("PatientIDCardGeneration", ec3NextTask.get("nextTask"));
@@ -862,6 +905,11 @@ public class PatientWorkFlowControllerTest {
         assertTrue(patient.getDocument().get(1).getDocCategory().equals("AddressProof"));
         assertEquals(2, patient.getDocument().size());
         
+        createRole("ec1", "EC1", "password"); 
+        createRole("ec2", "EC2", "password"); 
+        createRole("ec3", "EC3", "password"); 
+        createRole("ec4", "EC4", "password"); 
+        
         //----------- Preliminary Examination ---------------------------------------
         
         Integer patientId = patient.getPrn();
@@ -897,7 +945,7 @@ public class PatientWorkFlowControllerTest {
         bgPatientInvestigation.setInvestigatorId("2");
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
         bgPatientInvestigation.setPrn(patientId + "");
-        pc.saveBGC(bgPatientInvestigation, "PASS");
+        pc.saveBGC(bgPatientInvestigation, "PASS", getAuth());
         
         Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("MBDoctorApproval", bgNextTask.get("nextTask"));
@@ -930,7 +978,7 @@ public class PatientWorkFlowControllerTest {
         secPatientInvestigation.setInvestigatorId("5");
         secPatientInvestigation.setInvestigatorType("Secretary");
         secPatientInvestigation.setPrn(patientId + "");
-        pc.saveSecretaryRecommendation(secPatientInvestigation, "Recommend");
+        pc.saveSecretaryRecommendation(secPatientInvestigation, "Recommend", getAuth());
         
         Map<String, String> secNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("ECApproval", secNextTask.get("nextTask"));
@@ -938,10 +986,10 @@ public class PatientWorkFlowControllerTest {
         //--------------- EC Approval 1--------------------------------
         PatientInvestigationBean ec1PatientInvestigation=new PatientInvestigationBean(); 
         ec1PatientInvestigation.setComments("Approving treatment");
-        ec1PatientInvestigation.setInvestigatorId("6");
+        ec1PatientInvestigation.setInvestigatorId("3");
         ec1PatientInvestigation.setInvestigatorType("Executive Committee");
         ec1PatientInvestigation.setPrn(patientId + "");
-        pc.saveExecutiveBoardRecommendationAccept(ec1PatientInvestigation);
+        pc.saveExecutiveBoardRecommendationAccept(ec1PatientInvestigation, getAuth("ec1"));
         
         Map<String, String> ec1NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("ECApproval", ec1NextTask.get("nextTask"));
@@ -949,10 +997,10 @@ public class PatientWorkFlowControllerTest {
         //--------------- EC Approval 2--------------------------------
         PatientInvestigationBean ec2PatientInvestigation=new PatientInvestigationBean(); 
         ec2PatientInvestigation.setComments("Approving treatment");
-        ec2PatientInvestigation.setInvestigatorId("7");
+        ec2PatientInvestigation.setInvestigatorId("4");
         ec2PatientInvestigation.setInvestigatorType("Executive Committee");
         ec2PatientInvestigation.setPrn(patientId + "");
-        pc.saveExecutiveBoardRecommendationAccept(ec2PatientInvestigation);
+        pc.saveExecutiveBoardRecommendationAccept(ec2PatientInvestigation, getAuth("ec2"));
         
         Map<String, String> ec2NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("ECApproval", ec2NextTask.get("nextTask"));
@@ -961,10 +1009,10 @@ public class PatientWorkFlowControllerTest {
         //--------------- EC Approval 3--------------------------------
         PatientInvestigationBean ec3PatientInvestigation=new PatientInvestigationBean(); 
         ec3PatientInvestigation.setComments("Rejecting treatment");
-        ec3PatientInvestigation.setInvestigatorId("8");
+        ec3PatientInvestigation.setInvestigatorId("5");
         ec3PatientInvestigation.setInvestigatorType("Executive Committee");
         ec3PatientInvestigation.setPrn(patientId + "");
-        pc.saveExecutiveBoardRecommendationReject(ec3PatientInvestigation);
+        pc.saveExecutiveBoardRecommendationReject(ec3PatientInvestigation, getAuth("ec3"));
         
         Map<String, String> ec3NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("ECApproval", ec3NextTask.get("nextTask"));
@@ -973,10 +1021,10 @@ public class PatientWorkFlowControllerTest {
         //--------------- EC Approval 4--------------------------------
         PatientInvestigationBean ec4PatientInvestigation=new PatientInvestigationBean(); 
         ec4PatientInvestigation.setComments("Approving treatment by EC4");
-        ec4PatientInvestigation.setInvestigatorId("9");
+        ec4PatientInvestigation.setInvestigatorId("6");
         ec4PatientInvestigation.setInvestigatorType("Executive Committee");
         ec4PatientInvestigation.setPrn(patientId + "");
-        pc.saveExecutiveBoardRecommendationAccept(ec4PatientInvestigation);
+        pc.saveExecutiveBoardRecommendationAccept(ec4PatientInvestigation, getAuth("ec4"));
         
         Map<String, String> ec4NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("PatientIDCardGeneration", ec4NextTask.get("nextTask"));
@@ -1089,7 +1137,7 @@ public class PatientWorkFlowControllerTest {
         bgPatientInvestigation.setInvestigatorId("2");
         bgPatientInvestigation.setInvestigatorType("Program Coordinator");
         bgPatientInvestigation.setPrn(patientId + "");
-        pc.saveBGC(bgPatientInvestigation, "PASS");
+        pc.saveBGC(bgPatientInvestigation, "PASS", getAuth());
         
         Map<String, String> bgNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("MBDoctorApproval", bgNextTask.get("nextTask"));   

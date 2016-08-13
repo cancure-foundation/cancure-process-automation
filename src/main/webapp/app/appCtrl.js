@@ -24,9 +24,10 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 		apiService.adjustScreenHeight();
 		
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 
-			/*var centerContent = document.getElementById('center-content-wrapper');
-			centerContent.scrollTop -= centerContent.scrollTop; // scrolls each view to top on state change
-*/		});
+			var centerContent = document.getElementById('center-content-wrapper');
+			if (centerContent)
+				centerContent.scrollTop -= centerContent.scrollTop; // scrolls each view to top on state change
+		});
 
 		vm.loginUserName = appSettings.loginUserName;
 		vm.roles = appSettings.roles;
