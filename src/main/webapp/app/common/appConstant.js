@@ -64,22 +64,22 @@ app.constant('appSettings', {
 	
 	menuList : [{
 			title: "Home",
-			icon: "dashboard",
+			icon: "home",
 			state: "home"
 		},
 		{
             title: "Manage User",
-            icon: "phone",
+            icon: "users",
             state: "manageUser.createUser"
 	    },
 	    {
             title: "Patient Registration",
-            icon: "pencil",
+            icon: "pencil-square-o",
             state: "patientRegistration"
         },
 	    {
             title: "Doctors",
-            icon: "pencil",
+            icon: "user-md",
             state: "doctor"
 	    },
 	    {
