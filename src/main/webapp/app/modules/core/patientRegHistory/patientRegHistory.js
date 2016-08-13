@@ -1,4 +1,4 @@
-﻿core.controller("PatientRegHistoryController", ['$rootScope', '$scope', '$state', '$stateParams', 'apiService', 'appSettings',
+core.controller("PatientRegHistoryController", ['$rootScope', '$scope', '$state', '$stateParams', 'apiService', 'appSettings',
 function ($rootScope, $scope, $state, $stateParams, apiService, appSettings) {
     
 	var vm = this;
@@ -19,4 +19,3 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings) {
     init();
     
 }]);
-

@@ -1,4 +1,4 @@
-﻿core.controller("patientRegNextActionController", ['$rootScope', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', 'Loader', 'Flash',
+core.controller("patientRegNextActionController", ['$rootScope', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', 'Loader', 'Flash',
 function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loader, Flash) {
     
 	var vm = this;
@@ -66,9 +66,9 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
 	    }
 	    
 	    if ($scope.nextTaskObject.nextTask == 'ECApproval') {
-	    	vm.statuses = [{'id': 'accept/save', 'name' : 'Approve'}, {'id': 'Rejected', 'name' : 'Reject'}];
+	    	vm.statuses = [{'id': 'accept/save', 'name' : 'Approve'}, {'id': 'reject/save', 'name' : 'Reject'}];
 	    }
-    };
+    } 
     
     
      vm.submitTask = function() {
@@ -81,7 +81,7 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
     	serverData.patientInvestigationBean.comments = serverData.comments;
     	*/
     	Loader.create('Please wait ...');
-    
+    	 
     	var url = '';
     	/*if (!vm.formData.status) {
     		alert('Please select a status');
@@ -111,10 +111,9 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
     	}
     	
     	/*console.log($scope);
-    	console.log($scope.patientFile);
-    	return;
-    	*/
-    	return
+    	console.log(vm.formData.people);
+    	return;*/
+    	
     	multipartSubmit(url, prefix);
     	
     	//JSON.stringify().
@@ -152,11 +151,11 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
         	Loader.destroy();
             Flash.create('success', 'Completed Successfully.', 'large-text');
             vm.formData = {};
-            
+            $state.go('app.patientRegHistory',  { prn: $scope.prn} );
+
         });
     }
      
     init();
     
 }]);
-

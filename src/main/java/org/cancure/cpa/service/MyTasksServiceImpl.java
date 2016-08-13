@@ -14,9 +14,11 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.cancure.cpa.controller.beans.PatientBean;
+import org.cancure.cpa.persistence.entity.Doctor;
 import org.cancure.cpa.persistence.entity.PatientDocument;
 import org.cancure.cpa.persistence.entity.PatientInvestigation;
 import org.cancure.cpa.persistence.entity.User;
+import org.cancure.cpa.persistence.repository.DoctorRepository;
 import org.cancure.cpa.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,6 +46,9 @@ public class MyTasksServiceImpl implements MyTasksService {
 	
 	@Autowired
     private UserRepository userRepository;
+	
+	@Autowired
+    private DoctorRepository doctorRepository;
 	
 	@Override
 	public List<Map<String, String>> getMyTasks(List<String> roles) {
@@ -200,7 +205,13 @@ public class MyTasksServiceImpl implements MyTasksService {
         String investigatorName = "";
         switch (investigatorType) {
         case "Doctor":
-            investigatorName = "Doctor Todo";
+        	Doctor doc = doctorRepository.findOne(investigatorId);
+        	if (doc != null) {
+        		investigatorName = doc.getName();
+        	} else {
+        		investigatorName = "N/A";
+        	}
+             
             break;
         case "Program Coordinator":
             investigatorName = findInvestigator(investigatorId);

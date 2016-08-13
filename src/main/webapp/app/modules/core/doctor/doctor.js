@@ -12,5 +12,4 @@ function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings)
             };
         
         init();
-
 }]);
