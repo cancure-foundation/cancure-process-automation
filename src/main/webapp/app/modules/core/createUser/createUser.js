@@ -3,7 +3,8 @@ core.controller("CreateUserController", ['$scope', '$timeout', 'Flash', 'apiServ
 	var vm = this;
 	vm.formData = {};
 	vm.formData.roles = [];
-
+	vm.userCreated = false;
+	
 	var init = function () {
 		Loader.create('Fetching Data. Please wait');
 		apiService.serviceRequest({
@@ -17,8 +18,10 @@ core.controller("CreateUserController", ['$scope', '$timeout', 'Flash', 'apiServ
 	// init function, execution starts here
 	init();
 
-	//function to handle save button click
-	vm.onSend = function () { 	
+	/**
+	 * function to handle save button click
+	 */
+	vm.createUser = function () { 	
 		var formState = formValidator(); // function to validate form fields
 		if(!formState.valid){
 			Flash.create('warning', formState.errMsg, 'large-text');
@@ -38,16 +41,13 @@ core.controller("CreateUserController", ['$scope', '$timeout', 'Flash', 'apiServ
 			payLoad: serverData
 		}, function (response) {
 			Loader.destroy();
-			Flash.create('success', 'User Successfully Registered.', 'large-text');                
-			$timeout(function (){
-				vm.formData = {};      
-				vm.formData.roles = [];
-			});
-			vm.registerForm.$setUntouched();
-			vm.registerForm.$setPristine();
+			Flash.create('success', 'User Successfully Registered.', 'large-text');   
+			vm.userCreated = true; // to show the user summary div
 		});
 	};
-	// function to validate form fields
+	/**
+	 * function to validate form fields
+	 */
 	var formValidator = function (){
 		var formState = {
 				valid : true
@@ -66,7 +66,9 @@ core.controller("CreateUserController", ['$scope', '$timeout', 'Flash', 'apiServ
 		
 		return formState;
 	}
-	//function to handle save button click
+	/**
+	 * function to handle save button click
+	 */
 	vm.roleSelection = function (selectedId) {
 		// checks if the index is already present in roles array, if yes the remove, else push the index
 		var pushItem = true;
@@ -82,7 +84,9 @@ core.controller("CreateUserController", ['$scope', '$timeout', 'Flash', 'apiServ
 				id: selectedId
 			});
 	};
-	// handles the checkbox selection
+	/**
+	 * handles the checkbox selection
+	 */
 	vm.exists = function(id){
 		var list = this.formData.roles;
 		for(var i = 0; i < list.length; i++){
@@ -91,6 +95,18 @@ core.controller("CreateUserController", ['$scope', '$timeout', 'Flash', 'apiServ
 				break;
 			}
 		}
+	};
+	/**
+	 * function to show created user
+	 */
+	vm.createNwUsrBtn = function (){
+		vm.userCreated = false; // to hide the user summary div
+		$timeout(function (){
+			vm.formData = {};      
+			vm.formData.roles = [];
+		});
+		vm.registerForm.$setUntouched();
+		vm.registerForm.$setPristine();
 	}
 
 }]);
