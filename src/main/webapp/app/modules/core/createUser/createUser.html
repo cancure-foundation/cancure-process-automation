@@ -1,10 +1,9 @@
-<section class="content">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            Add a new user
-        </div>
+<div class="content" style="padding-top:0px;">
+    <h4 ng-hide="vm.userCreated">Fill the form to create a new user.</h4>
+    <h4 ng-show="vm.userCreated">User created with the following details.</h4>
+    <div ng-hide="vm.userCreated" class="panel panel-info">
         <div class="panel-body">
-            <form ng-submit="vm.onSend();" name="vm.registerForm">
+            <form ng-submit="vm.createUser();" name="vm.registerForm">
                 <div class="col-md-7 col-xs-12">
                     <md-input-container class="md-icon-float md-block">
                         <label>Name</label>
@@ -19,13 +18,13 @@
 
                     <md-input-container class="md-icon-float md-block">
                         <label>Password</label>
-                        <md-icon class="fa fa-user"></md-icon>
+                        <md-icon class="fa fa-unlock-alt"></md-icon>
                         <input type="password" data-ng-model="vm.formData.password" ng-required="true" />
                     </md-input-container>
 
                     <md-input-container class="md-icon-float md-block">
                         <label>Re type Password</label>
-                        <md-icon class="fa fa-envelope"></md-icon>
+                        <md-icon class="fa fa-unlock-alt"></md-icon>
                         <input type="password" data-ng-model="vm.formData.retypepassword" ng-required="true" />
                     </md-input-container>
                 </div>
@@ -45,5 +44,29 @@
             </form>
         </div>
     </div>
-
-</section>
+    <div ng-show="vm.userCreated" class="panel panel-info" style="padding:15px;">
+        <div class="row">
+            <div class="col-xs-offset-3 col-xs-6">
+                <table class="table table-bordered">
+                    <th class="col-xs-4">Name</th>
+                    <th class="col-xs-4">Login ID</th>
+                    <th class="col-xs-4">Roles</th>
+                    <tr>
+                        <td class="col-xs-4">{{vm.formData.name}}</td>
+                        <td class="col-xs-4">{{vm.formData.login}}</td>
+                        <td class="col-xs-4">
+                            <div ng-repeat="role in roles">
+                                <div ng-repeat="selectedRole in vm.formData.roles">
+                                    <span ng-if="role.id == selectedRole.id"> {{role.name}} </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-xs-12 text-center">
+                <md-button class="md-raised" ng-click="vm.createNwUsrBtn();">Create another user</md-button>
+            </div>
+        </div>
+    </div>
+</div>

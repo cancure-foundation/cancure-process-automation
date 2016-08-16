@@ -1,5 +1,5 @@
 core.controller("SearchPatientController", ['$rootScope', '$scope', '$state', '$stateParams', 'Flash', 'apiService', 'appSettings',
-function ($rootScope, $scope, $state, $stateParams, Flash, apiService, appSettings) {
+                                            function ($rootScope, $scope, $state, $stateParams, Flash, apiService, appSettings) {
 
 	var vm = this;	
 	var init = function () {
