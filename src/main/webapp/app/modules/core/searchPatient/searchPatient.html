@@ -1,102 +1,59 @@
-<section class="content-header">
-	<h1>Search Patient</h1>
-	<ol class="breadcrumb">
-		<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-		<li class="active">Patient Search</li>
-	</ol>
-</section>
-<!-- Main content -->
-<section class="content">
-	<form data-ng-submit="vm.submitForm();" name="vm.searchForm">
-		<br>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-info">
-					<div class="panel-heading">Search For Patient</div>
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-md-4 col-sm-12">
-
-								<md-content class="autoScroll" style="overflow:hidden">
-
-								<md-input-container class="md-icon-float md-block">
-								<label>Search By</label> 
-								<md-icon class="fa fa-chevron-right"></md-icon>
-								<md-select data-ng-model="vm.formData.searchBy" required>
-								<md-option value="prn">PRN</md-option> 
-								<md-option value="name">Name</md-option>
-								</md-select> 
-								</md-input-container> 
-								<md-input-container class="md-icon-float md-block"
-									style="padding-bottom: 26px;"> 
-									<label>Select text to search</label> 
-									<md-icon class="fa fa-user"></md-icon> 
-									<input type="text" required data-ng-model="vm.formData.searchText">
-								</md-input-container>
-
-								<div class="text-center">
-									<md-button class="md-raised md-primary" type="submit">Submit<i class="fa fa-angle-double-right"></i></md-button>
-									<md-button class="md-raised" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
-								</div>
-								</md-content>
-
-							</div>
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
-	<h1>Search Result</h1>
-</section>
-
-<section class="content">
-
-	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-info">
-				<div class="panel-heading">Search Results</div>
-				<div class="panel-body">
-					<div class="row">
-						<div class="col-md-12 col-sm-12">
-
-							<md-content class="autoScroll" style="overflow:hidden">
-
-							<md-input-container class="md-icon-float md-block">
-
-							<div class="box-footer">
-								<div class="row">
-									<table class="table table-hover">
-										<thead>
-											<tr>
-												<th>PRN</th>
-												<th>Patient Name</th>
-												<th>Contact</th>
-												<th>Address</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-repeat="patient in vm.patientList">
-												<td>{{patient.prn}}</td>
-												<td ng-click="vm.changeView(patient.prn)">{{patient.name}}</td>
-												<td>{{patient.contact}}</td>
-												<td>{{patient.address}}</td>
-
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-
-							</md-input-container> </md-content>
-
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+<div class="searchPatient" id="searchPatient">
+    <div class="row searchBox">
+        <form data-ng-submit="vm.search();" name="vm.searchForm">
+            <div class="col-md-5 col-xs-12 searchBoxText">
+                Search Patient
+            </div>
+            <div class="col-md-3 col-xs-12">
+                <md-input-container class="md-icon-float md-block">
+                    <label>Search By</label>
+                    <md-select data-ng-model="vm.formData.searchBy" required>
+                        <md-option value="prn">PRN</md-option>
+                        <md-option value="name">Name</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div class="col-md-3 col-xs-12">
+                <md-input-container class="md-icon-float md-block">
+                    <label>Select text to search</label>
+                    <input type="text" required data-ng-model="vm.formData.searchText" ng-disabled="!vm.formData.searchBy" style="background-image: none;border-bottom-color: rgba(0,0,0,0.12);">
+                </md-input-container>
+            </div>
+            <div class="col-md-1 col-xs-12 hidden-xs">
+                <i class="fa fa-search" ng-click="vm.search();"></i>
+            </div>
+            <div class="col-md-1 col-xs-12 hidden-md hidden-lg hidden-sm">
+                <md-button class="md-raised" type="submit">Search</md-button>
+            </div>
+        </form>
+    </div>
+    <div class="searchResult">
+        <div class="welcomeText" ng-hide="vm.patientList || vm.noSearchResult">Your search results will be displayed here.</div>
+        <div class="noResultText" ng-show="vm.noSearchResult">Sorry, no items matches your query.</div>
+        <div class="row" ng-show="vm.patientList">
+            <div class="col-xs-12 searchResultIndicator">
+                Search completed with <b>"{{vm.patientList.length}}"</b> results
+            </div>
+            <div class="col-xs-12">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>PRN</th>
+                            <th>Patient Name</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="patient in vm.patientList">
+                            <td>{{patient.prn}}</td>
+                            <td ng-click="vm.changeView(patient.prn)">{{patient.name}}</td>
+                            <td>{{patient.contact}}</td>
+                            <td>{{patient.address}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
