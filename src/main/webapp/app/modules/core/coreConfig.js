@@ -107,5 +107,4 @@ core.config(["$stateProvider", function ($stateProvider) {
             pageTitle: 'Doctors'
         }
     });
-    
 }]);

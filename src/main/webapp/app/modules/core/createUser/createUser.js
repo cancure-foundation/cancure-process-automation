@@ -108,5 +108,4 @@ core.controller("CreateUserController", ['$scope', '$timeout', 'Flash', 'apiServ
 		vm.registerForm.$setUntouched();
 		vm.registerForm.$setPristine();
 	}
-
 }]);

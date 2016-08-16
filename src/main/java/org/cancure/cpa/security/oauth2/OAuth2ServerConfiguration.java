@@ -155,5 +155,4 @@ public class OAuth2ServerConfiguration {
 		}
 		
 	}
-
 }

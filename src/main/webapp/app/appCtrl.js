@@ -87,5 +87,4 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 	}   
 
 	init(); //exection starts with the init function
-
 }]);

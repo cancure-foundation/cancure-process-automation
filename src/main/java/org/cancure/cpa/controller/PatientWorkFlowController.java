@@ -102,6 +102,7 @@ public class PatientWorkFlowController {
 			throw new RuntimeException("Not logged in");
 		}
 		
+		patientInvestigationBean.setStatus("Approved");
 		patientInvestigationBean.setInvestigatorId(userId.toString());
     	patientInvestigationBean.setInvestigatorType("Executive Committee");
         patientRegistrationWorkflowService.executiveBoardRecommendationAccept(patientInvestigationBean); 
@@ -119,6 +120,7 @@ public class PatientWorkFlowController {
 			throw new RuntimeException("Not logged in");
 		}
 		
+		patientInvestigationBean.setStatus("Rejected");
 		patientInvestigationBean.setInvestigatorId(userId.toString());
 		patientInvestigationBean.setInvestigatorType("Executive Committee");
    	
