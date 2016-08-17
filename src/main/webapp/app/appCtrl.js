@@ -1,5 +1,5 @@
-app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies', 'Flash', 'appSettings', 'apiService',
-                           function ($rootScope, $scope, $state, $http, $cookies, Flash, appSettings, apiService) {
+app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies', 'Flash', 'appSettings', 'apiService','$mdDialog', '$mdMedia',
+                           function ($rootScope, $scope, $state, $http, $cookies, Flash, appSettings, apiService, $mdDialog, $mdMedia) {
 
 	var vm = this;  
 	/**
@@ -16,13 +16,13 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 			$state.go('login');
 			return;
 		}
-		
+
 		// to set the height for center content so as to enable the scroll
 		angular.element(window).bind('resize', function(){
 			apiService.adjustScreenHeight();
 		});
 		apiService.adjustScreenHeight();
-		
+
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 			
 			/**
 			 *  to scroll the page to top so that previous page scroll is not retained
@@ -30,7 +30,7 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 			var centerContent = document.getElementById('center-content-wrapper');
 			if (centerContent)
 				centerContent.scrollTop -= centerContent.scrollTop; // scrolls each view to top on state change
-			
+
 			/**
 			 *  to remove any flash messages from the previous screen
 			 */
@@ -39,7 +39,7 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 
 		vm.loginUserName = appSettings.loginUserName;
 		vm.roles = appSettings.roles;
-		
+
 		$rootScope.theme = appSettings.theme;
 		$rootScope.layout = appSettings.layout;
 
@@ -57,12 +57,12 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 	vm.setLayout = function (value) {
 		$rootScope.layout = value;
 	};
-	
+
 	//set the theme selected
-    vm.setTheme = function (value) {
-        $rootScope.theme = value;
-    };
-    
+	vm.setTheme = function (value) {
+		$rootScope.theme = value;
+	};
+
 	//control sidebar open & close in mobile and normal view
 	vm.sideBar = function (value) {
 		if ($(window).width() <= 767) {
@@ -76,6 +76,50 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 					$("body").removeClass('sidebar-collapse');
 				else
 					$("body").addClass('sidebar-collapse');
+			}
+		}
+	};
+	/**
+	 * 
+	 */
+	vm.showAlert = function($event) {
+		var parentEl = angular.element(document.body);
+		$mdDialog.show({
+			parent: parentEl,
+			targetEvent: $event,
+			template:
+				  '<md-dialog aria-label="List dialog" class="row roleDialogBx">' +
+		           '  <md-dialog-content>'+
+		           '  <div class="username"> User Details </div>'+
+		           '  <table class="table table-bordered">'+
+                   '	<th class="col-xs-4">Name</th>'+          
+                   '	<th class="col-xs-4">Roles</th>'+          
+                   '		<tr>'+
+                   '		<td class="col-xs-4">'+ appSettings.loginUserName +'</td>'+
+                   '		<td class="col-xs-4">'+
+                   '      		<div ng-repeat="item in items">'+                        
+                   '        			{{item.name}}'+                         
+                   '             </div>'+
+                   '        </td>'+
+                   '    </tr>'+
+                   '</table>'+
+		           '  </md-dialog-content>' +
+		           '  <md-dialog-actions>' +
+		           '    <md-button ng-click="closeDialog()" class="md-primary">' +
+		           '      Close' +
+		           '    </md-button>' +
+		           '  </md-dialog-actions>' +
+		           '</md-dialog>',
+				locals: {
+					items: appSettings.roles
+				},
+				controller: DialogController
+		});
+		
+		function DialogController($scope, $mdDialog, items) {
+			$scope.items = items;
+			$scope.closeDialog = function() {
+				$mdDialog.hide();
 			}
 		}
 	};

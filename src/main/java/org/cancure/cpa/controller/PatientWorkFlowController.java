@@ -29,8 +29,8 @@ public class PatientWorkFlowController {
 
     @RequestMapping(value="/patientregistration/patient/save", method=RequestMethod.POST)
     public String save(PatientBean patientbean) throws IOException {
-        patientRegistrationWorkflowService.registerPatient(patientbean);
-        return "{\"status\" : \"SUCCESS\"}";
+        String prn=patientRegistrationWorkflowService.registerPatient(patientbean);
+        return "{\"status\" : \"SUCCESS\",\"prn\" :" + prn + "}";
     }
     
     @RequestMapping(value= "/patientregistration/preliminaryexamination/save" , method=RequestMethod.POST)

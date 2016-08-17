@@ -9,10 +9,6 @@
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
-<!--             Sidebar toggle button
-            <a class="sidebar-toggle" data-toggle="offcanvas" role="button" data-ng-click="vm.sideBar(1);"> <span class="sr-only">Toggle
-					navigation</span>
-            </a> -->
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
@@ -58,11 +54,9 @@
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-								<i class="fa fa-user" aria-hidden="true"></i>
+								<i class="fa fa-user" aria-hidden="true" ng-click="vm.showAlert($event);"></i>
 								<br>
-                                <span class="userName">{{vm.loginUserName}}</span>
-                                <p class="text-center" ng-repeat="role in vm.roles">
-                                    {{role.name}}</p>
+                                <span class="userName" ng-click="vm.showAlert($event);">{{vm.loginUserName}}</span>
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">

@@ -1,4 +1,4 @@
-var core = angular.module('core', ['ui.router', 'ngAnimate', 'ngMaterial']);
+var core = angular.module('core', []);
 
 
 core.config(["$stateProvider", function ($stateProvider) {

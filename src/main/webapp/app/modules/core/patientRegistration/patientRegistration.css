@@ -1,0 +1,96 @@
+.patientRegistrationFamily md-content {
+    background-color: transparent;
+}
+.patientRegistrationFamily .panel-heading {
+    font-size: 16px;
+}
+.patientRegistrationFamily .panel-heading i {
+    outline: none;
+    font-size: 18px;
+    padding-left: 8px;
+}
+.patientRegistrationFamily .panel-heading .fa-minus-square {
+    color: #f90000;
+}
+.patientRegistrationFamily .clearfix {
+    padding: 15px 7px;
+}
+.patientRegistrationFamily .clearfix .autoScroll {
+    border: 1px solid #e6e6e6;
+    padding: 15px;
+    background: #fff;
+}
+.patientRegistrationFamily .clearfix .repeatingDiv {
+    padding: 8px;
+}
+.supportingDocs fieldset {
+    border: 1px solid #c0c0c0 !important;
+    margin: 0 0 15px 0 !important;
+    padding: 0.35em 0.625em 0.75em !important;
+}
+.supportingDocs fieldset legend {
+    border-bottom: none !important;
+    margin: 0 0 15px 0 !important;
+    text-align: center;
+    font-size: 18px;
+}
+.supportingDocs fieldset md-input-container {
+    margin: 0 0 15px 0 !important;
+}
+.supportingDocs fieldset md-input-container .md-errors-spacer {
+    min-height: 0px !important;
+}
+.supportingOrg .panel-heading i {
+    outline: none;
+    font-size: 18px;
+    padding-left: 8px;
+}
+.supportingOrg .panel-heading .fa-minus-square {
+    color: #f90000;
+}
+.supportingOrg .repeatingDiv {
+    padding: 8px;
+}
+.supportingOrg .repeatingDiv .autoScroll {
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    padding: 15px;
+}
+.patientRegDialogBx {
+    padding: 15px;
+    max-width: 75%;
+    min-width: 35%;
+}
+.patientRegDialogBx button {
+    border: 1px solid rgb(63, 81, 181);
+}
+.patientRegDialogBx .title {
+    font-size: 36px;
+    text-align: center;
+}
+.patientRegDialogBx .subtitle {
+    font-size: 24px;
+    text-align: center;
+    padding-bottom: 15px;
+}
+.patientRegDialogBx table .user_img {
+    vertical-align: middle;
+    text-align: center;
+}
+.patientRegDialogBx table .fieldName {
+    font-weight: bold;
+}
+.patientRegDialogBx table .user_img i {
+    font-size: 10em;
+}
+@media (max-width: 767px) {
+    .patientRegDialogBx .title {
+        font-size: 24px;
+    }
+    .patientRegDialogBx .subtitle {
+        font-size: 16px;
+    }
+    .patientRegDialogBx table .user_img i {
+        font-size: 5em;
+    }
+}
