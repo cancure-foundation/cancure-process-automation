@@ -1,20 +1,41 @@
-app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', '$cookies', 'Flash', 'appSettings', 'apiService',
-                           function ($rootScope, $scope, $state, $location, $cookies, Flash, appSettings, apiService) {
+app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies', 'Flash', 'appSettings', 'apiService',
+                           function ($rootScope, $scope, $state, $http, $cookies, Flash, appSettings, apiService) {
 
 	var vm = this;  
 	/**
 	 * exection starts with the init function
 	 */
-	var init = function (){    	
+	var init = function (){  
 		if ($cookies.get('userName')) {
 			appSettings.loginUserName = $cookies.get('userName'); // sets the userName to app settings
 			appSettings.roles = JSON.parse($cookies.get('roles')); // sets the roles to app settings
 			appSettings.access_token = $cookies.get('access_token'); // sets the access token to app settings
+			$http.defaults.headers.common.Authorization = 'Bearer ' + $cookies.get('access_token'); // sets the access token for all http request
 		} else {
 			Flash.create('warning', 'Please log in !','large-text');
 			$state.go('login');
 			return;
 		}
+		
+		// to set the height for center content so as to enable the scroll
+		angular.element(window).bind('resize', function(){
+			apiService.adjustScreenHeight();
+		});
+		apiService.adjustScreenHeight();
+		
+		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 			
+			/**
+			 *  to scroll the page to top so that previous page scroll is not retained
+			 */
+			var centerContent = document.getElementById('center-content-wrapper');
+			if (centerContent)
+				centerContent.scrollTop -= centerContent.scrollTop; // scrolls each view to top on state change
+			
+			/**
+			 *  to remove any flash messages from the previous screen
+			 */
+			Flash.dismiss();
+		});
 
 		vm.loginUserName = appSettings.loginUserName;
 		vm.roles = appSettings.roles;
@@ -66,5 +87,4 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$location', '$cook
 	}   
 
 	init(); //exection starts with the init function
-
 }]);

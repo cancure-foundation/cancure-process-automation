@@ -1,0 +1,50 @@
+.searchPatient {
+    padding: 15px;
+}
+.searchPatient .searchBox {
+    margin: 0 15px;
+    border-bottom: 2px solid #1e282c;
+}
+.searchPatient .searchBox .searchBoxText {
+    font-size: 36px;
+    line-height: 70px;
+}
+.searchPatient .searchBox i {
+    font-size: 24px;
+    line-height: 70px;
+    padding-left: 0px;
+    cursor: pointer;
+}
+.searchPatient .searchBox .md-raised {
+    width: 100%;
+    margin: 0px;
+    margin-bottom: 18px;
+}
+.searchPatient .md-errors-spacer {
+    min-height: 0px;
+}
+.searchPatient .searchResult {
+    margin: 15px;
+}
+.searchPatient .searchResult .welcomeText {
+    margin-top: 15%;
+    text-align: center;
+    font-size: 16px;
+}
+.searchPatient .searchResult .noResultText {
+    margin-top: 15%;
+    text-align: center;
+    font-size: 16px;
+}
+.searchPatient .searchResult .searchResultIndicator {
+    font-size: 16px;
+    padding: 23px;
+}
+.searchPatient .searchResult table {
+    background-color: #fff;
+}
+@media (max-width: 767px) {
+    .searchPatient .searchResult .welcomeText {
+        margin-top: 5%;
+    }
+}

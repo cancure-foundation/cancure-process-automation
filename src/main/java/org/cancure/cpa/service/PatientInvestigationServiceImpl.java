@@ -37,6 +37,12 @@ public class PatientInvestigationServiceImpl implements PatientInvestigationServ
     public String savePatientInvestigation(PatientInvestigationBean patientInvestigationBean,String status) throws IOException {
         PatientInvestigation bean = new PatientInvestigation();
         BeanUtils.copyProperties(patientInvestigationBean, bean);
+        if (patientInvestigationBean.getPrn() != null){
+        	bean.setPrn(Integer.parseInt(patientInvestigationBean.getPrn()));
+        }
+        if (patientInvestigationBean.getInvestigatorId() != null) {
+        	bean.setInvestigatorId(Integer.parseInt(patientInvestigationBean.getInvestigatorId()));
+        }
         bean.setStatus(status);
         bean.setInvestigationDate(new Date());
         patientInvestigationRepo.save(bean);
@@ -53,6 +59,10 @@ public class PatientInvestigationServiceImpl implements PatientInvestigationServ
         for (PatientDocumentBean patDocBean : patientDocumentBeans) {
             PatientDocument bean = new PatientDocument();
             BeanUtils.copyProperties(patDocBean, bean);
+            
+            if (patDocBean.getPrn() != null){
+            	bean.setPrn(Integer.parseInt(patDocBean.getPrn()));
+            }
             
             String storePath = null;
             if (patDocBean.getPatientFile() != null) {

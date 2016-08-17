@@ -14,8 +14,18 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
 
+    // Search page state
+    $stateProvider.state('app.manageUser', {
+        url: '/manageUser',
+        templateUrl: 'app/modules/core/manageUser/manageUser.html',
+        controller: 'ManageUserController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Manage User'
+        }
+    });
     //  Create User
-    $stateProvider.state('app.createUser', {
+    $stateProvider.state('app.manageUser.createUser', {
         url: '/createUser',
         templateUrl: 'app/modules/core/createUser/createUser.html',
         controller: 'CreateUserController',
@@ -24,9 +34,8 @@ core.config(["$stateProvider", function ($stateProvider) {
             pageTitle: 'Create User'
         }
     });
-
     // User List
-    $stateProvider.state('app.userList', {
+    $stateProvider.state('app.manageUser.userList', {
         url: '/userList',
         templateUrl: 'app/modules/core/userList/userList.html',
         controller: 'UserListController',
@@ -46,6 +55,16 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
     
+    $stateProvider.state('app.patientRegNextAction', {
+        url: '/patientRegNextAction/:prn',
+        templateUrl: 'app/modules/core/patientRegNextAction/patientRegNextAction.html',
+        controller: 'patientRegNextActionController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Patient Registration Next Action'
+        }
+    });
+    
     $stateProvider.state('app.myQueue', {
         url: '/myQueue',
         templateUrl: 'app/modules/core/myQueue/myQueue.html',
@@ -56,17 +75,7 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
 
-    // Search page state
-    $stateProvider.state('app.searchUser', {
-        url: '/searchUser',
-        templateUrl: 'app/modules/core/searchUser/searchUser.html',
-        controller: 'searchUserController',
-        controllerAs: 'vm',
-        data: {
-            pageTitle: 'Search'
-        }
-    });
-    // Search page state
+    // patient registration page state
     $stateProvider.state('app.patientRegistration', {
         url: '/patientRegistration',
         templateUrl: 'app/modules/core/patientRegistration/patientRegistration.html',
@@ -88,4 +97,14 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
 
+    // Search page state
+    $stateProvider.state('app.doctor', {
+        url: '/doctor',
+        templateUrl: 'app/modules/core/doctor/doctor.html',
+        controller: 'doctorController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Doctors'
+        }
+    });
 }]);

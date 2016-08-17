@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class PatientInvestigationBean {
 
-    private Integer prn;
+    private String prn;
     private String investigatorType;
-    private Integer investigatorId;
+    private String investigatorId;
     private Date investigationDate;
     private String status;
     private String comments;
@@ -20,11 +20,11 @@ public class PatientInvestigationBean {
         this.investigatorType = investigatorType;
     }
 
-    public Integer getInvestigatorId() {
+    public String getInvestigatorId() {
         return investigatorId;
     }
 
-    public void setInvestigatorId(Integer investigatorId) {
+    public void setInvestigatorId(String investigatorId) {
         this.investigatorId = investigatorId;
     }
 
@@ -44,11 +44,11 @@ public class PatientInvestigationBean {
         this.comments = comments;
     }
 
-    public Integer getPrn() {
+    public String getPrn() {
         return prn;
     }
 
-    public void setPrn(Integer prn) {
+    public void setPrn(String prn) {
         this.prn = prn;
     }
 

@@ -156,6 +156,16 @@ create table patient_investigation (
  	prn number(10) references patient(prn)
  );
  
+ create table DOCTOR (
+ 	doctor_id number(10) primary key auto_increment,
+ 	name varchar(100),
+ 	specification varchar(100),
+ 	address varchar(200),
+ 	contact varchar(25),
+ 	email varchar(50),
+ 	enabled boolean
+ );
+ 
  create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),

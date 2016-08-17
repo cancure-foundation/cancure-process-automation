@@ -64,19 +64,14 @@ app.constant('appSettings', {
 	
 	menuList : [{
 			title: "Home",
-			icon: "dashboard",
+			icon: "home",
 			state: "home"
 		},
 		{
-			title: "Create User",
-			icon: "gears",
-			state: "createUser"
-		},
-		{
-			title: "User List",
-			icon: "phone",
-			state: "userList"
-		},
+            title: "Manage User",
+            icon: "users",
+            state: "manageUser.createUser"
+	    },
         {
             title: "Patient History",
             icon: "phone",
@@ -84,14 +79,18 @@ app.constant('appSettings', {
 	    },
 	    {
             title: "Patient Registration",
-            icon: "pencil",
+            icon: "pencil-square-o",
             state: "patientRegistration"
         },
+	    {
+            title: "Doctors",
+            icon: "user-md",
+            state: "doctor"
+	    },
 	    {
             title: "Patient Search",
             icon: "search",
             state: "searchPatient"
         }
 	]
-
 });

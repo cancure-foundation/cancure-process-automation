@@ -14,9 +14,11 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.cancure.cpa.controller.beans.PatientBean;
+import org.cancure.cpa.persistence.entity.Doctor;
 import org.cancure.cpa.persistence.entity.PatientDocument;
 import org.cancure.cpa.persistence.entity.PatientInvestigation;
 import org.cancure.cpa.persistence.entity.User;
+import org.cancure.cpa.persistence.repository.DoctorRepository;
 import org.cancure.cpa.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,6 +46,9 @@ public class MyTasksServiceImpl implements MyTasksService {
 	
 	@Autowired
     private UserRepository userRepository;
+	
+	@Autowired
+    private DoctorRepository doctorRepository;
 	
 	@Override
 	public List<Map<String, String>> getMyTasks(List<String> roles) {
@@ -79,6 +84,8 @@ public class MyTasksServiceImpl implements MyTasksService {
 		
 		Map taskMap = new HashMap<>();
 		
+		String nextTask = null;
+		
 		for (HistoricTaskInstance t : tasks) {
 			Map<String, Object> map = new HashMap<>();
 			//List<PatientInvestigationBean> patientInvestigationBean=new ArrayList<>();
@@ -112,24 +119,30 @@ public class MyTasksServiceImpl implements MyTasksService {
 				map.put("patientName", patientName.toString());
 			}
 
-			Object existingObject = taskMap.get(t.getName());
-			if (existingObject == null) {
-			    taskMap.put(t.getName(), map);
+			if ("MBDoctorApproval".equals(t.getName()) || "ECApproval".equals(t.getName())) {
+				
+				List<Object> existingObject = (List)taskMap.get(t.getName());
+				if (existingObject != null) {
+					existingObject.add(map);
+				} else {
+					List<Object> listOfTask = new ArrayList<>();
+					listOfTask.add(map);
+					taskMap.put(t.getName(), listOfTask);
+				}
+				
 			} else {
-			    if (existingObject instanceof List) {
-			        List<Object> listOfTask = (List)existingObject;
-			        listOfTask.add(map);
-			        taskMap.put(t.getName(), listOfTask);
-			    } else {
-			        List<Object> listOfTask = new ArrayList<>();
-	                listOfTask.add(existingObject);
-	                listOfTask.add(map);
-	                taskMap.put(t.getName(), listOfTask);
-			    }
+				taskMap.put(t.getName(), map);
+			}
+			
+			if (t.getEndTime() == null) {
+				nextTask = t.getName();
 			}
 			
 		}
 		
+		if (nextTask != null) {
+			parentMap.put("nextTask", nextTask);
+		}
 		parentMap.put("tasks", taskMap);
 		return parentMap;
 	}
@@ -157,7 +170,8 @@ public class MyTasksServiceImpl implements MyTasksService {
             map.put("address", patient.getAddress());
             map.put("contact", patient.getContact());
             map.put("employmentStatus", patient.getEmploymentStatus());
-            map.put("solebreadwinner", patient.getSolebreadwinner().toString());
+			map.put("solebreadwinner", patient.getSolebreadwinner() != null
+					? String.valueOf(patient.getSolebreadwinner()) : Boolean.FALSE.toString());
             map.put("assetsOwned", patient.getAssetsOwned());
             map.put("gender", patient.getGender());
             map.put("typeOfSupport", patient.getTypeOfSupport());
@@ -191,7 +205,13 @@ public class MyTasksServiceImpl implements MyTasksService {
         String investigatorName = "";
         switch (investigatorType) {
         case "Doctor":
-            investigatorName = "Doctor Todo";
+        	Doctor doc = doctorRepository.findOne(investigatorId);
+        	if (doc != null) {
+        		investigatorName = doc.getName();
+        	} else {
+        		investigatorName = "N/A";
+        	}
+             
             break;
         case "Program Coordinator":
             investigatorName = findInvestigator(investigatorId);
@@ -224,7 +244,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 			map.put("prn", patientId.toString());
 		}
 		
-		if (patientId != null){
+		if (patientName != null){
 			map.put("patientName", patientName.toString());
 		}
 		
@@ -237,7 +257,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 
         if (procInsts == null) { // No active executions. Check history.
             HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
-                    .processDefinitionKey(processKey).processInstanceBusinessKey(patientId).singleResult();
+                    .processDefinitionKey(processKey).processInstanceBusinessKey(patientId).includeProcessVariables().singleResult();
 
             if (historicProcessInstance == null) {
                 return new HashMap();
@@ -246,12 +266,20 @@ public class MyTasksServiceImpl implements MyTasksService {
                 nextTaskMap.put("nextTask", "");
                 nextTaskMap.put("endTime", historicProcessInstance.getEndTime().toString());
                 nextTaskMap.put("description", historicProcessInstance.getDescription());
+                nextTaskMap.put("prn", patientId);
+                
+                Map<String, Object> processVars = historicProcessInstance.getProcessVariables();
+        		Object patientName = processVars.get("patientName");
+        		if (patientName != null){
+        			nextTaskMap.put("patientName", patientName.toString());
+        		}
+        		
                 return nextTaskMap;
             }
         } else {
 
             Task taskData = taskService.createTaskQuery().processInstanceId(procInsts.getProcessInstanceId())
-                    .singleResult();
+            		.includeProcessVariables().singleResult();
 
             return extractOneTask(taskData);
         }
