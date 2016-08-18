@@ -116,22 +116,25 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 				'</table>'+
 				'  </md-dialog-content>' +
 				'  <md-dialog-actions>' +
-				'    <md-button ng-click="closeDialog()" class="md-primary">' +
-				'      Close' +
+				'    <md-button ng-click="closeDialog(0)" class="md-primary">' +
+				'      Register another Patient' +
+				'    </md-button>' +
+				'    <md-button ng-click="closeDialog(1)" class="md-primary">' +
+				'      Go to Homepage' +
 				'    </md-button>' +
 				'  </md-dialog-actions>' +
 				'</md-dialog>',
 				controller: DialogController
 		});
-
 		function DialogController($scope, $mdDialog) {
-			$scope.closeDialog = function() {
+			$scope.closeDialog = function(to) {
 				$("body").removeClass('sidebar-collapse'); // to expand the sidebar
 				$mdDialog.hide(); // hides the dialog box
 				vm.formData = {}; // clears the formFields
 				vm.patientRegisterForm.$setUntouched();
 				vm.patientRegisterForm.$setPristine();
-				$state.go('app.home'); // redirects to home page
+				if (to == 1)
+					$state.go('app.home'); // redirects to home page
 			}
 		}
 	};

@@ -71,7 +71,11 @@
 .patientRegDialogBx .subtitle {
     font-size: 24px;
     text-align: center;
+    line-height: normal;
     padding-bottom: 15px;
+}
+.patientRegDialogBx .subtitle b {
+    font-size: 36px;
 }
 .patientRegDialogBx table .user_img {
     vertical-align: middle;
@@ -92,5 +96,8 @@
     }
     .patientRegDialogBx table .user_img i {
         font-size: 5em;
+    }
+    .patientRegDialogBx .subtitle b {
+        font-size: 24px;
     }
 }
