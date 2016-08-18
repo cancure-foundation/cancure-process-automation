@@ -36,9 +36,11 @@ public class Patient {
     private Integer age;
     
     
+    @Column(name="marital_status")
+    private String maritalStatus;
+    
     @Column(name="blood_group")
     private String bloodGroup;
-    
     
     @Column(name="contact")
     private String contact;
@@ -172,7 +174,16 @@ public class Patient {
         return bloodGroup;
     }
 
-    public void setBloodGroup(String bloodGroup) {
+    
+    public String getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+
+	public void setBloodGroup(String bloodGroup) {
         this.bloodGroup = bloodGroup;
     }
 

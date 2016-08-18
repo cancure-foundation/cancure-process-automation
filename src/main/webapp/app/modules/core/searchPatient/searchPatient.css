@@ -14,6 +14,7 @@
     line-height: 70px;
     padding-left: 0px;
     cursor: pointer;
+    outline: none;
 }
 .searchPatient .searchBox .md-raised {
     width: 100%;

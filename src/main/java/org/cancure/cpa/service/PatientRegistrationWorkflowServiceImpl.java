@@ -25,7 +25,7 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     private PatientInvestigationService patientInvestigationService;
 
     @Transactional
-    public void registerPatient(PatientBean patient) throws IOException {
+    public String registerPatient(PatientBean patient) throws IOException {
 
         patientService.save(patient);
 
@@ -37,6 +37,7 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
         patientRegistrationService.startPatientRegnProcess(variables, String.valueOf(patient.getPrn()));
 
         patientRegistrationService.movePatientRegn(String.valueOf(patient.getPrn()), null);
+        return String.valueOf(patient.getPrn());
 
     }
 

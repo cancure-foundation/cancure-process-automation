@@ -38,4 +38,5 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', '$
 				vm.formData = {}; // clears the login form data							
             });
 		};
+
 }]);

@@ -9,7 +9,7 @@ import org.cancure.cpa.controller.beans.PatientInvestigationBean;
 
 public interface PatientRegistrationWorkflowService {
 
-    void registerPatient(PatientBean patient) throws IOException;
+    String registerPatient(PatientBean patient) throws IOException;
     
     void preliminaryExamination(PatientInvestigationBean patientInvestigationBean,
             List<PatientDocumentBean> patientDocumentBean) throws IOException;

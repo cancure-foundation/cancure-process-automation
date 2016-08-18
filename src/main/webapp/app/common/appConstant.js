@@ -72,11 +72,6 @@ app.constant('appSettings', {
             icon: "users",
             state: "manageUser.createUser"
 	    },
-        {
-            title: "Patient History",
-            icon: "phone",
-            state: "patientRegHistory"
-	    },
 	    {
             title: "Patient Registration",
             icon: "pencil-square-o",
