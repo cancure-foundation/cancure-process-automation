@@ -17,6 +17,9 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 
 	public Doctor saveDoctor(Doctor doctor) {
+		if (doctor.getDoctorId() == null){
+			doctor.setEnabled(true);
+		}
 		return doctorRepo.save(doctor);
 	}
 
