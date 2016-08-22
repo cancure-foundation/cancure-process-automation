@@ -110,7 +110,7 @@ core.config(["$stateProvider", function ($stateProvider) {
     
  // Search page state
     $stateProvider.state('app.hospital.hospitalCreate', {
-        url: '/hospitalcreate',
+        url: '/hospitalcreate/:hospitalId',
         templateUrl: 'app/modules/core/hospitalCreate/hospitalCreate.html',
         controller: 'HospitalCreateController',
         controllerAs: 'vm',

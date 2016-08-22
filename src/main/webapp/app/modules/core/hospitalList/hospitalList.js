@@ -9,7 +9,11 @@ function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings)
             }, function (response) {
             	$scope.hospitalList = response;
             })
-            };
+        };
         
+        vm.editHospital = function(id){
+        	$state.go('app.hospital.hospitalCreate', { hospitalId: id });
+        }     
+            
         init();
 }]);

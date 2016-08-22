@@ -1,11 +1,24 @@
-core.controller("HospitalCreateController", ['$scope', '$timeout', 'Flash', 'apiService', 'appSettings', 'Loader',
-                                         function ($scope, $timeout, Flash, apiService, appSettings, Loader) {
+core.controller("HospitalCreateController", ['$scope', '$timeout', '$stateParams', 'Flash', 'apiService', 'appSettings', 'Loader',
+                                         function ($scope, $timeout, $stateParams, Flash, apiService, appSettings, Loader) {
 	var vm = this;
 	vm.formData = {};
 	vm.hospitalCreated = false;
 	
+	var init = function() {
+		var id = $stateParams.hospitalId;
+		if (id) {
+			apiService.serviceRequest({
+				URL: 'hospital/' + id,
+				method: 'GET'
+			}, function (response) {
+				Loader.destroy();
+				vm.formData = response;
+			});
+		}
+	}
+	
 	// init function, execution starts here
-	//init();
+	init();
 
 	/**
 	 * function to handle save button click
@@ -29,7 +42,7 @@ core.controller("HospitalCreateController", ['$scope', '$timeout', 'Flash', 'api
 			payLoad: serverData
 		}, function (response) {
 			Loader.destroy();
-			Flash.create('success', 'Hospital Successfully Created.', 'large-text');   
+			Flash.create('success', 'Hospital successfully saved', 'large-text');   
 			vm.hospitalCreated = true; // to show the user summary div
 		});
 	};
@@ -48,7 +61,7 @@ core.controller("HospitalCreateController", ['$scope', '$timeout', 'Flash', 'api
 	 * function to show created user
 	 */
 	vm.createNwHospitalBtn = function (){
-		vm.userCreated = false; // to hide the user summary div
+		vm.hospitalCreated = false; // to hide the user summary div
 		$timeout(function (){
 			vm.formData = {};      
 			vm.formData.roles = [];
