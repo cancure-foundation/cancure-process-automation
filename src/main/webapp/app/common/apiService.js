@@ -41,9 +41,8 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 
         return deferred.promise; // returning the promise object
     };
-
-    // function to be called on logout
-    var logoutAction = function (){
+    
+    var cleanupLoginSettings = function(){
     	// removes all cookies
     	var cookies = $cookies.getAll();
     	angular.forEach(cookies, function (value, key) {
@@ -55,6 +54,18 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
     	appSettings.roles = undefined;  // clears roles
     	delete $http.defaults.headers.common.Authorization;  // clears Authorization header
     	$state.go('login'); // route to the login page
+    }
+    
+    // function to be called on logout
+    var logoutAction = function (){
+    	serviceRequest({
+	        URL: 'logout',
+	    	hideErrMsg : true
+	    }, function (response) {
+	    	cleanupLoginSettings();
+	    }, function (response) {
+	    	cleanupLoginSettings();
+	    });
     };
     
     // function to set the center wrapper height so that UI does not fall when content is less

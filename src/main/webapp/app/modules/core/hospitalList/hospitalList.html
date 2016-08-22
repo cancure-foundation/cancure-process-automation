@@ -1,0 +1,41 @@
+<section class="content-header">
+    <h1>           
+        Hospitals
+        </h1>
+    <ol class="breadcrumb">
+        <li><a><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Hospitals</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info" style="min-height:453px;">
+                <div class="panel-heading">
+                    Hospitals
+                </div>
+                <div class="panel-body">
+
+                    <table class="table">
+                        <th class="col-xs-3">Hospital Name</th>
+                        <th class="col-xs-3">Address</th>
+                        <th class="col-xs-3">Contact</th>
+                        <th class="col-xs-3">Edit</th>
+                        
+                        <tr class="" ng-repeat="doc in hospitalList">
+                            <td class="col-xs-3">{{doc.name}}</td>
+                            <td class="col-xs-3">{{doc.address}}</td>
+                            <td class="col-xs-3">{{doc.contact}}</td>
+                            <td class="col-xs-3">
+                                Edit
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.content -->
