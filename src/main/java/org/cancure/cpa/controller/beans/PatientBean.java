@@ -11,7 +11,6 @@ public class PatientBean {
     private String name;
     private Date dob;
     private String gender;
-    private Integer age;
     private String bloodGroup;
     private String contact;
     private String address;
@@ -31,6 +30,7 @@ public class PatientBean {
     private Date diagnosisDate;
     private String doctorComments ;
     private String typeOfSupport ;
+    private Long totalIncome;
     private List<PatientFamilyBean> patientFamily=new ArrayList<PatientFamilyBean>();
     private List<SupportOrganisationBean> organisation=new ArrayList<SupportOrganisationBean>();
     private List<PatientDocumentBean> document=new ArrayList<PatientDocumentBean>();
@@ -65,12 +65,6 @@ public class PatientBean {
     }
     public void setGender(String gender) {
         this.gender = gender;
-    }
-    public Integer getAge() {
-        return age;
-    }
-    public void setAge(Integer age) {
-        this.age = age;
     }
     public String getBloodGroup() {
         return bloodGroup;
@@ -185,6 +179,13 @@ public class PatientBean {
     }
     public void setTypeOfSupport(String typeOfSupport) {
         this.typeOfSupport = typeOfSupport;
+    }
+    
+    public Long getTotalIncome() {
+        return totalIncome;
+    }
+    public void setTotalIncome(Long totalIncome) {
+        this.totalIncome = totalIncome;
     }
     public List<PatientFamilyBean> getPatientFamily() {
         return patientFamily;
