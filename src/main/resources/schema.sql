@@ -174,6 +174,17 @@ create table patient_investigation (
  	enabled boolean
  );
  
+ create table list (
+ 	list_id number(10) primary key auto_increment,
+ 	name varchar(100)
+ );
+  
+ create table list_value (
+    list_value_id number(10) primary key auto_increment,
+    list_id number(10) references list(list_id), 
+ 	value varchar(100)
+ );
+ 
  create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),
