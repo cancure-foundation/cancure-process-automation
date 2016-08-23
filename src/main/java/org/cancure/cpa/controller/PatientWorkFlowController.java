@@ -29,8 +29,8 @@ public class PatientWorkFlowController {
 
     @RequestMapping(value="/patientregistration/patient/save", method=RequestMethod.POST)
     public String save(PatientBean patientbean) throws IOException {
-        patientRegistrationWorkflowService.registerPatient(patientbean);
-        return "{\"status\" : \"SUCCESS\"}";
+        String prn=patientRegistrationWorkflowService.registerPatient(patientbean);
+        return "{\"status\" : \"SUCCESS\",\"prn\" :" + prn + "}";
     }
     
     @RequestMapping(value= "/patientregistration/preliminaryexamination/save" , method=RequestMethod.POST)
@@ -91,7 +91,7 @@ public class PatientWorkFlowController {
         return "{\"status\" : \"SUCCESS\"}";
     }
     
-   @RequestMapping(value= "patientregistration/executiveboardrecommendation/accept/save", method=RequestMethod.POST)
+   @RequestMapping(value= "/patientregistration/executiveboardrecommendation/accept/save", method=RequestMethod.POST)
     public String saveExecutiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean, OAuth2Authentication auth) throws IOException {
 	   Integer userId = null;
 		if (auth != null) {
@@ -109,7 +109,7 @@ public class PatientWorkFlowController {
         return "{\"status\" : \"SUCCESS\"}";
     }
    
-   @RequestMapping(value= "patientregistration/executiveboardrecommendation/reject/save", method=RequestMethod.POST)
+   @RequestMapping(value= "/patientregistration/executiveboardrecommendation/reject/save", method=RequestMethod.POST)
    public String saveExecutiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean, OAuth2Authentication auth) throws IOException {
 	   Integer userId = null;
 		if (auth != null) {
@@ -128,7 +128,7 @@ public class PatientWorkFlowController {
         return "{\"status\" : \"SUCCESS\"}";
    }
    
-   @RequestMapping(value= "patientregistration/Patientidcard/{prn}")
+   @RequestMapping(value= "/patientregistration/patientidcard/{prn}")
    public String savePatientIDCard(@PathVariable("prn") Integer prn) throws IOException {
         patientRegistrationWorkflowService.patientIDCard(prn);
         return "{\"status\" : \"SUCCESS\"}";

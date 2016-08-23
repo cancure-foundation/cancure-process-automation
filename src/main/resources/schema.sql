@@ -165,6 +165,14 @@ create table patient_investigation (
  	email varchar(50),
  	enabled boolean
  );
+
+ create table hospital (
+ 	hospital_id number(10) primary key auto_increment,
+ 	name varchar(100),
+ 	address varchar(200),
+ 	contact varchar(25),
+ 	enabled boolean
+ );
  
  create table ACT_GE_PROPERTY (
     NAME_ varchar(64),

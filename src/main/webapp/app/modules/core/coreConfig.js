@@ -1,4 +1,4 @@
-var core = angular.module('core', ['ui.router', 'ngAnimate', 'ngMaterial']);
+var core = angular.module('core', []);
 
 
 core.config(["$stateProvider", function ($stateProvider) {
@@ -107,4 +107,36 @@ core.config(["$stateProvider", function ($stateProvider) {
             pageTitle: 'Doctors'
         }
     });
+    
+ // Search page state
+    $stateProvider.state('app.hospital.hospitalCreate', {
+        url: '/hospitalcreate',
+        templateUrl: 'app/modules/core/hospitalCreate/hospitalCreate.html',
+        controller: 'HospitalCreateController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Hospitals'
+        }
+    });
+    
+    $stateProvider.state('app.hospital.hospitalList', {
+        url: '/hospitalList',
+        templateUrl: 'app/modules/core/hospitalList/hospitalList.html',
+        controller: 'HospitalListController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Hospitals'
+        }
+    });
+    
+    $stateProvider.state('app.hospital', {
+        url: '/hospital',
+        templateUrl: 'app/modules/core/hospitalManage/hospitalManage.html',
+        controller: 'HospitalManageController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Hospitals'
+        }
+    });
+    
 }]);

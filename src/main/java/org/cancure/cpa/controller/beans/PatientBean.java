@@ -12,6 +12,7 @@ public class PatientBean {
     private Date dob;
     private String gender;
     private String bloodGroup;
+    private String maritalStatus;
     private String contact;
     private String address;
     private String employmentStatus;
@@ -69,7 +70,14 @@ public class PatientBean {
     public String getBloodGroup() {
         return bloodGroup;
     }
-    public void setBloodGroup(String bloodGroup) {
+    
+    public String getMaritalStatus() {
+		return maritalStatus;
+	}
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+	public void setBloodGroup(String bloodGroup) {
         this.bloodGroup = bloodGroup;
     }
     public String getContact() {
