@@ -1,5 +1,8 @@
 package org.cancure.cpa.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.cancure.cpa.persistence.entity.InvestigatorType;
 import org.cancure.cpa.persistence.entity.ListOfValues;
 import org.cancure.cpa.service.CommonService;
@@ -22,5 +25,15 @@ public class CommonController {
 	@RequestMapping("/common/lov/{name}")
 	public Iterable<ListOfValues> getListOfValues(@PathVariable("name") String name){
 		return commonService.getListOfValues(name);
+	}
+	
+	@RequestMapping("/common/lovs/{name}")
+	public Map<String, Iterable> getListOfValuesMultiple(@PathVariable("name") String names){
+		Map<String, Iterable> map = new HashMap<>();
+		String[] namesList = names.split("_");
+		for (String name : namesList) {
+			map.put(name, commonService.getListOfValues(name));
+		}
+		return map;
 	}
 }
