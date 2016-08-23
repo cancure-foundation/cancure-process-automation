@@ -96,17 +96,6 @@ core.config(["$stateProvider", function ($stateProvider) {
             pageTitle: 'Search Patient'
         }
     });
-
-    // Search page state
-    $stateProvider.state('app.doctor', {
-        url: '/doctor',
-        templateUrl: 'app/modules/core/doctor/doctor.html',
-        controller: 'doctorController',
-        controllerAs: 'vm',
-        data: {
-            pageTitle: 'Doctors'
-        }
-    });
     
  // Search page state
     $stateProvider.state('app.hospital.hospitalCreate', {
@@ -138,5 +127,38 @@ core.config(["$stateProvider", function ($stateProvider) {
             pageTitle: 'Hospitals'
         }
     });
+    
+    
+ // Search page state
+    $stateProvider.state('app.doctor.doctorCreate', {
+        url: '/doctorCreate/:doctor_id',
+        templateUrl: 'app/modules/core/doctorCreate/doctorCreate.html',
+        controller: 'DoctorCreateController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Doctors'
+        }
+    });
+    
+    $stateProvider.state('app.doctor.doctorList', {
+        url: '/doctorList',
+        templateUrl: 'app/modules/core/doctorList/doctorList.html',
+        controller: 'DoctorListController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Doctors'
+        }
+    });
+    
+    $stateProvider.state('app.doctor', {
+        url: '/doctor',
+        templateUrl: 'app/modules/core/doctorManage/doctorManage.html',
+        controller: 'DoctorManageController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Doctors'
+        }
+    });
+    
     
 }]);

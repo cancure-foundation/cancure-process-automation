@@ -16,9 +16,12 @@ public class DoctorController {
 	@Autowired
 	DoctorService doctorService;
 
-	@RequestMapping(method = RequestMethod.POST, value = "/doctor/save", consumes = "application/json")
-	public Doctor saveDoctor(@RequestBody Doctor doctor) {
-		return doctorService.saveDoctor(doctor);
+	@RequestMapping(value = "/doctor/save",method = RequestMethod.POST)
+	public String saveDoctor(@RequestBody Doctor doctor) {
+		System.out.println(doctor.getName());
+		doctor.setEnabled(true);
+		doctorService.saveDoctor(doctor);
+		return "{\"status\" : \"SUCCESS\"}";
 	}
 
 	@RequestMapping("/doctor/list")
