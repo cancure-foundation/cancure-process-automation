@@ -82,16 +82,16 @@ app.constant('appSettings', {
             title: "Doctors",
             icon: "user-md",
             state: "doctor"
-	    },
-	    {
-            title: "Patient Search",
-            icon: "search",
-            state: "searchPatient"
-        },
+	    },	    
 	    {
             title: "Hospitals",
             icon: "hospital-o",
             state: "hospital.hospitalList"
-        }
+        },
+        {
+            title: "Patient Search",
+            icon: "search",
+            state: "searchPatient"
+        },
 	]
 });
