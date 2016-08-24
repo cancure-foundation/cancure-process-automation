@@ -1,5 +1,5 @@
-core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'apiService', 'appSettings', 'Loader', '$mdDialog', '$mdMedia',
-                                                  function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings, Loader, $mdDialog, $mdMedia) {
+core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'apiService', 'appSettings', 'Loader', '$mdDialog', '$mdMedia', '$timeout',
+                                                  function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings, Loader, $mdDialog, $mdMedia, $timeout) {
 	var vm = this;
 
 	var init = function () {
@@ -69,9 +69,40 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 	/**
 	 * 
 	 */
+	vm.showFileDialog = function (){
+		document.getElementById('patientProfilePic_reg').click();
+	};
+	/**
+	 * 
+	 */
+	vm.profileImageChange = function (input) {
+		var url = input.value,
+			ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+		if (input.files && input.files[0] && (ext == "png" || ext == "jpeg" || ext == "jpg")) {
+		    var reader = new FileReader();		    
+		    reader.onload = function (e) {
+		    	$timeout(function (){
+		    		vm.profilePicSrc = e.target.result;
+		    	});		    	
+		    };
+		    reader.readAsDataURL(input.files[0]);
+		}
+		else {
+			Flash.create('danger', 'Please select valid image types.(jpg/jpeg/png)' , 'large-text');
+		}		
+	};
+	/**
+	 * 
+	 */
 	vm.clearOrg = function (){
 		vm.organisation = [{}];
 	};
+	/**
+	 * 
+	 */
+	vm.removeProfileImg = function (){
+		delete vm.profilePicSrc;
+	}
 	/**
 	 *  function to show patient summary on successful registration
 	 */

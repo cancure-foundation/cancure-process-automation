@@ -9,6 +9,47 @@
     font-size: 18px;
     padding-left: 8px;
 }
+.patientRegistrationFamily .profile-image {
+    border: 5px solid #d9edf7;
+    height: 240px;
+}
+.patientRegistrationFamily .profile-image * {
+    outline: none;
+}
+.patientRegistrationFamily .profile-image .title {
+    background-color: #d9edf7;
+    color: #3a87ad;
+    height: 25px;
+}
+.patientRegistrationFamily .profile-image i {
+    float: right;
+    padding: 2px 0px;
+}
+.patientRegistrationFamily .profile-image .fa-times {
+    color: #f90000;
+    padding: 0px 5px;
+    font-size: 18px;
+}
+.patientRegistrationFamily .profile-image .select-div {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, 0%);
+    left: 50%;
+    font-size: 18px;
+    text-align: center;
+    line-height: 18px;
+    color: #cccccc;
+}
+.patientRegistrationFamily .profile-image .img-container {
+    text-align: center;
+    height: 205px;
+    padding: 15px;
+}
+.patientRegistrationFamily .profile-image .img-container img {
+    height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+}
 .patientRegistrationFamily .panel-heading .fa-minus-square {
     color: #f90000;
 }

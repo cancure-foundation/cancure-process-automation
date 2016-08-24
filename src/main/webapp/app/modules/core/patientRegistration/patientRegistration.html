@@ -33,23 +33,21 @@
                                         </md-input-container>
 
                                         <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
-                                            <label>Type of support requested from Cancure</label>
-                                            <md-icon class="fa fa-chevron-right"></md-icon>
-                                            <md-select data-ng-model="vm.formData.typeOfSupport" placeholder="Type of Support" ng-required="true">
-                                                <md-option value="Financial support">Financial support</md-option>
-                                                <md-option value="Lab Tests">Lab Tests</md-option>
-                                                <md-option value="Treatment">Treatment</md-option>
-                                                <md-option value="Medicines">Medicines</md-option>
-                                            </md-select>
-                                        </md-input-container>
-
-                                        <md-input-container class="md-icon-float md-block">
                                             <label>Gender</label>
                                             <md-icon class="fa fa-chevron-right"></md-icon>
                                             <md-select data-ng-model="vm.formData.gender" name="gender" ng-required="true">
                                                 <md-option value="Male">Male</md-option>
                                                 <md-option value="Female">Female</md-option>
                                                 <md-option value="Transgender">Transgender</md-option>
+                                            </md-select>
+                                        </md-input-container>
+
+                                        <md-input-container class="md-icon-float md-block">
+                                            <label>Employment status</label>
+                                            <md-icon class="fa fa-briefcase"></md-icon>
+                                            <md-select data-ng-model="vm.formData.employmentStatus" name="gender" ng-required="true">
+                                                <md-option value="Employed">Employed</md-option>
+                                                <md-option value="Unemployed">Unemployed</md-option>
                                             </md-select>
                                         </md-input-container>
                                     </div>
@@ -87,25 +85,45 @@
                                             </md-select>
                                         </md-input-container>
                                     </div>
+
+                                    <div class="col-md-4 col-sm-12">
+                                        <div class="profile-image">
+                                            <div class="title">
+                                                <span>Profile Image</span>                                                
+                                                <i class="fa fa-times"  ng-click="vm.removeProfileImg()" ng-show="vm.profilePicSrc"></i>
+                                                <i class="fa fa-refresh" ng-click="vm.showFileDialog()" ng-show="vm.profilePicSrc"></i>
+                                            </div>
+                                            <div class="select-div" ng-click="vm.showFileDialog()" ng-hide="vm.profilePicSrc"> Select Image</div>
+                                            <div class="img-container">
+                                                <img ng-src="{{vm.profilePicSrc}}" ng-show="vm.profilePicSrc" />
+                                            </div>
+                                            <input id="patientProfilePic_reg" type='file' onchange="angular.element(this).scope().vm.profileImageChange(this);" style="display: none;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-4 col-sm-12">
                                         <md-input-container class="md-icon-float md-block">
                                             <label>Contact No.</label>
                                             <md-icon class="fa fa-phone"></md-icon>
                                             <input type="number" data-ng-model="vm.formData.contact" ng-required="true">
                                         </md-input-container>
-
+                                    </div>
+                                    <div class="col-md-4 col-sm-12">
                                         <md-input-container class="md-icon-float md-block">
                                             <label>Address for Communication</label>
                                             <md-icon class="fa fa-home"></md-icon>
                                             <input type="text" name="address" data-ng-model="vm.formData.address" ng-required="true">
                                         </md-input-container>
-
+                                    </div>
+                                    <div class="col-md-4 col-sm-12">
                                         <md-input-container class="md-icon-float md-block">
-                                            <label>Employment status</label>
-                                            <md-icon class="fa fa-briefcase"></md-icon>
-                                            <md-select data-ng-model="vm.formData.employmentStatus" name="gender" ng-required="true">
-                                                <md-option value="Employed">Employed</md-option>
-                                                <md-option value="Unemployed">Unemployed</md-option>
+                                            <md-icon class="fa fa-chevron-right"></md-icon>
+                                            <md-select data-ng-model="vm.formData.typeOfSupport" placeholder="Type of Support from Cancure" ng-required="true">
+                                                <md-option value="Financial support">Financial support</md-option>
+                                                <md-option value="Lab Tests">Lab Tests</md-option>
+                                                <md-option value="Treatment">Treatment</md-option>
+                                                <md-option value="Medicines">Medicines</md-option>
                                             </md-select>
                                         </md-input-container>
                                     </div>
