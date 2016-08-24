@@ -2,6 +2,7 @@ package org.cancure.cpa.security.oauth2;
 
 import javax.sql.DataSource;
 
+import org.cancure.cpa.security.CustomLogoutSuccessHandler;
 import org.cancure.cpa.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -61,6 +62,9 @@ public class OAuth2ServerConfiguration {
 	protected static class ResourceServerConfiguration extends
 			ResourceServerConfigurerAdapter {
 
+		@Autowired
+        private CustomLogoutSuccessHandler customLogoutSuccessHandler;
+
 		@Override
 		public void configure(ResourceServerSecurityConfigurer resources) {
 			resources.resourceId(RESOURCE_ID);
@@ -84,7 +88,7 @@ public class OAuth2ServerConfiguration {
 		 *  /patientregistration/secretaryrecommendation/save/ ROLE_SECRETARY
 		 *  /patientregistration/executiveboardrecommendation/accept/save ROLE_EXECUTIVE_COMMITTEE
 		 *  /patientregistration/executiveboardrecommendation/reject/save ROLE_EXECUTIVE_COMMITTEE
-		 *  /patientregistration/Patientidcard/ ROLE_PROGRAM_COORDINATOR
+		 *  /patientregistration/patientidcard/** ROLE_PROGRAM_COORDINATOR
 		 * 
 		 */ 
 		@Override
@@ -92,12 +96,30 @@ public class OAuth2ServerConfiguration {
 			// @formatter:off
 			http
 				.authorizeRequests()
-					.antMatchers("/**").permitAll();
-					/*.antMatchers("/hellomessage").permitAll()
-					.antMatchers("/allusers").hasRole("USER")
-					.antMatchers("/cancure").hasRole("ADMIN")
-					.antMatchers("/pc").hasRole("PROGRAM_COORDINATOR")
-					.antMatchers("/**").authenticated();*/
+					//.antMatchers("/**").permitAll();
+					.antMatchers("/user/list").hasRole("ADMIN")
+					.antMatchers("/user/whoami").authenticated()
+					.antMatchers("/user/login").permitAll()
+					
+					.antMatchers("/tasks/my").authenticated()
+					.antMatchers("/tasks/role").authenticated()
+					.antMatchers("/tasks/history/**").authenticated()
+					.antMatchers("/tasks/**").authenticated()
+					
+					.antMatchers("/patient").authenticated()
+					
+					.antMatchers("/patientregistration/patient/save").hasRole("PROGRAM_COORDINATOR")
+					.antMatchers("/patientregistration/patient/save").hasRole("HOSPITAL_POC")
+					.antMatchers("/patientregistration/preliminaryexamination/save").hasRole("HOSPITAL_POC")
+					.antMatchers("/patientregistration/preliminaryexamination/save").hasRole("DOCTOR")
+					.antMatchers("/patientregistration/backgroundcheck/save").hasRole("PROGRAM_COORDINATOR")
+					.antMatchers("/patientregistration/mbdoctorrecommendation/save").hasRole("DOCTOR")
+					.antMatchers("/patientregistration/secretaryrecommendation/save").hasRole("SECRETARY")
+					.antMatchers("/patientregistration/executiveboardrecommendation/**").hasRole("EXECUTIVE_COMMITTEE")
+					.antMatchers("/patientregistration/patientidcard/**").hasRole("PROGRAM_COORDINATOR")
+					
+					.and().logout().logoutSuccessHandler(customLogoutSuccessHandler)
+					.permitAll();
 			// @formatter:on
 			
 			http.csrf().disable();
