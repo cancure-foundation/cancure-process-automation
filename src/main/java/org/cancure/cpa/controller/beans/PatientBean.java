@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.cancure.cpa.util.CommonUtil;
+
 public class PatientBean {
 
     private Integer prn;
@@ -31,7 +33,6 @@ public class PatientBean {
     private Date diagnosisDate;
     private String doctorComments ;
     private String typeOfSupport ;
-    private Long totalIncome;
     private List<PatientFamilyBean> patientFamily=new ArrayList<PatientFamilyBean>();
     private List<SupportOrganisationBean> organisation=new ArrayList<SupportOrganisationBean>();
     private List<PatientDocumentBean> document=new ArrayList<PatientDocumentBean>();
@@ -61,6 +62,11 @@ public class PatientBean {
     public void setDob(Date dob) {
         this.dob = dob;
     }
+    
+    public Integer getAge(){
+        return CommonUtil.getAge(dob);
+    }
+    
     public String getGender() {
         return gender;
     }
@@ -188,12 +194,8 @@ public class PatientBean {
     public void setTypeOfSupport(String typeOfSupport) {
         this.typeOfSupport = typeOfSupport;
     }
-    
-    public Long getTotalIncome() {
-        return totalIncome;
-    }
-    public void setTotalIncome(Long totalIncome) {
-        this.totalIncome = totalIncome;
+    public Long getTotalIncome(List<PatientFamilyBean> patientFamily){
+        return CommonUtil.getTotalIncome(patientFamily);
     }
     public List<PatientFamilyBean> getPatientFamily() {
         return patientFamily;

@@ -107,8 +107,6 @@ public class Patient {
     @Column(name="type_of_support")
     private String typeOfSupport ;
     
-    @Column(name="total_income")
-    private Long totalIncome;
     
     @OneToMany(mappedBy="familyPatient")
     private List<PatientFamily> patientFamily=new ArrayList<PatientFamily>();
@@ -323,15 +321,6 @@ public class Patient {
         this.typeOfSupport = typeOfSupport;
     }
     
-
-    public Long getTotalIncome() {
-        return totalIncome;
-    }
-
-    public void setTotalIncome(Long totalIncome) {
-        this.totalIncome = totalIncome;
-    }
-
     public List<PatientFamily> getPatientFamily() {
         return patientFamily;
     }

@@ -110,8 +110,7 @@ create table patient(
 	diagnosis varchar(100),
 	diagnosis_date date,
 	doctor_comments varchar(250),
-	type_of_support varchar(100),
-	total_income number(10)
+	type_of_support varchar(100)
 );
 
 

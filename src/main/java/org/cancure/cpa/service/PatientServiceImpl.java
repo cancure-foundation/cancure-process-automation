@@ -45,9 +45,11 @@ public class PatientServiceImpl implements PatientService {
     @Transactional
 	@Override
 	public PatientBean save(PatientBean patientBean) throws  IOException {
-        Long totalIncome=null;
+        
         Patient patient = new Patient();
         BeanUtils.copyProperties(patientBean, patient);
+        patientRepo.save(patient);  
+        patientBean.setPrn(patient.getPrn());
         
         List<PatientFamilyBean> temp4 = new ArrayList<>();
         temp4 = patientBean.getPatientFamily();
@@ -64,35 +66,53 @@ public class PatientServiceImpl implements PatientService {
         for (PatientFamilyBean c : temp4) {
 
             PatientFamily patientFamily = new PatientFamily();
-            BeanUtils.copyProperties(c, patientFamily);
-            //totalIncome=totalIncome+c.getIncome()+c.getOtherIncome();           
+            BeanUtils.copyProperties(c, patientFamily);          
             patientFamily.setFamilyPatient(patient);
             patientFamilyRepo.save(patientFamily);
         }
+        
         for (SupportOrganisationBean b : temp2) {
             SupportOrganisation supportOrganisation = new SupportOrganisation();
             BeanUtils.copyProperties(b, supportOrganisation);
             supportOrganisation.setPatient(patient);
             supportOrganisationRepo.save(supportOrganisation);
         }
-        //patient.setTotalIncome((long) 145000);
-        patientRepo.save(patient);  
-        patientBean.setPrn(patient.getPrn());
         
-        for (PatientDocumentBean a : temp) {
+        for (PatientDocumentBean patientDocBean : temp) {
             PatientDocument patientDocument = new PatientDocument();
-            if (a.getPatientFile() != null) {
-                File file = new File(fileSavePath + "/" + id + "/" + a.getPatientFile().getOriginalFilename());
-                a.getPatientFile().transferTo(file);
-                a.setDocPath("/" + id + "/" + a.getPatientFile().getOriginalFilename());
-            }
-            BeanUtils.copyProperties(a, patientDocument);
+            
+            BeanUtils.copyProperties(patientDocBean, patientDocument);
             patientDocument.setPrn(id);
+            patientDocumentRepo.save(patientDocument);
+            
+            Integer docId = patientDocument.getDocId();
+            
+            if (patientDocBean.getPatientFile() != null) {
+                File file = new File(fileSavePath + "/" + id + "/" + docId + "_" + patientDocBean.getPatientFile().getOriginalFilename());
+                patientDocBean.getPatientFile().transferTo(file);
+                String docPath = "/" + id + "/" + docId + "_" + patientDocBean.getPatientFile().getOriginalFilename();
+                patientDocBean.setDocPath(docPath);
+                patientDocBean.setDocId(docId);
+                patientDocument.setDocPath(docPath);
+                patientDocumentRepo.save(patientDocument);
+            }
+            
+        }
+	    return patientBean;
+	}
+    
+    @Transactional
+    @Override
+    public void savePatientDocuments(List<PatientDocumentBean> patientDocuments) {
+        
+        for (PatientDocumentBean bean : patientDocuments){
+            PatientDocument patientDocument = new PatientDocument();
+            BeanUtils.copyProperties(bean, patientDocument);
+            patientDocument.setPrn(Integer.parseInt(bean.getPrn()));
             patientDocumentRepo.save(patientDocument);
         }
         
-	    return patientBean;
-	}
+    }
 
 	@Override
 	public PatientBean get(Integer id) {
