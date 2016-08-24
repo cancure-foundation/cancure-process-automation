@@ -4,6 +4,10 @@
 .patientRegistrationFamily .panel-heading {
     font-size: 16px;
 }
+.patientRegistrationFamily form input[type="file"] {
+    outline: none;
+    border: none;
+}
 .patientRegistrationFamily .panel-heading i {
     outline: none;
     font-size: 18px;

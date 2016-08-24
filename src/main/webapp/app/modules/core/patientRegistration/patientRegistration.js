@@ -21,13 +21,13 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 		if ($scope.ageProof) {
 			fd.append("document[0].docCategory", 'Age Proof');
 			fd.append("document[0].docType", vm.formData.ageProof);
-			fd.append("document[0].patientFile",  $scope.ageProof);
+			fd.append("document[0].patientFile",  vm.ageProofFile);
 		}
 
 		if ($scope.incomeProof) {
 			fd.append("document[1].docCategory", 'Income Proof');
 			fd.append("document[1].docType", vm.formData.incomeProof);
-			fd.append("document[1].patientFile", $scope.incomeProof);
+			fd.append("document[1].patientFile", vm.incomeProofFile);
 		}
 
 		if (vm.familyDetails.length > 0){
@@ -67,13 +67,13 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 		});
 	};
 	/**
-	 * 
+	 *  function to pop up window explorer on "select image" click
 	 */
 	vm.showFileDialog = function (){
 		document.getElementById('patientProfilePic_reg').click();
 	};
 	/**
-	 * 
+	 *  function to select profile image and display it in the div
 	 */
 	vm.profileImageChange = function (input) {
 		var url = input.value,
@@ -92,13 +92,13 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 		}		
 	};
 	/**
-	 * 
+	 *  function to clear all organisation
 	 */
 	vm.clearOrg = function (){
 		vm.organisation = [{}];
 	};
 	/**
-	 * 
+	 *  function to remove selected profile image
 	 */
 	vm.removeProfileImg = function (){
 		delete vm.profilePicSrc;
