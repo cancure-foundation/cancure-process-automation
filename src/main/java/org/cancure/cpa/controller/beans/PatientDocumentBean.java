@@ -4,12 +4,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class PatientDocumentBean {
 
+    private Integer docId;
     private String prn;
     private String docCategory;
     private String docType;
     private String docPath;
     private String taskId;
     private MultipartFile patientFile;
+
+    public Integer getDocId() {
+        return docId;
+    }
+
+    public void setDocId(Integer docId) {
+        this.docId = docId;
+    }
 
     public String getDocCategory() {
         return docCategory;

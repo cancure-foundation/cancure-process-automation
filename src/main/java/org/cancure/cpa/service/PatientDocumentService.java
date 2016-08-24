@@ -8,4 +8,6 @@ import org.cancure.cpa.persistence.entity.PatientDocument;
 public interface PatientDocumentService {
     
     List<PatientDocument> findByTaskId(String taskId);
+    
+    PatientDocument findOne(Integer id);
 }

@@ -110,7 +110,6 @@ public class PatientWorkFlowControllerTest {
         patient.setAddress("kochi");
         patient.setGender("male");
         patient.setSolebreadwinner(true);
-        patient.setAge(23);
         patient.setEmploymentStatus("Unemployed");
 
         patientFamily.setRelation("Father");
@@ -259,7 +258,6 @@ public class PatientWorkFlowControllerTest {
         patient.setAddress("kochi");
         patient.setGender("male");
         patient.setSolebreadwinner(true);
-        patient.setAge(23);
         patient.setEmploymentStatus("Unemployed");
 
         patientFamily.setRelation("Father");
@@ -368,7 +366,6 @@ public class PatientWorkFlowControllerTest {
         patient.setAddress("kochi");
         patient.setGender("male");
         patient.setSolebreadwinner(true);
-        patient.setAge(23);
         patient.setEmploymentStatus("Unemployed");
 
         patientFamily.setRelation("Father");
@@ -519,7 +516,6 @@ public class PatientWorkFlowControllerTest {
         patient.setAddress("kochi");
         patient.setGender("male");
         patient.setSolebreadwinner(true);
-        patient.setAge(23);
         patient.setEmploymentStatus("Unemployed");
 
         patientFamily.setRelation("Father");
@@ -855,7 +851,7 @@ public class PatientWorkFlowControllerTest {
         patient.setAddress("kochi");
         patient.setGender("male");
         patient.setSolebreadwinner(true);
-        patient.setAge(23);
+
         patient.setEmploymentStatus("Unemployed");
 
         patientFamily.setRelation("Father");
@@ -1052,7 +1048,6 @@ public class PatientWorkFlowControllerTest {
         patient.setAddress("kochi");
         patient.setGender("male");
         patient.setSolebreadwinner(true);
-        patient.setAge(23);
         patient.setEmploymentStatus("Unemployed");
 
         patientFamily.setRelation("Father");

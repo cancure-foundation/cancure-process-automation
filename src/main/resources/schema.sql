@@ -91,7 +91,6 @@ create table patient(
 	name varchar(100),
 	dob date,
 	gender varchar(20),
-	age number(5),
 	blood_group varchar(10),
 	contact varchar(20),
 	marital_status varchar(10),
