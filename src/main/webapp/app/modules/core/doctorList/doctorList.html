@@ -18,22 +18,18 @@
                 <div class="panel-body">
 
                     <table class="table">
-                        <th class="col-xs-3">Name</th>
-                        <th class="col-xs-3">Qualification</th>
+                        <th class="col-xs-3">Doctor Name</th>
+                        <th class="col-xs-3">Specification</th>
                         <th class="col-xs-3">Address</th>
                         <th class="col-xs-3">Contact No</th>
-                        <th class="col-xs-3">Email</th>
-                        <th class="col-xs-3">Edit</th>
+                        <th class="col-xs-3">Email Address</th>
                         
-                        <tr class="" ng-repeat="doc in doctorList">
-                            <td class="col-xs-3">{{doc.name}}</td>
-                            <td class="col-xs-3">{{doc.specification}}</td>
-                            <td class="col-xs-3">{{doc.address}}</td>
-                            <td class="col-xs-3">{{doc.contact}}</td>
-                            <td class="col-xs-3">{{doc.email}}</td>
-                            <td class="col-xs-3">
-                                Edit
-                            </td>
+                        <tr class="" ng-repeat="doct in doctorList">
+                            <td class="col-xs-3" ng-click="vm.editDoctor(doct.doctorId)">{{doct.name}}</td>
+                            <td class="col-xs-3">{{doct.specification}}</td>
+                            <td class="col-xs-3">{{doct.address}}</td>
+                            <td class="col-xs-3">{{doct.contact}}</td>
+                            <td class="col-xs-3">{{doct.email}}</td>
                         </tr>
                     </table>
 

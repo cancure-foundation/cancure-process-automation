@@ -91,6 +91,11 @@ app.constant('appSettings', {
             title: "Hospitals",
             icon: "search",
             state: "hospital.hospitalList"
+        },
+        {
+        	 title: "Doctors",
+             icon: "search",
+             state: "doctor.doctorList"
         }
 	]
 });
