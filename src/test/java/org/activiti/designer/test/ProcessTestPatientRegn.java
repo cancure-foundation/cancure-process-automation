@@ -54,7 +54,10 @@ public class ProcessTestPatientRegn {
 	@Before
 	public void startInst() throws SQLException {
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("patientId", patientId);
+        variables.put("patientName", "John Doe" + patientId);
+        variables.put("email", "john.doe@activiti.com");
+        variables.put("phoneNumber", "123456789");
+        variables.put("prn", patientId);
 		patientRegistrationService
 				.startPatientRegnProcess(variables, patientId);
 		
@@ -80,6 +83,32 @@ public class ProcessTestPatientRegn {
 		printTasks();
 		patientRegistrationService.ecApprove(patientId, "401");			
 		printTasks();
+		patientRegistrationService.ecApprove(patientId, "402");		
+		patientRegistrationService.ecApprove(patientId, "403");		
+		activitiVars.put("ecApproval", "Approved");
+		patientRegistrationService.movePatientRegn(patientId, activitiVars);
+		patientRegistrationService.movePatientRegn(patientId, null);
+	}
+	
+	@Test
+	public void ruleUsageExample2() throws InterruptedException {
+
+		Map<String, Object> activitiVars = new HashMap<String, Object>();
+		patientRegistrationService.movePatientRegn(patientId, null);
+		activitiVars.put("bgCheck", "PASS");
+		patientRegistrationService.movePatientRegn(patientId, activitiVars);
+		patientRegistrationService.mbApprove(patientId, "200");
+		patientRegistrationService.mbApprove(patientId, "201");
+		activitiVars.put("secApproval", "prelimExamClarificationReqd");
+		patientRegistrationService.movePatientRegn(patientId, activitiVars);
+		patientRegistrationService.mbApprove(patientId, "200");
+		patientRegistrationService.mbApprove(patientId, "201");
+		activitiVars.put("secApproval", "prelimExamClarificationReqd");
+		patientRegistrationService.movePatientRegn(patientId, activitiVars);
+		patientRegistrationService.mbApprove(patientId, "200");
+		patientRegistrationService.mbApprove(patientId, "201");		
+		activitiVars.put("secApproval", "Recommend");
+		patientRegistrationService.ecApprove(patientId, "401");			
 		patientRegistrationService.ecApprove(patientId, "402");		
 		patientRegistrationService.ecApprove(patientId, "403");		
 		activitiVars.put("ecApproval", "Approved");
