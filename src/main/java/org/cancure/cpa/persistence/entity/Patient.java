@@ -31,10 +31,7 @@ public class Patient {
     
    
     private String gender;
-    
-    
-    private Integer age;
-    
+      
     
     @Column(name="marital_status")
     private String maritalStatus;
@@ -110,6 +107,7 @@ public class Patient {
     @Column(name="type_of_support")
     private String typeOfSupport ;
     
+    
     @OneToMany(mappedBy="familyPatient")
     private List<PatientFamily> patientFamily=new ArrayList<PatientFamily>();
     
@@ -160,14 +158,6 @@ public class Patient {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public String getBloodGroup() {
@@ -330,7 +320,7 @@ public class Patient {
     public void setTypeOfSupport(String typeOfSupport) {
         this.typeOfSupport = typeOfSupport;
     }
-
+    
     public List<PatientFamily> getPatientFamily() {
         return patientFamily;
     }

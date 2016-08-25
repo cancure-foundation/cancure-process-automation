@@ -20,15 +20,11 @@
                         <th class="col-xs-3">Hospital Name</th>
                         <th class="col-xs-3">Address</th>
                         <th class="col-xs-3">Contact</th>
-                        <th class="col-xs-3">Edit</th>
                         
                         <tr class="" ng-repeat="doc in hospitalList">
-                            <td class="col-xs-3">{{doc.name}}</td>
+                            <td class="col-xs-3" ng-click="vm.editHospital(doc.hospitalId)">{{doc.name}}</td>
                             <td class="col-xs-3">{{doc.address}}</td>
                             <td class="col-xs-3">{{doc.contact}}</td>
-                            <td class="col-xs-3">
-                                Edit
-                            </td>
                         </tr>
                     </table>
                 </div>

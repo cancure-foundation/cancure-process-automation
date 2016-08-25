@@ -5,6 +5,8 @@ import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.RoleRepository;
 import org.cancure.cpa.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component("userService")
@@ -14,18 +16,29 @@ public class UserServiceImpl implements UserService {
 	UserRepository userRepo;
 	@Autowired
 	RoleRepository roleRepo;
-
+	//@Autowired
+	PasswordEncoder encoder = new BCryptPasswordEncoder();
+   
 	public User saveUser(User user) {
-		return userRepo.save(user);
+	    String encPass=encoder.encode(user.getPassword());
+	    user.setPassword(encPass);
+		userRepo.save(user);
+		user.setPassword(null);
+		return user;
 	}
 	
 	@Override
 	public User getUser(Integer id) {
-		return userRepo.findOne(id);
+		User user= userRepo.findOne(id);
+		user.setPassword(null);
+		return user;
 	}
 
 	public Iterable<User> listUsers() {
-		return userRepo.findAll();
+	    
+	    Iterable<User> list = userRepo.findAll();
+	    list.forEach( x -> x.setPassword(null));
+	    return list;
 	}
 
 	public Iterable<Role> listRoles() {
@@ -34,7 +47,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUserByLogin(String login) {
-		return userRepo.findByLogin(login);
+		User user= userRepo.findByLogin(login);
+		user.setPassword(null);
+		return user;
 	}
 	
 	public void setUserRepo(UserRepository userRepo) {

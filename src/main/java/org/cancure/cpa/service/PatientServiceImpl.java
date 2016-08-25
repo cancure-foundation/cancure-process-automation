@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientFamilyBean;
@@ -42,16 +41,16 @@ public class PatientServiceImpl implements PatientService {
 	@Value("${spring.files.save.path}")
     private String fileSavePath;
 	
-	@Transactional
+	
+    @Transactional
 	@Override
 	public PatientBean save(PatientBean patientBean) throws  IOException {
-	    
+        
         Patient patient = new Patient();
         BeanUtils.copyProperties(patientBean, patient);
-        patientRepo.save(patient);
-        
+        patientRepo.save(patient);  
         patientBean.setPrn(patient.getPrn());
-
+        
         List<PatientFamilyBean> temp4 = new ArrayList<>();
         temp4 = patientBean.getPatientFamily();
 
@@ -65,31 +64,55 @@ public class PatientServiceImpl implements PatientService {
 
         
         for (PatientFamilyBean c : temp4) {
+
             PatientFamily patientFamily = new PatientFamily();
-            BeanUtils.copyProperties(c, patientFamily);
+            BeanUtils.copyProperties(c, patientFamily);          
             patientFamily.setFamilyPatient(patient);
             patientFamilyRepo.save(patientFamily);
         }
+        
         for (SupportOrganisationBean b : temp2) {
             SupportOrganisation supportOrganisation = new SupportOrganisation();
             BeanUtils.copyProperties(b, supportOrganisation);
             supportOrganisation.setPatient(patient);
             supportOrganisationRepo.save(supportOrganisation);
         }
-        for (PatientDocumentBean a : temp) {
+        
+        for (PatientDocumentBean patientDocBean : temp) {
             PatientDocument patientDocument = new PatientDocument();
-            if (a.getPatientFile() != null) {
-                File file = new File(fileSavePath + "/" + id + "/" + a.getPatientFile().getOriginalFilename());
-                a.getPatientFile().transferTo(file);
-                a.setDocPath(fileSavePath + "/" + id + "/" + a.getPatientFile().getOriginalFilename());
-            }
-            BeanUtils.copyProperties(a, patientDocument);
+            
+            BeanUtils.copyProperties(patientDocBean, patientDocument);
             patientDocument.setPrn(id);
+            patientDocumentRepo.save(patientDocument);
+            
+            Integer docId = patientDocument.getDocId();
+            
+            if (patientDocBean.getPatientFile() != null) {
+                File file = new File(fileSavePath + "/" + id + "/" + docId + "_" + patientDocBean.getPatientFile().getOriginalFilename());
+                patientDocBean.getPatientFile().transferTo(file);
+                String docPath = "/" + id + "/" + docId + "_" + patientDocBean.getPatientFile().getOriginalFilename();
+                patientDocBean.setDocPath(docPath);
+                patientDocBean.setDocId(docId);
+                patientDocument.setDocPath(docPath);
+                patientDocumentRepo.save(patientDocument);
+            }
+            
+        }
+	    return patientBean;
+	}
+    
+    @Transactional
+    @Override
+    public void savePatientDocuments(List<PatientDocumentBean> patientDocuments) {
+        
+        for (PatientDocumentBean bean : patientDocuments){
+            PatientDocument patientDocument = new PatientDocument();
+            BeanUtils.copyProperties(bean, patientDocument);
+            patientDocument.setPrn(Integer.parseInt(bean.getPrn()));
             patientDocumentRepo.save(patientDocument);
         }
         
-	    return patientBean;
-	}
+    }
 
 	@Override
 	public PatientBean get(Integer id) {
@@ -104,7 +127,7 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
     public Iterable<Patient> searchByName(String name) {
-        return patientRepo.findByNameContainingIgnoreCase("%" + name + "%");
+	    return patientRepo.findByNameContainingIgnoreCase("%" + name + "%");
     }
 	
 }

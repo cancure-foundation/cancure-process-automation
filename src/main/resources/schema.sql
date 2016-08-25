@@ -91,7 +91,6 @@ create table patient(
 	name varchar(100),
 	dob date,
 	gender varchar(20),
-	age number(5),
 	blood_group varchar(10),
 	contact varchar(20),
 	marital_status varchar(10),
@@ -172,6 +171,17 @@ create table patient_investigation (
  	address varchar(200),
  	contact varchar(25),
  	enabled boolean
+ );
+ 
+ create table list (
+ 	list_id number(10) primary key auto_increment,
+ 	name varchar(100)
+ );
+  
+ create table list_value (
+    list_value_id number(10) primary key auto_increment,
+    list_id number(10) references list(list_id), 
+ 	value varchar(100)
  );
  
  create table ACT_GE_PROPERTY (

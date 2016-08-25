@@ -27,7 +27,7 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     @Transactional
     public String registerPatient(PatientBean patient) throws IOException {
 
-        patientService.save(patient);
+        PatientBean patientBean = patientService.save(patient);
 
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("patientName", patient.getName());
@@ -36,7 +36,18 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
 
         patientRegistrationService.startPatientRegnProcess(variables, String.valueOf(patient.getPrn()));
 
-        patientRegistrationService.movePatientRegn(String.valueOf(patient.getPrn()), null);
+        String taskId = patientRegistrationService.movePatientRegn(String.valueOf(patient.getPrn()), null);
+        
+        List<PatientDocumentBean> documents = patientBean.getDocument();
+        if (documents != null){
+            for (PatientDocumentBean doc : documents){
+                doc.setTaskId(taskId);
+                doc.setPrn(String.valueOf(patient.getPrn()));
+            }
+            
+            patientService.savePatientDocuments(documents);
+        }
+        
         return String.valueOf(patient.getPrn());
 
     }

@@ -79,19 +79,19 @@ app.constant('appSettings', {
             state: "patientRegistration"
         },
 	    {
-            title: "Doctors",
-            icon: "user-md",
-            state: "doctor"
-	    },	    
-	    {
             title: "Hospitals",
-            icon: "hospital-o",
+            icon: "search",
             state: "hospital.hospitalList"
+        },
+        {
+        	 title: "Doctors",
+             icon: "search",
+             state: "doctor.doctorList"
         },
         {
             title: "Patient Search",
             icon: "search",
             state: "searchPatient"
-        },
+        }
 	]
 });

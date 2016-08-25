@@ -109,6 +109,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 	var showRegistrationDetails = function(prn) {
 		$("body").addClass('sidebar-collapse'); // to collapse the sidebar
 		var parentEl = angular.element(document.body);
+		console.log(vm.profilePicSrc);
 		$mdDialog.show({
 			parent: parentEl,
 			template:
@@ -118,7 +119,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 				'  <div class="subtitle"> Pending Registration Number (PRN) is <b>' + prn + '</b></div>'+
 				'  <table class="table table-bordered">'+       
 				'	<tr>'+
-				'		<td rowspan="7" class="user_img"><i class="fa fa-user" aria-hidden="true"></i></td>'+
+				'		<td rowspan="7" class="user_img"><span ng-if="vm.profilePicSrc">sdf</span><i class="fa fa-user" aria-hidden="true"></i></td>'+
 				'   </tr>'+
 				'	<tr>'+
 				'		<td class="fieldName">Name</td>'+
