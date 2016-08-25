@@ -11,7 +11,8 @@ app.constant('appSettings', {
 		userRoles : 'roles', // fetching user roles
 		createUser: 'user/save', // creating user
 		userList: 'user/list', // listing out the user
-		patientRegistration: 'patientregistration/patient/save' // patient registration
+		patientRegistration: 'patientregistration/patient/save', // patient registration
+		logout : 'logout'
 	},
 	
 	theme: 'skin-yellow', // app default theme	
@@ -78,16 +79,6 @@ app.constant('appSettings', {
             state: "patientRegistration"
         },
 	    {
-            title: "Doctors",
-            icon: "user-md",
-            state: "doctor"
-	    },
-	    {
-            title: "Patient Search",
-            icon: "search",
-            state: "searchPatient"
-        },
-	    {
             title: "Hospitals",
             icon: "search",
             state: "hospital.hospitalList"
@@ -96,6 +87,11 @@ app.constant('appSettings', {
         	 title: "Doctors",
              icon: "search",
              state: "doctor.doctorList"
+        },
+        {
+            title: "Patient Search",
+            icon: "search",
+            state: "searchPatient"
         }
 	]
 });

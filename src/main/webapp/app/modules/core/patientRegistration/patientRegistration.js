@@ -1,5 +1,5 @@
-core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'apiService', 'appSettings', 'Loader', '$mdDialog', '$mdMedia',
-                                                  function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings, Loader, $mdDialog, $mdMedia) {
+core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'apiService', 'appSettings', 'Loader', '$mdDialog', '$mdMedia', '$timeout',
+                                                  function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings, Loader, $mdDialog, $mdMedia, $timeout) {
 	var vm = this;
 
 	var init = function () {
@@ -21,13 +21,13 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 		if ($scope.ageProof) {
 			fd.append("document[0].docCategory", 'Age Proof');
 			fd.append("document[0].docType", vm.formData.ageProof);
-			fd.append("document[0].patientFile",  $scope.ageProof);
+			fd.append("document[0].patientFile",  vm.ageProofFile);
 		}
 
 		if ($scope.incomeProof) {
 			fd.append("document[1].docCategory", 'Income Proof');
 			fd.append("document[1].docType", vm.formData.incomeProof);
-			fd.append("document[1].patientFile", $scope.incomeProof);
+			fd.append("document[1].patientFile", vm.incomeProofFile);
 		}
 
 		if (vm.familyDetails.length > 0){
@@ -67,17 +67,49 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 		});
 	};
 	/**
-	 * 
+	 *  function to pop up window explorer on "select image" click
+	 */
+	vm.showFileDialog = function (){
+		document.getElementById('patientProfilePic_reg').click();
+	};
+	/**
+	 *  function to select profile image and display it in the div
+	 */
+	vm.profileImageChange = function (input) {
+		var url = input.value,
+			ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+		if (input.files && input.files[0] && (ext == "png" || ext == "jpeg" || ext == "jpg")) {
+		    var reader = new FileReader();		    
+		    reader.onload = function (e) {
+		    	$timeout(function (){
+		    		vm.profilePicSrc = e.target.result;
+		    	});		    	
+		    };
+		    reader.readAsDataURL(input.files[0]);
+		}
+		else {
+			Flash.create('danger', 'Please select valid image types.(jpg/jpeg/png)' , 'large-text');
+		}		
+	};
+	/**
+	 *  function to clear all organisation
 	 */
 	vm.clearOrg = function (){
 		vm.organisation = [{}];
 	};
+	/**
+	 *  function to remove selected profile image
+	 */
+	vm.removeProfileImg = function (){
+		delete vm.profilePicSrc;
+	}
 	/**
 	 *  function to show patient summary on successful registration
 	 */
 	var showRegistrationDetails = function(prn) {
 		$("body").addClass('sidebar-collapse'); // to collapse the sidebar
 		var parentEl = angular.element(document.body);
+		console.log(vm.profilePicSrc);
 		$mdDialog.show({
 			parent: parentEl,
 			template:
@@ -87,7 +119,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 				'  <div class="subtitle"> Pending Registration Number (PRN) is <b>' + prn + '</b></div>'+
 				'  <table class="table table-bordered">'+       
 				'	<tr>'+
-				'		<td rowspan="7" class="user_img"><i class="fa fa-user" aria-hidden="true"></i></td>'+
+				'		<td rowspan="7" class="user_img"><span ng-if="vm.profilePicSrc">sdf</span><i class="fa fa-user" aria-hidden="true"></i></td>'+
 				'   </tr>'+
 				'	<tr>'+
 				'		<td class="fieldName">Name</td>'+
@@ -116,22 +148,25 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 				'</table>'+
 				'  </md-dialog-content>' +
 				'  <md-dialog-actions>' +
-				'    <md-button ng-click="closeDialog()" class="md-primary">' +
-				'      Close' +
+				'    <md-button ng-click="closeDialog(0)" class="md-primary">' +
+				'      Register another Patient' +
+				'    </md-button>' +
+				'    <md-button ng-click="closeDialog(1)" class="md-primary">' +
+				'      Go to Homepage' +
 				'    </md-button>' +
 				'  </md-dialog-actions>' +
 				'</md-dialog>',
 				controller: DialogController
 		});
-
 		function DialogController($scope, $mdDialog) {
-			$scope.closeDialog = function() {
+			$scope.closeDialog = function(to) {
 				$("body").removeClass('sidebar-collapse'); // to expand the sidebar
 				$mdDialog.hide(); // hides the dialog box
 				vm.formData = {}; // clears the formFields
 				vm.patientRegisterForm.$setUntouched();
 				vm.patientRegisterForm.$setPristine();
-				$state.go('app.home'); // redirects to home page
+				if (to == 1)
+					$state.go('app.home'); // redirects to home page
 			}
 		}
 	};

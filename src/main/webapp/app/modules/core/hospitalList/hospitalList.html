@@ -11,12 +11,11 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-info" style="min-height:453px;">
+            <div class="panel panel-info" style="min-height:453px;"  ng-show="hospitalList.length > 0">
                 <div class="panel-heading">
                     Hospitals
                 </div>
                 <div class="panel-body">
-
                     <table class="table">
                         <th class="col-xs-3">Hospital Name</th>
                         <th class="col-xs-3">Address</th>
@@ -28,9 +27,9 @@
                             <td class="col-xs-3">{{doc.contact}}</td>
                         </tr>
                     </table>
-
                 </div>
             </div>
+            <div  ng-hide="hospitalList.length > 0"> No Hospitals found</div>
         </div>
     </div>
 </section>
