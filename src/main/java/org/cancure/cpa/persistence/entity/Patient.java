@@ -107,6 +107,11 @@ public class Patient {
     @Column(name="type_of_support")
     private String typeOfSupport ;
     
+    @Column(name="preliminary_exam_doctor_id")
+    private Integer preliminaryExamDoctorId;
+    
+    @Column(name="preliminary_exam_hospital_id")
+    private Integer preliminaryExamHospitalId;
     
     @OneToMany(mappedBy="familyPatient")
     private List<PatientFamily> patientFamily=new ArrayList<PatientFamily>();
@@ -315,6 +320,22 @@ public class Patient {
 
     public String getTypeOfSupport() {
         return typeOfSupport;
+    }
+
+    public Integer getPreliminaryExamDoctorId() {
+        return preliminaryExamDoctorId;
+    }
+
+    public void setPreliminaryExamDoctorId(Integer preliminaryExamDoctorId) {
+        this.preliminaryExamDoctorId = preliminaryExamDoctorId;
+    }
+
+    public Integer getPreliminaryExamHospitalId() {
+        return preliminaryExamHospitalId;
+    }
+
+    public void setPreliminaryExamHospitalId(Integer preliminaryExamHospitalId) {
+        this.preliminaryExamHospitalId = preliminaryExamHospitalId;
     }
 
     public void setTypeOfSupport(String typeOfSupport) {
