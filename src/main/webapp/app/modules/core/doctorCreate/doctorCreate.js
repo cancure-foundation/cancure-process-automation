@@ -2,9 +2,14 @@ core.controller("DoctorCreateController", ['$scope', '$timeout', '$stateParams',
                                          function ($scope, $timeout, $stateParams, Flash, apiService, appSettings, Loader) {
 	var vm = this;
 	vm.formData = {};
+	vm.hospitalList = [];
 	vm.doctorCreated = false;
 	
 	var init = function() {
+		fetchHospitals();
+	}
+	
+	var getDoctorDetails = function(){
 		var id = $stateParams.doctor_id;
 		if (id) {
 			apiService.serviceRequest({
@@ -15,6 +20,17 @@ core.controller("DoctorCreateController", ['$scope', '$timeout', '$stateParams',
 				vm.formData = response;
 			});
 		}
+	}
+	
+	var fetchHospitals = function() {
+		apiService.serviceRequest({
+			URL: 'hospital/list',
+			method: 'GET'
+		}, function (response) {
+			Loader.destroy();
+			vm.hospitalList = response;
+			getDoctorDetails();
+		});
 	}
 	
 	// init function, execution starts here

@@ -23,6 +23,7 @@
                         <th class="col-xs-3">Address</th>
                         <th class="col-xs-3">Contact No</th>
                         <th class="col-xs-3">Email Address</th>
+                        <th class="col-xs-3">Hospital</th>
                         
                         <tr class="" ng-repeat="doct in doctorList">
                             <td class="col-xs-3" ng-click="vm.editDoctor(doct.doctorId)">{{doct.name}}</td>
@@ -30,6 +31,7 @@
                             <td class="col-xs-3">{{doct.address}}</td>
                             <td class="col-xs-3">{{doct.contact}}</td>
                             <td class="col-xs-3">{{doct.email}}</td>
+                            <td class="col-xs-3">{{doct.hospital.name}}</td>
                         </tr>
                     </table>
 

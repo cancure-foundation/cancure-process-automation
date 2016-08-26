@@ -34,7 +34,15 @@
                          <md-icon class="fa fa-envelope"></md-icon>
                          <input type="email" data-ng-model="vm.formData.email" ng-required="true" >
                      </md-input-container>
-                                    
+                     
+                     <md-input-container class="md-icon-float md-block">
+                        <label>Hospital</label>
+                        <md-icon class="fa fa-user"></md-icon>
+                        <md-select data-ng-model="vm.formData.hospital.hospitalId" ng-required="true">
+                            <md-option value="{{hospital.hospitalId}}" ng-repeat="hospital in vm.hospitalList">{{hospital.name}}</md-option>
+                        </md-select>
+                    </md-input-container>
+					
                 </div>
 
                 <div class="col-xs-12 text-center">
