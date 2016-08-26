@@ -68,6 +68,49 @@
 .patientRegistrationFamily .clearfix .repeatingDiv {
     padding: 8px;
 }
+.diagDetails .clearfix {
+    background-color: #fff;
+}
+.diagDetails .md-errors-spacer {
+    min-height: 0px;
+}
+.diagDetails md-input-container {
+    margin: 0px;
+    margin-bottom: 12px;
+}
+.diagDetails textarea {
+    border: 1px solid #e6e6e6;
+    padding: 5px;
+    width: 100%;
+    resize: none;
+}
+.diagDetails fieldset {
+    margin-left: 36px;
+}
+.diagDetails fieldset legend {
+    font-size: 16px;
+    border: none;
+    margin-bottom: 5px;
+}
+.diagDetails .file-upload {
+    margin-left: 36px;
+}
+.diagDetails .file-upload .title {
+    font-size: 16px;
+    padding-bottom: 4px;
+}
+.diagDetails .file-upload .sub-title {
+    font-style: italic;
+    font-size: 12px;
+    padding-bottom: 8px;
+}
+.diagDetails .file-upload .file-names {
+    height: 65px;
+    padding: 2px;
+    border: 1px solid #e6e6e6;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
 .supportingDocs fieldset {
     border: 1px solid #c0c0c0 !important;
     margin: 0 0 15px 0 !important;
@@ -125,12 +168,23 @@
 .patientRegDialogBx table .user_img {
     vertical-align: middle;
     text-align: center;
+    max-width: 250px;
+}
+.patientRegDialogBx table .user_img img {
+    width: 100%;
 }
 .patientRegDialogBx table .fieldName {
     font-weight: bold;
 }
 .patientRegDialogBx table .user_img i {
     font-size: 10em;
+}
+.patientRegDialogBx md-dialog-actions i {
+    position: absolute;
+    left: 15px;
+    font-size: 24px;
+    color: rgb(63, 81, 181);
+    cursor: pointer;
 }
 @media (max-width: 767px) {
     .patientRegDialogBx .title {

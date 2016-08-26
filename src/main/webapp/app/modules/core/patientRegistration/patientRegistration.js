@@ -3,49 +3,140 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 	var vm = this;
 
 	var init = function () {
-		vm.formData = {};
-		vm.familyDetails = [];
-		vm.organisation = [{}];
+		Loader.create('Fetching Data. Please wait');
+		initializeVars();
+		apiService.serviceRequest({
+			URL: appSettings.requestURL.patientRegDrpDwn
+		}, function (response) {
+			Loader.destroy();
+			angular.forEach(response, function (v, k) {
+				vm[k] = v[0].listValues;
+			});
+		});
 	};
-
+	/**
+	 *  function to initalize all variables in the page
+	 */
+	var initializeVars = function (){
+		vm.formData = {};
+		vm.formData.profileImage = null;
+		vm.formData.profilePicSrc = null;
+		vm.formData.familyDetails = [];
+		vm.formData.organisation = [{}];
+		vm.formData.diagnosisFiles = [];
+		vm.formData.diagnosisFilesNames = [];
+		document.getElementById("patientReg-dianosis").value = "";
+		document.getElementById("patientReg-ageProof").value = "";
+		document.getElementById("patientReg-incomeProof").value = "";
+	};
+	
 	// init function, execution starts here
 	init();
 
-	//function to handle save button click
+	/**
+	 *  function to pop up window explorer on "select image" click
+	 */
+	vm.showFileDialog = function (){
+		document.getElementById('patientProfilePic_reg').click();
+	};
+	/**
+	 *  function to select profile image and display it in the div
+	 */
+	vm.profileImageChange = function (input) {
+		var url = input.value,
+		ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+		vm.formData.profileImage = input.files[0];
+		if (input.files && input.files[0] && (ext == "png" || ext == "jpeg" || ext == "jpg")) {
+			var reader = new FileReader();		    
+			reader.onload = function (e) {
+				$timeout(function (){
+					vm.formData.profilePicSrc = e.target.result;
+				});		    	
+			};
+			reader.readAsDataURL(input.files[0]);
+		}
+		else {
+			Flash.create('danger', 'Please select valid image types.(jpg/jpeg/png)' , 'large-text');
+		}		
+	};
+	/**
+	 *  function to clear all organisation
+	 */
+	vm.clearOrg = function (){
+		vm.formData.organisation = [{}];
+	};
+	/**
+	 *  function to remove selected profile image
+	 */
+	vm.removeProfileImg = function (){
+		vm.formData.profileImage = null;
+		vm.formData.profilePicSrc = null;
+	};
+	/**
+	 *  function to set files selected in diagnosis file select 
+	 */
+	vm.diagnosisFilesSelection = function(input){
+		$timeout(function (){
+			vm.formData.diagnosisFiles = [];
+			vm.formData.diagnosisFilesNames = [];
+			angular.forEach(input.files, function (v, k) {	
+				vm.formData.diagnosisFiles.push(input.files[k]); 			 
+				vm.formData.diagnosisFilesNames.push(input.files[k].name); 			 
+			});
+		});
+	};
+	/**
+	 * function to handle save button click
+	 */
 	vm.submitForm = function () {
-		
 		Loader.create('Please wait while we register patient.');
-		
+
 		var fd = new FormData();
 
-		if ($scope.ageProof) {
+		if (vm.formData.profileImage && vm.formData.profilePicSrc) { // get the profile image if available
+			fd.append("document[2].docCategory", 'Profile Image');
+			fd.append("document[2].docType", "profile-image");
+			fd.append("document[2].patientFile",  vm.formData.profileImage);
+		}
+
+		if (vm.formData.diagnosisFiles.length > 0) { // get the diagnosis files if available
+			var j = (vm.formData.profileImage && vm.formData.profilePicSrc) ? 3 : 2;
+			for (var i =0;i< vm.formData.diagnosisFiles.length;i++) {
+				fd.append("document[" + j + "].docCategory", 'Diagnosis File');
+				fd.append("document[" + j + "].docType", "diagnosis-file");
+				fd.append("document[" + j + "].patientFile",  vm.formData.diagnosisFiles[i]);
+				j++;
+			}
+		}
+
+		if (vm.ageProofFile) { // get age proof file 
 			fd.append("document[0].docCategory", 'Age Proof');
 			fd.append("document[0].docType", vm.formData.ageProof);
 			fd.append("document[0].patientFile",  vm.ageProofFile);
 		}
 
-		if ($scope.incomeProof) {
+		if (vm.incomeProofFile) { // get income tax file 
 			fd.append("document[1].docCategory", 'Income Proof');
 			fd.append("document[1].docType", vm.formData.incomeProof);
 			fd.append("document[1].patientFile", vm.incomeProofFile);
 		}
 
-		if (vm.familyDetails.length > 0){
-			for (var i=0; i < vm.familyDetails.length; i++) {
-				fd.append("patientFamily[" + i + "].relation", vm.familyDetails[i].relation);
-				fd.append("patientFamily[" + i + "].age", vm.familyDetails[i].age);
-				fd.append("patientFamily[" + i + "].status", vm.familyDetails[i].status);
-				fd.append("patientFamily[" + i + "].income", vm.familyDetails[i].income);
-				fd.append("patientFamily[" + i + "].otherIncome", vm.familyDetails[i].otherIncome);
+		if (vm.formData.familyDetails.length > 0) { // get family details if available
+			for (var i=0; i < vm.formData.familyDetails.length; i++) {
+				fd.append("patientFamily[" + i + "].relation", vm.formData.familyDetails[i].relation);
+				fd.append("patientFamily[" + i + "].age", vm.formData.familyDetails[i].age);
+				fd.append("patientFamily[" + i + "].status", vm.formData.familyDetails[i].status);
+				fd.append("patientFamily[" + i + "].income", vm.formData.familyDetails[i].income);
+				fd.append("patientFamily[" + i + "].otherIncome", vm.formData.familyDetails[i].otherIncome);
 			}
-		}        		
-
-		if (vm.organisation.length > 0) {
-			for (var i=0; i < vm.organisation.length; i++) {
-				if(vm.organisation[i].name)
-					fd.append("organisation[" + i + "].name", vm.organisation[i].name);
-				if(vm.organisation[i].amountRec)
-					fd.append("organisation[" + i + "].amountRec", vm.organisation[i].amountRec);
+		}
+		
+		if (vm.formData.organisation.length > 0) { // get family details if available
+			for (var i=0; i < vm.formData.organisation.length; i++) {
+				if(vm.formData.organisation[i].name)
+					fd.append("organisation[" + i + "].name", vm.formData.organisation[i].name);
+				if(vm.formData.organisation[i].amountRec)
+					fd.append("organisation[" + i + "].amountRec", vm.formData.organisation[i].amountRec);
 			}
 		}
 
@@ -63,52 +154,16 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 			}
 		}, function (response) {
 			Loader.destroy(); // hide the loader			
-			showRegistrationDetails(response.prn); // shows the summary dialog box
+			showRegistrationDetails(response.prn, vm.formData.profilePicSrc); // shows the summary dialog box
 		});
 	};
 	/**
-	 *  function to pop up window explorer on "select image" click
-	 */
-	vm.showFileDialog = function (){
-		document.getElementById('patientProfilePic_reg').click();
-	};
-	/**
-	 *  function to select profile image and display it in the div
-	 */
-	vm.profileImageChange = function (input) {
-		var url = input.value,
-			ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-		if (input.files && input.files[0] && (ext == "png" || ext == "jpeg" || ext == "jpg")) {
-		    var reader = new FileReader();		    
-		    reader.onload = function (e) {
-		    	$timeout(function (){
-		    		vm.profilePicSrc = e.target.result;
-		    	});		    	
-		    };
-		    reader.readAsDataURL(input.files[0]);
-		}
-		else {
-			Flash.create('danger', 'Please select valid image types.(jpg/jpeg/png)' , 'large-text');
-		}		
-	};
-	/**
-	 *  function to clear all organisation
-	 */
-	vm.clearOrg = function (){
-		vm.organisation = [{}];
-	};
-	/**
-	 *  function to remove selected profile image
-	 */
-	vm.removeProfileImg = function (){
-		delete vm.profilePicSrc;
-	}
-	/**
 	 *  function to show patient summary on successful registration
 	 */
-	var showRegistrationDetails = function(prn) {
+	var showRegistrationDetails = function(prn, profileImg) {
 		$("body").addClass('sidebar-collapse'); // to collapse the sidebar
-		var parentEl = angular.element(document.body);
+		var parentEl = angular.element(document.body),
+			patientPic = profileImg ? '<img src= ' + profileImg + ' />' : '<i class="fa fa-user" aria-hidden="true">';
 		console.log(vm.profilePicSrc);
 		$mdDialog.show({
 			parent: parentEl,
@@ -119,7 +174,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 				'  <div class="subtitle"> Pending Registration Number (PRN) is <b>' + prn + '</b></div>'+
 				'  <table class="table table-bordered">'+       
 				'	<tr>'+
-				'		<td rowspan="7" class="user_img"><span ng-if="vm.profilePicSrc">sdf</span><i class="fa fa-user" aria-hidden="true"></i></td>'+
+				'		<td rowspan="7" class="user_img">' + patientPic + '</td>'+
 				'   </tr>'+
 				'	<tr>'+
 				'		<td class="fieldName">Name</td>'+
@@ -148,6 +203,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 				'</table>'+
 				'  </md-dialog-content>' +
 				'  <md-dialog-actions>' +
+				'    <i class="fa fa-print" aria-hidden="true"></i>'+
 				'    <md-button ng-click="closeDialog(0)" class="md-primary">' +
 				'      Register another Patient' +
 				'    </md-button>' +
@@ -162,7 +218,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 			$scope.closeDialog = function(to) {
 				$("body").removeClass('sidebar-collapse'); // to expand the sidebar
 				$mdDialog.hide(); // hides the dialog box
-				vm.formData = {}; // clears the formFields
+				initializeVars(); // clears the formFields
 				vm.patientRegisterForm.$setUntouched();
 				vm.patientRegisterForm.$setPristine();
 				if (to == 1)

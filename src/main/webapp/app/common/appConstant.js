@@ -12,7 +12,10 @@ app.constant('appSettings', {
 		createUser: 'user/save', // creating user
 		userList: 'user/list', // listing out the user
 		patientRegistration: 'patientregistration/patient/save', // patient registration
-		logout : 'logout'
+		patientRegDrpDwn : 'common/lovs/FamilyRelation_BloodGroups_MaritalStatus_EmploymentStatus_KnowAboutCancure_RecommendationType_IDProof_IncomeProof_TypeOfSupportSought', // to get dropdown values for patient reg page
+		doctorList : 'doctor/list', // to fetch doctor list
+		hospitalList : 'hospital/list', // to fetch hospital list
+		logout : 'logout' // logout service
 	},
 	
 	theme: 'skin-yellow', // app default theme	
@@ -31,8 +34,7 @@ app.constant('appSettings', {
 			color: "skin-blue",
 			title: "Dark - Blue Skin",
 			icon: ""
-		},
-		{
+		}, {
 			theme: "green",
 			color: "skin-green",
 			title: "Dark - Green Skin",
