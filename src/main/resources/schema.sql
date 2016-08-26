@@ -162,6 +162,7 @@ create table patient_investigation (
  	address varchar(200),
  	contact varchar(25),
  	email varchar(50),
+ 	hospital_id number(10) references hospital(hospital_id),
  	enabled boolean
  );
 
