@@ -13,6 +13,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,25 +28,34 @@ public class PatientRegistrationService {
 	@Autowired
 	private TaskService taskService;
 
-	private static final String approvedEcVarKey = "approvedEcs";
-	private static final String rejectedEcVarKey = "rejectedEcs";
-	private static final String mbDocApprovedVarKey = "mbDocApproved";
-	private static final String MAX_BGCHECK_TIME = "P30D";
-	private static final String MAX_ECAPPROVAL_TIME = "P30D";
-	private static final String PATIENT_ID_STR = "patientId";
-	private static final String NOT_APPROVED_STR = "NotApproved";
-	private static final String APPROVED_STR = "Approved";
-	private static final String REJECTED_STR = "Rejected";
-	private static final String COMPLETED_STR = "Completed";
-	private static final int MAX_EC_COUNT = 5;
-	private static final int MIN_EC_COUNT = 2;
+	private static final String approvedEcVarKey            = "approvedEcs";
+	private static final String rejectedEcVarKey            = "rejectedEcs";
+	private static final String mbDocApprovedVarKey         = "mbDocApproved";
+	private static final String mbApprovedLoopCountVar      = "mbApprovedLoopCount";
+	private static final String PATIENT_ID_STR              = "patientId";
+	private static final String NOT_APPROVED_STR            = "NotApproved";
+	private static final String APPROVED_STR                = "Approved";
+	private static final String REJECTED_STR                = "Rejected";
+	private static final String COMPLETED_STR               = "Completed";
+	
+	@Value("${activiti.patientReg.count.maxEcApproval}")
+	private int MAX_EC_COUNT;
+	
+	@Value("${activiti.patientReg.count.minEcApproval}")
+	private int MIN_EC_COUNT;
+
+	@Value("${activiti.patientReg.timeout.bgCheck}")
+	private String maxBgCheckTime;
+	
+	@Value("${activiti.patientReg.timeout.ecApproval}")
+	private String maxEcApprovalTime;
 
 	public String getMaxBgCheckTime() {
-		return MAX_BGCHECK_TIME;
+		return maxBgCheckTime;
 	}
 
 	public String getMaxEcApprovalTime() {
-		return MAX_ECAPPROVAL_TIME;
+		return maxEcApprovalTime;
 	}
 
 	public String startPatientRegnProcess(Map<String, Object> variables,
@@ -92,6 +102,8 @@ public class PatientRegistrationService {
 
 	public String mbApprove(String patientId, String doctorId) {
 
+		logger.info("mbApprove ..." + doctorId);
+
 		Task taskData = findTask(patientId);
 		String taskId=taskData.getId();
 
@@ -131,9 +143,23 @@ public class PatientRegistrationService {
 			return NOT_APPROVED_STR;
 		}
 	}
+	
+	public String resetDocApprovalData(String patientId) {
 
+		logger.info("resetDocApprovalData ...");
+
+		Task taskData = findTask(patientId);
+		String executionId = taskData.getExecutionId();
+		
+		reloadMbApproval(executionId, mbDocApprovedVarKey);
+
+		return COMPLETED_STR;
+	}
+	
 	public String ecApprove(String patientId, String ecId) {
 
+		logger.info("ecApprove ..." + ecId);
+		
 		Task taskData = findTask(patientId);
 		String taskId= taskData.getId();
 		HashMap<String, Object> actVars = new HashMap<String, Object>();
@@ -156,6 +182,8 @@ public class PatientRegistrationService {
 
 	public String ecReject(String patientId, String ecId) {
 
+		logger.info("ecReject ..." + ecId);
+		
 		Task taskData = findTask(patientId);
 		String taskId= taskData.getId();
 		HashMap<String, Object> actVars = new HashMap<String, Object>();
@@ -216,6 +244,46 @@ public class PatientRegistrationService {
 				.singleResult();
 
 		return taskData;
+	}
+	
+	public void reloadMbApproval(String executionId, String key)
+	{
+		@SuppressWarnings("unchecked")
+		ArrayList<String> mbApprovedDocs = (ArrayList<String>) runtimeService
+				.getVariable(executionId, key);
+
+		Integer mbApprovedLoopCount = (Integer) runtimeService
+				.getVariable(executionId, mbApprovedLoopCountVar);
+		if(mbApprovedLoopCount == null)
+		{
+			mbApprovedLoopCount = 0;
+		}
+
+		logger.info("mbApprovedDocs: " + mbApprovedDocs);
+		logList(mbApprovedDocs, "mbDoc");
+		
+		String newKey = key + ++mbApprovedLoopCount; 
+		
+		runtimeService.setVariable(executionId, newKey, mbApprovedDocs);
+		runtimeService.setVariable(executionId, key, null);
+		runtimeService.setVariable(executionId, mbApprovedLoopCountVar, mbApprovedLoopCount);
+
+		@SuppressWarnings("unchecked")
+		ArrayList<String> mbApprovedDocs2 = (ArrayList<String>) runtimeService
+				.getVariable(executionId, key);		
+		logger.info("mbApprovedDocs: " + mbApprovedDocs2);
+		logList(mbApprovedDocs2, "mbDoc");
+	}
+	
+	public <T> void logList(List<T> listData, String varName)
+	{
+		logger.info("listData: " + listData);
+		if(listData != null)
+		{
+			for (T value : listData) {
+				logger.info(varName + value);
+			}
+		}			
 	}
 }
 

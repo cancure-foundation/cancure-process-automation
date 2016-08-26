@@ -2,41 +2,17 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="patientRegn" name="PatientRegistration" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="usertask1" name="PatientRegistration">
-    	<documentation>
-    		Patient registers with Cancure providing personal details, family details, ID proofs
-    		, income proofs etc. 
-    	</documentation>
-    	<potentialOwner>
-	      <resourceAssignmentExpression>
-	        <formalExpression>group(ROLE_PROGRAM_COORDINATOR)</formalExpression>
-	      </resourceAssignmentExpression>
-	    </potentialOwner>
+    <userTask id="usertask1" name="PatientRegistration" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+      <documentation>Patient registers with Cancure providing personal details, family details, ID proofs
+    		, income proofs etc.</documentation>
     </userTask>
-    
-    <userTask id="usertask2" name="PreliminaryExamination">
-    	<documentation>
-    		Doctor conducts preliminary examination and provides reports. 
-    		HPOC estimates the treatment costs.
-    	</documentation>
-    	<potentialOwner>
-	      <resourceAssignmentExpression>
-	        <formalExpression>group(ROLE_HOSPITAL_POC)</formalExpression>
-	      </resourceAssignmentExpression>
-	    </potentialOwner>
+    <userTask id="usertask2" name="PreliminaryExamination" activiti:candidateGroups="ROLE_HOSPITAL_POC">
+      <documentation>Doctor conducts preliminary examination and provides reports. 
+    		HPOC estimates the treatment costs.</documentation>
     </userTask>
-    
-    <userTask id="usertask3" name="BackgroundCheck">
-    	<documentation>
-    		PC performs background check on the patient.
-    	</documentation>
-    	<potentialOwner>
-	      <resourceAssignmentExpression>
-	        <formalExpression>group(ROLE_PROGRAM_COORDINATOR)</formalExpression>
-	      </resourceAssignmentExpression>
-	    </potentialOwner>
+    <userTask id="usertask3" name="BackgroundCheck" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+      <documentation>PC performs background check on the patient.</documentation>
     </userTask>
-    
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow1" sourceRef="usertask3" targetRef="exclusivegateway1"></sequenceFlow>
     <sequenceFlow id="flow2" sourceRef="exclusivegateway1" targetRef="servicetask2">
@@ -45,28 +21,14 @@
     <sequenceFlow id="flow3" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="usertask2" targetRef="usertask3"></sequenceFlow>
     <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask4" name="MBDoctorApproval">
-    	<documentation>
-    		MB Doctors verifies the cost estimations and provides their input. 
-    	</documentation>
-    	<potentialOwner>
-	      <resourceAssignmentExpression>
-	        <formalExpression>group(ROLE_PROGRAM_COORDINATOR)</formalExpression>
-	      </resourceAssignmentExpression>
-	    </potentialOwner>
+    <userTask id="usertask4" name="MBDoctorApproval" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+      <documentation>MB Doctors verifies the cost estimations and provides their input.</documentation>
     </userTask>
     <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="usertask4">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bgCheck=='PASS'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask5" name="SecretaryApproval">
-    	<documentation>
-    		Secretary verifies the patient's details.
-    	</documentation>
-    	<potentialOwner>
-	      <resourceAssignmentExpression>
-	        <formalExpression>group(ROLE_SECRETARY)</formalExpression>
-	      </resourceAssignmentExpression>
-	    </potentialOwner>
+    <userTask id="usertask5" name="SecretaryApproval" activiti:candidateGroups="ROLE_SECRETARY">
+      <documentation>Secretary verifies the patient's details.</documentation>
     </userTask>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow8" sourceRef="usertask5" targetRef="exclusivegateway2"></sequenceFlow>
@@ -74,29 +36,15 @@
     <sequenceFlow id="flow9" sourceRef="exclusivegateway2" targetRef="servicetask2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Reject'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask6" name="ECApproval">
-    	<documentation>
-    		Executive Committee verifies the patient's details and approves or rejects Cancure help. 
-    	</documentation>
-    	<potentialOwner>
-	      <resourceAssignmentExpression>
-	        <formalExpression>group(ROLE_BOARD)</formalExpression>
-	      </resourceAssignmentExpression>
-	    </potentialOwner>
+    <userTask id="usertask6" name="ECApproval" activiti:candidateGroups="ROLE_BOARD">
+      <documentation>Executive Committee verifies the patient's details and approves or rejects Cancure help.</documentation>
     </userTask>
     <sequenceFlow id="flow11" sourceRef="exclusivegateway2" targetRef="usertask6">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Recommend'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask7" name="PatientIDCardGeneration">
-    	<documentation>
-    		Cancure approves patient's registration and patient's ID card is generated.
-    		Partners are notified.
-    	</documentation>
-    	<potentialOwner>
-	      <resourceAssignmentExpression>
-	        <formalExpression>group(ROLE_PROGRAM_COORDINATOR)</formalExpression>
-	      </resourceAssignmentExpression>
-	    </potentialOwner>
+    <userTask id="usertask7" name="PatientIDCardGeneration" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+      <documentation>Cancure approves patient's registration and patient's ID card is generated.
+    		Partners are notified.</documentation>
     </userTask>
     <sequenceFlow id="flow12" sourceRef="exclusivegateway2" targetRef="usertask7">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Approved'}]]></conditionExpression>
@@ -140,13 +88,22 @@
       </timerEventDefinition>
     </boundaryEvent>
     <sequenceFlow id="flow38" sourceRef="boundarytimer2" targetRef="servicetask2"></sequenceFlow>
-    <userTask id="usertask8" name="Sent Back to PC"></userTask>
+    <userTask id="usertask8" name="Background Clarification"></userTask>
     <sequenceFlow id="flow39" sourceRef="exclusivegateway2" targetRef="usertask8">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='SendBackToPC'}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow40" sourceRef="usertask8" targetRef="usertask5"></sequenceFlow>
     <sequenceFlow id="flow41" sourceRef="servicetask2" targetRef="endevent2"></sequenceFlow>
     <sequenceFlow id="flow42" sourceRef="boundarytimer1" targetRef="servicetask2"></sequenceFlow>
+    <userTask id="usertask9" name="Preliminary Examination Clarification" activiti:candidateGroups="ROLE_HOSPITAL_POC">
+      <documentation>Preliminary examination to be revisited by the Hospital POC</documentation>
+    </userTask>
+    <sequenceFlow id="flow43" sourceRef="exclusivegateway2" targetRef="usertask9">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='prelimExamClarificationReqd'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow44" sourceRef="servicetask6" targetRef="usertask4"></sequenceFlow>
+    <serviceTask id="servicetask6" name="Reset Doctor Approval variables" activiti:expression="#{execution.setVariable(&quot;docListCleared&quot;,patientRegistrationService.resetDocApprovalData(prn))}"></serviceTask>
+    <sequenceFlow id="flow45" sourceRef="usertask9" targetRef="servicetask6"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_patientRegn">
     <bpmndi:BPMNPlane bpmnElement="patientRegn" id="BPMNPlane_patientRegn">
@@ -160,66 +117,72 @@
         <omgdc:Bounds height="55.0" width="105.0" x="288.0" y="60.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
-        <omgdc:Bounds height="55.0" width="105.0" x="547.0" y="60.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="705.0" y="60.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
-        <omgdc:Bounds height="30.0" width="30.0" x="536.0" y="100.0"></omgdc:Bounds>
+        <omgdc:Bounds height="30.0" width="30.0" x="694.0" y="100.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
-        <omgdc:Bounds height="40.0" width="40.0" x="737.0" y="67.0"></omgdc:Bounds>
+        <omgdc:Bounds height="40.0" width="40.0" x="737.0" y="147.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask4" id="BPMNShape_usertask4">
-        <omgdc:Bounds height="55.0" width="105.0" x="705.0" y="212.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="705.0" y="270.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask5" id="BPMNShape_usertask5">
-        <omgdc:Bounds height="55.0" width="105.0" x="568.0" y="351.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="490.0" y="270.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
-        <omgdc:Bounds height="40.0" width="40.0" x="253.0" y="265.0"></omgdc:Bounds>
+        <omgdc:Bounds height="40.0" width="40.0" x="394.0" y="277.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent2" id="BPMNShape_endevent2">
-        <omgdc:Bounds height="35.0" width="35.0" x="635.0" y="150.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="260.0" y="217.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask6" id="BPMNShape_usertask6">
-        <omgdc:Bounds height="55.0" width="105.0" x="110.0" y="168.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="110.0" y="197.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundarytimer2" id="BPMNShape_boundarytimer2">
-        <omgdc:Bounds height="30.0" width="30.0" x="192.0" y="153.0"></omgdc:Bounds>
+        <omgdc:Bounds height="30.0" width="30.0" x="192.0" y="182.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask7" id="BPMNShape_usertask7">
-        <omgdc:Bounds height="55.0" width="105.0" x="221.0" y="428.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="127.0" x="351.0" y="460.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
-        <omgdc:Bounds height="55.0" width="105.0" x="546.0" y="428.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="600.0" y="460.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask2" id="BPMNShape_servicetask2">
-        <omgdc:Bounds height="55.0" width="105.0" x="411.0" y="140.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="288.0" y="140.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway5" id="BPMNShape_exclusivegateway5">
-        <omgdc:Bounds height="40.0" width="40.0" x="600.0" y="219.0"></omgdc:Bounds>
+        <omgdc:Bounds height="40.0" width="40.0" x="632.0" y="277.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask4" id="BPMNShape_servicetask4">
-        <omgdc:Bounds height="55.0" width="105.0" x="110.0" y="258.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="110.0" y="287.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway6" id="BPMNShape_exclusivegateway6">
         <omgdc:Bounds height="40.0" width="40.0" x="142.0" y="369.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask5" id="BPMNShape_servicetask5">
-        <omgdc:Bounds height="55.0" width="105.0" x="705.0" y="315.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="705.0" y="379.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent4" id="BPMNShape_endevent4">
-        <omgdc:Bounds height="35.0" width="35.0" x="696.0" y="438.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="740.0" y="470.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask8" id="BPMNShape_usertask8">
-        <omgdc:Bounds height="55.0" width="105.0" x="490.0" y="258.0"></omgdc:Bounds>
+        <omgdc:Bounds height="58.0" width="105.0" x="490.0" y="378.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask9" id="BPMNShape_usertask9">
+        <omgdc:Bounds height="70.0" width="105.0" x="490.0" y="182.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask6" id="BPMNShape_servicetask6">
+        <omgdc:Bounds height="55.0" width="105.0" x="640.0" y="190.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
-        <omgdi:waypoint x="652.0" y="87.0"></omgdi:waypoint>
-        <omgdi:waypoint x="737.0" y="87.0"></omgdi:waypoint>
+        <omgdi:waypoint x="757.0" y="115.0"></omgdi:waypoint>
+        <omgdi:waypoint x="757.0" y="147.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
-        <omgdi:waypoint x="757.0" y="107.0"></omgdi:waypoint>
-        <omgdi:waypoint x="463.0" y="140.0"></omgdi:waypoint>
+        <omgdi:waypoint x="737.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="393.0" y="167.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
         <omgdi:waypoint x="215.0" y="87.0"></omgdi:waypoint>
@@ -227,102 +190,118 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
         <omgdi:waypoint x="393.0" y="87.0"></omgdi:waypoint>
-        <omgdi:waypoint x="547.0" y="87.0"></omgdi:waypoint>
+        <omgdi:waypoint x="705.0" y="87.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
         <omgdi:waypoint x="55.0" y="87.0"></omgdi:waypoint>
         <omgdi:waypoint x="110.0" y="87.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
-        <omgdi:waypoint x="757.0" y="107.0"></omgdi:waypoint>
-        <omgdi:waypoint x="757.0" y="212.0"></omgdi:waypoint>
+        <omgdi:waypoint x="757.0" y="187.0"></omgdi:waypoint>
+        <omgdi:waypoint x="757.0" y="270.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
-        <omgdi:waypoint x="620.0" y="351.0"></omgdi:waypoint>
-        <omgdi:waypoint x="273.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="490.0" y="297.0"></omgdi:waypoint>
+        <omgdi:waypoint x="434.0" y="297.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
-        <omgdi:waypoint x="273.0" y="265.0"></omgdi:waypoint>
-        <omgdi:waypoint x="463.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="414.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="413.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="393.0" y="167.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
-        <omgdi:waypoint x="273.0" y="265.0"></omgdi:waypoint>
-        <omgdi:waypoint x="273.0" y="195.0"></omgdi:waypoint>
-        <omgdi:waypoint x="215.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="394.0" y="297.0"></omgdi:waypoint>
+        <omgdi:waypoint x="271.0" y="296.0"></omgdi:waypoint>
+        <omgdi:waypoint x="162.0" y="252.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
-        <omgdi:waypoint x="273.0" y="305.0"></omgdi:waypoint>
-        <omgdi:waypoint x="273.0" y="428.0"></omgdi:waypoint>
+        <omgdi:waypoint x="414.0" y="317.0"></omgdi:waypoint>
+        <omgdi:waypoint x="414.0" y="460.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
-        <omgdi:waypoint x="326.0" y="455.0"></omgdi:waypoint>
-        <omgdi:waypoint x="546.0" y="455.0"></omgdi:waypoint>
+        <omgdi:waypoint x="478.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="600.0" y="487.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23">
-        <omgdi:waypoint x="620.0" y="259.0"></omgdi:waypoint>
-        <omgdi:waypoint x="620.0" y="351.0"></omgdi:waypoint>
+        <omgdi:waypoint x="632.0" y="297.0"></omgdi:waypoint>
+        <omgdi:waypoint x="595.0" y="297.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25">
-        <omgdi:waypoint x="162.0" y="223.0"></omgdi:waypoint>
-        <omgdi:waypoint x="162.0" y="258.0"></omgdi:waypoint>
+        <omgdi:waypoint x="162.0" y="252.0"></omgdi:waypoint>
+        <omgdi:waypoint x="162.0" y="287.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow28" id="BPMNEdge_flow28">
         <omgdi:waypoint x="182.0" y="389.0"></omgdi:waypoint>
-        <omgdi:waypoint x="463.0" y="389.0"></omgdi:waypoint>
-        <omgdi:waypoint x="463.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="340.0" y="389.0"></omgdi:waypoint>
+        <omgdi:waypoint x="340.0" y="195.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow29" id="BPMNEdge_flow29">
         <omgdi:waypoint x="162.0" y="409.0"></omgdi:waypoint>
-        <omgdi:waypoint x="162.0" y="455.0"></omgdi:waypoint>
-        <omgdi:waypoint x="221.0" y="455.0"></omgdi:waypoint>
+        <omgdi:waypoint x="162.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="351.0" y="487.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow31" id="BPMNEdge_flow31">
-        <omgdi:waypoint x="757.0" y="267.0"></omgdi:waypoint>
-        <omgdi:waypoint x="757.0" y="315.0"></omgdi:waypoint>
+        <omgdi:waypoint x="757.0" y="325.0"></omgdi:waypoint>
+        <omgdi:waypoint x="757.0" y="379.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow32" id="BPMNEdge_flow32">
-        <omgdi:waypoint x="757.0" y="315.0"></omgdi:waypoint>
-        <omgdi:waypoint x="620.0" y="259.0"></omgdi:waypoint>
+        <omgdi:waypoint x="757.0" y="379.0"></omgdi:waypoint>
+        <omgdi:waypoint x="652.0" y="317.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow33" id="BPMNEdge_flow33">
-        <omgdi:waypoint x="640.0" y="239.0"></omgdi:waypoint>
-        <omgdi:waypoint x="705.0" y="239.0"></omgdi:waypoint>
+        <omgdi:waypoint x="672.0" y="297.0"></omgdi:waypoint>
+        <omgdi:waypoint x="705.0" y="297.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow34" id="BPMNEdge_flow34">
-        <omgdi:waypoint x="651.0" y="455.0"></omgdi:waypoint>
-        <omgdi:waypoint x="696.0" y="455.0"></omgdi:waypoint>
+        <omgdi:waypoint x="705.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="740.0" y="487.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow35" id="BPMNEdge_flow35">
-        <omgdi:waypoint x="162.0" y="313.0"></omgdi:waypoint>
+        <omgdi:waypoint x="162.0" y="342.0"></omgdi:waypoint>
         <omgdi:waypoint x="162.0" y="369.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow36" id="BPMNEdge_flow36">
         <omgdi:waypoint x="142.0" y="389.0"></omgdi:waypoint>
         <omgdi:waypoint x="63.0" y="388.0"></omgdi:waypoint>
-        <omgdi:waypoint x="63.0" y="196.0"></omgdi:waypoint>
-        <omgdi:waypoint x="110.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="63.0" y="223.0"></omgdi:waypoint>
+        <omgdi:waypoint x="110.0" y="224.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
-        <omgdi:waypoint x="222.0" y="168.0"></omgdi:waypoint>
-        <omgdi:waypoint x="411.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="207.0" y="182.0"></omgdi:waypoint>
+        <omgdi:waypoint x="206.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="288.0" y="167.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow39" id="BPMNEdge_flow39">
-        <omgdi:waypoint x="293.0" y="285.0"></omgdi:waypoint>
-        <omgdi:waypoint x="490.0" y="285.0"></omgdi:waypoint>
+        <omgdi:waypoint x="414.0" y="317.0"></omgdi:waypoint>
+        <omgdi:waypoint x="542.0" y="378.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow40" id="BPMNEdge_flow40">
-        <omgdi:waypoint x="542.0" y="313.0"></omgdi:waypoint>
+        <omgdi:waypoint x="595.0" y="407.0"></omgdi:waypoint>
         <omgdi:waypoint x="542.0" y="379.0"></omgdi:waypoint>
-        <omgdi:waypoint x="568.0" y="378.0"></omgdi:waypoint>
+        <omgdi:waypoint x="542.0" y="325.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow41" id="BPMNEdge_flow41">
-        <omgdi:waypoint x="516.0" y="167.0"></omgdi:waypoint>
-        <omgdi:waypoint x="635.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="340.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="313.0" y="234.0"></omgdi:waypoint>
+        <omgdi:waypoint x="295.0" y="234.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow42" id="BPMNEdge_flow42">
-        <omgdi:waypoint x="536.0" y="115.0"></omgdi:waypoint>
+        <omgdi:waypoint x="694.0" y="115.0"></omgdi:waypoint>
         <omgdi:waypoint x="462.0" y="114.0"></omgdi:waypoint>
-        <omgdi:waypoint x="463.0" y="140.0"></omgdi:waypoint>
+        <omgdi:waypoint x="340.0" y="140.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow43" id="BPMNEdge_flow43">
+        <omgdi:waypoint x="414.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="417.0" y="217.0"></omgdi:waypoint>
+        <omgdi:waypoint x="490.0" y="217.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow44" id="BPMNEdge_flow44">
+        <omgdi:waypoint x="692.0" y="245.0"></omgdi:waypoint>
+        <omgdi:waypoint x="757.0" y="270.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
+        <omgdi:waypoint x="595.0" y="217.0"></omgdi:waypoint>
+        <omgdi:waypoint x="640.0" y="217.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
