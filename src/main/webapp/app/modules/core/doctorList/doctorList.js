@@ -4,7 +4,7 @@ function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings)
         
         var init = function () {
         	apiService.serviceRequest({
-                URL: 'doctor/list',
+                URL: appSettings.requestURL.doctorList,
                 errorMsg: 'Failed to fetch Doctors. Try Again!'
             }, function (response) {
             	$scope.doctorList = response;

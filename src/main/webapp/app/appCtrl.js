@@ -1,4 +1,4 @@
-app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies', 'Flash', 'appSettings', 'apiService','$mdDialog', '$mdMedia',
+app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies', 'Flash', 'appSettings', 'apiService', '$mdDialog', '$mdMedia',
                            function ($rootScope, $scope, $state, $http, $cookies, Flash, appSettings, apiService, $mdDialog, $mdMedia) {
 
 	var vm = this;  

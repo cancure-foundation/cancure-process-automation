@@ -1,7 +1,5 @@
 app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', 'Loader', function ($http, $q,  $state, $cookies, appSettings, Flash, Loader) {
 
-	var apiService = {};
-
 	// function to place http request
 	var serviceRequest = function (params, success, fail) {
 
@@ -80,11 +78,9 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 		}
 	};
 
-	apiService.serviceRequest = serviceRequest; // function to place http request
-	apiService.asyncServiceRequest = asyncServiceRequest; // function to place async service request
-	apiService.logoutAction = logoutAction; // function to be called on logout
-	apiService.adjustScreenHeight = adjustScreenHeight; // function to set the center wrapper height so that UI does not fall when content is less
-
-	return apiService;
+	this.serviceRequest = serviceRequest; // function to place http request
+	this.asyncServiceRequest = asyncServiceRequest; // function to place async service request
+	this.logoutAction = logoutAction; // function to be called on logout
+	this.adjustScreenHeight = adjustScreenHeight; // function to set the center wrapper height so that UI does not fall when content is less
 
 }]);
