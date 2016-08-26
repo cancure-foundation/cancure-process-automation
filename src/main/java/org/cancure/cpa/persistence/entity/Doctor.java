@@ -5,7 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -26,9 +29,14 @@ public class Doctor {
 	private String contact;
 
 	private String email;
-
-	@NotNull
+	
+	@ManyToOne
+	@JoinColumn(name="hospitalId")
+	private Hospital hospital;
+	
+    @NotNull
 	private Boolean enabled;
+	
 
 	public Doctor() {
 
@@ -42,7 +50,8 @@ public class Doctor {
 		this.address = doctor.getAddress();
 		this.contact = doctor.getContact();
 		this.email = doctor.getEmail();
-		this.enabled = doctor.getEnabled();
+		this.hospital=doctor.getHospital();
+        this.enabled = doctor.getEnabled();
 	}
 
 	
@@ -94,6 +103,15 @@ public class Doctor {
 		this.email = email;
 	}
 
+	public Hospital getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(Hospital hospital) {
+		this.hospital = hospital;
+	}
+
+	
 	public Boolean getEnabled() {
 		return enabled;
 	}

@@ -1,0 +1,75 @@
+<div class="content" style="padding-top:0px;">
+    <h4 ng-hide="vm.doctorCreated">Fill the form to create Doctor.</h4>
+    <h4 ng-show="vm.doctorCreated">Doctor created with the following details.</h4>
+    <div ng-hide="vm.doctorCreated" class="panel panel-info">
+        <div class="panel-body">
+            <form ng-submit="vm.createDoctor();" name="vm.registerForm">
+                <div class="col-md-7 col-xs-12">
+                    <md-input-container class="md-icon-float md-block">
+                        <label>Name</label>
+                        <md-icon class="fa fa-user"></md-icon>
+                        <input type="text" data-ng-model="vm.formData.name" ng-required="true" />
+                    </md-input-container>
+                     
+                    <md-input-container class="md-icon-float md-block">
+                         <label>Specification</label>
+                         <md-icon class="fa fa-user"></md-icon>
+                         <input type="specification" data-ng-model="vm.formData.specification" ng-required="true">
+                    </md-input-container>
+                    
+                    <md-input-container class="md-icon-float md-block">
+                        <label>Address</label>
+                        <md-icon class="fa fa-user"></md-icon>
+                        <input type="text" data-ng-model="vm.formData.address" ng-required="true" />
+                    </md-input-container>
+
+                    <md-input-container class="md-icon-float md-block">
+                        <label>Contact</label>
+                        <md-icon class="fa fa-unlock-alt"></md-icon>
+                        <input type="text" data-ng-model="vm.formData.contact" ng-required="true" />
+                    </md-input-container>
+                    
+                     <md-input-container class="md-icon-float md-block">
+                         <label>Email Address</label>
+                         <md-icon class="fa fa-envelope"></md-icon>
+                         <input type="email" data-ng-model="vm.formData.email" ng-required="true" >
+                     </md-input-container>
+                     
+                     <md-input-container class="md-icon-float md-block">
+                        <label>Hospital</label>
+                        <md-icon class="fa fa-user"></md-icon>
+                        <md-select data-ng-model="vm.formData.hospital.hospitalId" ng-required="true">
+                            <md-option value="{{hospital.hospitalId}}" ng-repeat="hospital in vm.hospitalList">{{hospital.name}}</md-option>
+                        </md-select>
+                    </md-input-container>
+					
+                </div>
+
+                <div class="col-xs-12 text-center">
+                    <md-button class="md-raised md-primary" type="submit">Save</md-button>
+                    <md-button class="md-raised md-warn" type="reset">Clear</md-button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div ng-show="vm.doctorCreated" class="panel panel-info" style="padding:15px;">
+        <div class="row">
+            <div class="col-xs-offset-3 col-xs-6">
+                <table class="table table-bordered">
+                    <th class="col-xs-4">Name</th>
+                    <th class="col-xs-4">Specification</th>
+                    <th class="col-xs-4">Specification</th>
+                    <th class="col-xs-4">Contact</th>
+                    <th class="col-xs-4">Email Address</th>
+                    <tr>
+                        <td class="col-xs-4">{{vm.formData.name}}</td>
+                         <td class="col-xs-4">{{vm.formData.specification}}</td>
+                        <td class="col-xs-4">{{vm.formData.address}}</td>
+                         <td class="col-xs-4">{{vm.formData.contact}}</td>
+                        <td class="col-xs-4">{{vm.formData.email}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

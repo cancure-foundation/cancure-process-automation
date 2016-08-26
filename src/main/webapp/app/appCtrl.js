@@ -24,16 +24,13 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 		apiService.adjustScreenHeight();
 
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 			
-			/**
-			 *  to scroll the page to top so that previous page scroll is not retained
-			 */
+			
+			// to scroll the page to top so that previous page scroll is not retained			
 			var centerContent = document.getElementById('center-content-wrapper');
 			if (centerContent)
 				centerContent.scrollTop -= centerContent.scrollTop; // scrolls each view to top on state change
 
-			/**
-			 *  to remove any flash messages from the previous screen
-			 */
+			// to remove any flash messages from the previous screen			
 			Flash.dismiss();
 		});
 

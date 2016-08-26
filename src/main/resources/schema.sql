@@ -164,6 +164,7 @@ create table patient_investigation (
  	address varchar(200),
  	contact varchar(25),
  	email varchar(50),
+ 	hospital_id number(10) references hospital(hospital_id),
  	enabled boolean
  );
 
@@ -173,6 +174,17 @@ create table patient_investigation (
  	address varchar(200),
  	contact varchar(25),
  	enabled boolean
+ );
+ 
+ create table list (
+ 	list_id number(10) primary key auto_increment,
+ 	name varchar(100)
+ );
+  
+ create table list_value (
+    list_value_id number(10) primary key auto_increment,
+    list_id number(10) references list(list_id), 
+ 	value varchar(100)
  );
  
  create table ACT_GE_PROPERTY (
