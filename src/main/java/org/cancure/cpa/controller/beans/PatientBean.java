@@ -20,7 +20,6 @@ public class PatientBean {
     private String employmentStatus;
     private Boolean solebreadwinner;
     private String assetsOwned;
-    private String photoLocation;
     private String bystanderName;
     private String bystanderContact;
     private String bystanderRelation;
@@ -117,12 +116,6 @@ public class PatientBean {
     }
     public void setAssetsOwned(String assetsOwned) {
         this.assetsOwned = assetsOwned;
-    }
-    public String getPhotoLocation() {
-        return photoLocation;
-    }
-    public void setPhotoLocation(String photoLocation) {
-        this.photoLocation = photoLocation;
     }
     public String getBystanderName() {
         return bystanderName;

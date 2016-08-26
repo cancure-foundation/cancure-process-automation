@@ -58,10 +58,6 @@ public class Patient {
     private String assetsOwned;
     
     
-    @Column(name="photo_location")
-    private String photoLocation;
-    
-    
     @Column(name="bystander_name")
     private String bystanderName;
     
@@ -220,14 +216,6 @@ public class Patient {
 
     public void setAssetsOwned(String assetsOwned) {
         this.assetsOwned = assetsOwned;
-    }
-
-    public String getPhotoLocation() {
-        return photoLocation;
-    }
-
-    public void setPhotoLocation(String photoLocation) {
-        this.photoLocation = photoLocation;
     }
 
     public String getBystanderName() {
