@@ -1,9 +1,14 @@
 package org.cancure.cpa.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.persistence.entity.Role;
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.RoleRepository;
 import org.cancure.cpa.persistence.repository.UserRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,26 +24,34 @@ public class UserServiceImpl implements UserService {
 	//@Autowired
 	PasswordEncoder encoder = new BCryptPasswordEncoder();
    
-	public User saveUser(User user) {
+	public UserBean saveUser(User user) {
 	    String encPass=encoder.encode(user.getPassword());
 	    user.setPassword(encPass);
 		userRepo.save(user);
-		user.setPassword(null);
-		return user;
+		UserBean userBean = new UserBean();
+		BeanUtils.copyProperties(user, userBean);
+		return userBean;
 	}
 	
 	@Override
-	public User getUser(Integer id) {
+	public UserBean getUser(Integer id) {
 		User user= userRepo.findOne(id);
-		user.setPassword(null);
-		return user;
+		UserBean userBean = new UserBean();
+		BeanUtils.copyProperties(user, userBean);
+		return userBean;
 	}
 
-	public Iterable<User> listUsers() {
+	public Iterable<UserBean> listUsers() {
 	    
 	    Iterable<User> list = userRepo.findAll();
-	    list.forEach( x -> x.setPassword(null));
-	    return list;
+	    List<UserBean> userBeans = new ArrayList<>();
+	    
+		list.forEach( x -> { 
+	    	UserBean userBean = new UserBean();
+	    	BeanUtils.copyProperties(x, userBean);
+	    	userBeans.add(userBean);
+		});
+	    return userBeans;
 	}
 
 	public Iterable<Role> listRoles() {
@@ -46,10 +59,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUserByLogin(String login) {
+	public UserBean getUserByLogin(String login) {
 		User user= userRepo.findByLogin(login);
-		user.setPassword(null);
-		return user;
+		UserBean userBean = new UserBean();
+		BeanUtils.copyProperties(user, userBean);
+		return userBean;
 	}
 	
 	public void setUserRepo(UserRepository userRepo) {

@@ -8,6 +8,7 @@ import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentAndInvestigationBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
+import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.service.PatientRegistrationWorkflowService;
 import org.cancure.cpa.service.UserService;
@@ -52,7 +53,7 @@ public class PatientWorkFlowController {
 		Integer userId = null;
 		if (auth != null) {
 			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
-			User user = userService.getUserByLogin(login);
+			UserBean user = userService.getUserByLogin(login);
 			userId = user.getId();
 		} else {
 			throw new RuntimeException("Not logged in");
@@ -79,7 +80,7 @@ public class PatientWorkFlowController {
     	Integer userId = null;
 		if (auth != null) {
 			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
-			User user = userService.getUserByLogin(login);
+			UserBean user = userService.getUserByLogin(login);
 			userId = user.getId();
 		} else {
 			throw new RuntimeException("Not logged in");
@@ -96,7 +97,7 @@ public class PatientWorkFlowController {
 	   Integer userId = null;
 		if (auth != null) {
 			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
-			User user = userService.getUserByLogin(login);
+			UserBean user = userService.getUserByLogin(login);
 			userId = user.getId();
 		} else {
 			throw new RuntimeException("Not logged in");
@@ -114,7 +115,7 @@ public class PatientWorkFlowController {
 	   Integer userId = null;
 		if (auth != null) {
 			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
-			User user = userService.getUserByLogin(login);
+			UserBean user = userService.getUserByLogin(login);
 			userId = user.getId();
 		} else {
 			throw new RuntimeException("Not logged in");

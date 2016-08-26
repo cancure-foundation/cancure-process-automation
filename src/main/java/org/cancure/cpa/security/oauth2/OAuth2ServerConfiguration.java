@@ -110,8 +110,7 @@ public class OAuth2ServerConfiguration {
 					
 					.antMatchers("/patientregistration/patient/save").hasRole("PROGRAM_COORDINATOR")
 					.antMatchers("/patientregistration/patient/save").hasRole("HOSPITAL_POC")
-					.antMatchers("/patientregistration/preliminaryexamination/save").hasRole("HOSPITAL_POC")
-					.antMatchers("/patientregistration/preliminaryexamination/save").hasRole("DOCTOR")
+					.antMatchers("/patientregistration/preliminaryexamination/save").hasAnyRole("HOSPITAL_POC", "DOCTOR")
 					.antMatchers("/patientregistration/backgroundcheck/save").hasRole("PROGRAM_COORDINATOR")
 					.antMatchers("/patientregistration/mbdoctorrecommendation/save").hasRole("DOCTOR")
 					.antMatchers("/patientregistration/secretaryrecommendation/save").hasRole("SECRETARY")
