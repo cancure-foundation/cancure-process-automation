@@ -59,8 +59,8 @@ public class PatientServiceImpl implements PatientService {
 
         Integer id = patient.getPrn();
         new File(fileSavePath + "/" + id).mkdirs();
-        List<PatientDocumentBean> temp = new ArrayList<>();
-        temp = patientBean.getDocument();
+        List<PatientDocumentBean> patientDocumentList = new ArrayList<>();
+        patientDocumentList = patientBean.getDocument();
 
         
         for (PatientFamilyBean c : temp4) {
@@ -78,16 +78,17 @@ public class PatientServiceImpl implements PatientService {
             supportOrganisationRepo.save(supportOrganisation);
         }
         
-        for (PatientDocumentBean patientDocBean : temp) {
+        for (PatientDocumentBean patientDocBean : patientDocumentList) {
             PatientDocument patientDocument = new PatientDocument();
             
-            BeanUtils.copyProperties(patientDocBean, patientDocument);
-            patientDocument.setPrn(id);
-            patientDocumentRepo.save(patientDocument);
-            
-            Integer docId = patientDocument.getDocId();
-            
+            //Save patient document only if File is present.
             if (patientDocBean.getPatientFile() != null) {
+            	BeanUtils.copyProperties(patientDocBean, patientDocument);
+                patientDocument.setPrn(id);
+                patientDocumentRepo.save(patientDocument);
+                
+                Integer docId = patientDocument.getDocId();
+                
                 File file = new File(fileSavePath + "/" + id + "/" + docId + "_" + patientDocBean.getPatientFile().getOriginalFilename());
                 patientDocBean.getPatientFile().transferTo(file);
                 String docPath = "/" + id + "/" + docId + "_" + patientDocBean.getPatientFile().getOriginalFilename();
