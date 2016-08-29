@@ -85,6 +85,26 @@ create table user_role (
 );
 
 
+ create table hospital (
+ 	hospital_id number(10) primary key auto_increment,
+ 	name varchar(100),
+ 	address varchar(200),
+ 	contact varchar(25),
+ 	enabled boolean
+ );
+
+ create table DOCTOR (
+ 	doctor_id number(10) primary key auto_increment,
+ 	name varchar(100),
+ 	specification varchar(100),
+ 	address varchar(200),
+ 	contact varchar(25),
+ 	email varchar(50),
+ 	hospital_id number(10) references hospital(hospital_id),
+ 	enabled boolean
+ );
+
+
 create table patient(
 	prn number(10) primary key auto_increment,
 	pidn number(10),
@@ -157,24 +177,6 @@ create table patient_investigation (
  	prn number(10) references patient(prn)
  );
  
- create table DOCTOR (
- 	doctor_id number(10) primary key auto_increment,
- 	name varchar(100),
- 	specification varchar(100),
- 	address varchar(200),
- 	contact varchar(25),
- 	email varchar(50),
- 	hospital_id number(10) references hospital(hospital_id),
- 	enabled boolean
- );
-
- create table hospital (
- 	hospital_id number(10) primary key auto_increment,
- 	name varchar(100),
- 	address varchar(200),
- 	contact varchar(25),
- 	enabled boolean
- );
  
  create table list (
  	list_id number(10) primary key auto_increment,

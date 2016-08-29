@@ -2,6 +2,7 @@ package org.cancure.cpa.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,16 +79,21 @@ public class MyTasksServiceImpl implements MyTasksService {
 	
 	private Map<String, Object> extractHistoryTaskAttributes(List<HistoricTaskInstance> tasks,String patientID) {
 		Map<String, Object> parentMap = new HashMap<>();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss");
 		PatientBean patient=patientService.get(Integer.parseInt(patientID));
 		parentMap.put("patient", toMap(patient));
 		
-		Map taskMap = new HashMap<>();
+		//Map taskMap = new HashMap<>();
+		List taskList = new ArrayList<>();
 		
 		String nextTask = null;
 		
+		Collections.sort(tasks, (x,y) -> x.getCreateTime().compareTo(y.getCreateTime()));
+		
+		int i=0;
 		for (HistoricTaskInstance t : tasks) {
 			Map<String, Object> map = new HashMap<>();
+			map.put("sequenceNo", i++);
 			//List<PatientInvestigationBean> patientInvestigationBean=new ArrayList<>();
 			//patientInvestigationBean=patient.getPatientInvestigation();
 			map.put("executionId", t.getExecutionId());
@@ -119,7 +125,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 				map.put("patientName", patientName.toString());
 			}
 
-			if ("MBDoctorApproval".equals(t.getName()) || "ECApproval".equals(t.getName())) {
+			/*if ("MBDoctorApproval".equals(t.getName()) || "ECApproval".equals(t.getName())) {
 				
 				List<Object> existingObject = (List)taskMap.get(t.getName());
 				if (existingObject != null) {
@@ -132,7 +138,10 @@ public class MyTasksServiceImpl implements MyTasksService {
 				
 			} else {
 				taskMap.put(t.getName(), map);
-			}
+			}*/
+			
+			//taskMap.put(t.getCreateTime(), map);
+			taskList.add(map);
 			
 			if (t.getEndTime() == null) {
 				nextTask = t.getName();
@@ -143,7 +152,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 		if (nextTask != null) {
 			parentMap.put("nextTask", nextTask);
 		}
-		parentMap.put("tasks", taskMap);
+		parentMap.put("tasks", taskList);
 		return parentMap;
 	}
 	

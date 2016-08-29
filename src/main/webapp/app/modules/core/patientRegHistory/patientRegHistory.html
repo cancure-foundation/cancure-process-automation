@@ -45,16 +45,16 @@
                     </div>
                 </li>
                 
-                <li class="time-label" ng-if="taskHistory.tasks.PatientRegistration">
-                    <span ng-class="(taskHistory.tasks.PatientRegistration.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
-                        {{taskHistory.tasks.PatientRegistration.createTime}}
+                <li class="time-label" ng-if="taskHistory.patient">
+                    <span ng-class="(taskHistory.tasks[0].endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
+                        {{taskHistory.tasks[0].createTime}}
                     </span>
                 </li>
-                <li ng-if="taskHistory.tasks.PatientRegistration">
+                <li ng-if="taskHistory.patient">
                     <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
                     <div class="timeline-item">
-                        <span class="time">{{taskHistory.tasks.PatientRegistration.description}}</span>
-                        <h3 class="timeline-header"><b>{{taskHistory.tasks.PatientRegistration.nextTask}}</b></h3>
+                        <span class="time">{{taskHistory.tasks[0].description}}</span>
+                        <h3 class="timeline-header"><b>{{taskHistory.tasks[0].nextTask}}</b></h3>
 						<div class="timeline-body">
 							<div class="row">
 		                        <div class="col-md-3 col-sd-12">
@@ -172,32 +172,34 @@
                     </div>
                 </li>
                 
-                <li class="time-label" ng-if="taskHistory.tasks.PreliminaryExamination">
-                    <span ng-class="(taskHistory.tasks.PreliminaryExamination.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
-                        {{taskHistory.tasks.PreliminaryExamination.createTime}}
+                
+                
+                
+                
+                <li class="time-label" ng-repeat-start="task in taskHistory.tasks">
+                    <span ng-class="(task.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' " ng-if = "task.sequenceNo > 0">
+                        {{task.createTime}}
                     </span>
                 </li>
-                <li ng-if="taskHistory.tasks.PreliminaryExamination.endTime">
+                <li ng-repeat-end ng-if="task.endTime && task.sequenceNo > 0">
                     <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
                     <div class="timeline-item">
-                        <span class="time">{{taskHistory.tasks.PreliminaryExamination.description}}</span>
-                        <h3 class="timeline-header"><b>{{taskHistory.tasks.PreliminaryExamination.nextTask}}</b></h3>
+                        <span class="time">{{task.description}}</span>
+                        <h3 class="timeline-header"><b>{{task.nextTask}}</b></h3>
                         <div class="timeline-body">
-                        	
-                        	<div class="row">
+                            <div class="row" ng-if = "task.investigation.investigatorName">
 		                        <div class="col-md-2 col-sd-12">
 			                        <div class="timeline-body text-right">
-						            	<b>Doctor :</b>
+						            	<b>{{task.investigation.investigatorType}} :</b>
 						            </div>
 					            </div>
 					            <div class="col-md-10 col-sd-12">
 			                        <div class="timeline-body">
-						            	{{taskHistory.tasks.PreliminaryExamination.investigation.investigatorName}}
+						            	{{task.investigation.investigatorName}}
 						            </div>
 					            </div>
 				            </div>
-				            
-				            <div class="row">
+				            <div class="row" ng-if = "task.investigation.comments">
 		                        <div class="col-md-2 col-sd-12">
 			                        <div class="timeline-body text-right">
 						            	<b>Comments :</b>
@@ -205,12 +207,12 @@
 					            </div>
 					            <div class="col-md-10 col-sd-12">
 			                        <div class="timeline-body">
-						            	{{taskHistory.tasks.PreliminaryExamination.investigation.comments}}
+						            	{{task.investigation.comments}}
 						            </div>
 					            </div>
 				            </div>
 				            
-				            <div class="row" ng-repeat="doc in taskHistory.tasks.PreliminaryExamination.documents">
+				            <div class="row" ng-if = "task.documents" ng-repeat="doc in task.documents">
 		                        <div class="col-md-2 col-sd-12">
 			                        <div class="timeline-body text-right">
 						            	<b>Document Category :</b>
@@ -228,40 +230,12 @@
 					            </div>
 					            <div class="col-md-6 col-sd-12">
 			                        <div class="timeline-body">
-						            	<a href="{{doc.docId}}">Download</a>
+						            	<a href="/files/{{doc.docId}}">Download</a>
 						            </div>
 					            </div>
 				            </div>
-				                
-                        </div>
-                        
-                    </div>
-                </li>
-                
-                <li class="time-label" ng-if="taskHistory.tasks.BackgroundCheck">
-                    <span ng-class="(taskHistory.tasks.BackgroundCheck.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
-                        {{taskHistory.tasks.BackgroundCheck.createTime}}
-                    </span>
-                </li>
-                <li ng-if="taskHistory.tasks.BackgroundCheck.endTime">
-                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
-                    <div class="timeline-item">
-                        <span class="time">{{taskHistory.tasks.BackgroundCheck.description}}</span>
-                        <h3 class="timeline-header"><b>{{taskHistory.tasks.BackgroundCheck.nextTask}}</b></h3>
-                        <div class="timeline-body">
-                        	<div class="row">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Comments :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-10 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{taskHistory.tasks.BackgroundCheck.investigation.comments}}
-						            </div>
-					            </div>
-				            </div>
-							<div class="row">
+				            
+				            <div class="row" ng-if = "task.investigation.status">
 		                        <div class="col-md-2 col-sd-12">
 			                        <div class="timeline-body text-right">
 						            	<b>Status :</b>
@@ -269,185 +243,18 @@
 					            </div>
 					            <div class="col-md-10 col-sd-12">
 			                        <div class="timeline-body">
-						            	{{taskHistory.tasks.BackgroundCheck.investigation.status}}
+						            	{{task.investigation.status}}
 						            </div>
 					            </div>
 				            </div>
-				            <div class="row" ng-repeat="doc in taskHistory.tasks.BackgroundCheck.documents">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Document Category :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{doc.category}}
-						            </div>
-					            </div>
-					            <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Document :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-6 col-sd-12">
-			                        <div class="timeline-body">
-						            	<a href="{{doc.docId}}">Download</a>
-						            </div>
-					            </div>
-				            </div>
+				            
                         </div>
                         
                     </div>
                 </li>
                 
-                <li class="time-label" ng-repeat-start="mbDoc in taskHistory.tasks.MBDoctorApproval">
-                    <span ng-class="(mbDoc.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
-                        {{mbDoc.createTime}}
-                    </span>
-                </li>
-                <li ng-repeat-end ng-if="mbDoc.endTime">
-                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
-                    <div class="timeline-item">
-                        <span class="time">{{mbDoc.description}}</span>
-                        <h3 class="timeline-header"><b>{{mbDoc.nextTask}}</b></h3>
-                        <div class="timeline-body">
-                            <div class="row">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Doctor :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-10 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{mbDoc.investigation.investigatorName}}
-						            </div>
-					            </div>
-				            </div>
-				            <div class="row">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Comments :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-10 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{mbDoc.investigation.comments}}
-						            </div>
-					            </div>
-				            </div>
-                        </div>
-                        
-                    </div>
-                </li>
-                                
-                <li class="time-label" ng-if="taskHistory.tasks.SecretaryApproval">
-                    <span ng-class="(taskHistory.tasks.SecretaryApproval.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
-                        {{taskHistory.tasks.SecretaryApproval.createTime}}
-                    </span>
-                </li>
-                <li ng-if="taskHistory.tasks.SecretaryApproval.endTime">
-                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
-                    <div class="timeline-item">
-                        <span class="time">{{taskHistory.tasks.SecretaryApproval.description}}</span>
-                        <h3 class="timeline-header"><b>{{taskHistory.tasks.SecretaryApproval.nextTask}}</b></h3>
-                        <div class="timeline-body">
-	                        <div class="row">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Comments :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-10 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{taskHistory.tasks.SecretaryApproval.investigation.comments}}
-						            </div>
-					            </div>
-				            </div>
-				            <div class="row">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Status :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-10 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{taskHistory.tasks.SecretaryApproval.investigation.status}}
-						            </div>
-					            </div>
-				            </div>
-                        </div>
-                        
-                    </div>
-                </li>
                 
-                <li class="time-label" ng-repeat-start="ecTask in taskHistory.tasks.ECApproval">
-                    <span ng-class="(ecTask.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
-                        {{ecTask.createTime}}
-                    </span>
-                </li>
-                <li ng-repeat-end ng-if="ecTask.endTime">
-                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
-                    <div class="timeline-item">
-                        <span class="time">{{ecTask.description}}</span>
-                        <h3 class="timeline-header"><b>{{ecTask.nextTask}}</b></h3>
-                        <div class="timeline-body">
-	                        <div class="row">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>EC Member Name :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-10 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{ecTask.investigation.investigatorName}}
-						            </div>
-					            </div>
-				            </div>
-				            <div class="row">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Comments :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-10 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{ecTask.investigation.comments}}
-						            </div>
-					            </div>
-				            </div>
-				            <div class="row">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Status :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-10 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{ecTask.investigation.status}}
-						            </div>
-					            </div>
-				            </div>
-                        </div>
-                        
-                    </div>
-                </li>
                 
-                <li class="time-label" ng-if="taskHistory.tasks.PatientIDCardGeneration">
-                    <span ng-class="(taskHistory.tasks.PatientIDCardGeneration.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
-                        {{taskHistory.tasks.PatientIDCardGeneration.createTime}}
-                    </span>
-                </li>
-                <li ng-if="taskHistory.tasks.PatientIDCardGeneration.endTime">
-                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
-                    <div class="timeline-item">
-                        <span class="time">{{taskHistory.tasks.PatientIDCardGeneration.description}}</span>
-                        <h3 class="timeline-header"><b>{{taskHistory.tasks.PatientIDCardGeneration.nextTask}}</b></h3>
-                        <div class="timeline-body">
-	                        ID Card generation.
-                        </div>
-                        
-                    </div>
-                </li>
                 <li>
                     <i class="fa fa-clock-o bg-gray"></i>
                 </li>
