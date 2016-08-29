@@ -27,7 +27,7 @@ core.config(["$stateProvider", function ($stateProvider) {
     //  Create User
     $stateProvider.state('app.manageUser.createUser', {
         url: '/createUser',
-        templateUrl: 'app/modules/core/createUser/createUser.html',
+        templateUrl: 'app/modules/core/manageUser/createUser/createUser.html',
         controller: 'CreateUserController',
         controllerAs: 'vm',
         data: {
@@ -37,7 +37,7 @@ core.config(["$stateProvider", function ($stateProvider) {
     // User List
     $stateProvider.state('app.manageUser.userList', {
         url: '/userList',
-        templateUrl: 'app/modules/core/userList/userList.html',
+        templateUrl: 'app/modules/core/manageUser/userList/userList.html',
         controller: 'UserListController',
         controllerAs: 'vm',
         data: {
@@ -100,7 +100,7 @@ core.config(["$stateProvider", function ($stateProvider) {
  // Search page state
     $stateProvider.state('app.hospital.hospitalCreate', {
         url: '/hospitalcreate/:hospitalId',
-        templateUrl: 'app/modules/core/hospitalCreate/hospitalCreate.html',
+        templateUrl: 'app/modules/core/hospitalManage/hospitalCreate/hospitalCreate.html',
         controller: 'HospitalCreateController',
         controllerAs: 'vm',
         data: {
@@ -110,7 +110,7 @@ core.config(["$stateProvider", function ($stateProvider) {
     
     $stateProvider.state('app.hospital.hospitalList', {
         url: '/hospitalList',
-        templateUrl: 'app/modules/core/hospitalList/hospitalList.html',
+        templateUrl: 'app/modules/core/hospitalManage/hospitalList/hospitalList.html',
         controller: 'HospitalListController',
         controllerAs: 'vm',
         data: {
@@ -132,7 +132,7 @@ core.config(["$stateProvider", function ($stateProvider) {
  // Search page state
     $stateProvider.state('app.doctor.doctorCreate', {
         url: '/doctorCreate/:doctor_id',
-        templateUrl: 'app/modules/core/doctorCreate/doctorCreate.html',
+        templateUrl: 'app/modules/core/doctorManage/doctorCreate/doctorCreate.html',
         controller: 'DoctorCreateController',
         controllerAs: 'vm',
         data: {
@@ -142,7 +142,7 @@ core.config(["$stateProvider", function ($stateProvider) {
     
     $stateProvider.state('app.doctor.doctorList', {
         url: '/doctorList',
-        templateUrl: 'app/modules/core/doctorList/doctorList.html',
+        templateUrl: 'app/modules/core/doctorManage/doctorList/doctorList.html',
         controller: 'DoctorListController',
         controllerAs: 'vm',
         data: {
