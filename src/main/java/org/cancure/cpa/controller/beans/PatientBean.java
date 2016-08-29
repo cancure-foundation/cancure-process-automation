@@ -20,7 +20,6 @@ public class PatientBean {
     private String employmentStatus;
     private Boolean solebreadwinner;
     private String assetsOwned;
-    private String photoLocation;
     private String bystanderName;
     private String bystanderContact;
     private String bystanderRelation;
@@ -33,6 +32,8 @@ public class PatientBean {
     private Date diagnosisDate;
     private String doctorComments ;
     private String typeOfSupport ;
+    private Integer preliminaryExamDoctorId;
+    private Integer preliminaryExamHospitalId;
     private List<PatientFamilyBean> patientFamily=new ArrayList<PatientFamilyBean>();
     private List<SupportOrganisationBean> organisation=new ArrayList<SupportOrganisationBean>();
     private List<PatientDocumentBean> document=new ArrayList<PatientDocumentBean>();
@@ -116,12 +117,6 @@ public class PatientBean {
     public void setAssetsOwned(String assetsOwned) {
         this.assetsOwned = assetsOwned;
     }
-    public String getPhotoLocation() {
-        return photoLocation;
-    }
-    public void setPhotoLocation(String photoLocation) {
-        this.photoLocation = photoLocation;
-    }
     public String getBystanderName() {
         return bystanderName;
     }
@@ -193,6 +188,18 @@ public class PatientBean {
     }
     public void setTypeOfSupport(String typeOfSupport) {
         this.typeOfSupport = typeOfSupport;
+    }
+    public Integer getPreliminaryExamDoctorId() {
+        return preliminaryExamDoctorId;
+    }
+    public void setPreliminaryExamDoctorId(Integer preliminaryExamDoctorId) {
+        this.preliminaryExamDoctorId = preliminaryExamDoctorId;
+    }
+    public Integer getPreliminaryExamHospitalId() {
+        return preliminaryExamHospitalId;
+    }
+    public void setPreliminaryExamHospitalId(Integer preliminaryExamHospitalId) {
+        this.preliminaryExamHospitalId = preliminaryExamHospitalId;
     }
     public Long getTotalIncome(List<PatientFamilyBean> patientFamily){
         return CommonUtil.getTotalIncome(patientFamily);

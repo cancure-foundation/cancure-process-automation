@@ -110,7 +110,9 @@ create table patient(
 	diagnosis varchar(100),
 	diagnosis_date date,
 	doctor_comments varchar(250),
-	type_of_support varchar(100)
+	type_of_support varchar(100),
+	preliminary_exam_doctor_id number(10) references DOCTOR(doctor_id),
+	preliminary_exam_hospital_id number(10) references hospital(hospital_id)
 );
 
 

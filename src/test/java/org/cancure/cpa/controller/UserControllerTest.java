@@ -7,12 +7,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.cancure.cpa.Application;
+import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.persistence.entity.Role;
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.RoleRepository;
 import org.cancure.cpa.persistence.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -41,7 +43,7 @@ public class UserControllerTest {
 		user.setLogin("admin");
 		user.setName("Admin");
 		
-		User addedUser = uc.saveUser(user);
+		UserBean addedUser = uc.saveUser(user);
 		
 		assertEquals(addedUser.getEnabled(), user.getEnabled());
 		assertTrue(addedUser.getEnabled());
@@ -66,10 +68,10 @@ public class UserControllerTest {
 		user.setName("PC1");
 		uc.saveUser(user);
 		
-		Iterable<User> list = uc.listUsers();
+		Iterable<UserBean> list = uc.listUsers();
 		
 		int count=0;
-		for (User u : list) {
+		for (UserBean u : list) {
 			count++;
 			assertTrue( u.getName().equals("Admin1") || u.getName().equals("PC1") );
 		}
@@ -88,10 +90,10 @@ public class UserControllerTest {
 		user.setLogin("admin1");
 		user.setName("Admin1");
 		
-		User addedUser = uc.saveUser(user);
+		UserBean addedUser = uc.saveUser(user);
 		Integer userId = addedUser.getId();
 		
-		User addedUserFull = uc.getUser(userId);
+		UserBean addedUserFull = uc.getUser(userId);
 		
 		// Create Role
 		roleRepo.deleteAll();		
@@ -106,9 +108,11 @@ public class UserControllerTest {
 		
 		addedUserFull.setName("Modified");
 		
-		uc.saveUser(addedUserFull);
+		User userAdded = new User();
+		BeanUtils.copyProperties(addedUserFull, userAdded);
+		uc.saveUser(userAdded);
 		
-		User editedUser = uc.getUser(userId);
+		UserBean editedUser = uc.getUser(userId);
 		
 		assertEquals(userId, editedUser.getId());
 		assertEquals(1, editedUser.getRoles().size());
