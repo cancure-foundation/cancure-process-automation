@@ -1,4 +1,4 @@
-app.factory('httpInterceptor', [ 'appSettings', 'Flash','$injector',  function ( appSettings, Flash, $injector) {
+app.factory('httpInterceptor', [ 'appSettings', 'Flash','$injector', 'Loader',  function ( appSettings, Flash, $injector, Loader) {
 
     var httpInterceptor = {};
 
@@ -9,12 +9,17 @@ app.factory('httpInterceptor', [ 'appSettings', 'Flash','$injector',  function (
     
     // function to intercept all http response error from the application
     var responseError  = function (param) {
+    	Loader.destroy();
     	if (param.status == 401){
     		Flash.create('danger', 'Invalid Session. Please Log in.' , 'large-text');
     		setTimeout(function (){
     			$injector.get('apiService').logoutAction();
     		}, 1000);
-    	} 
+    	} else if (param.status == 403){
+    		Flash.create('danger', 'You do not have the permission to complete the action.' , 'large-text');
+    	} else if (param.status == 500){
+    		Flash.create('danger', 'Internal server error. Please try again.' , 'large-text');
+    	}  
     	return param;
     };
     

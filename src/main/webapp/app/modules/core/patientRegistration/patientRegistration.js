@@ -29,7 +29,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 		document.getElementById("patientReg-ageProof").value = "";
 		document.getElementById("patientReg-incomeProof").value = "";
 	};
-	
+
 	// init function, execution starts here
 	init();
 
@@ -91,56 +91,64 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 	vm.submitForm = function () {
 		Loader.create('Please wait while we register patient.');
 
-		var fd = new FormData();
+		var fd = new FormData(),
+			localVm = angular.copy(vm.formData);
 
-		if (vm.formData.profileImage && vm.formData.profilePicSrc) { // get the profile image if available
+		if (localVm.profileImage && localVm.profilePicSrc) { // get the profile image if available
 			fd.append("document[2].docCategory", 'Profile Image');
 			fd.append("document[2].docType", "profile-image");
-			fd.append("document[2].patientFile",  vm.formData.profileImage);
+			fd.append("document[2].patientFile",  localVm.profileImage);
 		}
 
-		if (vm.formData.diagnosisFiles.length > 0) { // get the diagnosis files if available
-			var j = (vm.formData.profileImage && vm.formData.profilePicSrc) ? 3 : 2;
-			for (var i =0;i< vm.formData.diagnosisFiles.length;i++) {
+		if (localVm.diagnosisFiles.length > 0) { // get the diagnosis files if available
+			var j = (localVm.profileImage && localVm.profilePicSrc) ? 3 : 2;
+			for (var i =0;i< localVm.diagnosisFiles.length;i++) {
 				fd.append("document[" + j + "].docCategory", 'Diagnosis File');
 				fd.append("document[" + j + "].docType", "diagnosis-file");
-				fd.append("document[" + j + "].patientFile",  vm.formData.diagnosisFiles[i]);
+				fd.append("document[" + j + "].patientFile",  localVm.diagnosisFiles[i]);
 				j++;
 			}
 		}
 
-		if (vm.ageProofFile) { // get age proof file 
+		if (localVm.ageProofFile) { // get age proof file 
 			fd.append("document[0].docCategory", 'Age Proof');
-			fd.append("document[0].docType", vm.formData.ageProof);
-			fd.append("document[0].patientFile",  vm.ageProofFile);
+			fd.append("document[0].docType", localVm.ageProof);
+			fd.append("document[0].patientFile",  localVm.ageProofFile);
 		}
 
-		if (vm.incomeProofFile) { // get income tax file 
+		if (localVm.incomeProofFile) { // get income tax file 
 			fd.append("document[1].docCategory", 'Income Proof');
-			fd.append("document[1].docType", vm.formData.incomeProof);
-			fd.append("document[1].patientFile", vm.incomeProofFile);
+			fd.append("document[1].docType", localVm.incomeProof);
+			fd.append("document[1].patientFile", localVm.incomeProofFile);
 		}
 
-		if (vm.formData.familyDetails.length > 0) { // get family details if available
-			for (var i=0; i < vm.formData.familyDetails.length; i++) {
-				fd.append("patientFamily[" + i + "].relation", vm.formData.familyDetails[i].relation);
-				fd.append("patientFamily[" + i + "].age", vm.formData.familyDetails[i].age);
-				fd.append("patientFamily[" + i + "].status", vm.formData.familyDetails[i].status);
-				fd.append("patientFamily[" + i + "].income", vm.formData.familyDetails[i].income);
-				fd.append("patientFamily[" + i + "].otherIncome", vm.formData.familyDetails[i].otherIncome);
+		if (localVm.familyDetails.length > 0) { // get family details if available
+			for (var i=0; i < localVm.familyDetails.length; i++) {
+				fd.append("patientFamily[" + i + "].relation", localVm.familyDetails[i].relation);
+				fd.append("patientFamily[" + i + "].age", localVm.familyDetails[i].age);
+				fd.append("patientFamily[" + i + "].status", localVm.familyDetails[i].status);
+				fd.append("patientFamily[" + i + "].income", localVm.familyDetails[i].income);
+				fd.append("patientFamily[" + i + "].otherIncome", localVm.familyDetails[i].otherIncome);
+			}
+		}
+
+		if (localVm.organisation.length > 0) { // get family details if available
+			for (var i=0; i < localVm.organisation.length; i++) {
+				if(localVm.organisation[i].name)
+					fd.append("organisation[" + i + "].name", localVm.organisation[i].name);
+				if(localVm.organisation[i].amountRec)
+					fd.append("organisation[" + i + "].amountRec", localVm.organisation[i].amountRec);
 			}
 		}
 		
-		if (vm.formData.organisation.length > 0) { // get family details if available
-			for (var i=0; i < vm.formData.organisation.length; i++) {
-				if(vm.formData.organisation[i].name)
-					fd.append("organisation[" + i + "].name", vm.formData.organisation[i].name);
-				if(vm.formData.organisation[i].amountRec)
-					fd.append("organisation[" + i + "].amountRec", vm.formData.organisation[i].amountRec);
-			}
-		}
-
-		angular.forEach(vm.formData, function (v, k) {
+		delete localVm.diagnosisFiles;
+		delete localVm.diagnosisFilesNames;
+		delete localVm.profilePicSrc;
+		delete localVm.profileImage;
+		delete localVm.organisation;
+		delete localVm.familyDetails;
+		
+		angular.forEach(localVm, function (v, k) {
 			fd.append(k,v);
 		});     	
 
@@ -148,10 +156,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 		apiService.serviceRequest({
 			URL: appSettings.requestURL.patientRegistration,
 			method: 'POST',
-			payLoad: fd,
-			headers: {
-				'Content-Type': undefined
-			}
+			payLoad: fd
 		}, function (response) {
 			Loader.destroy(); // hide the loader			
 			showRegistrationDetails(response.prn, vm.formData.profilePicSrc); // shows the summary dialog box
@@ -163,8 +168,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 	var showRegistrationDetails = function(prn, profileImg) {
 		$("body").addClass('sidebar-collapse'); // to collapse the sidebar
 		var parentEl = angular.element(document.body),
-			patientPic = profileImg ? '<img src= ' + profileImg + ' />' : '<i class="fa fa-user" aria-hidden="true">';
-		console.log(vm.profilePicSrc);
+		patientPic = profileImg ? '<img src= ' + profileImg + ' />' : '<i class="fa fa-user" aria-hidden="true">';
 		$mdDialog.show({
 			parent: parentEl,
 			template:
