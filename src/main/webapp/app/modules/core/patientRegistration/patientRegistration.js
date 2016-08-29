@@ -19,6 +19,19 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 	 */
 	var initializeVars = function (){
 		vm.formData = {};
+		// ******** to be removed : start *********//
+		vm.formData = {
+				name : 'test',
+				address : "qew",
+				bloodGroup : "B+",
+				contact : 123123,
+				dob : new Date(),
+				employmentStatus : "Employed",
+				gender : "Male",
+				maritalStatus : "Divorced",
+				typeOfSupport :	"Lab Tests"
+		}
+		// ******** to be removed : end *********//
 		vm.formData.profileImage = null;
 		vm.formData.profilePicSrc = null;
 		vm.formData.familyDetails = [];
@@ -68,7 +81,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 	/**
 	 *  function to remove selected profile image
 	 */
-	vm.removeProfileImg = function (){
+	vm.removeProfileImg = function () {
 		vm.formData.profileImage = null;
 		vm.formData.profilePicSrc = null;
 	};
@@ -88,7 +101,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 	/**
 	 * function to handle save button click
 	 */
-	vm.submitForm = function () {
+	vm.submitForm = function () {		
 		Loader.create('Please wait while we register patient.');
 
 		var fd = new FormData(),
@@ -97,7 +110,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 		if (localVm.profileImage && localVm.profilePicSrc) { // get the profile image if available
 			fd.append("document[2].docCategory", 'Profile Image');
 			fd.append("document[2].docType", "profile-image");
-			fd.append("document[2].patientFile",  localVm.profileImage);
+			fd.append("document[2].patientFile",  vm.formData.profileImage);
 		}
 
 		if (localVm.diagnosisFiles.length > 0) { // get the diagnosis files if available
@@ -105,21 +118,21 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 			for (var i =0;i< localVm.diagnosisFiles.length;i++) {
 				fd.append("document[" + j + "].docCategory", 'Diagnosis File');
 				fd.append("document[" + j + "].docType", "diagnosis-file");
-				fd.append("document[" + j + "].patientFile",  localVm.diagnosisFiles[i]);
+				fd.append("document[" + j + "].patientFile",  vm.formData.diagnosisFiles[i]);
 				j++;
 			}
 		}
 
-		if (localVm.ageProofFile) { // get age proof file 
+		if (vm.formData.ageProofFile) { // get age proof file 
 			fd.append("document[0].docCategory", 'Age Proof');
 			fd.append("document[0].docType", localVm.ageProof);
-			fd.append("document[0].patientFile",  localVm.ageProofFile);
+			fd.append("document[0].patientFile",  vm.formData.ageProofFile);
 		}
 
-		if (localVm.incomeProofFile) { // get income tax file 
+		if (vm.formData.incomeProofFile) { // get income tax file 
 			fd.append("document[1].docCategory", 'Income Proof');
 			fd.append("document[1].docType", localVm.incomeProof);
-			fd.append("document[1].patientFile", localVm.incomeProofFile);
+			fd.append("document[1].patientFile", vm.formData.incomeProofFile);
 		}
 
 		if (localVm.familyDetails.length > 0) { // get family details if available
@@ -147,6 +160,8 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 		delete localVm.profileImage;
 		delete localVm.organisation;
 		delete localVm.familyDetails;
+		delete localVm.ageProof;
+		delete localVm.incomeProof;
 		
 		angular.forEach(localVm, function (v, k) {
 			fd.append(k,v);
@@ -156,7 +171,10 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 		apiService.serviceRequest({
 			URL: appSettings.requestURL.patientRegistration,
 			method: 'POST',
-			payLoad: fd
+			payLoad: fd,
+			headers: {
+				'Content-Type': undefined
+			}
 		}, function (response) {
 			Loader.destroy(); // hide the loader			
 			showRegistrationDetails(response.prn, vm.formData.profilePicSrc); // shows the summary dialog box

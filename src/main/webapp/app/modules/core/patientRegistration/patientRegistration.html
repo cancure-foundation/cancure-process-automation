@@ -45,7 +45,7 @@
                                         <md-input-container class="md-icon-float md-block">
                                             <md-icon class="fa fa-briefcase"></md-icon>
                                             <md-select data-ng-model="vm.formData.employmentStatus" required placeholder="Employment status">
-                                                <md-option ng-repeat="item in vm.EmploymentStatus" value="{{item.listValueId}}">{{item.value}}</md-option>
+                                                <md-option ng-repeat="item in vm.EmploymentStatus" value="{{item.value}}">{{item.value}}</md-option>
                                             </md-select>
                                         </md-input-container>
                                     </div>
@@ -60,7 +60,7 @@
                                         <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
                                             <md-icon class="fa fa-plus"></md-icon>
                                             <md-select data-ng-model="vm.formData.bloodGroup" placeholder="Blood Group" ng-required="true">
-                                                <md-option ng-repeat="item in vm.BloodGroups" value="{{item.listValueId}}">{{item.value}}</md-option>
+                                                <md-option ng-repeat="item in vm.BloodGroups" value="{{item.value}}">{{item.value}}</md-option>
                                             </md-select>
                                         </md-input-container>
 
@@ -68,7 +68,7 @@
                                             <label>Marital Status</label>
                                             <md-icon class="fa fa-plus"></md-icon>
                                             <md-select data-ng-model="vm.formData.maritalStatus" ng-required="true" placefolder="Marital Status">
-                                                <md-option ng-repeat="item in vm.MaritalStatus" value="{{item.listValueId}}">{{item.value}}</md-option>
+                                                <md-option ng-repeat="item in vm.MaritalStatus" value="{{item.value}}">{{item.value}}</md-option>
                                             </md-select>
                                         </md-input-container>
                                     </div>
@@ -107,7 +107,7 @@
                                         <md-input-container class="md-icon-float md-block">
                                             <md-icon class="fa fa-chevron-right"></md-icon>
                                             <md-select data-ng-model="vm.formData.typeOfSupport" placeholder="Type of Support from Cancure" ng-required="true">
-                                                <md-option ng-repeat="item in vm.TypeOfSupportSought" value="{{item.listValueId}}">{{item.value}}</md-option>
+                                                <md-option ng-repeat="item in vm.TypeOfSupportSought" value="{{item.value}}">{{item.value}}</md-option>
                                             </md-select>
                                         </md-input-container>
                                     </div>
@@ -149,7 +149,7 @@
                                     <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
                                         <md-icon class="fa fa-users"></md-icon>
                                         <md-select data-ng-model="fd.relation" placeholder="Relation to patient" ng-required="true">
-                                            <md-option ng-repeat="item in vm.FamilyRelation" value="{{item.listValueId}}">{{item.value}}</md-option>
+                                            <md-option ng-repeat="item in vm.FamilyRelation" value="{{item.value}}">{{item.value}}</md-option>
                                         </md-select>
                                     </md-input-container>
                                     <md-input-container class="md-icon-float md-block">
@@ -160,7 +160,7 @@
                                     <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
                                         <md-icon class="fa fa-user"></md-icon>
                                         <md-select data-ng-model="fd.status" placeholder="Employment status">
-                                            <md-option ng-repeat="item in vm.EmploymentStatus" value="{{item.listValueId}}">{{item.value}}</md-option>
+                                            <md-option ng-repeat="item in vm.EmploymentStatus" value="{{item.value}}">{{item.value}}</md-option>
                                         </md-select>
                                     </md-input-container>
                                     <md-input-container class="md-icon-float md-block">
@@ -249,7 +249,7 @@
                                     <label>Bystander Relation</label>
                                     <md-icon class="fa fa-user"></md-icon>
                                     <md-select data-ng-model="vm.formData.bystanderRelation" name="gender" ng-required="true">
-                                        <md-option ng-repeat="item in vm.FamilyRelation" value="{{item.listValueId}}">{{item.value}}</md-option>
+                                        <md-option ng-repeat="item in vm.FamilyRelation" value="{{item.value}}">{{item.value}}</md-option>
                                     </md-select>
                                 </md-input-container>
                             </md-content>
@@ -266,7 +266,7 @@
                                 <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
                                     <md-icon class="fa fa-user"></md-icon>
                                     <md-select data-ng-model="vm.formData.knowAboutCancure" placeholder="How did you know about Cancure">
-                                        <md-option ng-repeat="item in vm.KnowAboutCancure" value="{{item.listValueId}}">{{item.value}}</md-option>
+                                        <md-option ng-repeat="item in vm.KnowAboutCancure" value="{{item.value}}">{{item.value}}</md-option>
                                     </md-select>
                                 </md-input-container>
                                 <md-input-container class="md-icon-float md-block">
@@ -277,7 +277,7 @@
                                 <md-input-container class="md-icon-float md-block">
                                     <md-icon class="fa fa-user"></md-icon>
                                     <md-select data-ng-model="vm.formData.recommendationType" placeholder="Recommendation type">
-                                        <md-option ng-repeat="item in vm.RecommendationType" value="{{item.listValueId}}">{{item.value}}</md-option>
+                                        <md-option ng-repeat="item in vm.RecommendationType" value="{{item.value}}">{{item.value}}</md-option>
                                     </md-select>
                                 </md-input-container>
                             </md-content>
@@ -296,20 +296,20 @@
                                     <md-input-container class="md-icon-float md-block">
                                         <label>Document Category</label>
                                         <md-select data-ng-model="vm.formData.ageProof" name="gender">
-                                            <md-option ng-repeat="item in vm.IDProof" value="{{item.listValueId}}">{{item.value}}</md-option>
+                                            <md-option ng-repeat="item in vm.IDProof" value="{{item.value}}">{{item.value}}</md-option>
                                         </md-select>
                                     </md-input-container>
-                                    <input id="patientReg-ageProof" type="file" aria-label="ageProof" ng-disabled="!vm.formData.ageProof" onchange="angular.element(this).scope().vm.ageProofFile = this.files[0]" />
+                                    <input id="patientReg-ageProof" type="file" aria-label="ageProof" ng-disabled="!vm.formData.ageProof" onchange="angular.element(this).scope().vm.formData.ageProofFile = this.files[0]" />
                                 </fieldset>
                                 <fieldset>
                                     <legend>Income Proof Details</legend>
                                     <md-input-container class="md-icon-float md-block">
                                         <label>Document Category</label>
                                         <md-select data-ng-model="vm.formData.incomeProof" name="gender">
-                                            <md-option ng-repeat="item in vm.IncomeProof" value="{{item.listValueId}}">{{item.value}}</md-option>
+                                            <md-option ng-repeat="item in vm.IncomeProof" value="{{item.value}}">{{item.value}}</md-option>
                                         </md-select>
                                     </md-input-container>
-                                    <input id="patientReg-incomeProof" type="file" aria-label="incomeProof" ng-disabled="!vm.formData.incomeProof" onchange="angular.element(this).scope().vm.incomeProofFile = this.files[0]" />
+                                    <input id="patientReg-incomeProof" type="file" aria-label="incomeProof" ng-disabled="!vm.formData.incomeProof" onchange="angular.element(this).scope().vm.formData.incomeProofFile = this.files[0]" />
                                 </fieldset>
                             </md-content>
                         </div>
