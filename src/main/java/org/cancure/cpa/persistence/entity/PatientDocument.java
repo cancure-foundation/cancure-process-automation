@@ -22,12 +22,9 @@ public class PatientDocument {
     @Column(name="doc_category")
     private String docCategory;
     
-    
     @Column(name="doc_type")
     private String docType;
-    
-
-    @NotEmpty
+       
     @Column(name="doc_path")
     private String docPath;
     

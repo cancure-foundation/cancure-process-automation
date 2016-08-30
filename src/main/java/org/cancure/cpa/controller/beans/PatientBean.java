@@ -32,6 +32,7 @@ public class PatientBean {
     private Date diagnosisDate;
     private String doctorComments ;
     private String typeOfSupport ;
+    private String taskId;
     private Integer preliminaryExamDoctorId;
     private Integer preliminaryExamHospitalId;
     private List<PatientFamilyBean> patientFamily=new ArrayList<PatientFamilyBean>();
@@ -188,6 +189,12 @@ public class PatientBean {
     }
     public void setTypeOfSupport(String typeOfSupport) {
         this.typeOfSupport = typeOfSupport;
+    }
+    public String getTaskId() {
+        return taskId;
+    }
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
     public Integer getPreliminaryExamDoctorId() {
         return preliminaryExamDoctorId;

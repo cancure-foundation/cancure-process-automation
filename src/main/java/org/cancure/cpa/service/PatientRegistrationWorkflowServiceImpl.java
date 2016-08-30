@@ -47,7 +47,7 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
             
             patientService.savePatientDocuments(documents);
         }
-        
+        patientService.update(taskId, patient.getPrn());
         return String.valueOf(patient.getPrn());
 
     }
@@ -121,5 +121,26 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
                 
         patientRegistrationService.movePatientRegn(String.valueOf(prn), null);
         
+    }
+
+    @Override
+    public void sendBackToPreliminaryExamination(PatientInvestigationBean patientInvestigationBean,
+            List<PatientDocumentBean> patientDocumentBean) throws IOException {
+        
+        preliminaryExamination(patientInvestigationBean, patientDocumentBean);         
+    }
+
+    @Override
+    public void sendBackToBackGroundCheck(PatientInvestigationBean patientInvestigationBean, String status)
+            throws IOException {
+        
+        backGroundCheck(patientInvestigationBean, status);
+    }
+
+    @Override
+    public void sendBackToDoctorRecommendation(PatientInvestigationBean patientInvestigationBean)
+            throws IOException {
+        
+        doctorRecommendation(patientInvestigationBean);
     }
 }
