@@ -39,3 +39,6 @@
 .searchPatient .searchResult table {
     background-color: #fff;
 }
+.searchPatient .searchResult table a:hover {
+    text-decoration: underline !important;
+}
