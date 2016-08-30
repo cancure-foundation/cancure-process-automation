@@ -103,6 +103,9 @@ public class Patient {
     @Column(name="type_of_support")
     private String typeOfSupport ;
     
+    @Column(name="task_id")
+    private String taskId;
+    
     @Column(name="preliminary_exam_doctor_id")
     private Integer preliminaryExamDoctorId;
     
@@ -330,6 +333,14 @@ public class Patient {
         this.typeOfSupport = typeOfSupport;
     }
     
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
     public List<PatientFamily> getPatientFamily() {
         return patientFamily;
     }

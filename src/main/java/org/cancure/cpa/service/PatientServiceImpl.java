@@ -131,4 +131,9 @@ public class PatientServiceImpl implements PatientService {
 	    return patientRepo.findByNameContainingIgnoreCase("%" + name + "%");
     }
 	
+	@Override
+	public int update(String taskId,Integer id){
+	    return patientRepo.updateTaskId(taskId, id);
+	}
+	
 }

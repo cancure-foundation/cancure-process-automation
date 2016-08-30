@@ -47,7 +47,7 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
             
             patientService.savePatientDocuments(documents);
         }
-        
+        patientService.update(taskId, patient.getPrn());
         return String.valueOf(patient.getPrn());
 
     }
