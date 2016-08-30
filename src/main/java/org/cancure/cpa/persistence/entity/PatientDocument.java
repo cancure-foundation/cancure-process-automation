@@ -27,7 +27,7 @@ public class PatientDocument {
     private String docType;
     
 
-    @NotEmpty
+    //@NotEmpty
     @Column(name="doc_path")
     private String docPath;
     
