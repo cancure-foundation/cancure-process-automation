@@ -124,23 +124,18 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     }
 
     @Override
-    public void sendBackToPreliminaryExamination(PatientInvestigationBean patientInvestigationBean,
-            List<PatientDocumentBean> patientDocumentBean) throws IOException {
+    public void savePreliminaryExamClarification(PatientInvestigationBean patientInvestigationBean)throws IOException {
         
-        preliminaryExamination(patientInvestigationBean, patientDocumentBean);         
+    	saveBackgroundCheckClarification(patientInvestigationBean);         
     }
 
     @Override
-    public void sendBackToBackGroundCheck(PatientInvestigationBean patientInvestigationBean, String status)
+    public void saveBackgroundCheckClarification(PatientInvestigationBean patientInvestigationBean)
             throws IOException {
         
-        backGroundCheck(patientInvestigationBean, status);
+    	String taskId=patientRegistrationService.movePatientRegn(String.valueOf(patientInvestigationBean.getPrn()), null);
+        patientInvestigationBean.setTaskId(taskId);
+        patientInvestigationService.savePatientInvestigation(patientInvestigationBean, null);
     }
 
-    @Override
-    public void sendBackToDoctorRecommendation(PatientInvestigationBean patientInvestigationBean)
-            throws IOException {
-        
-        doctorRecommendation(patientInvestigationBean);
-    }
 }

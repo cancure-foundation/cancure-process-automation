@@ -829,7 +829,7 @@ public class PatientWorkFlowControllerTest {
         bg1PatientInvestigation.setInvestigatorId("10");
         bg1PatientInvestigation.setInvestigatorType("Program Coordinator");
         bg1PatientInvestigation.setPrn(patientId+"");
-        pc.saveSendBackToPC(bg1PatientInvestigation, getAuth());
+        pc.saveBackgrounCheckClarificationsFromPC(bg1PatientInvestigation, getAuth());
         
         Map<String, String> bg1NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("SecretaryApproval", bg1NextTask.get("nextTask"));
@@ -1000,10 +1000,7 @@ public class PatientWorkFlowControllerTest {
         pre1ExamPatientInvestigation.setInvestigatorId("1");
         pre1ExamPatientInvestigation.setPrn(patientId+"");
         
-        PatientDocumentAndInvestigationBean patientDocumentAndInvestigationBean1 = new PatientDocumentAndInvestigationBean();
-        patientDocumentAndInvestigationBean1.setPatientInvestigationBean(pre1ExamPatientInvestigation);
-        patientDocumentAndInvestigationBean1.setPatientDocumentBean(pre1ExamDocumentList);
-        pc.savePreliminaryExamClarification(patientDocumentAndInvestigationBean1);
+        pc.savePreliminaryExamClarification(pre1ExamPatientInvestigation);
         
         Map<String, String> pat1RegNextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("MBDoctorApproval", pat1RegNextTask.get("nextTask"));
@@ -1014,7 +1011,7 @@ public class PatientWorkFlowControllerTest {
         mb1PatientInvestigation.setInvestigatorId("3");
         mb1PatientInvestigation.setInvestigatorType("Doctor");
         mb1PatientInvestigation.setPrn(patientId+"");
-        pc.saveDoctorExaminationClarification(mb1PatientInvestigation);
+        pc.saveDoctorRecommendation(mb1PatientInvestigation);
         
         Map<String, String> mb3NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("MBDoctorApproval", mb3NextTask.get("nextTask"));
@@ -1025,7 +1022,7 @@ public class PatientWorkFlowControllerTest {
         mb3PatientInvestigation.setInvestigatorId("4");
         mb3PatientInvestigation.setInvestigatorType("Doctor");
         mb3PatientInvestigation.setPrn(patientId+"");
-        pc.saveDoctorExaminationClarification(mb3PatientInvestigation);
+        pc.saveDoctorRecommendation(mb3PatientInvestigation);
         
         Map<String, String> mb4NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("SecretaryApproval", mb4NextTask.get("nextTask"));

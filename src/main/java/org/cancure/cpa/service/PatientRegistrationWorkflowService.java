@@ -24,12 +24,9 @@ public interface PatientRegistrationWorkflowService {
     
     void executiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean) throws IOException;
     
-    void sendBackToPreliminaryExamination(PatientInvestigationBean patientInvestigationBean,
-            List<PatientDocumentBean> patientDocumentBean) throws IOException;
+    void savePreliminaryExamClarification(PatientInvestigationBean patientInvestigationBean) throws IOException;
     
-    void sendBackToBackGroundCheck(PatientInvestigationBean patientInvestigationBean,String status) throws IOException;
+    void saveBackgroundCheckClarification(PatientInvestigationBean patientInvestigationBean) throws IOException;
     
-    void sendBackToDoctorRecommendation(PatientInvestigationBean patientInvestigationBean) throws IOException;
-
     void patientIDCard(Integer prn) throws IOException;
 }

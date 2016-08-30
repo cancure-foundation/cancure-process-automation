@@ -44,7 +44,8 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
     
     var setupPeople = function(){
     	if ($scope.nextTaskObject.nextTask == 'MBDoctorApproval' || 
-	    		$scope.nextTaskObject.nextTask == 'PreliminaryExamination') {
+	    		$scope.nextTaskObject.nextTask == 'PreliminaryExamination' || 
+	    		$scope.nextTaskObject.nextTask == 'Preliminary Examination Clarification') {
     		
     		getDoctors();
 	    	
@@ -61,8 +62,9 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
 	    }
 	    
 	    if ($scope.nextTaskObject.nextTask == 'SecretaryApproval') {
-	    	vm.statuses = [{'id': 'Recommend', 'name' : 'Forward to EC'}, {'id': 'Approved', 'name' : 'Approve'},
-	    	               {'id': 'Reject', 'name' : 'Reject'}, {'id': 'SendBackToPC', 'name' : 'Need Clarification'}];
+	    	vm.statuses = [{'id': 'Approved', 'name' : 'Approve'}, {'id': 'Recommend', 'name' : 'Forward to EC'},
+	    	               {'id': 'Reject', 'name' : 'Reject'}, {'id': 'SendBackToPC', 'name' : 'Need background check clarification'},
+	    	               {'id': 'prelimExamClarificationReqd', 'name' : 'Need preliminary exam clarification'}];
 	    }
 	    
 	    if ($scope.nextTaskObject.nextTask == 'ECApproval') {
@@ -102,6 +104,10 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
     		url = 'patientregistration/mbdoctorrecommendation/save';
     	} else if ($scope.nextTaskObject.nextTask == 'SecretaryApproval') {
     		url = 'patientregistration/secretaryrecommendation/save/' + vm.formData.status; //status
+    	} else if ($scope.nextTaskObject.nextTask == 'Background Clarification') {
+    		url = 'patientregistration/bgcheckclarification/save/';
+    	} else if ($scope.nextTaskObject.nextTask == 'Preliminary Examination Clarification') {
+    		url = 'patientregistration/preliminaryexaminationclarification/save/';
     	} else if ($scope.nextTaskObject.nextTask == 'ECApproval') {
     		url = 'patientregistration/executiveboardrecommendation/' + vm.formData.status; //accept/save or reject/save
     	} else if ($scope.nextTaskObject.nextTask == 'PatientIDCardGeneration') {
