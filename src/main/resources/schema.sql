@@ -152,7 +152,7 @@ create table patient_investigation (
  	investigator_id number(10),
  	investigation_date date,
  	comments varchar(2000),
- 	status varchar(20),
+ 	status varchar(30),
  	task_id varchar(10),
  	prn number(10) references patient(prn)
  );

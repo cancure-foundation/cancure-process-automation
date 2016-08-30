@@ -91,6 +91,44 @@ public class PatientWorkFlowController {
         patientRegistrationWorkflowService.secretaryRecommendation(patientInvestigationBean,status); 
         return "{\"status\" : \"SUCCESS\"}";
     }
+	
+   @RequestMapping(value="/patientregistration/sendbacktopc/save",method=RequestMethod.POST)
+   public String saveSendBackToPC(PatientInvestigationBean patientInvestigationBean, OAuth2Authentication auth) throws IOException {
+       
+       Integer userId = null;
+       if (auth != null) {
+           String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
+           User user = userService.getUserByLogin(login);
+           userId = user.getId();
+       } else {
+           throw new RuntimeException("Not logged in");
+       }
+       
+       patientInvestigationBean.setInvestigatorId(userId.toString());
+       patientInvestigationBean.setInvestigatorType("Program Coordinator");
+       patientRegistrationWorkflowService.backGroundCheck(patientInvestigationBean, null);
+       return "{\"status\" : \"SUCCESS\"}";
+   }
+   
+   @RequestMapping(value= "/patientregistration/preliminaryexamclarification/save", method=RequestMethod.POST)
+   public String savePreliminaryExamClarification(PatientDocumentAndInvestigationBean patientDocumentAndInvestigationBean) throws IOException {
+       
+       PatientInvestigationBean patientInvestigationBean = patientDocumentAndInvestigationBean.getPatientInvestigationBean();
+       List<PatientDocumentBean> patientDocumentBean = patientDocumentAndInvestigationBean.getPatientDocumentBean();
+       
+       patientInvestigationBean.setInvestigatorType("Doctor");
+       
+       patientRegistrationWorkflowService.preliminaryExamination(patientInvestigationBean,patientDocumentBean);           
+       return "{\"status\" : \"SUCCESS\"}";
+   }
+   
+   @RequestMapping(value="/patientregistration/doctorexaminationclarification/save",method=RequestMethod.POST)
+   public String saveDoctorExaminationClarification(PatientInvestigationBean patientInvestigationBean) throws IOException {
+      
+       patientInvestigationBean.setInvestigatorType("Doctor");
+       patientRegistrationWorkflowService.doctorRecommendation(patientInvestigationBean);
+       return "{\"status\" : \"SUCCESS\"}";
+   }
     
    @RequestMapping(value= "/patientregistration/executiveboardrecommendation/accept/save", method=RequestMethod.POST)
     public String saveExecutiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean, OAuth2Authentication auth) throws IOException {
