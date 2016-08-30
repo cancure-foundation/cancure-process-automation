@@ -1,5 +1,5 @@
-insert into user(id, name, login, password, enabled) values (1,'Geetha','geetha','geetha', true);
-insert into user(id, name, login, password, enabled) values (2,'cancure','cancure','cancure', true);
+insert into user(id, name, login, password, enabled) values (1,'Geetha','geetha','$2a$10$uLTQyV4LZu5QAczsTR.eW.cWvUttoTb2XqWJlQsTauQQTkI8tcGqC', true);
+insert into user(id, name, login, password, enabled) values (2,'cancure','cancure','$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true);
  
 insert into role(id, name, display_name) values (1,'ROLE_ADMIN', 'Admin');
 insert into role(id, name, display_name) values (2,'ROLE_GUEST', 'Guest');
