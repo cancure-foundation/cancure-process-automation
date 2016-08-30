@@ -33,11 +33,10 @@ app.factory('httpInterceptor', [ 'appSettings', 'Flash','$injector', 'Loader',  
     	return param;
     };
     
-    httpInterceptor.response = response;
-    httpInterceptor.responseError = responseError;
-    httpInterceptor.request = request;
-    httpInterceptor.requestError = requestError;
-
+    this.response = response;
+    this.responseError = responseError;
+    this.request = request;
+    this.requestError = requestError;
     
     return httpInterceptor;
 

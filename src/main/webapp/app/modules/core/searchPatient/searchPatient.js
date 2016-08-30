@@ -4,7 +4,6 @@ core.controller("SearchPatientController", ['$rootScope', '$scope', '$state', '$
 	var vm = this;	
 	var init = function () {
 		vm.formData = {};
-		
 	};
 
 	// init function, execution starts here
@@ -17,7 +16,7 @@ core.controller("SearchPatientController", ['$rootScope', '$scope', '$state', '$
 			Flash.create('warning', 'Please enter the search criteria.', 'large-text');    
 			return;
 		}
-		
+
 		var url = 'patient/search/' +  vm.formData.searchText;
 		delete vm.patientList; //deletes the patient list so as to hide the search result container
 
@@ -46,10 +45,5 @@ core.controller("SearchPatientController", ['$rootScope', '$scope', '$state', '$
 			Flash.dismiss();
 			vm.noSearchResult = true;
 		});
-	};     
-	//
-	vm.changeView = function(prn){
-		$state.go('app.patientRegHistory', { prn: prn });
-	}
-
+	};    
 }]);
