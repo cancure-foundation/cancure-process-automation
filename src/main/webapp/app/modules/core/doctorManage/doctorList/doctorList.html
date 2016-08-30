@@ -11,33 +11,31 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-info" style="min-height:453px;">
+            <div class="panel panel-info"  ng-show="doctorList.length > 0">
                 <div class="panel-heading">
                     Doctors
                 </div>
                 <div class="panel-body">
-
                     <table class="table">
-                        <th class="col-xs-3">Doctor Name</th>
-                        <th class="col-xs-3">Specification</th>
-                        <th class="col-xs-3">Address</th>
-                        <th class="col-xs-3">Contact No</th>
-                        <th class="col-xs-3">Email Address</th>
-                        <th class="col-xs-3">Hospital</th>
+                        <th class="col-xs-2">Doctor Name</th>
+                        <th class="col-xs-2">Specification</th>
+                        <th class="col-xs-2">Address</th>
+                        <th class="col-xs-2">Contact No</th>
+                        <th class="col-xs-2">Email Address</th>
+                        <th class="col-xs-2">Hospital</th>
                         
                         <tr class="" ng-repeat="doct in doctorList">
-                            <td class="col-xs-3" ng-click="vm.editDoctor(doct.doctorId)">{{doct.name}}</td>
-                            <td class="col-xs-3">{{doct.specification}}</td>
-                            <td class="col-xs-3">{{doct.address}}</td>
-                            <td class="col-xs-3">{{doct.contact}}</td>
-                            <td class="col-xs-3">{{doct.email}}</td>
-                            <td class="col-xs-3">{{doct.hospital.name}}</td>
+                            <td class="col-xs-2" ng-click="vm.editDoctor(doct.doctorId)">{{doct.name}}</td>
+                            <td class="col-xs-2">{{doct.specification}}</td>
+                            <td class="col-xs-2">{{doct.address}}</td>
+                            <td class="col-xs-2">{{doct.contact}}</td>
+                            <td class="col-xs-2">{{doct.email}}</td>
+                            <td class="col-xs-2">{{doct.hospital.name}}</td>
                         </tr>
                     </table>
-
                 </div>
             </div>
+            <div class="warningText" ng-hide="doctorList.length > 0"> No Doctors found</div>
         </div>
     </div>
 </section>
-<!-- /.content -->

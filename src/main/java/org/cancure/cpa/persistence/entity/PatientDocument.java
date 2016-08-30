@@ -7,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 @Entity
 @Table(name= "patient_document")
 public class PatientDocument {
@@ -24,7 +22,7 @@ public class PatientDocument {
     
     @Column(name="doc_type")
     private String docType;
-       
+
     @Column(name="doc_path")
     private String docPath;
     

@@ -27,11 +27,6 @@
 .searchPatient .searchResult {
     margin: 15px;
 }
-.searchPatient .searchResult .welcomeText {
-    margin-top: 15%;
-    text-align: center;
-    font-size: 16px;
-}
 .searchPatient .searchResult .noResultText {
     margin-top: 15%;
     text-align: center;
@@ -44,8 +39,6 @@
 .searchPatient .searchResult table {
     background-color: #fff;
 }
-@media (max-width: 767px) {
-    .searchPatient .searchResult .welcomeText {
-        margin-top: 5%;
-    }
+.searchPatient .searchResult table a:hover {
+    text-decoration: underline !important;
 }

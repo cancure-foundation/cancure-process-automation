@@ -1,17 +1,22 @@
-core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'apiService', 'appSettings', 'Loader', '$mdDialog', '$mdMedia', '$timeout',
-                                                  function ($rootScope, $scope, $state, $location, Flash, apiService, appSettings, Loader, $mdDialog, $mdMedia, $timeout) {
+core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Flash', 'apiService', 'appSettings', 'Loader', '$mdDialog', '$mdMedia', '$timeout',
+                                                  function ($q, $scope, $state, Flash, apiService, appSettings, Loader, $mdDialog, $mdMedia, $timeout) {
 	var vm = this;
 
 	var init = function () {
 		Loader.create('Fetching Data. Please wait');
 		initializeVars();
-		apiService.serviceRequest({
-			URL: appSettings.requestURL.patientRegDrpDwn
-		}, function (response) {
-			Loader.destroy();
-			angular.forEach(response, function (v, k) {
+
+		var referenceData = apiService.asyncServiceRequest({URL : appSettings.requestURL.patientRegDrpDwn});
+		var hospitalList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hospitalList});
+		var doctorList = apiService.asyncServiceRequest({URL : appSettings.requestURL.doctorList});
+
+		$q.all([referenceData, hospitalList, doctorList]).then(function (success){
+			angular.forEach(success[0], function (v, k) {
 				vm[k] = v[0].listValues;
 			});
+			vm.hospitalList = success[1];
+			vm.doctorMainList = success[2];
+			Loader.destroy();
 		});
 	};
 	/**
@@ -99,13 +104,23 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 		});
 	};
 	/**
+	 * 
+	 */
+	vm.onHospitalChange = function (){
+		var hospitalId = parseInt(vm.formData.preliminaryExamHospitalId);
+		vm.doctorList = [];
+		for (var i = 0; i <  vm.doctorMainList.length;i++)
+			if(vm.doctorMainList[i].hospital.hospitalId == hospitalId) 
+				vm.doctorList.push({ name : vm.doctorMainList[i].name, id : vm.doctorMainList[i].doctorId});
+	};
+	/**
 	 * function to handle save button click
 	 */
 	vm.submitForm = function () {		
 		Loader.create('Please wait while we register patient.');
 
 		var fd = new FormData(),
-			localVm = angular.copy(vm.formData);
+		localVm = angular.copy(vm.formData);
 
 		if (localVm.profileImage && localVm.profilePicSrc) { // get the profile image if available
 			fd.append("document[2].docCategory", 'Profile Image');
@@ -153,7 +168,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 					fd.append("organisation[" + i + "].amountRec", localVm.organisation[i].amountRec);
 			}
 		}
-		
+
 		delete localVm.diagnosisFiles;
 		delete localVm.diagnosisFilesNames;
 		delete localVm.profilePicSrc;
@@ -162,7 +177,7 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 		delete localVm.familyDetails;
 		delete localVm.ageProof;
 		delete localVm.incomeProof;
-		
+
 		angular.forEach(localVm, function (v, k) {
 			fd.append(k,v);
 		});     	
@@ -245,6 +260,11 @@ core.controller("PatientRegistrationController", ['$rootScope', '$scope', '$stat
 				vm.patientRegisterForm.$setPristine();
 				if (to == 1)
 					$state.go('app.home'); // redirects to home page
+				else {
+					// to scroll the page
+					var centerContent = document.getElementById('center-content-wrapper');
+					centerContent.scrollTop -= centerContent.scrollTop; 
+				}
 			}
 		}
 	};
