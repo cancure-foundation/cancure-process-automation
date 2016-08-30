@@ -16,6 +16,8 @@ public interface PatientService {
 	Iterable<Patient> searchByName(String name);
 
     void savePatientDocuments(List<PatientDocumentBean> patientDocuments);
+
+    int update(String taskId, Integer id);
 	
 	
 	

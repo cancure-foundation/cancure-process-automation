@@ -98,7 +98,7 @@ public class PatientWorkFlowController {
        Integer userId = null;
        if (auth != null) {
            String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
-           User user = userService.getUserByLogin(login);
+           UserBean user = userService.getUserByLogin(login);
            userId = user.getId();
        } else {
            throw new RuntimeException("Not logged in");
@@ -106,11 +106,11 @@ public class PatientWorkFlowController {
        
        patientInvestigationBean.setInvestigatorId(userId.toString());
        patientInvestigationBean.setInvestigatorType("Program Coordinator");
-       patientRegistrationWorkflowService.backGroundCheck(patientInvestigationBean, null);
+       patientRegistrationWorkflowService.sendBackToBackGroundCheck(patientInvestigationBean, null);
        return "{\"status\" : \"SUCCESS\"}";
    }
    
-   @RequestMapping(value= "/patientregistration/preliminaryexamclarification/save", method=RequestMethod.POST)
+   @RequestMapping(value= "/patientregistration/sendbacktopreliminaryexamination/save", method=RequestMethod.POST)
    public String savePreliminaryExamClarification(PatientDocumentAndInvestigationBean patientDocumentAndInvestigationBean) throws IOException {
        
        PatientInvestigationBean patientInvestigationBean = patientDocumentAndInvestigationBean.getPatientInvestigationBean();
@@ -118,15 +118,15 @@ public class PatientWorkFlowController {
        
        patientInvestigationBean.setInvestigatorType("Doctor");
        
-       patientRegistrationWorkflowService.preliminaryExamination(patientInvestigationBean,patientDocumentBean);           
+       patientRegistrationWorkflowService.sendBackToPreliminaryExamination(patientInvestigationBean, patientDocumentBean);          
        return "{\"status\" : \"SUCCESS\"}";
    }
    
-   @RequestMapping(value="/patientregistration/doctorexaminationclarification/save",method=RequestMethod.POST)
+   @RequestMapping(value="/patientregistration/sendbacktombdoctorexamination/save",method=RequestMethod.POST)
    public String saveDoctorExaminationClarification(PatientInvestigationBean patientInvestigationBean) throws IOException {
       
        patientInvestigationBean.setInvestigatorType("Doctor");
-       patientRegistrationWorkflowService.doctorRecommendation(patientInvestigationBean);
+       patientRegistrationWorkflowService.sendBackToDoctorRecommendation(patientInvestigationBean);
        return "{\"status\" : \"SUCCESS\"}";
    }
     
