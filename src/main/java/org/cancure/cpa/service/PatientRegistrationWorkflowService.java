@@ -23,6 +23,13 @@ public interface PatientRegistrationWorkflowService {
     void executiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean) throws IOException;
     
     void executiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean) throws IOException;
+    
+    void sendBackToPreliminaryExamination(PatientInvestigationBean patientInvestigationBean,
+            List<PatientDocumentBean> patientDocumentBean) throws IOException;
+    
+    void sendBackToBackGroundCheck(PatientInvestigationBean patientInvestigationBean,String status) throws IOException;
+    
+    void sendBackToDoctorRecommendation(PatientInvestigationBean patientInvestigationBean) throws IOException;
 
     void patientIDCard(Integer prn) throws IOException;
 }
