@@ -186,6 +186,9 @@
     color: rgb(63, 81, 181);
     cursor: pointer;
 }
+.patientRegDialogBx md-dialog-actions i:before {
+    outline: none;
+}
 @media (max-width: 767px) {
     .patientRegDialogBx .title {
         font-size: 24px;
@@ -198,5 +201,11 @@
     }
     .patientRegDialogBx .subtitle b {
         font-size: 24px;
+    }
+}
+@media print {
+    .patientRegDialogBx .title,
+    .patientRegDialogBx button {
+        display: none;
     }
 }
