@@ -185,6 +185,8 @@
     font-size: 24px;
     color: rgb(63, 81, 181);
     cursor: pointer;
+}
+.patientRegDialogBx md-dialog-actions i:before {
     outline: none;
 }
 @media (max-width: 767px) {
