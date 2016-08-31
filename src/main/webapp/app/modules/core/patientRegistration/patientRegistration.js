@@ -104,7 +104,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 		});
 	};
 	/**
-	 * 
+	 *  function to handle hospital drop-down changes
 	 */
 	vm.onHospitalChange = function (){
 		var hospitalId = parseInt(vm.formData.preliminaryExamHospitalId);
@@ -120,34 +120,37 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 		Loader.create('Please wait while we register patient.');
 
 		var fd = new FormData(),
-		localVm = angular.copy(vm.formData);
+		localVm = angular.copy(vm.formData),
+		fileCount = 0;
 
 		if (localVm.profileImage && localVm.profilePicSrc) { // get the profile image if available
-			fd.append("document[2].docCategory", 'Profile Image');
-			fd.append("document[2].docType", "profile-image");
-			fd.append("document[2].patientFile",  vm.formData.profileImage);
+			fd.append("document[" + fileCount + "].docCategory", 'Profile Image');
+			fd.append("document[" + fileCount + "].docType", "profile-image");
+			fd.append("document[" + fileCount + "].patientFile",  vm.formData.profileImage);
+			fileCount++;
 		}
 
 		if (localVm.diagnosisFiles.length > 0) { // get the diagnosis files if available
-			var j = (localVm.profileImage && localVm.profilePicSrc) ? 3 : 2;
 			for (var i =0;i< localVm.diagnosisFiles.length;i++) {
-				fd.append("document[" + j + "].docCategory", 'Diagnosis File');
-				fd.append("document[" + j + "].docType", "diagnosis-file");
-				fd.append("document[" + j + "].patientFile",  vm.formData.diagnosisFiles[i]);
-				j++;
+				fd.append("document[" + fileCount + "].docCategory", 'Diagnosis File');
+				fd.append("document[" + fileCount + "].docType", "diagnosis-file");
+				fd.append("document[" + fileCount + "].patientFile",  vm.formData.diagnosisFiles[i]);
+				fileCount++;
 			}
 		}
 
 		if (vm.formData.ageProofFile) { // get age proof file 
-			fd.append("document[0].docCategory", 'Age Proof');
-			fd.append("document[0].docType", localVm.ageProof);
-			fd.append("document[0].patientFile",  vm.formData.ageProofFile);
+			fd.append("document[" + fileCount + "].docCategory", 'Age Proof');
+			fd.append("document[" + fileCount + "].docType", localVm.ageProof);
+			fd.append("document[" + fileCount + "].patientFile",  vm.formData.ageProofFile);
+			fileCount++;
 		}
 
 		if (vm.formData.incomeProofFile) { // get income tax file 
-			fd.append("document[1].docCategory", 'Income Proof');
-			fd.append("document[1].docType", localVm.incomeProof);
-			fd.append("document[1].patientFile", vm.formData.incomeProofFile);
+			fd.append("document[" + fileCount + "].docCategory", 'Income Proof');
+			fd.append("document[" + fileCount + "].docType", localVm.incomeProof);
+			fd.append("document[" + fileCount + "].patientFile", vm.formData.incomeProofFile);
+			fileCount++;
 		}
 
 		if (localVm.familyDetails.length > 0) { // get family details if available
@@ -205,7 +208,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 		$mdDialog.show({
 			parent: parentEl,
 			template:
-				'<md-dialog aria-label="List dialog" class="row patientRegDialogBx">' +
+				'<md-dialog id="patient-reg-card" aria-label="List dialog" class="row patientRegDialogBx">' +
 				'  <md-dialog-content>'+
 				'  <div class="title"> Patient Registration Successful. </div>'+
 				'  <div class="subtitle"> Pending Registration Number (PRN) is <b>' + prn + '</b></div>'+
@@ -240,7 +243,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 				'</table>'+
 				'  </md-dialog-content>' +
 				'  <md-dialog-actions>' +
-				'    <i class="fa fa-print" aria-hidden="true"></i>'+
+				'    <i class="fa fa-print" aria-hidden="true" ng-click="printMe()"></i>'+
 				'    <md-button ng-click="closeDialog(0)" class="md-primary">' +
 				'      Register another Patient' +
 				'    </md-button>' +
@@ -265,6 +268,9 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 					var centerContent = document.getElementById('center-content-wrapper');
 					centerContent.scrollTop -= centerContent.scrollTop; 
 				}
+			};
+			$scope.printMe = function (){
+				apiService.printScreen('patient-reg-card');
 			}
 		}
 	};

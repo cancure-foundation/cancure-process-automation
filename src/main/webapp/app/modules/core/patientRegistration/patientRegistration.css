@@ -185,6 +185,7 @@
     font-size: 24px;
     color: rgb(63, 81, 181);
     cursor: pointer;
+    outline: none;
 }
 @media (max-width: 767px) {
     .patientRegDialogBx .title {
@@ -198,5 +199,11 @@
     }
     .patientRegDialogBx .subtitle b {
         font-size: 24px;
+    }
+}
+@media print {
+    .patientRegDialogBx .title,
+    .patientRegDialogBx button {
+        display: none;
     }
 }

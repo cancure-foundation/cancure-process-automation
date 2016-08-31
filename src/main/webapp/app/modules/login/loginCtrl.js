@@ -23,7 +23,6 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', '$
 				$cookies.put('access_token', success.access_token); // sets the access_token values to the cookies
 				// login service
 				apiService.serviceRequest({
-					//URL : 'user/login/' + data.Username,
 					URL : 'user/whoami',
 					errorMsg : 'Cannot find user ' + data.Username
 				}, function (userData) {

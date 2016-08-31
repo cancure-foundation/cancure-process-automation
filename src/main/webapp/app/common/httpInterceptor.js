@@ -1,4 +1,4 @@
-app.factory('httpInterceptor', [ 'appSettings', 'Flash','$injector', 'Loader',  function ( appSettings, Flash, $injector, Loader) {
+app.factory('httpInterceptor', ['$q', 'appSettings', 'Flash','$injector', 'Loader',  function ( $q, appSettings, Flash, $injector, Loader) {
 
     var httpInterceptor = {};
 
@@ -17,10 +17,8 @@ app.factory('httpInterceptor', [ 'appSettings', 'Flash','$injector', 'Loader',  
     		}, 1000);
     	} else if (param.status == 403){
     		Flash.create('danger', 'You do not have the permission to complete the action.' , 'large-text');
-    	} else if (param.status == 500){
-    		Flash.create('danger', 'Internal server error. Please try again.' , 'large-text');
-    	}  
-    	return param;
+    	}
+    	return $q.reject(param);
     };
     
     // function to intercept all http request from the application
@@ -30,13 +28,13 @@ app.factory('httpInterceptor', [ 'appSettings', 'Flash','$injector', 'Loader',  
     
     // function to intercept all http request from the application
     var requestError  = function (param) {
-    	return param;
+    	return $q.reject(param);
     };
     
-    this.response = response;
-    this.responseError = responseError;
-    this.request = request;
-    this.requestError = requestError;
+    httpInterceptor.response = response;
+    httpInterceptor.responseError = responseError;
+    httpInterceptor.request = request;
+    httpInterceptor.requestError = requestError;
     
     return httpInterceptor;
 

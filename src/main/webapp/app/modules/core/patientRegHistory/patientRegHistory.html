@@ -9,42 +9,42 @@
 </section>
 <!-- Main content -->
 <section class="content">
-	
+
     <!-- row -->
     <div class="row">
         <div class="col-md-12">
             <!-- The time line -->
             <ul class="timeline">
-            	<li>
+                <li>
                     <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
                     <div class="timeline-item">
                         <h3 class="timeline-header">{{taskHistory.patient.name}}</h3>
                         <div class="timeline-body">
-	                        <div class="row">
-		                        <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body">
-						            	<b>Patient Registration Number :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{taskHistory.patient.prn}}
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body">
-						            	<b></b>
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body">
-						            </div>
-					            </div>
-				            </div>
-			            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body">
+                                        <b>Patient Registration Number :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{taskHistory.patient.prn}}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body">
+                                        <b></b>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </li>
-                
+
                 <li class="time-label" ng-if="taskHistory.patient">
                     <span ng-class="(taskHistory.tasks[0].endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
                         {{taskHistory.tasks[0].createTime}}
@@ -55,129 +55,129 @@
                     <div class="timeline-item">
                         <span class="time">{{taskHistory.tasks[0].description}}</span>
                         <h3 class="timeline-header"><b>{{taskHistory.tasks[0].nextTask}}</b></h3>
-						<div class="timeline-body">
-							<div class="row">
-		                        <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Patient Registration Number :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{taskHistory.patient.prn}}
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12 text-right">
-			                        <div class="timeline-body">
-						            	<b>Gender :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{taskHistory.patient.gender}}
-						            </div>
-					            </div>
-				            </div>
-				            <div class="row">
-		                        <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Address :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{taskHistory.patient.address}}
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12 text-right">
-			                        <div class="timeline-body">
-						            	<b>Contact No :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{taskHistory.patient.contact}}
-						            </div>
-					            </div>
-				            </div>
-				            <div class="row">
-		                        <div class="col-md-3 col-sd-12 text-right">
-			                        <div class="timeline-body">
-						            	<b>Assets Owned :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{taskHistory.patient.assetsOwned}}
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12 text-right">
-			                        <div class="timeline-body">
-						            	<b>Employment Status :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{taskHistory.patient.employmentStatus}}
-						            </div>
-					            </div>
-				            </div>
-				            
-				            <div class="row">
-		                        <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Sole Bread Winner :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{taskHistory.patient.solebreadwinner}}
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b></b>
-						            </div>
-					            </div>
-					            <div class="col-md-3 col-sd-12">
-			                        <div class="timeline-body">
-						            	
-						            </div>
-					            </div>
-				            </div>
-				                <div class="row" ng-repeat="doc in taskHistory.tasks.PatientRegistration.documents">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Document Category :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{doc.docCategory}}
-						            </div>
-					            </div>
-					            <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Document :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-6 col-sd-12">
-			                        <div class="timeline-body">
-						            	<a href="/files/{{doc.docId}}">Download</a>
-						            </div>
-					            </div>
-				            </div>
-				            
-						</div>
+                        <div class="timeline-body">
+                            <div class="row">
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body text-right">
+                                        <b>Patient Registration Number :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{taskHistory.patient.prn}}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12 text-right">
+                                    <div class="timeline-body">
+                                        <b>Gender :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{taskHistory.patient.gender}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body text-right">
+                                        <b>Address :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{taskHistory.patient.address}}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12 text-right">
+                                    <div class="timeline-body">
+                                        <b>Contact No :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{taskHistory.patient.contact}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-sd-12 text-right">
+                                    <div class="timeline-body">
+                                        <b>Assets Owned :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{taskHistory.patient.assetsOwned}}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12 text-right">
+                                    <div class="timeline-body">
+                                        <b>Employment Status :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{taskHistory.patient.employmentStatus}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body text-right">
+                                        <b>Sole Bread Winner :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{taskHistory.patient.solebreadwinner}}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body text-right">
+                                        <b></b>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sd-12">
+                                    <div class="timeline-body">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-repeat="doc in taskHistory.tasks.PatientRegistration.documents">
+                                <div class="col-md-2 col-sd-12">
+                                    <div class="timeline-body text-right">
+                                        <b>Document Category :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{doc.docCategory}}
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sd-12">
+                                    <div class="timeline-body text-right">
+                                        <b>Document :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sd-12">
+                                    <div class="timeline-body">
+                                        <a href="/files/{{doc.docId}}">Download</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </li>
-                
-                
-                
-                
-                
+
+
+
+
+
                 <li class="time-label" ng-repeat-start="task in taskHistory.tasks">
-                    <span ng-class="(task.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' " ng-if = "task.sequenceNo > 0">
+                    <span ng-class="(task.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' " ng-if="task.sequenceNo > 0">
                         {{task.createTime}}
                     </span>
                 </li>
@@ -187,90 +187,91 @@
                         <span class="time">{{task.description}}</span>
                         <h3 class="timeline-header"><b>{{task.nextTask}}</b></h3>
                         <div class="timeline-body">
-                            <div class="row" ng-if = "task.investigation.investigatorName">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>{{task.investigation.investigatorType}} :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-10 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{task.investigation.investigatorName}}
-						            </div>
-					            </div>
-				            </div>
-				            <div class="row" ng-if = "task.investigation.comments">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Comments :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-10 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{task.investigation.comments}}
-						            </div>
-					            </div>
-				            </div>
-				            
-				            <div class="row" ng-if = "task.documents" ng-repeat="doc in task.documents">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Document Category :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{doc.category}}
-						            </div>
-					            </div>
-					            <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Document :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-6 col-sd-12">
-			                        <div class="timeline-body">
-						            	<a href="/files/{{doc.docId}}">Download</a>
-						            </div>
-					            </div>
-				            </div>
-				            
-				            <div class="row" ng-if = "task.investigation.status">
-		                        <div class="col-md-2 col-sd-12">
-			                        <div class="timeline-body text-right">
-						            	<b>Status :</b>
-						            </div>
-					            </div>
-					            <div class="col-md-10 col-sd-12">
-			                        <div class="timeline-body">
-						            	{{task.investigation.status}}
-						            </div>
-					            </div>
-				            </div>
-				            
+                            <div class="row" ng-if="task.investigation.investigatorName">
+                                <div class="col-md-2 col-sd-12">
+                                    <div class="timeline-body text-right">
+                                        <b>{{task.investigation.investigatorType}} :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{task.investigation.investigatorName}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="task.investigation.comments">
+                                <div class="col-md-2 col-sd-12">
+                                    <div class="timeline-body text-right">
+                                        <b>Comments :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{task.investigation.comments}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-if="task.documents" ng-repeat="doc in task.documents">
+                                <div class="col-md-2 col-sd-12">
+                                    <div class="timeline-body text-right">
+                                        <b>Document Category :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{doc.category}}
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sd-12">
+                                    <div class="timeline-body text-right">
+                                        <b>Document :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sd-12">
+                                    <div class="timeline-body">
+                                        <a href="/files/{{doc.docId}}">Download</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-if="task.investigation.status">
+                                <div class="col-md-2 col-sd-12">
+                                    <div class="timeline-body text-right">
+                                        <b>Status :</b>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-sd-12">
+                                    <div class="timeline-body">
+                                        {{task.investigation.status}}
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
-                        
+
                     </div>
                 </li>
-                
-                
-                
+
+
+
                 <li>
                     <i class="fa fa-clock-o bg-gray"></i>
                 </li>
-                <li ng-if = "nextTask">
+                <li ng-if="nextTask">
                     <div class="timeline-item">
                         <div class="timeline-body">
-	                        <div class="text-center">
-                                <md-button class="md-raised md-primary" style="text-transform:none" type="button" 
-                                ng-click="vm.nextAction()">Take Next Action ({{nextTask}}) <i class="fa fa-angle-double-right"></i>
+                            <div class="text-center">
+                                <md-button class="md-raised md-primary" style="text-transform:none" type="button" ng-click="vm.nextAction()">Take Next Action ({{nextTask}}) <i class="fa fa-angle-double-right"></i>
                                 </md-button>
                             </div>
                         </div>
-                        
+
                     </div>
                 </li>
             </ul>
-        </div><!-- /.col -->
+        </div>
+        <!-- /.col -->
     </div>
-</section><!-- /.content -->
+</section>
+<!-- /.content -->
