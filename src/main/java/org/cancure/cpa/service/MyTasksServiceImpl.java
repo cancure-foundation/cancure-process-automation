@@ -15,12 +15,14 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.cancure.cpa.controller.beans.PatientBean;
+import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.persistence.entity.Doctor;
 import org.cancure.cpa.persistence.entity.PatientDocument;
 import org.cancure.cpa.persistence.entity.PatientInvestigation;
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.DoctorRepository;
 import org.cancure.cpa.persistence.repository.UserRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -81,7 +83,6 @@ public class MyTasksServiceImpl implements MyTasksService {
 		Map<String, Object> parentMap = new HashMap<>();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss");
 		PatientBean patient=patientService.get(Integer.parseInt(patientID));
-		parentMap.put("patient", toMap(patient));
 		
 		//Map taskMap = new HashMap<>();
 		List taskList = new ArrayList<>();
@@ -92,7 +93,10 @@ public class MyTasksServiceImpl implements MyTasksService {
 		
 		int i=0;
 		for (HistoricTaskInstance t : tasks) {
-			Map<String, Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
+		    if(t.getName().equals("PatientRegistration")){
+		        map.put("patient",patient);
+		    }
 			map.put("sequenceNo", i++);
 			//List<PatientInvestigationBean> patientInvestigationBean=new ArrayList<>();
 			//patientInvestigationBean=patient.getPatientInvestigation();
@@ -108,12 +112,24 @@ public class MyTasksServiceImpl implements MyTasksService {
 			}*/
 			PatientInvestigation patientInvestigation=patientInvestigationService.findByTaskId(t.getId());  
 			List<PatientDocument> patientDocuments=patientDocumentService.findByTaskId(t.getId());
+			List<PatientDocumentBean> patientDocumentBeanList=new ArrayList<PatientDocumentBean>();
+	         if(t.getName().equals("PatientRegistration")){
+	             for(PatientDocument patientDocument:patientDocuments){
+	                 PatientDocumentBean patientDocumentBean=new PatientDocumentBean();
+	                 BeanUtils.copyProperties(patientDocument, patientDocumentBean);
+	                 patientDocumentBean.setPrn(patientID);
+	                 patientDocumentBeanList.add(patientDocumentBean);
+	             }
+	             patient.setDocument(patientDocumentBeanList);   
+	             map.put("patient",patient);
+	            }
 			map.put("id", t.getId());
 			map.put("nextTask", t.getName());
 			map.put("description", t.getDescription());
-			map.put("documents", toMap(patientDocuments));
-			map.put("investigation", toMap(patientInvestigation));
-			
+			if(!t.getName().equals("PatientRegistration")){
+			    map.put("documents", toMap(patientDocuments));
+			    map.put("investigation", toMap(patientInvestigation));
+			}						
 			Map<String, Object> processVars = t.getProcessVariables();
 			Object patientId = processVars.get("prn");
 			Object patientName = patient.getName();
@@ -124,23 +140,6 @@ public class MyTasksServiceImpl implements MyTasksService {
 			if (patientId != null){
 				map.put("patientName", patientName.toString());
 			}
-
-			/*if ("MBDoctorApproval".equals(t.getName()) || "ECApproval".equals(t.getName())) {
-				
-				List<Object> existingObject = (List)taskMap.get(t.getName());
-				if (existingObject != null) {
-					existingObject.add(map);
-				} else {
-					List<Object> listOfTask = new ArrayList<>();
-					listOfTask.add(map);
-					taskMap.put(t.getName(), listOfTask);
-				}
-				
-			} else {
-				taskMap.put(t.getName(), map);
-			}*/
-			
-			//taskMap.put(t.getCreateTime(), map);
 			taskList.add(map);
 			
 			if (t.getEndTime() == null) {
