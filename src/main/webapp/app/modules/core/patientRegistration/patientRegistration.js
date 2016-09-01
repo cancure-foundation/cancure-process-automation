@@ -14,6 +14,13 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 			angular.forEach(success[0], function (v, k) {
 				vm[k] = v[0].listValues;
 			});
+			vm['Gender'] = [{
+				value : 'Male'
+			},{
+				value : 'Female'
+			},{
+				value : 'Transgender'
+			}]
 			vm.hospitalList = success[1];
 			vm.doctorMainList = success[2];
 			Loader.destroy();
@@ -26,14 +33,14 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 		vm.formData = {};
 		// ******** to be removed : start *********//
 		vm.formData = {
-				name : 'test',
-				address : "qew",
+				name : 'Dummy Patient',
+				address : "XYZ, WWW",
 				bloodGroup : "B+",
-				contact : 123123,
+				contact : 0484123456,
 				dob : new Date(),
 				employmentStatus : "Employed",
 				gender : "Male",
-				maritalStatus : "Divorced",
+				maritalStatus : "Single",
 				typeOfSupport :	"Lab Tests"
 		}
 		// ******** to be removed : end *********//
@@ -116,7 +123,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 	/**
 	 * function to handle save button click
 	 */
-	vm.submitForm = function () {		
+	vm.submitForm = function () {	
 		Loader.create('Please wait while we register patient.');
 
 		var fd = new FormData(),
