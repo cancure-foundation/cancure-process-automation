@@ -54,5 +54,10 @@ public class UserController {
 	public Iterable<Role> listRoles() {
 		return userService.listRoles ();
 	}
+	
+	@RequestMapping("/user/hpoc")
+	public Iterable<UserBean> listHPOCUsers() {
+	    return userService.listHPOCUsers();
+	}
 
 }
