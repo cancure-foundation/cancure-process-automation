@@ -1,6 +1,8 @@
 app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', 'Loader', function ($http, $q,  $state, $cookies, appSettings, Flash, Loader) {
 
-	// function to place http request
+	/**
+	 * function to place http request
+	 */
 	var serviceRequest = function (params, success, fail) {
 
 		var requestParams = angular.merge({
@@ -17,7 +19,7 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 		request.success(function (response) {
 			success(response);
 		});
-		// success function
+		// error function
 		request.error(function (response) {
 			(fail) ? fail(response): null;
 			Loader.destroy();
@@ -27,7 +29,9 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 
 	};
 
-	// function to place async service request
+	/**
+	 * function to place async service request
+	 */
 	var asyncServiceRequest = function (params) {
 		var deferred = $q.defer(); // creating the promise object
 
@@ -40,7 +44,9 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 		return deferred.promise; // returning the promise object
 	};
 
-	// function to be called on logout
+	/**
+	 * function to be called on logout
+	 */
 	var logoutAction = function (){
 		serviceRequest({
 			URL: appSettings.requestURL.logout,
@@ -65,7 +71,9 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 		}
 	};
 
-	// function to set the center wrapper height so that UI does not fall when content is less
+	/**
+	 *  function to set the center wrapper height so that UI does not fall when content is less
+	 */
 	var adjustScreenHeight = function (){
 		var windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight|| 0),
 		windowWidth = Math.max(document.documentElement.clientWidth, window.innerWidth|| 0),
@@ -77,10 +85,26 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 			uiViewHolder.style.minHeight = (windowHeight - headerHeight - 50) + 'px'; // reduces the header and footer height along with 1px as a work around
 		}
 	};
+	/**
+	 * function to print the content of the given section
+	 */
+	var printScreen = function (id) {
+		var printContents = document.getElementById(id).innerHTML,
+		docHead = document.head.outerHTML,
+		popupWin = window.open('', '_blank');
+		popupWin.window.focus();
+		popupWin.document.open();
+		popupWin.document.write('<!DOCTYPE html><html><head>' 
+				+ docHead 
+				+'</head><body onload="window.print(); window.close();"><div class="patientRegDialogBx">' 
+				+ printContents + '</div></html>');
+		popupWin.document.close();	
+	};
 
 	this.serviceRequest = serviceRequest; // function to place http request
 	this.asyncServiceRequest = asyncServiceRequest; // function to place async service request
 	this.logoutAction = logoutAction; // function to be called on logout
 	this.adjustScreenHeight = adjustScreenHeight; // function to set the center wrapper height so that UI does not fall when content is less
+	this.printScreen = printScreen; // function to print the content of the given section
 
 }]);

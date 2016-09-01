@@ -15,6 +15,7 @@ app.constant('appSettings', {
 		patientRegDrpDwn : 'common/lovs/FamilyRelation_BloodGroups_MaritalStatus_EmploymentStatus_KnowAboutCancure_RecommendationType_IDProof_IncomeProof_TypeOfSupportSought', // to get dropdown values for patient reg page
 		doctorList : 'doctor/list', // to fetch doctor list
 		hospitalList : 'hospital/list', // to fetch hospital list
+		myQueue : 'tasks/my', // to fetch tasks in myQueue
 		logout : 'logout' // logout service
 	},
 	

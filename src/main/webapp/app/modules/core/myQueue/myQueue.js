@@ -1,14 +1,17 @@
-core.controller("myQueueController", ['$scope', '$http', '$location', '$state', 'apiService', 'appSettings',
-                                      function ($scope, $http, $location, $state, apiService, appSettings) {
+core.controller("myQueueController", ['$scope', 'Loader', '$state', 'apiService', 'appSettings',
+                                      function ($scope, Loader, $state, apiService, appSettings) {
 
 	var init = function (){
+		$scope.tasks = [];
+		Loader.create('Fetching Data. Please wait');
 		apiService.serviceRequest({
-			URL: 'tasks/my'
+			URL: appSettings.requestURL.myQueue
 		}, function (response) {
 			$scope.tasks = response;
+			Loader.destroy();
 		});
 	};
-	
+
 	init();
 
 	$scope.changeView = function(prn){
