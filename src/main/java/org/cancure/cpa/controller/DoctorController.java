@@ -1,11 +1,16 @@
 package org.cancure.cpa.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.persistence.entity.Doctor;
-
+import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.service.DoctorService;
+import org.cancure.cpa.service.HpocHospitalService;
+import org.cancure.cpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +22,13 @@ public class DoctorController {
 
     @Autowired
     DoctorService doctorService;
-
+    
+    @Autowired
+    private HpocHospitalService hpocHospitalService;
+    
+    @Autowired
+    private UserService userService;
+    
     @RequestMapping(value = "/doctor/save", method = RequestMethod.POST)
     public String saveDoctor(@RequestBody Doctor doctor) {
         System.out.println(doctor.getName());
@@ -45,4 +56,19 @@ public class DoctorController {
     public List<Doctor> listHospitalDoctors(@PathVariable("hospital_id") Integer hospitalId) {
         return doctorService.listHospitalDoctors(hospitalId);
     }
+   
+    @RequestMapping("/hpoc/doctor/list")
+    public List<Doctor> listHpocDoctors(OAuth2Authentication auth) {
+        Integer userId = null;
+        if (auth != null) {
+            String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
+            UserBean user = userService.getUserByLogin(login);
+            userId = user.getId();
+        } else {
+            throw new RuntimeException("Not logged in");
+        }
+        HpocHospital hpocHospital= hpocHospitalService.getHospitalFromHpoc(userId);
+        return doctorService.listHospitalDoctors(hpocHospital.getHospitalId());
+    }
+
 }

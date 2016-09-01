@@ -12,4 +12,5 @@ public interface UserService {
 	Iterable<Role> listRoles();
 	UserBean getUser(Integer id);
 	UserBean getUserByLogin(String login);
+    Iterable<UserBean> listHPOCUsers();
 }

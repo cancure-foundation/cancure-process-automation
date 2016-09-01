@@ -92,6 +92,12 @@ create table user_role (
  	contact varchar(25),
  	enabled boolean
  );
+ 
+ create table hpoc_hospital (
+    hpoc_id number(10) primary key,
+    hospital_id number(10) references hospital(hospital_id),
+    unique (hospital_id)
+ );
 
  create table DOCTOR (
  	doctor_id number(10) primary key auto_increment,
@@ -129,7 +135,7 @@ create table patient(
 	hospital varchar(100),
 	diagnosis varchar(100),
 	diagnosis_date date,
-	doctor_comments varchar(250),
+	doctor_comments varchar(2000),
 	type_of_support varchar(100),
 	task_id varchar(10),
 	preliminary_exam_doctor_id number(10) references DOCTOR(doctor_id),
