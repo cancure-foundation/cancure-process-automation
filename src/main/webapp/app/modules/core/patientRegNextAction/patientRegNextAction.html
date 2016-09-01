@@ -55,7 +55,7 @@
                             <md-input-container ng-if="uploadNeeded" class="md-icon-float md-block">
                                 Select File
                                 <md-icon class="fa fa-user"></md-icon>
-                                <input type="file" file-model="patientFile" aria-label="patientFile">
+                                <input type="file" onchange="angular.element(this).scope().vm.patientFile = this.files[0]" aria-label="patientFile">
                             </md-input-container>
 
                             <md-input-container class="md-icon-float md-block">

@@ -136,14 +136,12 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
     	fd.append(prefix + "comments", vm.formData.comments);
     	
     	
-    	if ($scope.patientFile) {
+    	if (vm.patientFile) {
 	    	fd.append("patientDocumentBean[0].prn", $scope.prn); 
 	    	fd.append("patientDocumentBean[0].docCategory", 'Preliminary Examination');
 	    	fd.append("patientDocumentBean[0].docType", 'Report');
-	    	fd.append("patientDocumentBean[0].patientFile",  $scope.patientFile);
+	    	fd.append("patientDocumentBean[0].patientFile",  vm.patientFile);
     	}
-    	//alert('patientInvestigationBean.prn ' +  fd.get('patientInvestigationBean.prn'));
-    	
     	// making the server call
         apiService.serviceRequest({
             URL: url,
