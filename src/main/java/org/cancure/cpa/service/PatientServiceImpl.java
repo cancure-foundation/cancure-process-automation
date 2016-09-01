@@ -127,8 +127,15 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-    public Iterable<Patient> searchByName(String name) {
-	    return patientRepo.findByNameContainingIgnoreCase("%" + name + "%");
+    public List<PatientBean> searchByName(String name) {
+	    List<Patient> patientList= patientRepo.findByNameContainingIgnoreCase("%" + name + "%");
+	    List<PatientBean> patientBeanList=new ArrayList<>();
+	    for(Patient patient:patientList){
+	        PatientBean patientBean=new PatientBean();
+	        BeanUtils.copyProperties(patient, patientBean);
+	        patientBeanList.add(patientBean);
+	    }
+	    return patientBeanList;
     }
 	
 	@Override

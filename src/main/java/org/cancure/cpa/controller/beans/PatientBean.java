@@ -33,6 +33,7 @@ public class PatientBean {
     private String doctorComments ;
     private String typeOfSupport ;
     private String taskId;
+    private String nextTask;
     private Integer preliminaryExamDoctorId;
     private Integer preliminaryExamHospitalId;
     private List<PatientFamilyBean> patientFamily=new ArrayList<PatientFamilyBean>();
@@ -195,6 +196,13 @@ public class PatientBean {
     }
     public void setTaskId(String taskId) {
         this.taskId = taskId;
+    }
+    
+    public String getNextTask() {
+        return nextTask;
+    }
+    public void setNextTask(String nextTask) {
+        this.nextTask = nextTask;
     }
     public Integer getPreliminaryExamDoctorId() {
         return preliminaryExamDoctorId;

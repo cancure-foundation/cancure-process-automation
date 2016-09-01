@@ -13,7 +13,7 @@ public interface PatientService {
 	
 	PatientBean get(Integer id);
 
-	Iterable<Patient> searchByName(String name);
+	List<PatientBean> searchByName(String name);
 
     void savePatientDocuments(List<PatientDocumentBean> patientDocuments);
 

@@ -1,14 +1,17 @@
 package org.cancure.cpa.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.cancure.cpa.controller.beans.DoctorBean;
 import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.persistence.entity.Doctor;
 import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.service.DoctorService;
 import org.cancure.cpa.service.HpocHospitalService;
 import org.cancure.cpa.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,8 +60,8 @@ public class DoctorController {
         return doctorService.listHospitalDoctors(hospitalId);
     }
    
-    @RequestMapping("/hpoc/doctor/list")
-    public List<Doctor> listHpocDoctors(OAuth2Authentication auth) {
+    @RequestMapping("/doctor/hpoclist")
+    public List<DoctorBean> listHpocDoctors(OAuth2Authentication auth) {
         Integer userId = null;
         if (auth != null) {
             String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
@@ -68,7 +71,14 @@ public class DoctorController {
             throw new RuntimeException("Not logged in");
         }
         HpocHospital hpocHospital= hpocHospitalService.getHospitalFromHpoc(userId);
-        return doctorService.listHospitalDoctors(hpocHospital.getHospitalId());
+        List<Doctor> DoctorList= doctorService.listHospitalDoctors(hpocHospital.getHospitalId());
+        List<DoctorBean> doctorBeanList=new ArrayList<>();
+        for(Doctor doctor:DoctorList){
+            DoctorBean doctorBean=new DoctorBean();
+            BeanUtils.copyProperties(doctor, doctorBean);
+            doctorBeanList.add(doctorBean);
+        }
+        return doctorBeanList;
     }
 
 }
