@@ -132,7 +132,7 @@ public class PatientServiceImpl implements PatientService {
     }
 	
 	@Override
-	public int update(String taskId,Integer id){
+	public int updateTaskId(String taskId,Integer id){
 	    return patientRepo.updateTaskId(taskId, id);
 	}
 	

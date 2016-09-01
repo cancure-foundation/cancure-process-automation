@@ -17,7 +17,7 @@ public interface PatientService {
 
     void savePatientDocuments(List<PatientDocumentBean> patientDocuments);
 
-    int update(String taskId, Integer id);
+    int updateTaskId(String taskId, Integer id);
 	
 	
 	
