@@ -39,19 +39,21 @@
                     <thead>
                         <tr>
                             <th class="col-xs-1">PRN</th>
-                            <th class="col-xs-3">Patient Name</th>
+                            <th class="col-xs-2">Patient Name</th>
                             <th class="col-xs-2">Contact</th>
                             <th class="col-xs-3">Address</th>
-                            <th>Action</th>
+                            <th class="col-xs-2">Next Step</th>
+                            <th class="col-xs-2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="patient in vm.patientList">
                             <td class="col-xs-1">{{patient.prn}}</td>
-                            <td class="col-xs-3">{{patient.name}}</td>
+                            <td class="col-xs-2">{{patient.name}}</td>
                             <td class="col-xs-2">{{patient.contact}}</td>
                             <td class="col-xs-3">{{patient.address}}</td>
-                            <td> <a ui-sref="app.patientRegHistory({ prn: patient.prn })"> View History</a>  | 
+                            <td class="col-xs-2">{{patient.nextTask}}</td>
+                            <td class="col-xs-2"> <a ui-sref="app.patientRegHistory({ prn: patient.prn })"> View History</a>  | 
                             	 <a ui-sref="app.patientRegHistory({ prn: patient.prn })">Edit Patient </a> 
                             </td>
                         </tr>

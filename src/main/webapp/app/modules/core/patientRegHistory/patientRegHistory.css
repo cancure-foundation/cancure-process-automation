@@ -1,0 +1,92 @@
+.patientRegHistory * {
+    outline: none;
+}
+.patientRegHistory .timeline-header {
+    font-size: 18px !important;
+}
+.patientRegHistory .timeline-header .title {
+    padding-bottom: 2px;
+}
+.patientRegHistory .timeline-header .sub-title {
+    font-size: 12px;
+    font-style: italic;
+}
+.patientRegHistory .task-1 table .user_img {
+    vertical-align: middle;
+    text-align: center;
+    width: 200px;
+}
+.patientRegHistory .task-1 table .user_img i {
+    font-size: 10em;
+}
+.patientRegHistory .task-1 table .fieldName {
+    width: 50px;
+}
+.patientRegHistory .task-1 table .fieldValue {
+    width: 100px;
+}
+.patientRegHistory .task-1 table .user_img img {
+    max-width: 100%;
+}
+.patientRegHistory .task-1 .patientInfo-expandable {
+    padding: 15px;
+}
+.patientRegHistory .task-1 .patientInfo-expandable fieldset {
+    border: 1px solid #c0c0c0 !important;
+    margin: 0 0 15px 0 !important;
+    padding: 0.35em 0.625em 0.75em !important;
+}
+.patientRegHistory .task-1 .patientInfo-expandable fieldset legend {
+    border-bottom: none !important;
+    margin: 0 0 15px 0 !important;
+    font-size: 18px;
+    padding: 0px 15px;
+    width: auto;
+}
+.patientRegHistory .task-1 .patientInfo-expandable table {
+    margin-top: 5px;
+}
+.patientRegHistory .task-1 .patientInfo-expandable .section-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+.patientRegHistory .task-1 .patientInfo-expandable .empty-text {
+    font-style: italic;
+    padding-bottom: 5px;
+}
+.patientRegHistory .task-1 .patientInfo-expandable .infoDiv {
+    padding-bottom: 20px;
+}
+.patientRegHistory .task-1 .patientInfo-expandable .infoDiv .section-title {
+    padding-left: 0px;
+}
+.patientRegHistory .nextTask .title {
+    font-size: 18px;
+}
+.patientRegHistory .nextTask .sub-title {
+    font-size: 12px;
+    font-style: italic;
+}
+.patientRegHistory .nextTask .goto {
+    padding: 5px 15px;
+    background-color: #00a65a !important;
+    margin-top: 5px;
+    display: inline-block;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    cursor: pointer;
+}
+@media (max-width: 767px) {
+    .patientRegHistory .task-1 table .fieldName {
+        width: 75px;
+    }
+    .patientRegHistory .task-1 table .user_img {
+        width: 100px;
+    }
+    .patientRegHistory .task-1 table .user_img i {
+        font-size: 5em;
+    }
+}

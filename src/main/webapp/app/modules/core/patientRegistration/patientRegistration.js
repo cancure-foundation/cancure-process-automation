@@ -140,7 +140,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 		if (localVm.diagnosisFiles.length > 0) { // get the diagnosis files if available
 			for (var i =0;i< localVm.diagnosisFiles.length;i++) {
 				fd.append("document[" + fileCount + "].docCategory", 'Diagnosis File');
-				fd.append("document[" + fileCount + "].docType", "diagnosis-file");
+				fd.append("document[" + fileCount + "].docType", "Diagnosis File");
 				fd.append("document[" + fileCount + "].patientFile",  vm.formData.diagnosisFiles[i]);
 				fileCount++;
 			}
