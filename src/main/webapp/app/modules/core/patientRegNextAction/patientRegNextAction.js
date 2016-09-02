@@ -35,7 +35,7 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
     
     var getDoctors = function() {
 	    apiService.serviceRequest({
-	        URL: 'doctor/list',
+	        URL: 'doctor/hpoclist',
 	        errorMsg: 'Failed to fetch user roles. Try Again!'
 	    }, function (response) {
 	    	$scope.doctorList = response;
