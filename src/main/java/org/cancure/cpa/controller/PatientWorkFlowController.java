@@ -156,9 +156,9 @@ public class PatientWorkFlowController {
         return "{\"status\" : \"SUCCESS\"}";
    }
    
-   @RequestMapping(value= "/patientregistration/patientidcard/{prn}", method = {RequestMethod.POST, RequestMethod.GET})
-   public String savePatientIDCard(@PathVariable("prn") Integer prn) throws IOException {
-        patientRegistrationWorkflowService.patientIDCard(prn);
+   @RequestMapping(value= "/patientregistration/patientidcard", method=RequestMethod.POST)
+   public String savePatientIDCard(PatientInvestigationBean patientInvestigationBean) throws Exception {
+        patientRegistrationWorkflowService.patientIDCard(Integer.parseInt(patientInvestigationBean.getPrn()));
         return "{\"status\" : \"SUCCESS\"}";
    }
     

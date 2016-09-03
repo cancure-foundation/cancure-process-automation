@@ -94,7 +94,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 		int i=0;
 		for (HistoricTaskInstance t : tasks) {
             Map<String, Object> map = new HashMap<>();
-		    if(t.getName().equals("PatientRegistration")){
+		    if(t.getName().equals("Patient Registration")){
 		        map.put("patient",patient);
 		    }
 			map.put("sequenceNo", i++);
@@ -113,7 +113,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 			PatientInvestigation patientInvestigation=patientInvestigationService.findByTaskId(t.getId());  
 			List<PatientDocument> patientDocuments=patientDocumentService.findByTaskId(t.getId());
 			List<PatientDocumentBean> patientDocumentBeanList=new ArrayList<PatientDocumentBean>();
-	         if(t.getName().equals("PatientRegistration")){
+	         if(t.getName().equals("Patient Registration")){
 	             for(PatientDocument patientDocument:patientDocuments){
 	                 PatientDocumentBean patientDocumentBean=new PatientDocumentBean();
 	                 BeanUtils.copyProperties(patientDocument, patientDocumentBean);
@@ -126,7 +126,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 			map.put("id", t.getId());
 			map.put("nextTask", t.getName());
 			map.put("description", t.getDescription());
-			if(!t.getName().equals("PatientRegistration")){
+			if(!t.getName().equals("Patient Registration")){
 			    map.put("documents", toMap(patientDocuments));
 			    map.put("investigation", toMap(patientInvestigation));
 			}						
