@@ -28,5 +28,5 @@ public interface PatientRegistrationWorkflowService {
     
     void saveBackgroundCheckClarification(PatientInvestigationBean patientInvestigationBean) throws IOException;
     
-    void patientIDCard(Integer prn) throws IOException;
+    void patientIDCard(Integer prn) throws Exception;
 }

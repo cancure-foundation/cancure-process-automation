@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
-  <process id="patientRegn" name="PatientRegistration" isExecutable="true">
+  <process id="patientRegn" name="Patient Registration" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="usertask1" name="PatientRegistration" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+    <userTask id="usertask1" name="Patient Registration" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
       <documentation>Patient registers with Cancure providing personal details, family details, ID proofs
     		, income proofs etc.</documentation>
     </userTask>
-    <userTask id="usertask2" name="PreliminaryExamination" activiti:candidateGroups="ROLE_HOSPITAL_POC">
+    <userTask id="usertask2" name="Preliminary Examination" activiti:candidateGroups="ROLE_HOSPITAL_POC">
       <documentation>Doctor conducts preliminary examination and provides reports. 
     		HPOC estimates the treatment costs.</documentation>
     </userTask>
-    <userTask id="usertask3" name="BackgroundCheck" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+    <userTask id="usertask3" name="Background Check" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
       <documentation>PC performs background check on the patient.</documentation>
     </userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
@@ -21,13 +21,13 @@
     <sequenceFlow id="flow3" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="usertask2" targetRef="usertask3"></sequenceFlow>
     <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask4" name="MBDoctorApproval" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+    <userTask id="usertask4" name="MB Doctor Approval" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
       <documentation>MB Doctors verifies the cost estimations and provides their input.</documentation>
     </userTask>
     <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="usertask4">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bgCheck=='PASS'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask5" name="SecretaryApproval" activiti:candidateGroups="ROLE_SECRETARY">
+    <userTask id="usertask5" name="Secretary Approval" activiti:candidateGroups="ROLE_SECRETARY">
       <documentation>Secretary verifies the patient's details.</documentation>
     </userTask>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
@@ -36,13 +36,13 @@
     <sequenceFlow id="flow9" sourceRef="exclusivegateway2" targetRef="servicetask2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Reject'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask6" name="ECApproval" activiti:candidateGroups="ROLE_BOARD">
+    <userTask id="usertask6" name="EC Approval" activiti:candidateGroups="ROLE_BOARD">
       <documentation>Executive Committee verifies the patient's details and approves or rejects Cancure help.</documentation>
     </userTask>
     <sequenceFlow id="flow11" sourceRef="exclusivegateway2" targetRef="usertask6">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Recommend'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask7" name="PatientIDCardGeneration" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+    <userTask id="usertask7" name="Patient ID Card Generation" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
       <documentation>Cancure approves patient's registration and patient's ID card is generated.
     		Partners are notified.</documentation>
     </userTask>

@@ -8,7 +8,7 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 		apiService.serviceRequest({
 			URL: 'tasks/history/' + $stateParams.prn
 		}, function (response) {
-			$scope.taskHistory = response.tasks;
+			$scope.taskHistory = response;
 			vm.nextTask = {
 					name : response.nextTask
 			};

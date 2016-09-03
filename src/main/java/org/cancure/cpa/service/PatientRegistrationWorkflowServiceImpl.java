@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
+import org.cancure.cpa.util.IDCardGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,9 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     @Autowired
     private PatientInvestigationService patientInvestigationService;
 
+    @Autowired
+    private IDCardGenerator iDCardGenerator;
+    
     @Transactional
     public String registerPatient(PatientBean patient) throws IOException {
 
@@ -114,11 +118,10 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
 
     @Override
     @Transactional
-    public void patientIDCard(Integer prn) throws IOException {
+    public void patientIDCard(Integer prn) throws Exception {
         // Generate PIDN
         // To do
-        
-                
+        iDCardGenerator.generateCard(prn);        
         patientRegistrationService.movePatientRegn(String.valueOf(prn), null);
         
     }
