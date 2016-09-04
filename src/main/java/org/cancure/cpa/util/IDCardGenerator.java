@@ -108,17 +108,16 @@ public class IDCardGenerator {
 		 * FileInputStream(filePath);
 		 */
 
-		String basePath = "C:\\Users\\sudo\\cancure\\upload";
 		String docPath = null;
 		List<PatientDocumentBean> patDocs = patient.getDocument();
 		for (PatientDocumentBean patDoc : patDocs) {
-			if (patDoc.getDocCategory().equals("Profile")) {
+			if (patDoc.getDocCategory().equals("Profile Image")) {
 				docPath = patDoc.getDocPath();
 			}
 		}
 
 		if (docPath != null) {
-			String filePath = basePath + "/" + docPath;
+			String filePath = fileSavePath + docPath;
 			printImage(canvas, 10, 245 - 232, 114, 126, filePath);
 		}
 
