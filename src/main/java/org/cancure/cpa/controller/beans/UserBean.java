@@ -28,6 +28,8 @@ public class UserBean {
 	private Set<Role> roles = new HashSet<Role>();
 	
 	private Boolean enabled;
+	
+	private String email;
 
 	public Set<Role> getRoles() {
 		return roles;
@@ -67,6 +69,14 @@ public class UserBean {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

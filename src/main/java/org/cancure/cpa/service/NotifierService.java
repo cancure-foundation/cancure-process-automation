@@ -38,7 +38,8 @@ public class NotifierService implements TaskListener {
 		String assignee = task.getAssignee();
 		List<IdentityLinkEntity> identityLinks = task.getIdentityLinks();
 
-		//Object var = task.getVariable("preliminaryExamHospitalId");
+		// If present, mail only assignee.
+		Object var = task.getVariable("assignee");
 		
 		StringBuffer message = new StringBuffer("");
 		message.append("You have a new assigned task. <br/><br/>");

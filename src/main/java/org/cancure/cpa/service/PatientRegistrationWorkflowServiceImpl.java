@@ -4,12 +4,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
+import org.cancure.cpa.controller.beans.UserBean;
+import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.util.IDCardGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,6 +32,9 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     @Autowired
     private IDCardGenerator iDCardGenerator;
     
+    @Autowired
+    private HpocHospitalService hpocHospitalService;
+    
     @Transactional
     public String registerPatient(PatientBean patient) throws IOException {
 
@@ -40,10 +47,20 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
         
         patientRegistrationService.startPatientRegnProcess(variables, String.valueOf(patient.getPrn()));
 
-        Map<String, Object> patRegMap = new HashMap<String, Object>();
-        patRegMap.put("preliminaryExamHospitalId", patient.getPreliminaryExamHospitalId());
-        patRegMap.put("preliminaryExamDoctorId", patient.getPreliminaryExamDoctorId());
+		// Set Prelim Exam Hospital's HPOCs as the assignee.
+		Map<String, Object> patRegMap = new HashMap<String, Object>();
+		Integer prelimExamHospitalId = patient.getPreliminaryExamHospitalId();
+		if (prelimExamHospitalId != null) {
+			List<UserBean> hpocUsers = hpocHospitalService.getHpocUsersFromHospital(prelimExamHospitalId);
+			if (hpocUsers != null && !hpocUsers.isEmpty()) {
+				List<String> hpocEmailIds = hpocUsers.stream().map(x -> x.getEmail()).collect(Collectors.toList());
+				String csvEmails = StringUtils.join(hpocEmailIds, ',');
+				patRegMap.put("assignee", csvEmails);
+			}
+		}
+        
         String taskId = patientRegistrationService.movePatientRegn(String.valueOf(patient.getPrn()), patRegMap);
+        
         
         List<PatientDocumentBean> documents = patientBean.getDocument();
         if (documents != null){
