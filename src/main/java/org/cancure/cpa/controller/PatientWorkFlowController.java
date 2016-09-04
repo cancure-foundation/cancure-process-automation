@@ -9,7 +9,6 @@ import org.cancure.cpa.controller.beans.PatientDocumentAndInvestigationBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
 import org.cancure.cpa.controller.beans.UserBean;
-import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.service.PatientRegistrationWorkflowService;
 import org.cancure.cpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

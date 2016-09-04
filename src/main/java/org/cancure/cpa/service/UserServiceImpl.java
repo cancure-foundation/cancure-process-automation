@@ -76,15 +76,15 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public Iterable<UserBean> listHPOCUsers() {
-	    Iterable<User> list=userRepo.findByUserRole();
-	       List<UserBean> userBeans = new ArrayList<>();
-	        
-	        list.forEach( x -> { 
-	            UserBean userBean = new UserBean();
-	            BeanUtils.copyProperties(x, userBean);
-	            userBeans.add(userBean);
-	        });
-	        return userBeans;
+		Iterable<User> list = userRepo.findByUserRole("ROLE_HOSPITAL_POC");
+		List<UserBean> userBeans = new ArrayList<>();
+
+		list.forEach(x -> {
+			UserBean userBean = new UserBean();
+			BeanUtils.copyProperties(x, userBean);
+			userBeans.add(userBean);
+		});
+		return userBeans;
 	}
 
 }

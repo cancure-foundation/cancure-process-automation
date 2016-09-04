@@ -9,9 +9,17 @@
     <userTask id="usertask2" name="Preliminary Examination" activiti:candidateGroups="ROLE_HOSPITAL_POC">
       <documentation>Doctor conducts preliminary examination and provides reports. 
     		HPOC estimates the treatment costs.</documentation>
+      <extensionElements>
+      	<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
+      	</activiti:taskListener>
+      </extensionElements>
     </userTask>
     <userTask id="usertask3" name="Background Check" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
       <documentation>PC performs background check on the patient.</documentation>
+      <extensionElements>
+      	<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
+      	</activiti:taskListener>
+      </extensionElements>
     </userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow1" sourceRef="usertask3" targetRef="exclusivegateway1"></sequenceFlow>
@@ -23,12 +31,20 @@
     <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
     <userTask id="usertask4" name="MB Doctor Approval" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
       <documentation>MB Doctors verifies the cost estimations and provides their input.</documentation>
+      <extensionElements>
+      	<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
+      	</activiti:taskListener>
+      </extensionElements>
     </userTask>
     <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="usertask4">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bgCheck=='PASS'}]]></conditionExpression>
     </sequenceFlow>
     <userTask id="usertask5" name="Secretary Approval" activiti:candidateGroups="ROLE_SECRETARY">
       <documentation>Secretary verifies the patient's details.</documentation>
+      <extensionElements>
+      	<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
+      	</activiti:taskListener>
+      </extensionElements>
     </userTask>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow8" sourceRef="usertask5" targetRef="exclusivegateway2"></sequenceFlow>
@@ -38,6 +54,10 @@
     </sequenceFlow>
     <userTask id="usertask6" name="EC Approval" activiti:candidateGroups="ROLE_BOARD">
       <documentation>Executive Committee verifies the patient's details and approves or rejects Cancure help.</documentation>
+      <extensionElements>
+      	<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
+      	</activiti:taskListener>
+      </extensionElements>
     </userTask>
     <sequenceFlow id="flow11" sourceRef="exclusivegateway2" targetRef="usertask6">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Recommend'}]]></conditionExpression>
@@ -45,6 +65,10 @@
     <userTask id="usertask7" name="Patient ID Card Generation" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
       <documentation>Cancure approves patient's registration and patient's ID card is generated.
     		Partners are notified.</documentation>
+    	<extensionElements>
+      		<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
+      		</activiti:taskListener>
+      </extensionElements>
     </userTask>
     <sequenceFlow id="flow12" sourceRef="exclusivegateway2" targetRef="usertask7">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Approved'}]]></conditionExpression>
@@ -88,7 +112,12 @@
       </timerEventDefinition>
     </boundaryEvent>
     <sequenceFlow id="flow38" sourceRef="boundarytimer2" targetRef="servicetask2"></sequenceFlow>
-    <userTask id="usertask8" name="Background Clarification"></userTask>
+    <userTask id="usertask8" name="Background Clarification" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+    	<extensionElements>
+      		<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
+      		</activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <sequenceFlow id="flow39" sourceRef="exclusivegateway2" targetRef="usertask8">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='SendBackToPC'}]]></conditionExpression>
     </sequenceFlow>
@@ -97,6 +126,10 @@
     <sequenceFlow id="flow42" sourceRef="boundarytimer1" targetRef="servicetask2"></sequenceFlow>
     <userTask id="usertask9" name="Preliminary Examination Clarification" activiti:candidateGroups="ROLE_HOSPITAL_POC">
       <documentation>Preliminary examination to be revisited by the Hospital POC</documentation>
+      <extensionElements>
+      		<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
+      		</activiti:taskListener>
+      </extensionElements>
     </userTask>
     <sequenceFlow id="flow43" sourceRef="exclusivegateway2" targetRef="usertask9">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='prelimExamClarificationReqd'}]]></conditionExpression>

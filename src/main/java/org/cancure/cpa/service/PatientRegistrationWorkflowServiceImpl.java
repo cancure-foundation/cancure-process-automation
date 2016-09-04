@@ -37,10 +37,13 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
         variables.put("patientName", patient.getName());
         variables.put("phoneNumber", patient.getContact());
         variables.put("prn", patient.getPrn());
-
+        
         patientRegistrationService.startPatientRegnProcess(variables, String.valueOf(patient.getPrn()));
 
-        String taskId = patientRegistrationService.movePatientRegn(String.valueOf(patient.getPrn()), null);
+        Map<String, Object> patRegMap = new HashMap<String, Object>();
+        patRegMap.put("preliminaryExamHospitalId", patient.getPreliminaryExamHospitalId());
+        patRegMap.put("preliminaryExamDoctorId", patient.getPreliminaryExamDoctorId());
+        String taskId = patientRegistrationService.movePatientRegn(String.valueOf(patient.getPrn()), patRegMap);
         
         List<PatientDocumentBean> documents = patientBean.getDocument();
         if (documents != null){
