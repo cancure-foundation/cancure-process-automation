@@ -35,6 +35,9 @@ public class User {
 
 	@NotNull
 	private Boolean enabled;
+	
+	@NotEmpty
+	private String email;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
@@ -50,6 +53,7 @@ public class User {
 		this.login = user.getLogin();
 		this.password = user.getPassword();
 		this.roles = user.getRoles();
+		this.email = user.getEmail();
 		this.enabled = user.getEnabled();
 	}
 
@@ -99,6 +103,14 @@ public class User {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

@@ -16,6 +16,12 @@
                         <input type="text" data-ng-model="vm.formData.login" ng-required="true" />
                     </md-input-container>
 
+					<md-input-container class="md-icon-float md-block">
+                        <label>Email</label>
+                        <md-icon class="fa fa-user"></md-icon>
+                        <input type="email" data-ng-model="vm.formData.email" ng-required="true" ng-maxlength="100"/>
+                    </md-input-container>
+                    
                     <md-input-container class="md-icon-float md-block">
                         <label>Password</label>
                         <md-icon class="fa fa-unlock-alt"></md-icon>
