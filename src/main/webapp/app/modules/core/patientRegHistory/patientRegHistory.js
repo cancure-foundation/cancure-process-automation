@@ -8,11 +8,11 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 		apiService.serviceRequest({
 			URL: 'tasks/history/' + $stateParams.prn
 		}, function (response) {
-			$scope.taskHistory = response;
+			vm.tasks = [];
 			vm.nextTask = {
 					name : response.nextTask
 			};
-
+			// iteration for first task
 			if (response.tasks[0]) {
 				vm.regDetails = response.tasks[0];
 				vm.patientDetails = vm.regDetails.patient;
@@ -62,15 +62,23 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 					});
 				}
 			}
-			
+			// iteration for rest tasks
 			for(var i=1; i< response.tasks.length; i++){
-				vm.nextTask.description = response.tasks[i].description;
+				var currentTask = response.tasks[i];
+				vm.tasks.push({
+					description : currentTask.description,
+					nextTask : currentTask.nextTask,
+					endTime : currentTask.endTime,
+					documents : currentTask.documents,
+					investigation : angular.equals({}, currentTask.investigation) ? null : currentTask.investigation
+				});					
+				vm.nextTask.description = currentTask.description;
 			}
-
+			vm.tasks.pop();
 			$timeout(function (){
 				vm.viewMorePtDetails();
 				Loader.destroy();
-			}, 200);
+			}, 400);
 		});
 	};
 	/**

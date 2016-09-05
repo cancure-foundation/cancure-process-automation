@@ -60,6 +60,22 @@
 .patientRegHistory .task-1 .patientInfo-expandable .infoDiv .section-title {
     padding-left: 0px;
 }
+.patientRegHistory .otherTasks .timeline-item {
+    margin-bottom: 15px;
+}
+.patientRegHistory .otherTasks .time-label span {
+    font-weight: 600;
+    padding: 5px;
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 4px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+.patientRegHistory .otherTasks .empty-text {
+    font-style: italic;
+    padding-bottom: 5px;
+}
 .patientRegHistory .nextTask .title {
     font-size: 18px;
 }
