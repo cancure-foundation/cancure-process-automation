@@ -51,8 +51,7 @@ function ($rootScope, $scope, $state, $stateParams, apiService, appSettings, Loa
 	    	
 	    }
 	    
-	    if ($scope.nextTaskObject.nextTask == 'Preliminary Examination' || 
-	    		$scope.nextTaskObject.nextTask == 'Background Check') {
+	    if ($scope.nextTaskObject.nextTask == 'Preliminary Examination') {
 	    	$scope.uploadNeeded = true;
 	    }
 	    
