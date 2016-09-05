@@ -60,25 +60,25 @@ public class DoctorController {
         return doctorService.listHospitalDoctors(hospitalId);
     }
    
-    @RequestMapping("/doctor/hpoclist")
-    public List<DoctorBean> listHpocDoctors(OAuth2Authentication auth) {
-        Integer userId = null;
-        if (auth != null) {
-            String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
-            UserBean user = userService.getUserByLogin(login);
-            userId = user.getId();
-        } else {
-            throw new RuntimeException("Not logged in");
-        }
-        HpocHospital hpocHospital= hpocHospitalService.getHospitalFromHpoc(userId);
-        List<Doctor> DoctorList= doctorService.listHospitalDoctors(hpocHospital.getHospitalId());
-        List<DoctorBean> doctorBeanList=new ArrayList<>();
-        for(Doctor doctor:DoctorList){
-            DoctorBean doctorBean=new DoctorBean();
-            BeanUtils.copyProperties(doctor, doctorBean);
-            doctorBeanList.add(doctorBean);
-        }
-        return doctorBeanList;
-    }
+	@RequestMapping("/doctor/hpoclist")
+	public List<DoctorBean> listHpocDoctors(OAuth2Authentication auth) {
+		Integer userId = null;
+		if (auth != null) {
+			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
+			UserBean user = userService.getUserByLogin(login);
+			userId = user.getId();
+		} else {
+			throw new RuntimeException("Not logged in");
+		}
+		HpocHospital hpocHospital = hpocHospitalService.getHospitalFromHpoc(userId);
+		List<Doctor> DoctorList = doctorService.listHospitalDoctors(hpocHospital.getHospitalId());
+		List<DoctorBean> doctorBeanList = new ArrayList<>();
+		for (Doctor doctor : DoctorList) {
+			DoctorBean doctorBean = new DoctorBean();
+			BeanUtils.copyProperties(doctor, doctorBean);
+			doctorBeanList.add(doctorBean);
+		}
+		return doctorBeanList;
+	}
 
 }

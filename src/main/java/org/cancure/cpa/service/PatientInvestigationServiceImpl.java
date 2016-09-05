@@ -66,14 +66,14 @@ public class PatientInvestigationServiceImpl implements PatientInvestigationServ
             
             String storePath = null;
             if (patDocBean.getPatientFile() != null) {
-                storePath = fileSavePath + "/" +  patDocBean.getPatientFile().getOriginalFilename(); 
+                storePath = "/" + patDocBean.getPrn() + "/" + patDocBean.getPatientFile().getOriginalFilename(); 
                 bean.setDocPath(storePath);
             }
             
             patientDocumentRepo.save(bean);
             
             if (patDocBean.getPatientFile() != null) {
-                fileUtil.saveFile(storePath, patDocBean.getPatientFile());
+                fileUtil.saveFile(fileSavePath + "/" + patDocBean.getPrn(), patDocBean.getPatientFile());
             }
         }
         

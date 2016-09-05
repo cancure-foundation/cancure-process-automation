@@ -1,6 +1,7 @@
 package org.cancure.cpa.controller;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
@@ -38,7 +39,11 @@ public class FileController {
 
         PatientDocument patDoc = patientDocumentService.findOne(id);
         String filePath = fileSavePath + patDoc.getDocPath();
-        InputStream is = new FileInputStream(filePath);
+        returnMimeContent(filePath, response);
+    }
+    
+    private void returnMimeContent(String filePath, HttpServletResponse response) throws IOException {
+    	InputStream is = new FileInputStream(filePath);
         String fileExtension= filePath.substring(filePath.lastIndexOf(".") + 1);
         String fileAbsoluteName = filePath.substring(filePath.lastIndexOf("/") + 1);
         response.setHeader("Content-Disposition", "attachment; filename=" + fileAbsoluteName);        
@@ -53,5 +58,11 @@ public class FileController {
         
         IOUtils.copy(is, response.getOutputStream());
         response.flushBuffer();
+    }
+    
+    @RequestMapping("/files/idcard/{prn}")
+    public void getIDCard(@PathVariable("prn") String prn, HttpServletResponse response) throws IOException {
+    	String filePath = fileSavePath + "/" + prn + "/IDCard"+ prn + ".pdf";
+    	returnMimeContent(filePath, response);
     }
 }

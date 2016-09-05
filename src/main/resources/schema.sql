@@ -67,6 +67,7 @@ create table user (
 	id number(10) primary key auto_increment,
 	name varchar(100),
 	login varchar(100),
+	email varchar(100),
 	password varchar(100),
 	enabled boolean,
 	unique (login)

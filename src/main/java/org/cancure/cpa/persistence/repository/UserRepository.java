@@ -10,7 +10,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
 	User findByLogin(String login);
 
-    @Query("Select u from User u join u.roles r where r.name = 'ROLE_HOSPITAL_POC'")
-    public List<User> findByUserRole(); 
+    @Query("Select u from User u join u.roles r where r.name = ?1 ")
+    public List<User> findByUserRole(String role); 
 	}
 

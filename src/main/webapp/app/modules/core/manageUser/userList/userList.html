@@ -8,11 +8,13 @@
             <div class="panel-body">
                 <table class="table table-bordered">
                     <th class="col-xs-3">Name</th>
+                    <th class="col-xs-3">Email</th>
                     <th class="col-xs-3">Enabled</th>
                     <th class="col-xs-3">Roles</th>
                     <th class="col-xs-3">Action</th>
                     <tr class="" ng-repeat="user in userList | filter:searchBox:user.name">
                         <td class="col-xs-3">{{user.name}}</td>
+                        <td class="col-xs-3">{{user.email}}</td>
                         <td class="col-xs-3">{{user.enabled}}</td>
                         <td class="col-xs-3">
                             <role><a>Roles</a></role>

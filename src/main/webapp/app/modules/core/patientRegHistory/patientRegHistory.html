@@ -8,173 +8,156 @@
     </ol>
 </section>
 <!-- Main content -->
-<section class="content">
-
+<section class="content patientRegHistory">
     <!-- row -->
     <div class="row">
         <div class="col-md-12">
             <!-- The time line -->
             <ul class="timeline">
-                <li>
-                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
+                <li class="task-1">
+                    <i class="fa fa-bars bg-blue-gradient text-white"></i>
                     <div class="timeline-item">
-                        <h3 class="timeline-header">{{taskHistory.patient.name}}</h3>
+                        <div class="timeline-header">
+                            <div class="title">Patient Registration</div>
+                            <div class="sub-title">{{vm.regDetails.description}}</div>
+                        </div>
                         <div class="timeline-body">
                             <div class="row">
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body">
-                                        <b>Patient Registration Number :</b>
-                                    </div>
+                                <div class="col-md-6 col-sd-8 col-xs-12">
+                                    <table class="table table-bordered" style="margin-bottom: 0px;">
+                                        <tr>
+                                            <td rowspan="5" class="user_img">
+                                                <img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
+                                                <i ng-hide="vm.profileSrc" class="fa fa-user" aria-hidden="true" />
+                                                <div><b>{{vm.patientDetails.name}}</b></div>
+                                                <div><b>PRN : {{vm.patientDetails.prn}}</b></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldName">Age</td>
+                                            <td class="fieldValue">{{vm.patientDetails.age}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldName">Gender</td>
+                                            <td class="fieldValue">{{vm.patientDetails.gender}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldName">Contact</td>
+                                            <td class="fieldValue">{{vm.patientDetails.contact}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="text-align: center;">
+                                                <span ng-click="vm.viewMorePtDetails()">
+					                                View More details
+					                                <i ng-show="vm.isExpandedInfo" class="fa fa-plus-square" aria-hidden="true"></i>
+					                                <i ng-hide="vm.isExpandedInfo" class="fa fa-minus-square" aria-hidden="true"></i>
+					                            </span>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body">
-                                        {{taskHistory.patient.prn}}
+                            </div>
+                            <div id="patientInfo-expandable" class="patientInfo-expandable row">
+                                <fieldset>
+                                    <legend>Patient Additional Details</legend>
+                                    <!-- basic details -->
+                                    <div class="col-xs-12 infoDiv">
+                                        <span class="section-title col-xs-12">Basic Details</span>
+                                        <div class="col-md-4 col-xs-6"><b>Blood Group:&nbsp</b> &nbsp{{vm.patientDetails.bloodGroup || "--"}} </div>
+                                        <div class="col-md-4 col-xs-6"><b>Marital Status : </b> &nbsp{{vm.patientDetails.maritalStatus || "--"}} </div>
+                                        <div class="col-md-4 col-xs-6"><b>Employment Status : </b> &nbsp{{vm.patientDetails.employmentStatus || "--"}} </div>
+                                        <div class="col-md-4 col-xs-6"><b>Type of Support : </b> &nbsp{{vm.patientDetails.typeOfSupport || "--"}} </div>
+                                        <div class="col-md-4 col-xs-6"><b>Sole Bread Winner : </b> &nbsp{{vm.patientDetails.solebreadwinner || "--"}} </div>
+                                        <div class="col-md-4 col-xs-6"><b>Assets Owned : </b> &nbsp{{vm.patientDetails.assetsOwned || "--"}} </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body">
-                                        <b></b>
+
+                                    <!-- bystander details -->
+                                    <div class="col-xs-12 infoDiv">
+                                        <span class="section-title col-xs-12">Bystander Details</span>
+                                        <div class="col-md-4 col-xs-6"><b>Bystander Name :&nbsp</b> &nbsp{{vm.patientDetails.bystanderName || "--"}} </div>
+                                        <div class="col-md-4 col-xs-6"><b>Bystander Relation: </b> &nbsp{{vm.patientDetails.bystanderRelation || "--"}} </div>
+                                        <div class="col-md-4 col-xs-6"><b>Bystander Contact : </b> &nbsp{{vm.patientDetails.bystanderContact || "--"}} </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body">
+
+                                    <!-- support family details -->
+                                    <div class="col-xs-12">
+                                        <span class="section-title">Family Details</span>
+                                        <div ng-hide="vm.patientFamily.length > 0" class="empty-text">No family members added.</div>
+                                        <table class="table table-bordered" ng-show="vm.patientFamily.length > 0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="col-xs-3">Relation</th>
+                                                    <th class="col-xs-2">Age</th>
+                                                    <th class="col-xs-3">Status</th>
+                                                    <th class="col-xs-2">Income</th>
+                                                    <th class="col-xs-2">Other Income</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in vm.patientFamily">
+                                                    <td class="col-xs-3">{{item.relation}}</td>
+                                                    <td class="col-xs-2">{{item.age}}</td>
+                                                    <td class="col-xs-3">{{item.status}}</td>
+                                                    <td class="col-xs-2">{{item.income}}</td>
+                                                    <td class="col-xs-2">{{item.otherIncome}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                </div>
+
+                                    <!-- support orgs -->
+                                    <div class="col-md-6 col-xs-12">
+                                        <span class="section-title">Support Organisation details</span>
+                                        <div ng-hide="vm.supportOrg.length > 0" class="empty-text">No support organisations added.</div>
+                                        <table class="table table-bordered" ng-show="vm.supportOrg.length > 0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="col-md-4 col-xs-4">Name</th>
+                                                    <th class="col-md-2 col-xs-2">Amount Received</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in vm.supportOrg">
+                                                    <td class="col-md-4 col-xs-4">{{item.name}}</td>
+                                                    <td class="col-md-2 col-xs-2">{{item.amountRec}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- other docs -->
+                                    <div class="col-md-8 col-xs-12">
+                                        <span class="section-title">Other documents</span>
+                                        <div ng-hide="vm.otherDouments.length > 0" class="empty-text">No additional documents uploaded.</div>
+                                        <table class="table table-bordered" ng-show="vm.otherDouments.length > 0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="col-md-3 col-xs-4">Document Category</th>
+                                                    <th class="col-md-4 col-xs-4">Document Type</th>
+                                                    <th class="col-md-1 col-xs-4">Download</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in vm.otherDouments">
+                                                    <td class="col-md-3 col-xs-4">{{item.docCategory}}</td>
+                                                    <td class="col-md-4 col-xs-4">{{item.docType}}</td>
+                                                    <td class="col-md-1 col-xs-4"><a href="{{item.docSrc}}">view</a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
                             </div>
                         </div>
                     </div>
                 </li>
-
-                <li class="time-label" ng-if="taskHistory.patient">
-                    <span ng-class="(taskHistory.tasks[0].endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
-                        {{taskHistory.tasks[0].createTime}}
+                <!-- 
+                <li class="time-label" ng-if="vm.regDetails">
+                    <span ng-class="(vm.regDetails.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
+                        {{vm.regDetails.createTime}}
                     </span>
                 </li>
-                <li ng-if="taskHistory.patient">
-                    <i class="fa fa-suitcase bg-blue-gradient text-white"></i>
-                    <div class="timeline-item">
-                        <span class="time">{{taskHistory.tasks[0].description}}</span>
-                        <h3 class="timeline-header"><b>{{taskHistory.tasks[0].nextTask}}</b></h3>
-                        <div class="timeline-body">
-                            <div class="row">
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body text-right">
-                                        <b>Patient Registration Number :</b>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body">
-                                        {{taskHistory.patient.prn}}
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12 text-right">
-                                    <div class="timeline-body">
-                                        <b>Gender :</b>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body">
-                                        {{taskHistory.patient.gender}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body text-right">
-                                        <b>Address :</b>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body">
-                                        {{taskHistory.patient.address}}
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12 text-right">
-                                    <div class="timeline-body">
-                                        <b>Contact No :</b>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body">
-                                        {{taskHistory.patient.contact}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 col-sd-12 text-right">
-                                    <div class="timeline-body">
-                                        <b>Assets Owned :</b>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body">
-                                        {{taskHistory.patient.assetsOwned}}
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12 text-right">
-                                    <div class="timeline-body">
-                                        <b>Employment Status :</b>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body">
-                                        {{taskHistory.patient.employmentStatus}}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body text-right">
-                                        <b>Sole Bread Winner :</b>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body">
-                                        {{taskHistory.patient.solebreadwinner}}
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body text-right">
-                                        <b></b>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sd-12">
-                                    <div class="timeline-body">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" ng-repeat="doc in taskHistory.tasks.PatientRegistration.documents">
-                                <div class="col-md-2 col-sd-12">
-                                    <div class="timeline-body text-right">
-                                        <b>Document Category :</b>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sd-12">
-                                    <div class="timeline-body">
-                                        {{doc.docCategory}}
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-sd-12">
-                                    <div class="timeline-body text-right">
-                                        <b>Document :</b>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sd-12">
-                                    <div class="timeline-body">
-                                        <a href="/files/{{doc.docId}}">Download</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </li>
-
-
-
-
+				 -->
 
                 <li class="time-label" ng-repeat-start="task in taskHistory.tasks">
                     <span ng-class="(task.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' " ng-if="task.sequenceNo > 0">
@@ -258,12 +241,16 @@
                 <li>
                     <i class="fa fa-clock-o bg-gray"></i>
                 </li>
-                <li ng-if="nextTask">
+                <li ng-if="vm.nextTask">
                     <div class="timeline-item">
                         <div class="timeline-body">
-                            <div class="text-center">
-                                <md-button class="md-raised md-primary" style="text-transform:none" type="button" ng-click="vm.nextAction()">Take Next Action ({{nextTask}}) <i class="fa fa-angle-double-right"></i>
-                                </md-button>
+                            <div class="text-center nextTask" ng-if = "vm.nextTask.name">
+                                <div class="title"> Next Step : <b>{{vm.nextTask.name}} </b></div>
+                                <div class="sub-title"> ({{vm.nextTask.description}}) </div>
+                                <span class="goto" ng-click="vm.nextAction()"> GO </span>
+                            </div>
+                            <div class="text-center nextTask" ng-if = "!vm.nextTask.name">
+                            	<span class="goto"> <a href="/files/idcard/{{vm.patientDetails.prn}}" style="color:white">Download ID Card</a>  </span>
                             </div>
                         </div>
 

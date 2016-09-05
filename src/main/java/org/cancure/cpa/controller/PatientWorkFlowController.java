@@ -9,7 +9,6 @@ import org.cancure.cpa.controller.beans.PatientDocumentAndInvestigationBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
 import org.cancure.cpa.controller.beans.UserBean;
-import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.service.PatientRegistrationWorkflowService;
 import org.cancure.cpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,9 +155,9 @@ public class PatientWorkFlowController {
         return "{\"status\" : \"SUCCESS\"}";
    }
    
-   @RequestMapping(value= "/patientregistration/patientidcard/{prn}", method = {RequestMethod.POST, RequestMethod.GET})
-   public String savePatientIDCard(@PathVariable("prn") Integer prn) throws IOException {
-        patientRegistrationWorkflowService.patientIDCard(prn);
+   @RequestMapping(value= "/patientregistration/patientidcard", method=RequestMethod.POST)
+   public String savePatientIDCard(PatientInvestigationBean patientInvestigationBean) throws Exception {
+        patientRegistrationWorkflowService.patientIDCard(Integer.parseInt(patientInvestigationBean.getPrn()));
         return "{\"status\" : \"SUCCESS\"}";
    }
     

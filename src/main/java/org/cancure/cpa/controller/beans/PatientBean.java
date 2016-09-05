@@ -1,5 +1,6 @@
 package org.cancure.cpa.controller.beans;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,6 +63,16 @@ public class PatientBean {
     public Date getDob() {
         return dob;
     }
+    
+    public String getDobString(){
+    	if (dob != null){
+    		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+    		return sdf.format(dob);
+    	}
+    	
+    	return null;
+    }
+    
     public void setDob(Date dob) {
         this.dob = dob;
     }
