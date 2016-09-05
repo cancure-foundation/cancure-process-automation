@@ -12,9 +12,5 @@ core.controller("myQueueController", ['$scope', 'Loader', '$state', 'apiService'
 		});
 	};
 
-	init();
-
-	$scope.changeView = function(prn){
-		$state.go('app.patientRegHistory', { prn: prn });
-	}
+	init();	
 }]);

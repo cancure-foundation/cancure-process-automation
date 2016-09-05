@@ -1,4 +1,4 @@
-<section class="content-header">
+<div class="content-header">
     <h1>
            My Queue
         </h1>
@@ -6,9 +6,9 @@
         <li><a><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li class="active">My Queue</li>
     </ol>
-</section>
+</div>
 <!-- Main content -->
-<section class="content">
+<div class="content">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-info" ng-show="tasks.length > 0">
@@ -16,23 +16,24 @@
                     <thead>
                         <tr>
                             <th class="col-xs-1">PRN</th>
-                            <th class="col-xs-4">Patient Name</th>
-                            <th class="col-xs-4">Next Task</th>
+                            <th class="col-xs-3">Patient Name</th>
+                            <th class="col-xs-3">Next Task</th>
                             <th class="col-xs-3">Start Time</th>
+                            <th class="col-xs-2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="task in tasks">
                             <td class="col-xs-1">{{task.prn}}</td>
-                            <td class="col-xs-4">{{task.patientName}}</td>
-                            <td class="col-xs-4" ng-click="changeView(task.prn)">{{task.nextTask}}</td>
-                            <td class="col-xs-1">{{task.createTime}}</td>
+                            <td class="col-xs-3">{{task.patientName}}</td>
+                            <td class="col-xs-3">{{task.nextTask}}</td>
+                            <td class="col-xs-3">{{task.createTime}}</td>
+                            <th class="col-xs-2"><a ui-sref="app.patientRegHistory({ prn: task.prn })">view</a></th>
                         </tr>
                     </tbody>
                 </table>
-
             </div>
             <div class="warningText" ng-hide="tasks.length > 0"> You do not have any tasks.</div>
         </div>
     </div>
-</section>
+</div>
