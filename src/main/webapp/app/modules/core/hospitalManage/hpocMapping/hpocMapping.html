@@ -1,0 +1,34 @@
+<div class="content-header">
+    <h1>           
+        HPOC Mapping
+    </h1>
+</div>
+<!-- Main content -->
+<div class="content">
+    <div class="panel panel-info">
+        <form data-ng-submit="vm.submitForm();" style="padding: 15px;">
+            <div class="row">
+                <div class="col-md-4 col-sm-12">
+                    <md-content class="autoScroll" style="overflow:hidden;background:#fff;">
+                        <md-input-container class="md-icon-float md-block">
+                            <md-select data-ng-model="vm.hospitalListValue" placeholder="Select a Hospital">
+                                <md-option ng-value="opt.hospitalId" ng-repeat="opt in vm.hospitalList" ng-required="true">{{ opt.name }}</md-option>
+                            </md-select>
+                        </md-input-container>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <md-input-container class="md-icon-float md-block">
+                        <label>HPOC List</label>
+                        <md-select ng-model="vm.hpocListValue" data-md-container-class="selectdemoSelectHeader" multiple="">
+                            <md-optgroup>
+                                <md-option ng-value="opt.id" ng-repeat="opt in vm.hpocList">{{ opt.name }}</md-option>
+                            </md-optgroup>
+                        </md-select>
+                    </md-input-container>
+                    </md-content>
+                </div>
+            </div>
+            <md-button class="md-raised" type="submit">Map HPOC</md-button>
+        </form>
+    </div>
+</div>

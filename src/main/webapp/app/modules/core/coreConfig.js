@@ -118,6 +118,16 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
     
+    $stateProvider.state('app.hospital.hpocMapping', {
+        url: '/hpocMapping',
+        templateUrl: 'app/modules/core/hospitalManage/hpocMapping/hpocMapping.html',
+        controller: 'HpocMappingController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Hospitals'
+        }
+    });
+    
     $stateProvider.state('app.hospital', {
         url: '/hospital',
         templateUrl: 'app/modules/core/hospitalManage/hospitalManage.html',
