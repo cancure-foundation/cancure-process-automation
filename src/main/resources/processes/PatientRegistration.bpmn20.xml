@@ -52,7 +52,7 @@
     <sequenceFlow id="flow9" sourceRef="exclusivegateway2" targetRef="servicetask2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Reject'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask6" name="EC Approval" activiti:candidateGroups="ROLE_BOARD">
+    <userTask id="usertask6" name="EC Approval" activiti:candidateGroups="ROLE_EXECUTIVE_COMMITTEE">
       <documentation>Executive Committee verifies the patient's details and approves or rejects Cancure help.</documentation>
       <extensionElements>
       	<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">

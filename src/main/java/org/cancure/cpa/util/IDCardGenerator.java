@@ -4,11 +4,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
+import org.cancure.cpa.persistence.entity.PatientDocument;
+import org.cancure.cpa.service.PatientDocumentService;
 import org.cancure.cpa.service.PatientService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,6 +32,9 @@ public class IDCardGenerator {
 	@Autowired
 	private PatientService patientService;
 
+	@Autowired
+	private PatientDocumentService patientDocumentService;
+	   
 	@Value("${spring.files.save.path}")
 	private String fileSavePath;
 
@@ -48,7 +55,15 @@ public class IDCardGenerator {
 	public void generateCard(Integer id) throws Exception {
 
 		PatientBean patient = patientService.get(id);
-
+		List<PatientDocument>documentList=new ArrayList<PatientDocument>();
+		List<PatientDocumentBean>documentBean=new ArrayList<PatientDocumentBean>();
+		documentList=patientDocumentService.findByTaskId(patient.getTaskId());
+	        for(PatientDocument patientDocument:documentList){
+	            PatientDocumentBean patientDocumentBean=new PatientDocumentBean();
+	            BeanUtils.copyProperties(patientDocument, patientDocumentBean);
+	            documentBean.add(patientDocumentBean);
+	        }
+	    patient.setDocument(documentBean);
 		Rectangle pagesize = new Rectangle(400f, 245f);
 		Document document = new Document(pagesize, 10f, 72f, 108f, 180f);
 
