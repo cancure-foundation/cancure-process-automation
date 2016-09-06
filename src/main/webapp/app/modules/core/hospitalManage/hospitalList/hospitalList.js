@@ -14,6 +14,7 @@ core.controller("HospitalListController", ['$scope', '$state', 'Loader', 'apiSer
 	};
 
 	vm.editHospital = function(id){
+		$scope.$parent.vm.currentNavItem  = "app.hospital.hospitalCreate";
 		$state.go('app.hospital.hospitalCreate', { hospitalId: id });
 	}     
 

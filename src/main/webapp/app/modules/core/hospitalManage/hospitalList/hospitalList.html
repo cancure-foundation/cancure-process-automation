@@ -14,14 +14,16 @@
             <div class="panel panel-info" ng-show="hospitalList.length > 0">
                 <table class="table">
                 
-                    <th class="col-xs-4">Hospital Name</th>
-                    <th class="col-xs-4">Address</th>
-                    <th class="col-xs-4">Contact</th>
+                    <th class="col-xs-3">Hospital Name</th>
+                    <th class="col-xs-3">Address</th>
+                    <th class="col-xs-3">Contact</th>
+                    <th class="col-xs-3">Action</th>
 
                     <tr class="" ng-repeat="doc in hospitalList">
-                        <td class="col-xs-4" ng-click="vm.editHospital(doc.hospitalId)">{{doc.name}}</td>
-                        <td class="col-xs-4">{{doc.address}}</td>
-                        <td class="col-xs-4">{{doc.contact}}</td>
+                        <td class="col-xs-3">{{doc.name}}</td>
+                        <td class="col-xs-3">{{doc.address}}</td>
+                        <td class="col-xs-3">{{doc.contact}}</td>
+                        <td class="col-xs-3"  ng-click="vm.editHospital(doc.hospitalId)" style="color: #3c8dbc;">Edit</td>
                     </tr>
                     
                 </table>
