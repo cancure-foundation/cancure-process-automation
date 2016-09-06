@@ -111,7 +111,11 @@ create table user_role (
  	enabled boolean
  );
 
-
+create table pidn_generator (
+	prn number(10),
+	pidn number(10) primary key auto_increment
+);
+ 
 create table patient(
 	prn number(10) primary key auto_increment,
 	pidn number(10),

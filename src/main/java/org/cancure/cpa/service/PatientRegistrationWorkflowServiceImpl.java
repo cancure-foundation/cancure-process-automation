@@ -14,6 +14,8 @@ import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
 import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.persistence.entity.HpocHospital;
+import org.cancure.cpa.persistence.entity.PidnGenerator;
+import org.cancure.cpa.persistence.repository.PidnGeneratorRepository;
 import org.cancure.cpa.util.IDCardGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,6 +36,9 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     
     @Autowired
     private HpocHospitalService hpocHospitalService;
+    
+    @Autowired
+    private PidnGeneratorRepository pidnGeneratorRepository;
     
     @Transactional
     public String registerPatient(PatientBean patient) throws IOException {
@@ -141,7 +146,13 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     public void patientIDCard(Integer prn) throws Exception {
         // Generate PIDN
         // To do
-        iDCardGenerator.generateCard(prn);        
+    	PidnGenerator pidnGen = new PidnGenerator();
+    	pidnGen.setPrn(prn);
+    	pidnGeneratorRepository.save(pidnGen);
+    	
+    	patientService.updatePidn(pidnGen.getPidn(), prn);
+    	
+        iDCardGenerator.generateCard(prn);
         patientRegistrationService.movePatientRegn(String.valueOf(prn), null);
         
     }
