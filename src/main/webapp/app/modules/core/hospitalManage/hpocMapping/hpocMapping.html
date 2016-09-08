@@ -20,7 +20,7 @@
                     <md-input-container class="md-icon-float md-block">
                         <label>HPOC List</label>
                         <md-select ng-model="vm.hpocListValue" data-md-container-class="selectdemoSelectHeader" multiple="">
-                            <md-optgroup>
+                            <md-optgroup label="Select HPOC">
                                 <md-option ng-value="opt.id" ng-repeat="opt in vm.hpocList">{{ opt.name }}</md-option>
                             </md-optgroup>
                         </md-select>
