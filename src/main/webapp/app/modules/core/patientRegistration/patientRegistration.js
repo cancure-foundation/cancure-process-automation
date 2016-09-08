@@ -31,19 +31,6 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 	 */
 	var initializeVars = function (){
 		vm.formData = {};
-		// ******** to be removed : start *********//
-		vm.formData = {
-				name : 'Dummy Patient',
-				address : "XYZ, WWW",
-				bloodGroup : "B+",
-				contact : 0484123456,
-				dob : new Date(),
-				employmentStatus : "Employed",
-				gender : "Male",
-				maritalStatus : "Single",
-				typeOfSupport :	"Lab Tests"
-		}
-		// ******** to be removed : end *********//
 		vm.formData.profileImage = null;
 		vm.formData.profilePicSrc = null;
 		vm.formData.familyDetails = [];

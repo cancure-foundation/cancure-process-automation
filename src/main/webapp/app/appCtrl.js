@@ -24,7 +24,7 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 		apiService.adjustScreenHeight();
 
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){ 			
-			
+
 			// to scroll the page to top so that previous page scroll is not retained			
 			var centerContent = document.getElementById('center-content-wrapper');
 			if (centerContent)
@@ -46,8 +46,21 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 		//available layouts
 		vm.layouts = appSettings.layoutList;
 
-		//Main menu items of the dashboard
-		vm.menuItems = appSettings.menuList;
+		var accessList = []; 
+		// to get page access list based on user roles
+		angular.forEach(appSettings.roles, function (v, k) {
+			angular.forEach(appSettings.pageAccess[v.name], function (val, key) {				
+				if (accessList.indexOf(val) == -1)
+					accessList.push(val);
+			});
+		});
+		// sort the accessList[]
+		accessList.sort();
+		// add Main menu items of the dashboard
+		vm.menuItems = []
+		for (var i = 0; i < accessList.length; i++) {
+			vm.menuItems.push(appSettings.menuList[accessList[i]]);
+		}
 	}
 
 	//set the Layout in normal view
@@ -85,34 +98,34 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 			parent: parentEl,
 			targetEvent: $event,
 			template:
-				  '<md-dialog aria-label="List dialog" class="row roleDialogBx">' +
-		           '  <md-dialog-content>'+
-		           '  <div class="username"> User Details </div>'+
-		           '  <table class="table table-bordered">'+
-                   '	<th class="col-xs-4">Name</th>'+          
-                   '	<th class="col-xs-4">Roles</th>'+          
-                   '		<tr>'+
-                   '		<td class="col-xs-4">'+ appSettings.loginUserName +'</td>'+
-                   '		<td class="col-xs-4">'+
-                   '      		<div ng-repeat="item in items">'+                        
-                   '        			{{item.name}}'+                         
-                   '             </div>'+
-                   '        </td>'+
-                   '    </tr>'+
-                   '</table>'+
-		           '  </md-dialog-content>' +
-		           '  <md-dialog-actions>' +
-		           '    <md-button ng-click="closeDialog()" class="md-primary">' +
-		           '      Close' +
-		           '    </md-button>' +
-		           '  </md-dialog-actions>' +
-		           '</md-dialog>',
+				'<md-dialog aria-label="List dialog" class="row roleDialogBx">' +
+				'  <md-dialog-content>'+
+				'  <div class="username"> User Details </div>'+
+				'  <table class="table table-bordered">'+
+				'	<th class="col-xs-4">Name</th>'+          
+				'	<th class="col-xs-4">Roles</th>'+          
+				'		<tr>'+
+				'		<td class="col-xs-4">'+ appSettings.loginUserName +'</td>'+
+				'		<td class="col-xs-4">'+
+				'      		<div ng-repeat="item in items">'+                        
+				'        			{{item.name}}'+                         
+				'             </div>'+
+				'        </td>'+
+				'    </tr>'+
+				'</table>'+
+				'  </md-dialog-content>' +
+				'  <md-dialog-actions>' +
+				'    <md-button ng-click="closeDialog()" class="md-primary">' +
+				'      Close' +
+				'    </md-button>' +
+				'  </md-dialog-actions>' +
+				'</md-dialog>',
 				locals: {
 					items: appSettings.roles
 				},
 				controller: DialogController
 		});
-		
+
 		function DialogController($scope, $mdDialog, items) {
 			$scope.items = items;
 			$scope.closeDialog = function() {

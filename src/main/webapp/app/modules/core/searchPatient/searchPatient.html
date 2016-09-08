@@ -5,7 +5,7 @@
                 Search Patient
             </div>
             <div class="col-md-3 col-xs-12">
-                <md-input-container class="md-icon-float md-block">
+                <md-input-container class="md-icon-float md-block searchBy">
                     <label>Search By</label>
                     <md-select data-ng-model="vm.formData.searchBy" required>
                         <md-option value="prn">PRN</md-option>
@@ -29,7 +29,7 @@
     </div>
     <div class="searchResult">
         <div class="warningText" ng-hide="vm.patientList || vm.noSearchResult">Your search results will be displayed here.</div>
-        <div class="noResultText" ng-show="vm.noSearchResult">Sorry, no items matches your query.</div>
+        <div class="noResultText" ng-show="vm.noSearchResult">Sorry, no items match your query.</div>
         <div class="row" ng-show="vm.patientList">
             <div class="col-xs-12 searchResultIndicator">
                 Search completed with <b>"{{vm.patientList.length}}"</b> results
@@ -54,7 +54,7 @@
                             <td class="col-xs-3">{{patient.address}}</td>
                             <td class="col-xs-2">{{patient.nextTask}}</td>
                             <td class="col-xs-2"> <a ui-sref="app.patientRegHistory({ prn: patient.prn })"> View History</a>  | 
-                            	 <a ui-sref="app.patientRegHistory({ prn: patient.prn })">Edit Patient </a> 
+                            	 <a>Edit Patient </a> 
                             </td>
                         </tr>
                     </tbody>

@@ -27,6 +27,9 @@
 .searchPatient .searchResult {
     margin: 15px;
 }
+.searchPatient .searchBy md-select-value span:first-child {
+    margin-bottom: 6px;
+}
 .searchPatient .searchResult .noResultText {
     margin-top: 15%;
     text-align: center;

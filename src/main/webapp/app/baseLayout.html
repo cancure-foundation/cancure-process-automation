@@ -75,8 +75,7 @@
     <aside class="main-sidebar">
         <!-- sidebar -->
         <section class="sidebar">
-            <!-- search form -->
-            <form action="#" method="get" class="sidebar-form">
+         <!--    <form action="#" method="get" class="sidebar-form">
                 <div class="input-group">
                     <input type="text" name="q" class="form-control" placeholder="Search..."> <span class="input-group-btn">
 						<button type="button" name="search" id="search-btn"
@@ -85,9 +84,8 @@
 						</button>
 					</span>
                 </div>
-            </form>
-            <!-- /.search form -->
-            <ul class="sidebar-menu">
+            </form> -->
+            <ul class="sidebar-menu" style="margin-top: 15px;">
                 <li class="treeview" ui-sref-active="active" ng-click="vm.sideBar();" data-ng-repeat="menu in vm.menuItems">
                     <a ui-sref="app.{{menu.state}}"> <i class="fa fa-{{menu.icon}}"></i>
                         <span>{{menu.title}}</span>
