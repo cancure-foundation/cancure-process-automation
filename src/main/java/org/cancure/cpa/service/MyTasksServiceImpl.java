@@ -13,6 +13,7 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
@@ -144,6 +145,15 @@ public class MyTasksServiceImpl implements MyTasksService {
 			
 			if (t.getEndTime() == null) {
 				nextTask = t.getName();
+			}
+			if(t.getEndTime()==null){
+			    String taskId=t.getId();
+			    List<IdentityLink>roleList=taskService.getIdentityLinksForTask(taskId) ;
+			    String roleName=null;
+			    for(IdentityLink role:roleList){
+			        roleName=role.getGroupId();
+			    }
+			    parentMap.put("Owner", roleName);
 			}
 			
 		}
