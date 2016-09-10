@@ -3,7 +3,7 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$location', '$
     function ($rootScope, $scope, $state, $location, $cookies, Flash, apiService, appSettings, $http) {
 		var vm = this;
 	
-		vm.formData = {Username : 'cancure', Password : 'cancure'};
+		vm.formData = {};
 		vm.loggingIn = false;
 	
 		//access login
