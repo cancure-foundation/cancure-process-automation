@@ -145,17 +145,14 @@ public class MyTasksServiceImpl implements MyTasksService {
 			
 			if (t.getEndTime() == null) {
 				nextTask = t.getName();
+				String taskId = t.getId();
+				List<IdentityLink> roleList = taskService.getIdentityLinksForTask(taskId);
+				List<String> roleNames = new ArrayList<>();
+				for (IdentityLink role : roleList) {
+					roleNames.add(role.getGroupId());
+				}
+				parentMap.put("Owner", roleNames);
 			}
-			if(t.getEndTime()==null){
-			    String taskId=t.getId();
-			    List<IdentityLink>roleList=taskService.getIdentityLinksForTask(taskId) ;
-			    String roleName=null;
-			    for(IdentityLink role:roleList){
-			        roleName=role.getGroupId();
-			    }
-			    parentMap.put("Owner", roleName);
-			}
-			
 		}
 		
 		if (nextTask != null) {
