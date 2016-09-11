@@ -1,3 +1,6 @@
+--create user 'cancure'@'localhost' identified by 'cancure123';
+--grant all privileges on cancure.* to 'cancure'@'localhost' with grant option;
+
 insert into user(id, name, login, password, enabled) values (1,'Geetha','geetha','$2a$10$uLTQyV4LZu5QAczsTR.eW.cWvUttoTb2XqWJlQsTauQQTkI8tcGqC', true);
 insert into user(id, name, login, password, enabled) values (2,'cancure','cancure','$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true);
  
@@ -79,17 +82,17 @@ insert into list_value values (46, 7, 'Passport');
 insert into list_value values (47, 7, 'Birth certificate');
 insert into list_value values (48, 7, 'Others');
 
-insert into list_value values (48, 8, 'BPL card');
-insert into list_value values (49, 8, 'Ration card');
-insert into list_value values (50, 8, 'Certificate by the Elected Representative');
-insert into list_value values (51, 8, 'Certificate from Village Office');
-insert into list_value values (52, 8, 'Others');
+insert into list_value values (49, 8, 'BPL card');
+insert into list_value values (50, 8, 'Ration card');
+insert into list_value values (51, 8, 'Certificate by the Elected Representative');
+insert into list_value values (52, 8, 'Certificate from Village Office');
+insert into list_value values (53, 8, 'Others');
 
-insert into list_value values (53, 9, 'Financial support');
-insert into list_value values (54, 9, 'Lab Tests');
-insert into list_value values (55, 9, 'Treatment');
-insert into list_value values (56, 9, 'Medicine');
-insert into list_value values (57, 9, 'Others');
+insert into list_value values (54, 9, 'Financial support');
+insert into list_value values (55, 9, 'Lab Tests');
+insert into list_value values (56, 9, 'Treatment');
+insert into list_value values (57, 9, 'Medicine');
+insert into list_value values (58, 9, 'Others');
 
 
 insert into OAUTH_CLIENT_DETAILS values('cancureapp', 'restservice', 'cancure123456', 'read,write', 'password,refresh_token', null, 'USER', null,null, '{}', null);

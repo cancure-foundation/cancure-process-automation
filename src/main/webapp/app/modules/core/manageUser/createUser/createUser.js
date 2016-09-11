@@ -1,5 +1,5 @@
-core.controller("CreateUserController", ['$scope', '$timeout', 'Flash', 'apiService', 'appSettings', 'Loader',
-                                         function ($scope, $timeout, Flash, apiService, appSettings, Loader) {
+core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', 'Flash', 'apiService', 'appSettings', 'Loader',
+                                         function ($scope, $stateParams, $timeout, Flash, apiService, appSettings, Loader) {
 	var vm = this;
 	vm.formData = {};
 	vm.formData.roles = [];
@@ -7,13 +7,29 @@ core.controller("CreateUserController", ['$scope', '$timeout', 'Flash', 'apiServ
 	
 	var init = function () {
 		Loader.create('Fetching Data. Please wait');
+		var id = $stateParams.userId;
+		
 		apiService.serviceRequest({
 			URL: appSettings.requestURL.userRoles
 		}, function (response) {
 			$scope.roles = response; // assigns the roles to roles object in the scope
+			getUser(id);
 			Loader.destroy();
 		});
 	};
+	
+	var getUser = function(id){
+		if (id != null && id != ''){
+			apiService.serviceRequest({
+				URL: 'user/' + id
+			}, function (response) {
+				vm.formData = response;
+				Loader.destroy();
+			});
+		} else {
+			Loader.destroy();
+		}
+	}
 
 	// init function, execution starts here
 	init();
@@ -41,7 +57,7 @@ core.controller("CreateUserController", ['$scope', '$timeout', 'Flash', 'apiServ
 			payLoad: serverData
 		}, function (response) {
 			Loader.destroy();
-			Flash.create('success', 'User Successfully Registered.', 'large-text');   
+			Flash.create('success', 'User successfully saved.', 'large-text');   
 			vm.userCreated = true; // to show the user summary div
 		});
 	};
@@ -54,10 +70,16 @@ core.controller("CreateUserController", ['$scope', '$timeout', 'Flash', 'apiServ
 		};
 		if (vm.formData.roles.length == 0) {
 			formState.valid = false;
-			formState.errMsg = 'Please select atleast 1 role to proceed.';
+			formState.errMsg = 'Please select at least 1 role to proceed.';
 			return formState;
 		}
 
+		if (vm.formData.password == ''){
+			formState.valid = false;
+			formState.errMsg = 'Password cannot be blank.';
+			return formState;
+		}
+		
 		if(vm.formData.password != vm.formData.retypepassword){
 			formState.valid = false;
 			formState.errMsg = 'Passwords do not match.';
