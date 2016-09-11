@@ -1,6 +1,3 @@
---create user 'cancure'@'localhost' identified by 'cancure123';
---grant all privileges on cancure.* to 'cancure'@'localhost' with grant option;
-
 insert into user(id, name, login, password, enabled) values (1,'Geetha','geetha','$2a$10$uLTQyV4LZu5QAczsTR.eW.cWvUttoTb2XqWJlQsTauQQTkI8tcGqC', true);
 insert into user(id, name, login, password, enabled) values (2,'cancure','cancure','$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true);
  
@@ -100,6 +97,7 @@ insert into OAUTH_CLIENT_DETAILS values('cancureapp', 'restservice', 'cancure123
 insert into user_role (user_id, role_id) values (1, 1);
 insert into user_role (user_id, role_id) values (2, 1);
 
+
 insert into ACT_GE_PROPERTY
 values ('schema.version', '5.20.0.1', 1);
 
@@ -108,3 +106,4 @@ values ('schema.history', 'create(5.20.0.1)', 1);
 
 insert into ACT_GE_PROPERTY
 values ('next.dbid', '1', 1);
+

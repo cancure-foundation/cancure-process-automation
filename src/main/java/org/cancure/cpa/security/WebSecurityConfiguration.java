@@ -26,8 +26,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
-
+/*
 	public static void main(String[] args){
 		System.out.println(new BCryptPasswordEncoder().encode("dantis") );
-	}
+	}*/
 }

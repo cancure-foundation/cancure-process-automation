@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
-import org.cancure.cpa.persistence.entity.Patient;
 
 public interface PatientService {
 
@@ -19,6 +18,6 @@ public interface PatientService {
 
     int updateTaskId(String taskId, Integer id);
 	
-	
+	int updatePidn(Integer pidn, Integer prn);
 	
 }

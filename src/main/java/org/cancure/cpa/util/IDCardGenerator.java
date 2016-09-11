@@ -1,7 +1,9 @@
 package org.cancure.cpa.util;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -67,7 +69,7 @@ public class IDCardGenerator {
 		Rectangle pagesize = new Rectangle(400f, 245f);
 		Document document = new Document(pagesize, 10f, 72f, 108f, 180f);
 
-		String imageLoc = "src/main/webapp/images/logo.jpg";
+		String imageLoc = "images/logo.jpg";
 		// String imageLoc = "C:\\Users\\sudo\\cancure\\matureman1-512.png";
 		// C:\Users\sudo\git\cancure-process-automation\src\main\webapp\images
 		// step 2
@@ -136,13 +138,23 @@ public class IDCardGenerator {
 			printImage(canvas, 10, 245 - 232, 114, 126, filePath);
 		}
 
-		printImage(canvas, 10, 245 - 96, 100, 100, imageLoc);
-		printTransparentImage(canvas, 127, 245 - 232, 273, 226, imageLoc);
+		Image cancureLog = Image.getInstance(this.getClass().getClassLoader().getSystemResource("images/logo.jpg"));
+		printImage(canvas, 10, 245 - 96, 100, 100, cancureLog);
+		printTransparentImage(canvas, 127, 245 - 232, 273, 226, cancureLog);
 
 		// step 5
 		document.close();
 	}
 
+	private void printImage(PdfContentByte canvas, float x, float y, float scalex, float scaley, Image cancureLog)
+			throws MalformedURLException, IOException, DocumentException {
+		canvas.saveState();
+		cancureLog.setAbsolutePosition(x, y);
+		cancureLog.scaleToFit(scalex, scaley);
+		canvas.addImage(cancureLog);
+		canvas.restoreState();
+	}
+	
 	private void printImage(PdfContentByte canvas, float x, float y, float scalex, float scaley, String imageLoc)
 			throws MalformedURLException, IOException, DocumentException {
 		canvas.saveState();
@@ -154,8 +166,7 @@ public class IDCardGenerator {
 	}
 
 	private void printTransparentImage(PdfContentByte canvas, float x, float y, float scalex, float scaley,
-			String imageLoc) throws MalformedURLException, IOException, DocumentException {
-		Image cancureLog = Image.getInstance(imageLoc);
+			Image cancureLog) throws MalformedURLException, IOException, DocumentException {
 		canvas.saveState();
 		PdfGState state = new PdfGState();
 		state.setFillOpacity(0.05f);
@@ -175,7 +186,15 @@ public class IDCardGenerator {
 		canvas.setLineWidth(lineWidth);
 		canvas.setRGBColorStroke(0x00, 0x00, 0x00);
 		canvas.setRGBColorFill(0x00, 0x00, 0x00);
-		BaseFont bf = BaseFont.createFont("src/main/webapp/fonts/FreeSans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+		BaseFont bf = null;
+		try {
+			bf = BaseFont.createFont("fonts/FreeSans.ttf", BaseFont.IDENTITY_H, 
+	                  BaseFont.EMBEDDED);
+		} catch (Exception e) {
+			bf = BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1257, 
+	                  BaseFont.EMBEDDED);
+		}
+		
 		canvas.setFontAndSize(bf, fontSize);
 		canvas.setTextMatrix(x, y);
 		canvas.showText(text);

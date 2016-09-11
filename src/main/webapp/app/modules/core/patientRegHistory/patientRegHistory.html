@@ -33,6 +33,10 @@
                                                 <div><b>PRN : {{vm.patientDetails.prn}}</b></div>
                                             </td>
                                         </tr>
+                                        <tr ng-if = "vm.patientDetails.pidn">
+                                            <td class="fieldName">PIDN</td>
+                                            <td class="fieldValue">{{vm.patientDetails.pidn}}</td>
+                                        </tr>
                                         <tr>
                                             <td class="fieldName">Age</td>
                                             <td class="fieldValue">{{vm.patientDetails.age}}</td>
@@ -183,6 +187,29 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <table class="table table-bordered" ng-show="task.investigation">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-md-3 col-xs-4">Comments</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-md-3 col-xs-4">{{task.investigation.comments}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered" ng-if="task.investigation.status">
+                                        <tbody>
+                                            <tr>
+                                            	<td class="col-md-3 col-xs-4"><b>Status</b>
+                                                </td>
+                                                <td class="col-md-3 col-xs-4">{{task.investigation.status}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>                                    
                                 </div>
                             </div>
                             <div class="row">
@@ -227,7 +254,7 @@
                                 <div class="sub-title"> ({{vm.nextTask.description}}) </div>
                                 <span class="goto" ng-click="vm.nextAction()"> GO </span>
                             </div>
-                            <div class="text-center nextTask" ng-if="!vm.nextTask.name">
+                            <div class="text-center nextTask" ng-if="vm.patientDetails.pidn">
                                 <span class="goto"> 
                                 	<a href="/files/idcard/{{vm.patientDetails.prn}}" style="color:white">Download ID Card</a>  
                                 	<i class="fa fa-arrow-circle-down" aria-hidden="true"></i>                                	

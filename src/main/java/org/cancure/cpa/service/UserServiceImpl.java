@@ -25,8 +25,22 @@ public class UserServiceImpl implements UserService {
 	PasswordEncoder encoder = new BCryptPasswordEncoder();
    
 	public UserBean saveUser(User user) {
-	    String encPass=encoder.encode(user.getPassword());
-	    user.setPassword(encPass);
+		if (user.getId() == null) {
+			if (user.getPassword() == null){
+				throw new RuntimeException("User password cannot be empty");
+			}
+			String encPass = encoder.encode(user.getPassword());
+			user.setPassword(encPass);
+		} else {
+			if (user.getPassword() == null){
+				User actualUser= userRepo.findOne(user.getId());
+				user.setPassword(actualUser.getPassword());
+			} else {
+				String encPass = encoder.encode(user.getPassword());
+				user.setPassword(encPass);
+			}
+		}
+	    
 		userRepo.save(user);
 		UserBean userBean = new UserBean();
 		BeanUtils.copyProperties(user, userBean);
