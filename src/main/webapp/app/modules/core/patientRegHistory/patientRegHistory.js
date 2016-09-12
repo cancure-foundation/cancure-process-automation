@@ -71,10 +71,10 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 					endTime : currentTask.endTime,
 					documents : currentTask.documents,
 					investigation : angular.equals({}, currentTask.investigation) ? null : currentTask.investigation
-				});					
+				});
 				vm.nextTask.description = currentTask.description;
 			}
-			vm.tasks.pop();
+			//vm.tasks.pop();
 			$timeout(function (){
 				vm.viewMorePtDetails();
 				Loader.destroy();

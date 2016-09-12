@@ -13,40 +13,40 @@ create table oauth_client_details (
 );
 
 create table oauth_client_token (
-  token_id VARCHAR(256),
-  token LONGVARBINARY,
-  authentication_id VARCHAR(256) PRIMARY KEY,
-  user_name VARCHAR(256),
-  client_id VARCHAR(256)
+  token_id VARCHAR(255),
+  token BLOB,
+  authentication_id VARCHAR(255),
+  user_name VARCHAR(255),
+  client_id VARCHAR(255)
 );
 
 create table oauth_access_token (
-  token_id VARCHAR(256),
-  token LONGVARBINARY,
-  authentication_id VARCHAR(256) PRIMARY KEY,
-  user_name VARCHAR(256),
-  client_id VARCHAR(256),
-  authentication LONGVARBINARY,
-  refresh_token VARCHAR(256)
+  token_id VARCHAR(255),
+  token BLOB,
+  authentication_id VARCHAR(255),
+  user_name VARCHAR(255),
+  client_id VARCHAR(255),
+  authentication BLOB,
+  refresh_token VARCHAR(255)
 );
 
 create table oauth_refresh_token (
-  token_id VARCHAR(256),
-  token LONGVARBINARY,
-  authentication LONGVARBINARY
+  token_id VARCHAR(255),
+  token BLOB,
+  authentication BLOB
 );
 
 create table oauth_code (
-  code VARCHAR(256), authentication LONGVARBINARY
+  code VARCHAR(255), authentication BLOB
 );
 
-create table oauth_approvals (
-	userId VARCHAR(256),
-	clientId VARCHAR(256),
-	scope VARCHAR(256),
-	status VARCHAR(10),
-	expiresAt TIMESTAMP,
-	lastModifiedAt TIMESTAMP
+CREATE TABLE oauth_approvals (
+  userId varchar(256) DEFAULT NULL,
+  clientId varchar(256) DEFAULT NULL,
+  scope varchar(256) DEFAULT NULL,
+  status varchar(10) DEFAULT NULL,
+  expiresAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  lastModifiedAt timestamp NOT NULL DEFAULT '1971-01-01 00:00:01'
 );
 
 create table ClientDetails (
@@ -63,8 +63,9 @@ create table ClientDetails (
     autoApproveScopes VARCHAR(255)
 );
 
+
 create table user (
-	id number(10) primary key auto_increment,
+	id int(10) primary key auto_increment,
 	name varchar(100),
 	login varchar(100),
 	email varchar(100),
@@ -74,51 +75,52 @@ create table user (
 );
 
 create table role (
-	id number(10) primary key auto_increment,
+	id int(10) primary key auto_increment,
 	name varchar(100),
 	display_name varchar(100)
 );
 
 create table user_role (
-  	user_id number(10),
-  	role_id number(10),
+  	user_id int(10),
+  	role_id int(10),
   	unique (user_id, role_id)
 );
 
 
  create table hospital (
- 	hospital_id number(10) primary key auto_increment,
+ 	hospital_id int(10) primary key auto_increment,
  	name varchar(100),
  	address varchar(200),
  	contact varchar(25),
  	enabled boolean
  );
- 
- create table hpoc_hospital (
-    hpoc_id number(10),
-    hospital_id number(10),
+
+  create table hpoc_hospital (
+    hpoc_id int(10),
+    hospital_id int(10),
     unique (hpoc_id, hospital_id)
  );
 
- create table DOCTOR (
- 	doctor_id number(10) primary key auto_increment,
+  create table DOCTOR (
+ 	doctor_id int(10) primary key auto_increment,
  	name varchar(100),
  	specification varchar(100),
  	address varchar(200),
  	contact varchar(25),
  	email varchar(50),
- 	hospital_id number(10) references hospital(hospital_id),
+ 	hospital_id int(10) references hospital(hospital_id),
  	enabled boolean
  );
 
-create table pidn_generator (
-	prn number(10),
-	pidn number(10) primary key auto_increment
-);
  
+create table pidn_generator (
+	prn int(10),
+	pidn int(10) primary key auto_increment
+);
+
 create table patient(
-	prn number(10) primary key auto_increment,
-	pidn number(10),
+	prn int(10) primary key auto_increment,
+	pidn int(10),
 	name varchar(100),
 	dob date,
 	gender varchar(20),
@@ -143,90 +145,89 @@ create table patient(
 	doctor_comments varchar(2000),
 	type_of_support varchar(100),
 	task_id varchar(10),
-	preliminary_exam_doctor_id number(10) references DOCTOR(doctor_id),
-	preliminary_exam_hospital_id number(10) references hospital(hospital_id)
+	preliminary_exam_doctor_id int(10) references DOCTOR(doctor_id),
+	preliminary_exam_hospital_id int(10) references hospital(hospital_id)
 );
 
-
 create table support_organisations (
-	org_id number(10) primary key auto_increment,
+	org_id int(10) primary key auto_increment,
 	name varchar(100),
-	amount_rec number(10),
+	amount_rec int(10),
 	prn number(10) references patient(prn)
 );
 
 create table patient_family (
-	family_member_id number(10) primary key auto_increment,
+	family_member_id int(10) primary key auto_increment,
 	relation varchar(30),
-	age number(5),
+	age int(5),
 	status varchar(30),
-	income number(10),
-	other_income number(10),
-	prn  number(10) references patient(prn)
+	income int(10),
+	other_income int(10),
+	prn  int(10) references patient(prn)
 );
 
+
 create table patient_document (
-	doc_id number(10) primary key auto_increment,
+	doc_id int(10) primary key auto_increment,
 	doc_category varchar(50),
 	doc_type varchar(100),
 	doc_path varchar(250),
 	task_id varchar(10),
-	prn number(10) references patient(prn)
+	prn int(10) references patient(prn)
 );
 
  create table investigator_type (
 	name varchar(20) primary key
  );
 
-create table patient_investigation (
-	investigation_id number(10) primary key auto_increment,
+ create table patient_investigation (
+	investigation_id int(10) primary key auto_increment,
 	investigator_type varchar(100) references investigator_type(name),
- 	investigator_id number(10),
+ 	investigator_id int(10),
  	investigation_date date,
  	comments varchar(2000),
  	status varchar(30),
  	task_id varchar(10),
- 	prn number(10) references patient(prn)
+ 	prn int(10) references patient(prn)
  );
- 
- 
- create table list (
- 	list_id number(10) primary key auto_increment,
+
+  create table list (
+ 	list_id int(10) primary key auto_increment,
  	name varchar(100)
  );
   
  create table list_value (
-    list_value_id number(10) primary key auto_increment,
-    list_id number(10) references list(list_id), 
+    list_value_id int(10) primary key auto_increment,
+    list_id int(10) references list(list_id), 
  	value varchar(100)
  );
  
- create table ACT_GE_PROPERTY (
+ 
+create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),
     REV_ integer,
     primary key (NAME_)
-);
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_GE_BYTEARRAY (
     ID_ varchar(64),
     REV_ integer,
     NAME_ varchar(255),
     DEPLOYMENT_ID_ varchar(64),
-    BYTES_ longvarbinary,
-    GENERATED_ bit,
+    BYTES_ LONGBLOB,
+    GENERATED_ TINYINT,
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_RE_DEPLOYMENT (
     ID_ varchar(64),
     NAME_ varchar(255),
     CATEGORY_ varchar(255),
     TENANT_ID_ varchar(255) default '',
-    DEPLOY_TIME_ timestamp,
+    DEPLOY_TIME_ timestamp(3) NULL,
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_RE_MODEL (
     ID_ varchar(64) not null,
@@ -234,8 +235,8 @@ create table ACT_RE_MODEL (
     NAME_ varchar(255),
     KEY_ varchar(255),
     CATEGORY_ varchar(255),
-    CREATE_TIME_ timestamp,
-    LAST_UPDATE_TIME_ timestamp,
+    CREATE_TIME_ timestamp(3) null,
+    LAST_UPDATE_TIME_ timestamp(3) null,
     VERSION_ integer,
     META_INFO_ varchar(4000),
     DEPLOYMENT_ID_ varchar(64),
@@ -243,7 +244,7 @@ create table ACT_RE_MODEL (
     EDITOR_SOURCE_EXTRA_VALUE_ID_ varchar(64),
     TENANT_ID_ varchar(255) default '',
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_RU_EXECUTION (
     ID_ varchar(64),
@@ -254,23 +255,23 @@ create table ACT_RU_EXECUTION (
     PROC_DEF_ID_ varchar(64),
     SUPER_EXEC_ varchar(64),
     ACT_ID_ varchar(255),
-    IS_ACTIVE_ bit,
-    IS_CONCURRENT_ bit,
-    IS_SCOPE_ bit,
-    IS_EVENT_SCOPE_ bit,
+    IS_ACTIVE_ TINYINT,
+    IS_CONCURRENT_ TINYINT,
+    IS_SCOPE_ TINYINT,
+    IS_EVENT_SCOPE_ TINYINT,
     SUSPENSION_STATE_ integer,
     CACHED_ENT_STATE_ integer,
     TENANT_ID_ varchar(255) default '',
     NAME_ varchar(255),
-    LOCK_TIME_ timestamp,
+    LOCK_TIME_ timestamp(3) NULL,
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_RU_JOB (
     ID_ varchar(64) NOT NULL,
     REV_ integer,
     TYPE_ varchar(255) NOT NULL,
-    LOCK_EXP_TIME_ timestamp,
+    LOCK_EXP_TIME_ timestamp(3) NULL,
     LOCK_OWNER_ varchar(255),
     EXCLUSIVE_ boolean,
     EXECUTION_ID_ varchar(64),
@@ -279,31 +280,31 @@ create table ACT_RU_JOB (
     RETRIES_ integer,
     EXCEPTION_STACK_ID_ varchar(64),
     EXCEPTION_MSG_ varchar(4000),
-    DUEDATE_ timestamp,
+    DUEDATE_ timestamp(3) NULL,
     REPEAT_ varchar(255),
     HANDLER_TYPE_ varchar(255),
     HANDLER_CFG_ varchar(4000),
     TENANT_ID_ varchar(255) default '',
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_RE_PROCDEF (
-    ID_ varchar(64) NOT NULL,
+    ID_ varchar(64) not null,
     REV_ integer,
     CATEGORY_ varchar(255),
     NAME_ varchar(255),
-    KEY_ varchar(255) NOT NULL,
-    VERSION_ integer NOT NULL,
+    KEY_ varchar(255) not null,
+    VERSION_ integer not null,
     DEPLOYMENT_ID_ varchar(64),
     RESOURCE_NAME_ varchar(4000),
     DGRM_RESOURCE_NAME_ varchar(4000),
     DESCRIPTION_ varchar(4000),
-    HAS_START_FORM_KEY_ bit,
-    HAS_GRAPHICAL_NOTATION_ bit,
+    HAS_START_FORM_KEY_ TINYINT,
+    HAS_GRAPHICAL_NOTATION_ TINYINT,
     SUSPENSION_STATE_ integer,
     TENANT_ID_ varchar(255) default '',
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_RU_TASK (
     ID_ varchar(64),
@@ -319,14 +320,14 @@ create table ACT_RU_TASK (
     ASSIGNEE_ varchar(255),
     DELEGATION_ varchar(64),
     PRIORITY_ integer,
-    CREATE_TIME_ timestamp,
-    DUE_DATE_ timestamp,
+    CREATE_TIME_ timestamp(3) NULL,
+    DUE_DATE_ datetime(3),
     CATEGORY_ varchar(255),
     SUSPENSION_STATE_ integer,
     TENANT_ID_ varchar(255) default '',
     FORM_KEY_ varchar(255),
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_RU_IDENTITYLINK (
     ID_ varchar(64),
@@ -335,10 +336,10 @@ create table ACT_RU_IDENTITYLINK (
     TYPE_ varchar(255),
     USER_ID_ varchar(255),
     TASK_ID_ varchar(64),
-    PROC_INST_ID_ varchar(64) null,
-    PROC_DEF_ID_ varchar(64),
+    PROC_INST_ID_ varchar(64),
+    PROC_DEF_ID_ varchar(64),    
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_RU_VARIABLE (
     ID_ varchar(64) not null,
@@ -354,7 +355,7 @@ create table ACT_RU_VARIABLE (
     TEXT_ varchar(4000),
     TEXT2_ varchar(4000),
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_RU_EVENT_SUBSCR (
     ID_ varchar(64) not null,
@@ -365,26 +366,27 @@ create table ACT_RU_EVENT_SUBSCR (
     PROC_INST_ID_ varchar(64),
     ACTIVITY_ID_ varchar(64),
     CONFIGURATION_ varchar(255),
-    CREATED_ timestamp not null,
+    CREATED_ timestamp(3) not null DEFAULT CURRENT_TIMESTAMP(3),
     PROC_DEF_ID_ varchar(64),
     TENANT_ID_ varchar(255) default '',
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_EVT_LOG (
-    LOG_NR_ identity,
+    LOG_NR_ bigint auto_increment,
     TYPE_ varchar(64),
     PROC_DEF_ID_ varchar(64),
     PROC_INST_ID_ varchar(64),
     EXECUTION_ID_ varchar(64),
     TASK_ID_ varchar(64),
-    TIME_STAMP_ timestamp not null,
+    TIME_STAMP_ timestamp(3) not null,
     USER_ID_ varchar(255),
-    DATA_ longvarbinary,
+    DATA_ LONGBLOB,
     LOCK_OWNER_ varchar(255),
-    LOCK_TIME_ timestamp,
-    IS_PROCESSED_ bit default 0
-);
+    LOCK_TIME_ timestamp(3) null,
+    IS_PROCESSED_ tinyint default 0,
+    primary key (LOG_NR_)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_PROCDEF_INFO (
 	ID_ varchar(64) not null,
@@ -392,7 +394,7 @@ create table ACT_PROCDEF_INFO (
     REV_ integer,
     INFO_JSON_ID_ varchar(64),
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create index ACT_IDX_EXEC_BUSKEY on ACT_RU_EXECUTION(BUSINESS_KEY_);
 create index ACT_IDX_TASK_CREATE on ACT_RU_TASK(CREATE_TIME_);
@@ -404,89 +406,89 @@ create index ACT_IDX_ATHRZ_PROCEDEF on ACT_RU_IDENTITYLINK(PROC_DEF_ID_);
 create index ACT_IDX_INFO_PROCDEF on ACT_PROCDEF_INFO(PROC_DEF_ID_);
 
 alter table ACT_GE_BYTEARRAY
-    add constraint ACT_FK_BYTEARR_DEPL
-    foreign key (DEPLOYMENT_ID_)
-    references ACT_RE_DEPLOYMENT;
+    add constraint ACT_FK_BYTEARR_DEPL 
+    foreign key (DEPLOYMENT_ID_) 
+    references ACT_RE_DEPLOYMENT (ID_);
 
 alter table ACT_RE_PROCDEF
     add constraint ACT_UNIQ_PROCDEF
     unique (KEY_,VERSION_, TENANT_ID_);
     
 alter table ACT_RU_EXECUTION
-    add constraint ACT_FK_EXE_PROCINST
-    foreign key (PROC_INST_ID_)
-    references ACT_RU_EXECUTION;
+    add constraint ACT_FK_EXE_PROCINST 
+    foreign key (PROC_INST_ID_) 
+    references ACT_RU_EXECUTION (ID_) on delete cascade on update cascade;
 
 alter table ACT_RU_EXECUTION
-    add constraint ACT_FK_EXE_PARENT
-    foreign key (PARENT_ID_)
-    references ACT_RU_EXECUTION;
+    add constraint ACT_FK_EXE_PARENT 
+    foreign key (PARENT_ID_) 
+    references ACT_RU_EXECUTION (ID_);
     
 alter table ACT_RU_EXECUTION
     add constraint ACT_FK_EXE_SUPER 
     foreign key (SUPER_EXEC_) 
-    references ACT_RU_EXECUTION;
-    
+    references ACT_RU_EXECUTION (ID_);
+
 alter table ACT_RU_EXECUTION
     add constraint ACT_FK_EXE_PROCDEF 
     foreign key (PROC_DEF_ID_) 
-    references ACT_RE_PROCDEF (ID_);    
+    references ACT_RE_PROCDEF (ID_);
     
 alter table ACT_RU_IDENTITYLINK
-    add constraint ACT_FK_TSKASS_TASK
-    foreign key (TASK_ID_)
-    references ACT_RU_TASK;
-
+    add constraint ACT_FK_TSKASS_TASK 
+    foreign key (TASK_ID_) 
+    references ACT_RU_TASK (ID_);
+    
 alter table ACT_RU_IDENTITYLINK
-    add constraint ACT_FK_ATHRZ_PROCEDEF
-    foreign key (PROC_DEF_ID_)
-    references ACT_RE_PROCDEF;
+    add constraint ACT_FK_ATHRZ_PROCEDEF 
+    foreign key (PROC_DEF_ID_) 
+    references ACT_RE_PROCDEF(ID_);
     
 alter table ACT_RU_IDENTITYLINK
     add constraint ACT_FK_IDL_PROCINST
     foreign key (PROC_INST_ID_) 
     references ACT_RU_EXECUTION (ID_);       
-
+    
 alter table ACT_RU_TASK
     add constraint ACT_FK_TASK_EXE
     foreign key (EXECUTION_ID_)
-    references ACT_RU_EXECUTION;
-
+    references ACT_RU_EXECUTION (ID_);
+    
 alter table ACT_RU_TASK
     add constraint ACT_FK_TASK_PROCINST
     foreign key (PROC_INST_ID_)
-    references ACT_RU_EXECUTION;
-
+    references ACT_RU_EXECUTION (ID_);
+    
 alter table ACT_RU_TASK
-  add constraint ACT_FK_TASK_PROCDEF
-  foreign key (PROC_DEF_ID_)
-  references ACT_RE_PROCDEF;
-
-alter table ACT_RU_VARIABLE
-    add constraint ACT_FK_VAR_EXE
-    foreign key (EXECUTION_ID_)
-    references ACT_RU_EXECUTION;
+  	add constraint ACT_FK_TASK_PROCDEF
+  	foreign key (PROC_DEF_ID_)
+  	references ACT_RE_PROCDEF (ID_);
+  
+alter table ACT_RU_VARIABLE 
+    add constraint ACT_FK_VAR_EXE 
+    foreign key (EXECUTION_ID_) 
+    references ACT_RU_EXECUTION (ID_);
 
 alter table ACT_RU_VARIABLE
     add constraint ACT_FK_VAR_PROCINST
     foreign key (PROC_INST_ID_)
-    references ACT_RU_EXECUTION;
+    references ACT_RU_EXECUTION(ID_);
 
-alter table ACT_RU_VARIABLE
-    add constraint ACT_FK_VAR_BYTEARRAY
-    foreign key (BYTEARRAY_ID_)
-    references ACT_GE_BYTEARRAY;
+alter table ACT_RU_VARIABLE 
+    add constraint ACT_FK_VAR_BYTEARRAY 
+    foreign key (BYTEARRAY_ID_) 
+    references ACT_GE_BYTEARRAY (ID_);
 
-alter table ACT_RU_JOB
-    add constraint ACT_FK_JOB_EXCEPTION
-    foreign key (EXCEPTION_STACK_ID_)
-    references ACT_GE_BYTEARRAY;
+alter table ACT_RU_JOB 
+    add constraint ACT_FK_JOB_EXCEPTION 
+    foreign key (EXCEPTION_STACK_ID_) 
+    references ACT_GE_BYTEARRAY (ID_);
 
 alter table ACT_RU_EVENT_SUBSCR
     add constraint ACT_FK_EVENT_EXEC
     foreign key (EXECUTION_ID_)
-    references ACT_RU_EXECUTION;
-
+    references ACT_RU_EXECUTION(ID_);
+    
 alter table ACT_RE_MODEL 
     add constraint ACT_FK_MODEL_SOURCE 
     foreign key (EDITOR_SOURCE_VALUE_ID_) 
@@ -500,8 +502,8 @@ alter table ACT_RE_MODEL
 alter table ACT_RE_MODEL 
     add constraint ACT_FK_MODEL_DEPLOYMENT 
     foreign key (DEPLOYMENT_ID_) 
-    references ACT_RE_DEPLOYMENT (ID_);
-    
+    references ACT_RE_DEPLOYMENT (ID_);        
+
 alter table ACT_PROCDEF_INFO 
     add constraint ACT_FK_INFO_JSON_BA 
     foreign key (INFO_JSON_ID_) 
@@ -521,8 +523,8 @@ create table ACT_HI_PROCINST (
     PROC_INST_ID_ varchar(64) not null,
     BUSINESS_KEY_ varchar(255),
     PROC_DEF_ID_ varchar(64) not null,
-    START_TIME_ timestamp not null,
-    END_TIME_ timestamp,
+    START_TIME_ datetime(3) not null,
+    END_TIME_ datetime(3),
     DURATION_ bigint,
     START_USER_ID_ varchar(255),
     START_ACT_ID_ varchar(255),
@@ -533,7 +535,7 @@ create table ACT_HI_PROCINST (
     NAME_ varchar(255),
     primary key (ID_),
     unique (PROC_INST_ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_HI_ACTINST (
     ID_ varchar(64) not null,
@@ -546,12 +548,12 @@ create table ACT_HI_ACTINST (
     ACT_NAME_ varchar(255),
     ACT_TYPE_ varchar(255) not null,
     ASSIGNEE_ varchar(255),
-    START_TIME_ timestamp not null,
-    END_TIME_ timestamp,
+    START_TIME_ datetime(3) not null,
+    END_TIME_ datetime(3),
     DURATION_ bigint,
     TENANT_ID_ varchar(255) default '',
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_HI_TASKINST (
     ID_ varchar(64) not null,
@@ -564,18 +566,18 @@ create table ACT_HI_TASKINST (
     DESCRIPTION_ varchar(4000),
     OWNER_ varchar(255),
     ASSIGNEE_ varchar(255),
-    START_TIME_ timestamp not null,
-    CLAIM_TIME_ timestamp,
-    END_TIME_ timestamp,
+    START_TIME_ datetime(3) not null,
+    CLAIM_TIME_ datetime(3),
+    END_TIME_ datetime(3),
     DURATION_ bigint,
     DELETE_REASON_ varchar(4000),
     PRIORITY_ integer,
-    DUE_DATE_ timestamp,
+    DUE_DATE_ datetime(3),
     FORM_KEY_ varchar(255),
     CATEGORY_ varchar(255),
     TENANT_ID_ varchar(255) default '',
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_HI_VARINST (
     ID_ varchar(64) not null,
@@ -590,42 +592,42 @@ create table ACT_HI_VARINST (
     LONG_ bigint,
     TEXT_ varchar(4000),
     TEXT2_ varchar(4000),
-    CREATE_TIME_ timestamp,
-    LAST_UPDATED_TIME_ timestamp,
+    CREATE_TIME_ datetime(3),
+    LAST_UPDATED_TIME_ datetime(3),
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_HI_DETAIL (
     ID_ varchar(64) not null,
     TYPE_ varchar(255) not null,
-    TIME_ timestamp not null,
-    NAME_ varchar(255),
     PROC_INST_ID_ varchar(64),
     EXECUTION_ID_ varchar(64),
     TASK_ID_ varchar(64),
     ACT_INST_ID_ varchar(64),
+    NAME_ varchar(255) not null,
     VAR_TYPE_ varchar(255),
     REV_ integer,
+    TIME_ datetime(3) not null,
     BYTEARRAY_ID_ varchar(64),
     DOUBLE_ double,
     LONG_ bigint,
     TEXT_ varchar(4000),
     TEXT2_ varchar(4000),
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_HI_COMMENT (
     ID_ varchar(64) not null,
     TYPE_ varchar(255),
-    TIME_ timestamp not null,
+    TIME_ datetime(3) not null,
     USER_ID_ varchar(255),
     TASK_ID_ varchar(64),
     PROC_INST_ID_ varchar(64),
     ACTION_ varchar(255),
     MESSAGE_ varchar(4000),
-    FULL_MSG_ longvarbinary,
+    FULL_MSG_ LONGBLOB,
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_HI_ATTACHMENT (
     ID_ varchar(64) not null,
@@ -638,18 +640,20 @@ create table ACT_HI_ATTACHMENT (
     PROC_INST_ID_ varchar(64),
     URL_ varchar(4000),
     CONTENT_ID_ varchar(64),
-    TIME_ timestamp,
+    TIME_ datetime(3),
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+
 create table ACT_HI_IDENTITYLINK (
     ID_ varchar(64),
     GROUP_ID_ varchar(255),
     TYPE_ varchar(255),
     USER_ID_ varchar(255),
     TASK_ID_ varchar(64),
-    PROC_INST_ID_ varchar(64) null,
+    PROC_INST_ID_ varchar(64),
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
+
 
 create index ACT_IDX_HI_PRO_INST_END on ACT_HI_PROCINST(END_TIME_);
 create index ACT_IDX_HI_PRO_I_BUSKEY on ACT_HI_PROCINST(BUSINESS_KEY_);
@@ -664,13 +668,11 @@ create index ACT_IDX_HI_PROCVAR_PROC_INST on ACT_HI_VARINST(PROC_INST_ID_);
 create index ACT_IDX_HI_PROCVAR_NAME_TYPE on ACT_HI_VARINST(NAME_, VAR_TYPE_);
 create index ACT_IDX_HI_PROCVAR_TASK_ID on ACT_HI_VARINST(TASK_ID_);
 create index ACT_IDX_HI_ACT_INST_PROCINST on ACT_HI_ACTINST(PROC_INST_ID_, ACT_ID_);
+create index ACT_IDX_HI_ACT_INST_EXEC on ACT_HI_ACTINST(EXECUTION_ID_, ACT_ID_);
 create index ACT_IDX_HI_IDENT_LNK_USER on ACT_HI_IDENTITYLINK(USER_ID_);
 create index ACT_IDX_HI_IDENT_LNK_TASK on ACT_HI_IDENTITYLINK(TASK_ID_);
 create index ACT_IDX_HI_IDENT_LNK_PROCINST on ACT_HI_IDENTITYLINK(PROC_INST_ID_);
-
-create index ACT_IDX_HI_ACT_INST_EXEC on ACT_HI_ACTINST(EXECUTION_ID_, ACT_ID_);    
 create index ACT_IDX_HI_TASK_INST_PROCINST on ACT_HI_TASKINST(PROC_INST_ID_);
-
 
 create table ACT_ID_GROUP (
     ID_ varchar(64),
@@ -678,13 +680,13 @@ create table ACT_ID_GROUP (
     NAME_ varchar(255),
     TYPE_ varchar(255),
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_ID_MEMBERSHIP (
     USER_ID_ varchar(64),
     GROUP_ID_ varchar(64),
     primary key (USER_ID_, GROUP_ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_ID_USER (
     ID_ varchar(64),
@@ -695,7 +697,7 @@ create table ACT_ID_USER (
     PWD_ varchar(255),
     PICTURE_ID_ varchar(64),
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
 create table ACT_ID_INFO (
     ID_ varchar(64),
@@ -704,17 +706,17 @@ create table ACT_ID_INFO (
     TYPE_ varchar(64),
     KEY_ varchar(255),
     VALUE_ varchar(255),
-    PASSWORD_ longvarbinary,
+    PASSWORD_ LONGBLOB,
     PARENT_ID_ varchar(255),
     primary key (ID_)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
-alter table ACT_ID_MEMBERSHIP
-    add constraint ACT_FK_MEMB_GROUP
-    foreign key (GROUP_ID_)
-    references ACT_ID_GROUP;
+alter table ACT_ID_MEMBERSHIP 
+    add constraint ACT_FK_MEMB_GROUP 
+    foreign key (GROUP_ID_) 
+    references ACT_ID_GROUP (ID_);
 
-alter table ACT_ID_MEMBERSHIP
-    add constraint ACT_FK_MEMB_USER
-    foreign key (USER_ID_)
-    references ACT_ID_USER;
+alter table ACT_ID_MEMBERSHIP 
+    add constraint ACT_FK_MEMB_USER 
+    foreign key (USER_ID_) 
+    references ACT_ID_USER (ID_);

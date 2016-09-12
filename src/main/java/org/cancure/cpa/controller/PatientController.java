@@ -1,13 +1,14 @@
 package org.cancure.cpa.controller;
 
+import static org.cancure.cpa.common.Constants.PATIENT_REG_PROCESS_DEF_KEY;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.cancure.cpa.common.Constants.PATIENT_REG_PROCESS_DEF_KEY;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
-import org.cancure.cpa.persistence.entity.Patient;
 import org.cancure.cpa.persistence.entity.PatientDocument;
 import org.cancure.cpa.service.MyTasksService;
 import org.cancure.cpa.service.PatientDocumentService;
@@ -36,6 +37,9 @@ public class PatientController {
 		List<PatientDocument>document=new ArrayList<PatientDocument>();
 		List<PatientDocumentBean>documentBean=new ArrayList<PatientDocumentBean>();
 	    PatientBean bean = patientService.get(id);
+	    if (bean == null) {
+	    	return Collections.emptyList();
+	    }
 	    document=patientDocumentService.findByTaskId(bean.getTaskId());
 	    for(PatientDocument patientDocument:document){
 	        PatientDocumentBean patientDocumentBean=new PatientDocumentBean();
@@ -46,9 +50,7 @@ public class PatientController {
 	    Map<String, String> map=mytaskService.getNextTask(id.toString(), PATIENT_REG_PROCESS_DEF_KEY);
 	    String nextTask=map.get("nextTask");
 	    bean.setNextTask(nextTask);
-	    if (bean != null){
-	        list.add(bean);
-	    }
+	    list.add(bean);
 	    
 	    return list;
 	}

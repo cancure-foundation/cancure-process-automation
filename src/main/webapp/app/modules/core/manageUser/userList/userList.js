@@ -1,5 +1,5 @@
-core.controller("UserListController", ['$scope', 'Flash', 'apiService', 'appSettings', 'Loader',
-function ($scope, Flash, apiService, appSettings, Loader) {
+core.controller("UserListController", ['$scope', '$state', 'Flash', 'apiService', 'appSettings', 'Loader',
+function ($scope, $state, Flash, apiService, appSettings, Loader) {
         var vm = this;
         vm.userList = [];
 
@@ -27,5 +27,10 @@ function ($scope, Flash, apiService, appSettings, Loader) {
         }
         // init function, execution starts here
         init();
+        
+        vm.editUser = function(id){
+    		$scope.$parent.vm.currentNavItem  = "app.manageUser.createUser";
+    		$state.go('app.manageUser.createUser', { userId: id });
+    	}
 
 }]);

@@ -106,14 +106,35 @@ public class OAuth2ServerConfiguration {
 					.antMatchers("/tasks/history/**").authenticated()
 					.antMatchers("/tasks/**").authenticated()
 					
-					.antMatchers("/patient").authenticated()
+					.antMatchers("/patient/**").authenticated()
 					
-					.antMatchers("/patientregistration/patient/save").hasRole("PROGRAM_COORDINATOR")
-					.antMatchers("/patientregistration/patient/save").hasRole("HOSPITAL_POC")
+					.antMatchers("/hospital/save").hasRole("ADMIN")
+					.antMatchers("/hospital/list").authenticated()
+					.antMatchers("/hospital/**").authenticated()
+					
+					.antMatchers("/common/lovs/**").authenticated()
+					.antMatchers("/common/**").authenticated()
+					
+					.antMatchers("/doctor/save").hasRole("ADMIN")
+					.antMatchers("/doctor/list").authenticated()
+					.antMatchers("/doctor/delete/**").hasRole("ADMIN")
+					.antMatchers("/hospital/doctor/list/**").authenticated()
+					.antMatchers("/doctor/hpoclist").authenticated()
+					.antMatchers("/doctor/**").authenticated()
+					
+					.antMatchers("/files/**").permitAll()
+					
+					.antMatchers("/link/hpoc/hospital").hasRole("ADMIN")
+					.antMatchers("/list/hpoc/hospital/**").authenticated()
+					.antMatchers("/listAll/hpoc/hospital").authenticated()
+					
+					.antMatchers("/patientregistration/patient/save").hasAnyRole("PROGRAM_COORDINATOR", "HOSPITAL_POC")
 					.antMatchers("/patientregistration/preliminaryexamination/save").hasAnyRole("HOSPITAL_POC", "DOCTOR")
 					.antMatchers("/patientregistration/backgroundcheck/save").hasRole("PROGRAM_COORDINATOR")
 					.antMatchers("/patientregistration/mbdoctorrecommendation/save").hasAnyRole("HOSPITAL_POC", "DOCTOR")
 					.antMatchers("/patientregistration/secretaryrecommendation/save").hasRole("SECRETARY")
+					.antMatchers("/patientregistration/bgcheckclarification/save").hasRole("PROGRAM_COORDINATOR")
+					.antMatchers("/patientregistration/preliminaryexaminationclarification/save").hasAnyRole("HOSPITAL_POC", "DOCTOR")
 					.antMatchers("/patientregistration/executiveboardrecommendation/**").hasRole("EXECUTIVE_COMMITTEE")
 					.antMatchers("/patientregistration/patientidcard/**").hasRole("PROGRAM_COORDINATOR")
 					

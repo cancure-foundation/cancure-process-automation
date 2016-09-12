@@ -29,7 +29,7 @@
     <sequenceFlow id="flow3" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="usertask2" targetRef="usertask3"></sequenceFlow>
     <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask4" name="MB Doctor Approval" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+    <userTask id="usertask4" name="MB Doctor Approval" activiti:candidateGroups="ROLE_HOSPITAL_POC">
       <documentation>MB Doctors verifies the cost estimations and provides their input.</documentation>
       <extensionElements>
       	<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
