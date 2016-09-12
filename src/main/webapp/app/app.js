@@ -1,9 +1,9 @@
-var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'flash', 'ngCookies', 'loader', 'ngAnimate', 'ngMaterial', 'ngSanitize',
+var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'flash', 'ngCookies', 'loader', 'ngAnimate', 'ngMaterial', 'ngSanitize', 'ngIdle',
     //main modules
-    'login', 'core']);
+    'login', 'core' , 'errorPages']);
 
-app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider',
-            function ($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider) {
+app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', 'IdleProvider', 
+            function ($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, IdleProvider) {
 
     //IdleScreenList
     $stateProvider
@@ -22,7 +22,20 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpP
     
     // intercept all http request from the application
     $httpProvider.interceptors.push('httpInterceptor');
+    
+    IdleProvider.idle(5 * 60); // 5 minutes idle
 }]);
+
+app.run(function($rootScope, Idle, $state) {
+	  Idle.watch();
+	  $rootScope.$on('IdleStart', function() { 	
+		  var currentState = $state.current.url.replace('/','');
+		  if (currentState != 'login' && currentState != 'sessionExpired') {
+			  console.log("Session Expiry : " + new Date());
+			  $state.go('sessionExpired');
+		  }
+	  });
+});
 
 // directive to show pre-loading screen
 app.directive("mAppLoading",function( $animate ) {

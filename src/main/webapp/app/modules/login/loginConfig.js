@@ -1,4 +1,4 @@
-﻿var login = angular.module('login', ['ui.router', 'ngResource', 'ngAnimate']);
+﻿var login = angular.module('login', ['ui.router', 'ngResource', 'ngAnimate', 'ngIdle']);
 
 
 login.config(["$stateProvider", function ($stateProvider) {
