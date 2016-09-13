@@ -1,4 +1,5 @@
-app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', 'Loader', function ($http, $q,  $state, $cookies, appSettings, Flash, Loader) {
+app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', 'Loader', 
+                           function ($http, $q,  $state, $cookies, appSettings, Flash, Loader) {
 
 	/**
 	 * function to place http request

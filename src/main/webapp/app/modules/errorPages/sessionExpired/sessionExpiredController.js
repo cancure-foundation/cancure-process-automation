@@ -1,11 +1,11 @@
-errorPage.controller("sessionExpCtrl", ['$rootScope', '$scope', '$state', 'apiService',
+errorPage.controller("sessionExpCtrl", ['$rootScope', '$scope', '$state', 'apiService', 'Idle',
 
-    function ($rootScope, $scope, $state, apiService) {
-		var vm = this;		
-		var init = function (){
-			vm.expiryTime = new Date();
-			apiService.logoutAction('sessionExpired');
-		};
-		
-		init();
+                                        function ($rootScope, $scope, $state, apiService, Idle) {
+	var vm = this;		
+	var init = function (){			
+		vm.expiryTime = new Date();
+		apiService.logoutAction('sessionExpired');
+	};
+
+	init();
 }]);

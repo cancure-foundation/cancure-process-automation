@@ -1,4 +1,4 @@
-var errorPage = angular.module('errorPages', ['ui.router', 'ngResource', 'ngAnimate']);
+var errorPage = angular.module('errorPages', ['ui.router', 'ngResource', 'ngAnimate', 'ngIdle']);
 
 
 errorPage.config(["$stateProvider", function ($stateProvider) {

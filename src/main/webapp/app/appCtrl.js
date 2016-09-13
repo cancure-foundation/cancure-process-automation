@@ -5,7 +5,7 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 	/**
 	 * exection starts with the init function
 	 */
-	var init = function (){  
+	var init = function (){  			
 		if ($cookies.get('userName')) {
 			appSettings.loginUserName = $cookies.get('userName'); // sets the userName to app settings
 			appSettings.roles = JSON.parse($cookies.get('roles')); // sets the roles to app settings
