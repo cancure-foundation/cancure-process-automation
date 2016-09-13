@@ -1,4 +1,5 @@
-app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', 'Loader', function ($http, $q,  $state, $cookies, appSettings, Flash, Loader) {
+app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', 'Loader', 
+                           function ($http, $q,  $state, $cookies, appSettings, Flash, Loader) {
 
 	/**
 	 * function to place http request
@@ -47,7 +48,8 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 	/**
 	 * function to be called on logout
 	 */
-	var logoutAction = function (){
+	var logoutAction = function (redirectTo){
+		var to = redirectTo ? redirectTo : 'login';
 		serviceRequest({
 			URL: appSettings.requestURL.logout,
 			hideErrMsg : true
@@ -66,8 +68,9 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 			appSettings.access_token = undefined; // clears access_token
 			appSettings.loginUserName = undefined;  // clears loginUserName
 			appSettings.roles = undefined;  // clears roles
+			appSettings.rolesList = []; // clears role list 
 			delete $http.defaults.headers.common.Authorization;  // clears Authorization header
-			$state.go('login'); // route to the login page    		
+			$state.go(to); // route to the specified page    		
 		}
 	};
 

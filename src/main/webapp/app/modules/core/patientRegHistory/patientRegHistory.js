@@ -1,5 +1,5 @@
-core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', '$timeout',
-                                                function (Loader, $scope, $state, $stateParams, apiService, appSettings, $timeout) {
+core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', '$timeout', 'Flash',
+                                                function (Loader, $scope, $state, $stateParams, apiService, appSettings, $timeout, Flash) {
 
 	var vm = this;
 
@@ -9,8 +9,10 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 			URL: 'tasks/history/' + $stateParams.prn
 		}, function (response) {
 			vm.tasks = [];
+			
 			vm.nextTask = {
-					name : response.nextTask
+				name : response.nextTask,
+				roles : response.Owner
 			};
 			// iteration for first task
 			if (response.tasks[0]) {
@@ -74,7 +76,10 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 				});
 				vm.nextTask.description = currentTask.description;
 			}
-			//vm.tasks.pop();
+			
+			if (!vm.tasks[vm.tasks.length-1].endTime)
+				vm.tasks.pop();
+			
 			$timeout(function (){
 				vm.viewMorePtDetails();
 				Loader.destroy();
@@ -82,10 +87,21 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 		});
 	};
 	/**
-	 * 
+	 *  function to proceed to next task
 	 */
 	vm.nextAction = function() {
-		$state.go('app.patientRegNextAction', { prn: $stateParams.prn });
+		var hasAccess = false; // flag to indicate if access to next step is there
+		for (var i=0; i < appSettings.rolesList.length; i++){ // checks if access to next step is there
+			var role = appSettings.rolesList[i];
+			if (vm.nextTask.roles.indexOf(role) >= 0){
+				hasAccess = true;
+				break;
+			}
+		};
+		if (hasAccess)
+			$state.go('app.patientRegNextAction', { prn: $stateParams.prn });
+		else
+			Flash.create('danger', 'You do not have access to proceed.' , 'large-text');
 	};
 	/**
 	 *  function to set additional details section toggle collapse

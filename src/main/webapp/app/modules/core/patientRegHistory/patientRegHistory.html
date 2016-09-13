@@ -2,10 +2,6 @@
     <h1>
         Patient History
     </h1>
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Patient History</li>
-    </ol>
 </div>
 <!-- Main content -->
 <div class="content patientRegHistory">
@@ -169,47 +165,28 @@
                         </div>
                         <div class="timeline-body">
                           <div class="row">
-                                <div class="col-md-8 col-xs-12">
+                                <div class="col-xs-12">
                                     <div ng-hide="task.investigation" class="empty-text">No Investigation Comments available.</div>
                                     <table class="table table-bordered" ng-show="task.investigation">
                                         <thead>
                                             <tr>
-                                                <th class="col-md-3 col-xs-4">Investigator Name</th>
-                                                <th class="col-md-3 col-xs-4">Investigator Type</th>
-                                                <th class="col-md-2 col-xs-4">Investigation Date</th>
+                                                <th class="col-xs-3">Investigator Name</th>
+                                                <th class="col-xs-2">Investigator Type</th>
+                                                <th class="col-xs-2">Investigation Date</th>
+                                                <th class="col-xs-3">Comments</th>
+                                                <th class="col-xs-2">Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="col-md-3 col-xs-4">{{task.investigation.investigatorName}}</td>
-                                                <td class="col-md-3 col-xs-4">{{task.investigation.investigatorType}}</td>
-                                                <td class="col-md-2 col-xs-4">{{task.investigation.investigationDate}}</td>
+                                                <td class="col-xs-3">{{task.investigation.investigatorName}}</td>
+                                                <td class="col-xs-2">{{task.investigation.investigatorType}}</td>
+                                                <td class="col-xs-2">{{task.investigation.investigationDate}}</td>
+                                                <td class="col-xs-3">{{task.investigation.comments || "Not Available"}}</td>
+                                                <td class="col-xs-2">{{task.investigation.status || "Not Available"}}</td>
                                             </tr>
                                         </tbody>
-                                    </table>
-                                    <table class="table table-bordered" ng-show="task.investigation">
-                                        <thead>
-                                            <tr>
-                                                <th class="col-md-3 col-xs-4">Comments</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="col-md-3 col-xs-4">{{task.investigation.comments}}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <table class="table table-bordered" ng-if="task.investigation.status">
-                                        <tbody>
-                                            <tr>
-                                            	<td class="col-md-3 col-xs-4"><b>Status</b>
-                                                </td>
-                                                <td class="col-md-3 col-xs-4">{{task.investigation.status}}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>                                    
+                                    </table>                                   
                                 </div>
                             </div>
                             <div class="row">
