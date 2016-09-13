@@ -109,7 +109,7 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 				'		<td class="col-xs-4">'+ appSettings.loginUserName +'</td>'+
 				'		<td class="col-xs-4">'+
 				'      		<div ng-repeat="item in items">'+                        
-				'        			{{item.name}}'+                         
+				'        			{{item.displayName}}'+                         
 				'             </div>'+
 				'        </td>'+
 				'    </tr>'+

@@ -40,7 +40,7 @@
                     <md-input-container class=" md-block">
                         <div ng-repeat="role in roles">
                             <md-checkbox ng-checked="vm.exists(role.id);" ng-click="vm.roleSelection(role.id, vm.formData.roles)" checklist-value="role.id" style="display:block;margin-bottom: 18px;" ng-required="true">
-                                {{role.name}}
+                                {{role.displayName}}
                             </md-checkbox>
                         </div>
                     </md-input-container>
@@ -65,7 +65,7 @@
                         <td class="col-xs-4">
                             <div ng-repeat="role in roles">
                                 <div ng-repeat="selectedRole in vm.formData.roles">
-                                    <span ng-if="role.id == selectedRole.id"> {{role.name}} </span>
+                                    <span ng-if="role.id == selectedRole.id"> {{role.displayName}} </span>
                                 </div>
                             </div>
                         </td>

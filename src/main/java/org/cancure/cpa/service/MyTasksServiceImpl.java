@@ -234,6 +234,9 @@ public class MyTasksServiceImpl implements MyTasksService {
         case "Secretary":
             investigatorName = findInvestigator(investigatorId);
             break;
+        case "Executive Committee":
+            investigatorName = findInvestigator(investigatorId);
+            break;
         default:
             investigatorName = "n/a";
         }

@@ -3,6 +3,7 @@ package org.cancure.cpa.persistence.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,6 +28,9 @@ public class Role implements GrantedAuthority {
 	@NotEmpty
 	private String name;
 
+	@Column(name="display_name")
+	private String displayName;
+	
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
 	private Set<User> users = new HashSet<User>();
@@ -52,7 +56,15 @@ public class Role implements GrantedAuthority {
 		this.name = name;
 	}
 
-	public Set<User> getUsers() {
+	public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public Set<User> getUsers() {
 		return users;
 	}
 
