@@ -111,5 +111,7 @@ app.constant('appSettings', {
 		ROLE_HOSPITAL_POC : [0,5],
 		ROLE_DOCTOR : [0,5],
 		ROLE_PROGRAM_COORDINATOR : [0, 2, 5]
-	}
+	},
+	
+	rolesList : [] // stores all role names (authority)
 });

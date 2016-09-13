@@ -68,6 +68,7 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 			appSettings.access_token = undefined; // clears access_token
 			appSettings.loginUserName = undefined;  // clears loginUserName
 			appSettings.roles = undefined;  // clears roles
+			appSettings.rolesList = []; // clears role list 
 			delete $http.defaults.headers.common.Authorization;  // clears Authorization header
 			$state.go(to); // route to the specified page    		
 		}

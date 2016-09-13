@@ -46,10 +46,11 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 		//available layouts
 		vm.layouts = appSettings.layoutList;
 
-		var accessList = []; 
+		var accessList = [];
 		// to get page access list based on user roles
 		angular.forEach(appSettings.roles, function (v, k) {
-			angular.forEach(appSettings.pageAccess[v.name], function (val, key) {				
+			appSettings.rolesList.push(v.authority); // to store list of role names (authority)
+			angular.forEach(appSettings.pageAccess[v.authority], function (val, key) {				
 				if (accessList.indexOf(val) == -1)
 					accessList.push(val);
 			});
