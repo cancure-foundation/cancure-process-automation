@@ -101,13 +101,19 @@ app.constant('appSettings', {
 		icon: "search",
 		state: "searchPatient",
 		pageId : 5
+	},
+	{
+		title: "Settings",
+		icon: "search",
+		state: "settingsList",
+		pageId : 6
 	}],
 	
 	pageAccess : {
 		ROLE_GUEST : [0,5],
 		ROLE_SECRETARY : [0, 5],
 		ROLE_EXECUTIVE_COMMITTEE : [0,5],
-		ROLE_ADMIN : [0, 1, 3, 4, 5],
+		ROLE_ADMIN : [0, 1, 3, 4, 5, 6],
 		ROLE_HOSPITAL_POC : [0,5],
 		ROLE_DOCTOR : [0,5],
 		ROLE_PROGRAM_COORDINATOR : [0, 2, 5]

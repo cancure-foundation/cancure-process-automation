@@ -97,6 +97,13 @@ insert into OAUTH_CLIENT_DETAILS values('cancureapp', 'restservice', 'cancure123
 insert into user_role (user_id, role_id) values (1, 1);
 insert into user_role (user_id, role_id) values (2, 1);
 
+insert into settings values (1, 'ID Card Title', 'CANCURE Foundation');
+insert into settings values (2, 'ID Card Address Line 1', 'Regd. Office: 60/3285, Benrub, P. K. Devoor Road,');
+insert into settings values (3, 'ID Card Address Line 2', 'Perumanoor, Cochin -15');
+insert into settings values (4, 'ID Card Phone Numbers', '7025 00 33 33, 9846 031 667');
+insert into settings values (5, 'ID Card website', 'www.cancure.in');
+insert into settings values (6, 'ID Card Email', 'info@cancure.in');
+
 
 insert into ACT_GE_PROPERTY
 values ('schema.version', '5.20.0.1', 1);
