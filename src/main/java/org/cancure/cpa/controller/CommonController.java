@@ -5,9 +5,11 @@ import java.util.Map;
 
 import org.cancure.cpa.persistence.entity.InvestigatorType;
 import org.cancure.cpa.persistence.entity.ListOfValues;
+import org.cancure.cpa.persistence.entity.Settings;
 import org.cancure.cpa.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,5 +37,20 @@ public class CommonController {
 			map.put(name, commonService.getListOfValues(name));
 		}
 		return map;
+	}
+	
+	@RequestMapping("/common/settings/{id}")
+	public Settings getSetting(@PathVariable("id") Integer id){
+		return commonService.findSettingsById(id);
+	}
+	
+	@RequestMapping("/common/settings/save")
+	public Settings saveSetting(@RequestBody Settings setting){
+		return commonService.saveSetting(setting);
+	}
+	
+	@RequestMapping("/common/settings")
+	public Iterable<Settings> getAllSettings(){
+		return commonService.findAllSettings();
 	}
 }

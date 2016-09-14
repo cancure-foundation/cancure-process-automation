@@ -1,0 +1,26 @@
+<section class="content-header">
+    <h1>           
+        Settings
+    </h1>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info" ng-show="settingsList.length > 0">
+                <table class="table">
+                
+                    <th class="col-xs-2">Name</th>
+                    <th class="col-xs-1">Value</th>
+                    <tr class="" ng-repeat="sett in settingsList">
+                        <td class="col-xs-2">{{sett.displayName}}</td>
+                        <td class="col-xs-1">{{sett.value}}</td>
+                        <td class="col-xs-1"  ng-click="vm.editSettings(sett.id)" style="color: #3c8dbc;">Edit</td>
+                    </tr>
+                    
+                </table>
+            </div>
+            <div class="warningText" ng-hide="settingsList.length > 0"> No settings found</div>
+        </div>
+    </div>
+</section>

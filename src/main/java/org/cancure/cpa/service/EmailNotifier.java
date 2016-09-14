@@ -7,6 +7,7 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.util.ApplicationContextProvider;
+import org.cancure.cpa.util.Log;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 
@@ -16,6 +17,7 @@ public class EmailNotifier implements Notifier {
 	public void notify(Set<User> userSet, String message) {
 		
 		if (userSet == null || userSet.isEmpty()){
+			Log.getLogger().warn("User set is empty. No one to email or SMS.");
 			return;
 		}
 		
@@ -47,6 +49,7 @@ public class EmailNotifier implements Notifier {
 			
 			email.send();
 		} catch (EmailException e) {
+			Log.getLogger().error(e);
 			throw new ActivitiException("Could not send e-mail:" + e.getMessage(), e);
 		}
 	}
