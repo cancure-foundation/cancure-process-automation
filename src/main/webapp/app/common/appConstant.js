@@ -17,6 +17,7 @@ app.constant('appSettings', {
 		hospitalList : 'hospital/list', // to fetch hospital list
 		hpocList : 'user/hpoc', // to fetch hpoc list
 		hpocMapping : 'link/hpoc/hospital', // to map hpoc with hospital
+		hospitalHpoc : 'listAll/hpoc/hospital', //list all hospital and hpoc
 		myQueue : 'tasks/my', // to fetch tasks in myQueue
 		logout : 'logout' // logout service
 	},
