@@ -201,6 +201,12 @@ create table patient_investigation (
  	value varchar(100)
  );
  
+ create table settings (
+ 	id number(10) primary key auto_increment,
+ 	display_name varchar(100),
+ 	value varchar(500)
+ );
+ 
  create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),

@@ -202,6 +202,12 @@ create table patient_document (
  	value varchar(100)
  );
  
+create table settings (
+ 	id int(10) primary key auto_increment,
+ 	display_name varchar(100),
+ 	value varchar(500)
+ );
+ 
  
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
