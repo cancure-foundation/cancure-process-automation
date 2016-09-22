@@ -10,6 +10,7 @@
         	Map New HPOC
         </span>
     </div>
+    {{vm.hpocListValue}}
     <div class="panel panel-info">
         <form data-ng-submit="vm.submitForm();" style="padding: 15px;">
             <div class="row">
@@ -48,12 +49,12 @@
     </div>
     <div class="panel panel-info" ng-show="vm.hospitalHpocList.Hospitals.length > 0">
         <table class="table">
-            <th class="col-xs-3">Hospital Name</th>
-            <th class="col-xs-3">Hpoc List</th>
-            <th class="col-xs-3"></th>
+            <th class="col-xs-5">Hospital Name</th>
+            <th class="col-xs-5">Hpoc List</th>
+            <th class="col-xs-2">Action</th>
             <tr class="" ng-repeat="hos in vm.hospitalHpocList.Hospitals">
-                <td class="col-xs-3">{{hos.name}}</td>
-                <td class="col-xs-3">
+                <td class="col-xs-5">{{hos.name}}</td>
+                <td class="col-xs-5">
                     <div ng-repeat="hpoc in vm.hospitalHpocList.HospitalMappings[hos.hospitalId]">
                         {{hpoc.name}}
                     </div>

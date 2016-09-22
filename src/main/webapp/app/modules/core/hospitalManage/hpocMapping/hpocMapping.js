@@ -4,7 +4,7 @@ core.controller("HpocMappingController", ['$q', '$timeout', '$scope', '$state', 
 
 	var init = function () {
 		Loader.create('Fetching Data. Please wait');
-
+		
 		var hospitalList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hospitalList}); // for hosptial list
 		var hpocList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hpocList}); // for HPOC list
 		var hpocMappedList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hospitalHpoc}); // for getting already mapped data
@@ -15,7 +15,7 @@ core.controller("HpocMappingController", ['$q', '$timeout', '$scope', '$state', 
 			vm.hospitalHpocList = success[2];
 			
 			$timeout(function (){
-				$('#hpocMapping-panel-expandable').slideToggle();
+				$('#hpocMapping-panel-expandable').slideToggle(); // toggles the expandable panel
 				Loader.destroy();				
 			});
 		});
@@ -43,16 +43,15 @@ core.controller("HpocMappingController", ['$q', '$timeout', '$scope', '$state', 
 			delete vm.hospitalListValue;
 			vm.hpocListValue = [];
 			Flash.create('success', 'Mapping Successful.', 'large-text');   
+			init();
+			vm.panelExpanded = false;
 		});
 	}
 	/**
-	 * 
+	 * toggles the expandable panel
 	 */
 	vm.togglePanel = function (){
-		if(vm.panelExpanded)
-			vm.panelExpanded = false;
-		else
-			vm.panelExpanded = true;
+		vm.panelExpanded = !vm.panelExpanded;
 		$('#hpocMapping-panel-expandable').slideToggle();
 	};
 	

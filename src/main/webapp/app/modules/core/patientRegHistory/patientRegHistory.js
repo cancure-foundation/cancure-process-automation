@@ -107,10 +107,7 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 	 *  function to set additional details section toggle collapse
 	 */
 	vm.viewMorePtDetails = function (){
-		if(vm.isExpandedInfo)
-			vm.isExpandedInfo = false;
-		else
-			vm.isExpandedInfo = true;
+		vm.isExpandedInfo = !vm.isExpandedInfo;
 		$('#patientInfo-expandable').slideToggle();
 	};
 
