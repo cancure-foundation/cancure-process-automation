@@ -5,18 +5,24 @@ core.controller("HpocMappingController", ['$q', '$timeout', '$scope', '$state', 
 	var init = function () {
 		Loader.create('Fetching Data. Please wait');
 
-		var hospitalList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hospitalList});
-		var hpocList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hpocList});
+		var hospitalList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hospitalList}); // for hosptial list
+		var hpocList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hpocList}); // for HPOC list
+		var hpocMappedList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hospitalHpoc}); // for getting already mapped data
 
-		$q.all([hospitalList, hpocList]).then(function (success){
+		$q.all([hospitalList, hpocList, hpocMappedList]).then(function (success){
 			vm.hospitalList = success[0];
 			vm.hpocList = success[1];
+			vm.hospitalHpocList = success[2];
+			
 			$timeout(function (){
+				$('#hpocMapping-panel-expandable').slideToggle();
 				Loader.destroy();				
 			});
 		});
 	};   
-
+	/**
+	 * 
+	 */
 	vm.submitForm = function (){
 		if(!vm.hospitalListValue || !vm.hpocListValue || vm.hpocListValue.length == 0) {
 			Flash.create('warning', 'Please select all options to procees.', 'large-text');   
@@ -39,5 +45,16 @@ core.controller("HpocMappingController", ['$q', '$timeout', '$scope', '$state', 
 			Flash.create('success', 'Mapping Successful.', 'large-text');   
 		});
 	}
+	/**
+	 * 
+	 */
+	vm.togglePanel = function (){
+		if(vm.panelExpanded)
+			vm.panelExpanded = false;
+		else
+			vm.panelExpanded = true;
+		$('#hpocMapping-panel-expandable').slideToggle();
+	};
+	
 	init();
 }]);
