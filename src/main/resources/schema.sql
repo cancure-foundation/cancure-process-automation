@@ -95,7 +95,7 @@ create table user_role (
  );
  
  create table hpoc_hospital (
-    hpoc_id number(10),
+    hpoc_id number(10) primary key,
     hospital_id number(10),
     unique (hpoc_id, hospital_id)
  );

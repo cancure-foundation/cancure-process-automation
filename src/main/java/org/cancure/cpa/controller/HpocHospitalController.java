@@ -31,13 +31,22 @@ public class HpocHospitalController {
 	@Autowired
 	private HospitalService hospitalService;
 
-    @RequestMapping(value = "/link/hpoc/hospital", method=RequestMethod.POST)
+    @RequestMapping(value = "/link/hpoc/hospital", method = RequestMethod.POST)
     public HpocHospital linkHpocHospital(@RequestBody HpocHospitalBean hpocHospitalBean) {
         HpocHospital hpocHospital = new HpocHospital();
-        for (Integer hpocId : hpocHospitalBean.getHpocIdList()) {
-            hpocHospital.setHospitalId(hpocHospitalBean.getHospitalId());
-            hpocHospital.setHpocId(hpocId);
-            hpocHospitalService.saveHpocHospital(hpocHospital);
+        List<Integer> hpocIdList = hpocHospitalBean.getHpocIdList();
+        for(Integer hpocId:hpocIdList){
+            if (hpocHospitalService.getHospitalFromHpoc(hpocId) != null) {
+
+                    throw new RuntimeException("HPOC already mapped");
+                
+            } else {
+               
+                    hpocHospital.setHospitalId(hpocHospitalBean.getHospitalId());
+                    hpocHospital.setHpocId(hpocId);
+                    hpocHospitalService.saveHpocHospital(hpocHospital);
+
+            }
         }
         return hpocHospital;
     }
