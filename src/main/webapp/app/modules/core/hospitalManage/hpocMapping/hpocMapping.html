@@ -3,21 +3,17 @@
         <h1 style="display: inline;line-height: normal;">           
         	HPOC Mapping
     	</h1>
-        <span ng-click="vm.togglePanel()" style="outline:none; float: right; padding: 5px; color:#fff; background-color: #f90000; border-radius: 8px; cursor:pointer; font-weight: 600;"> 
+        <span ng-click="vm.togglePanel('close')" style="margin-bottom: 15px !important; display: inline-block; outline:none; float: right; padding: 5px; color:#fff; background-color: #f90000; border-radius: 8px; cursor:pointer; font-weight: 600;"> 
         	Close Panel
         </span>
-        <span ng-click="vm.togglePanel()" style="margin-bottom: 15px !important; display: inline-block; outline:none; float: right; padding: 5px; margin-right: 8px;  color:#fff; background-color: #309c3d; border-radius: 8px; cursor:pointer; font-weight: 600;"> 
-        	Map New HPOC
-        </span>
     </div>
-    {{vm.hpocListValue}}
     <div class="panel panel-info">
         <form data-ng-submit="vm.submitForm();" style="padding: 15px;">
             <div class="row">
                 <div class="col-md-4 col-sm-12">
                     <md-content class="autoScroll" style="overflow:hidden;background:#fff;">
                         <md-input-container class="md-icon-float md-block">
-                            <md-select data-ng-model="vm.hospitalListValue" placeholder="Select a Hospital">
+                            <md-select data-ng-model="vm.hospitalListValue" placeholder="Select a Hospital" ng-disabled="vm.editMode">
                                 <md-option ng-value="opt.hospitalId" ng-repeat="opt in vm.hospitalList" ng-required="true">{{ opt.name }}</md-option>
                             </md-select>
                         </md-input-container>
@@ -60,7 +56,7 @@
                     </div>
                 </td>
                 <td>
-                    Edit
+                    <span ng-click="vm.editHpoc({hospital:hos, hpocList:vm.hospitalHpocList.HospitalMappings[hos.hospitalId]});" style="color: #72afd2; outline:none;"> Edit </span>
                 </td>
             </tr>
 
