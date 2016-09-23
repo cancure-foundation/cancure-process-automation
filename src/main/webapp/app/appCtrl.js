@@ -139,7 +139,24 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 	 */
 	vm.logout = function (){
 		apiService.logoutAction();
-	}   
+	} 
+	/**
+	 *  set the active class for side-menu items
+	 */
+	vm.menuActive = function (pageId){
+		var pageList = {
+				0 : ['app.home'],
+				1 : ['app.manageUser.createUser', 'app.manageUser.userList'],
+				2 : ['app.patientRegistration'],
+				3 : ['app.hospital.hospitalList', 'app.hospital.hospitalCreate', 'app.hospital.hpocMapping'],
+				4 : ['app.doctor.doctorList', 'app.doctor.doctorCreate'],
+				5 : ['app.searchPatient'],
+				6 : ['app.settingsList']
+		}, currentState = $state.current.name;
+
+		if (pageList[pageId] && pageList[pageId].indexOf(currentState) >= 0) 
+			return 'active';		
+	}
 
 	init(); //exection starts with the init function
 }]);

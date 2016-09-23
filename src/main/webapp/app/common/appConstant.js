@@ -105,7 +105,7 @@ app.constant('appSettings', {
 	},
 	{
 		title: "Settings",
-		icon: "search",
+		icon: "gears",
 		state: "settingsList",
 		pageId : 6
 	}],

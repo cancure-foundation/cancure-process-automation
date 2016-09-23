@@ -1,17 +1,19 @@
-<div class="content-header">
-    <h1>           
-        HPOC Mapping
-    </h1>
-</div>
-<!-- Main content -->
-<div class="content">
+<div id="hpocMapping-panel-expandable" class="content" style="padding-bottom: 0px;">
+    <div class="content-header clearfix" style="padding-left: 0px;">
+        <h1 style="display: inline;line-height: normal;">           
+        	HPOC Mapping
+    	</h1>
+        <span ng-click="vm.togglePanel('close')" style="margin-bottom: 15px !important; display: inline-block; outline:none; float: right; padding: 5px; color:#fff; background-color: #f90000; border-radius: 8px; cursor:pointer; font-weight: 600;"> 
+        	Close Panel
+        </span>
+    </div>
     <div class="panel panel-info">
         <form data-ng-submit="vm.submitForm();" style="padding: 15px;">
             <div class="row">
                 <div class="col-md-4 col-sm-12">
                     <md-content class="autoScroll" style="overflow:hidden;background:#fff;">
                         <md-input-container class="md-icon-float md-block">
-                            <md-select data-ng-model="vm.hospitalListValue" placeholder="Select a Hospital">
+                            <md-select data-ng-model="vm.hospitalListValue" placeholder="Select a Hospital" ng-disabled="vm.editMode">
                                 <md-option ng-value="opt.hospitalId" ng-repeat="opt in vm.hospitalList" ng-required="true">{{ opt.name }}</md-option>
                             </md-select>
                         </md-input-container>
@@ -31,4 +33,34 @@
             <md-button class="md-raised" type="submit">Map HPOC</md-button>
         </form>
     </div>
+</div>
+<div class="content">
+    <div class="content-header clearfix" style="padding-left: 0px;padding-bottom: 15px;padding-top: 0px;">
+        <h1 style="display: inline;line-height: normal;">           
+        	HPOC Listing
+    	</h1>
+        <span ng-hide="vm.panelExpanded" ng-click="vm.togglePanel()" style="outline:none; float: right; padding: 5px; color:#fff; background-color: #309c3d; border-radius: 8px; cursor:pointer; font-weight: 600;">
+        	Map New HPOC
+        </span>
+    </div>
+    <div class="panel panel-info" ng-show="vm.hospitalHpocList.Hospitals.length > 0">
+        <table class="table">
+            <th class="col-xs-5">Hospital Name</th>
+            <th class="col-xs-5">Hpoc List</th>
+            <th class="col-xs-2">Action</th>
+            <tr class="" ng-repeat="hos in vm.hospitalHpocList.Hospitals">
+                <td class="col-xs-5">{{hos.name}}</td>
+                <td class="col-xs-5">
+                    <div ng-repeat="hpoc in vm.hospitalHpocList.HospitalMappings[hos.hospitalId]">
+                        {{hpoc.name}}
+                    </div>
+                </td>
+                <td>
+                    <span ng-click="vm.editHpoc({hospital:hos, hpocList:vm.hospitalHpocList.HospitalMappings[hos.hospitalId]});" style="color: #72afd2; outline:none;"> Edit </span>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+    <div ng-hide="vm.hospitalHpocList.Hospitals.length > 0"> HPOC list is Empty.</div>
 </div>
