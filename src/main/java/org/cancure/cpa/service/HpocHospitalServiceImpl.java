@@ -43,4 +43,14 @@ public class HpocHospitalServiceImpl implements HpocHospitalService {
         return hpocHospitalRepo.findByHpocId(hpocId);
     }
 
+    @Override
+    public void deleteHpocHospital(Integer hospitalId) {
+          
+        List<UserBean> userBeans=getHpocUsersFromHospital(hospitalId);
+        for(UserBean user:userBeans){
+            hpocHospitalRepo.delete(user.getId());
+        }
+        
+    }
+
 }
