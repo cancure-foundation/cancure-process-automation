@@ -154,10 +154,12 @@ public class MyTasksServiceImpl implements MyTasksService {
 				parentMap.put("Owner", roleNames);
 			}
 		}
-		
-		if (nextTask != null) {
-			parentMap.put("nextTask", nextTask);
-		}
+
+        if (nextTask != null) {
+            parentMap.put("nextTask", nextTask);
+        } else {
+            parentMap.put("nextTask", "Rejected");
+        }
 		parentMap.put("tasks", taskList);
 		return parentMap;
 	}
