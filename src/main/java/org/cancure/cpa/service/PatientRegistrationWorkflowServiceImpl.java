@@ -58,9 +58,9 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
 		if (prelimExamHospitalId != null) {
 			List<UserBean> hpocUsers = hpocHospitalService.getHpocUsersFromHospital(prelimExamHospitalId);
 			if (hpocUsers != null && !hpocUsers.isEmpty()) {
-				List<String> hpocEmailIds = hpocUsers.stream().map(x -> x.getEmail()).collect(Collectors.toList());
-				String csvEmails = StringUtils.join(hpocEmailIds, ',');
-				patRegMap.put("assignee", csvEmails);
+				List<Integer> hpocIds = hpocUsers.stream().map(x -> x.getId()).collect(Collectors.toList());
+				String csvIds = StringUtils.join(hpocIds, ',');
+				patRegMap.put("assignee", csvIds);
 			}
 		}
         
