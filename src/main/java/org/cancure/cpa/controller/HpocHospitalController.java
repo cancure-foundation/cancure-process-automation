@@ -35,16 +35,23 @@ public class HpocHospitalController {
     public HpocHospital linkHpocHospital(@RequestBody HpocHospitalBean hpocHospitalBean) {
         HpocHospital hpocHospital = new HpocHospital();
         List<Integer> hpocIdList = hpocHospitalBean.getHpocIdList();
+        int count=0;
         for(Integer hpocId:hpocIdList){
-            if (hpocHospitalService.getHospitalFromHpoc(hpocId) != null) {
+            if (hpocHospitalService.getHospitalFromHpoc(hpocId) == null || hpocHospitalService.getHospitalFromHpoc(hpocId).getHospitalId()==hpocHospitalBean.getHospitalId()) {
 
-                    throw new RuntimeException("HPOC already mapped");
+                if(count==0 && hpocHospitalBean.isStatus()){
+                    hpocHospitalService.deleteHpocHospital(hpocHospitalBean.getHospitalId());
+                    count++;
+                }
+                
+                hpocHospital.setHospitalId(hpocHospitalBean.getHospitalId());
+                hpocHospital.setHpocId(hpocId);
+                hpocHospitalService.saveHpocHospital(hpocHospital);
                 
             } else {
                
-                    hpocHospital.setHospitalId(hpocHospitalBean.getHospitalId());
-                    hpocHospital.setHpocId(hpocId);
-                    hpocHospitalService.saveHpocHospital(hpocHospital);
+                throw new RuntimeException("HPOC already mapped");
+                    
 
             }
         }

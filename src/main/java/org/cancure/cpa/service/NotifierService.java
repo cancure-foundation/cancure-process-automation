@@ -3,6 +3,7 @@ package org.cancure.cpa.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.activiti.engine.delegate.DelegateTask;
@@ -38,26 +39,45 @@ public class NotifierService implements TaskListener {
 		String assignee = task.getAssignee();
 		List<IdentityLinkEntity> identityLinks = task.getIdentityLinks();
 
-		// If present, mail only assignee.
-		Object var = task.getVariable("assignee");
-		
-		StringBuffer message = new StringBuffer("");
-		message.append("You have a new assigned task. <br/><br/>");
-		message.append(task.getName());
+		//Map localVar = task.getTaskLocalVariables();
+		//Map instVars = task.getActivityInstanceVariables();
+		//Map procVars = task.getProcessVariables();
+		//List qvars = task.getQueryVariables();
+		Map vars = task.getVariables();
 		
 		Set<User> userSet = new HashSet<>();
 		
-		for (IdentityLinkEntity link : identityLinks) {
-			if (link.getType().equals(IdentityLinkType.CANDIDATE)) {
-				
-				if (link.isGroup()) {
-					String role = link.getGroupId();
-					Iterable<User> userList = userRepository.findByUserRole(role);
-					userList.forEach( x -> userSet.add(x));
+		// If present, mail only assignee.
+		Object var = task.getVariable("assignee");
+		if (var != null){
+			
+			String assignees = var.toString();
+			String[] assigneesCsv = assignees.split(",");
+			for (String id : assigneesCsv){
+				userSet.add(userRepository.findOne(Integer.parseInt(id)));
+			}
+			
+		} else {
+			for (IdentityLinkEntity link : identityLinks) {
+				if (link.getType().equals(IdentityLinkType.CANDIDATE)) {
+					
+					if (link.isGroup()) {
+						String role = link.getGroupId();
+						Iterable<User> userList = userRepository.findByUserRole(role);
+						userList.forEach( x -> userSet.add(x));
+					}
+					
 				}
-				
 			}
 		}
+		
+		String patName = (String)vars.get("patientName");
+		Integer prn = (Integer)vars.get("prn");
+		StringBuffer message = new StringBuffer("");
+		message.append("Hi, <br>A task has been assigned to you. <br>Patient Name : " + patName + 
+				"<br>PRN : " + prn + "<br>Task to do : " + task.getName() + 
+				"<br>Thanks, <br/>Cancure");
+		message.append(task.getName());
 		
 		sendNotification(userSet, message.toString());
 	}

@@ -12,4 +12,6 @@ public interface HpocHospitalService {
     HpocHospital getHospitalFromHpoc(Integer hpocId);
 
 	List<UserBean> getHpocUsersFromHospital(Integer hospitalId);
+
+    void deleteHpocHospital(Integer hospitalId);
 }
