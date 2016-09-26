@@ -10,15 +10,13 @@
       <documentation>Doctor conducts preliminary examination and provides reports. 
     		HPOC estimates the treatment costs.</documentation>
       <extensionElements>
-      	<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
-      	</activiti:taskListener>
+        <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <userTask id="usertask3" name="Background Check" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
       <documentation>PC performs background check on the patient.</documentation>
       <extensionElements>
-      	<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
-      	</activiti:taskListener>
+        <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
@@ -32,8 +30,7 @@
     <userTask id="usertask4" name="MB Doctor Approval" activiti:candidateGroups="ROLE_HOSPITAL_POC">
       <documentation>MB Doctors verifies the cost estimations and provides their input.</documentation>
       <extensionElements>
-      	<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
-      	</activiti:taskListener>
+        <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="usertask4">
@@ -42,8 +39,7 @@
     <userTask id="usertask5" name="Secretary Approval" activiti:candidateGroups="ROLE_SECRETARY">
       <documentation>Secretary verifies the patient's details.</documentation>
       <extensionElements>
-      	<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
-      	</activiti:taskListener>
+        <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
@@ -55,8 +51,7 @@
     <userTask id="usertask6" name="EC Approval" activiti:candidateGroups="ROLE_EXECUTIVE_COMMITTEE">
       <documentation>Executive Committee verifies the patient's details and approves or rejects Cancure help.</documentation>
       <extensionElements>
-      	<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
-      	</activiti:taskListener>
+        <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow11" sourceRef="exclusivegateway2" targetRef="usertask6">
@@ -65,9 +60,8 @@
     <userTask id="usertask7" name="Patient ID Card Generation" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
       <documentation>Cancure approves patient's registration and patient's ID card is generated.
     		Partners are notified.</documentation>
-    	<extensionElements>
-      		<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
-      		</activiti:taskListener>
+      <extensionElements>
+        <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow12" sourceRef="exclusivegateway2" targetRef="usertask7">
@@ -113,9 +107,8 @@
     </boundaryEvent>
     <sequenceFlow id="flow38" sourceRef="boundarytimer2" targetRef="servicetask2"></sequenceFlow>
     <userTask id="usertask8" name="Background Clarification" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
-    	<extensionElements>
-      		<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
-      		</activiti:taskListener>
+      <extensionElements>
+        <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow39" sourceRef="exclusivegateway2" targetRef="usertask8">
@@ -127,8 +120,7 @@
     <userTask id="usertask9" name="Preliminary Examination Clarification" activiti:candidateGroups="ROLE_HOSPITAL_POC">
       <documentation>Preliminary examination to be revisited by the Hospital POC</documentation>
       <extensionElements>
-      		<activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService">
-      		</activiti:taskListener>
+        <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow43" sourceRef="exclusivegateway2" targetRef="usertask9">
@@ -137,6 +129,35 @@
     <sequenceFlow id="flow44" sourceRef="servicetask6" targetRef="usertask4"></sequenceFlow>
     <serviceTask id="servicetask6" name="Reset Doctor Approval variables" activiti:expression="#{execution.setVariable(&quot;docListCleared&quot;,patientRegistrationService.resetDocApprovalData(prn))}"></serviceTask>
     <sequenceFlow id="flow45" sourceRef="usertask9" targetRef="servicetask6"></sequenceFlow>
+    <serviceTask id="servicetask7" name="Reminders" activiti:expression="#{patientRegistrationService.reminderTask(prn)}"></serviceTask>
+    <boundaryEvent id="boundarytimer3" name="Timer" attachedToRef="usertask3" cancelActivity="false">
+      <timerEventDefinition></timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow46" sourceRef="boundarytimer3" targetRef="servicetask7"></sequenceFlow>
+    <boundaryEvent id="boundarytimer4" name="Timer" attachedToRef="usertask4" cancelActivity="false">
+      <timerEventDefinition></timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow47" sourceRef="boundarytimer4" targetRef="servicetask7"></sequenceFlow>
+    <boundaryEvent id="boundarytimer5" name="Timer" attachedToRef="usertask5" cancelActivity="false">
+      <timerEventDefinition></timerEventDefinition>
+    </boundaryEvent>
+    <boundaryEvent id="boundarytimer6" name="Timer" attachedToRef="usertask6" cancelActivity="false">
+      <timerEventDefinition></timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow48" sourceRef="boundarytimer5" targetRef="servicetask7"></sequenceFlow>
+    <boundaryEvent id="boundarytimer7" name="Timer" attachedToRef="usertask9" cancelActivity="false">
+      <timerEventDefinition></timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow49" sourceRef="boundarytimer7" targetRef="servicetask7"></sequenceFlow>
+    <boundaryEvent id="boundarytimer8" name="Timer" attachedToRef="usertask7" cancelActivity="false">
+      <timerEventDefinition></timerEventDefinition>
+    </boundaryEvent>
+    <boundaryEvent id="boundarytimer9" name="Timer" attachedToRef="usertask2" cancelActivity="false">
+      <timerEventDefinition></timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow52" sourceRef="boundarytimer9" targetRef="servicetask7"></sequenceFlow>
+    <sequenceFlow id="flow53" sourceRef="boundarytimer6" targetRef="servicetask7"></sequenceFlow>
+    <sequenceFlow id="flow54" sourceRef="boundarytimer8" targetRef="servicetask7"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_patientRegn">
     <bpmndi:BPMNPlane bpmnElement="patientRegn" id="BPMNPlane_patientRegn">
@@ -149,11 +170,17 @@
       <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
         <omgdc:Bounds height="55.0" width="105.0" x="288.0" y="60.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer9" id="BPMNShape_boundarytimer9">
+        <omgdc:Bounds height="30.0" width="30.0" x="370.0" y="41.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
         <omgdc:Bounds height="55.0" width="105.0" x="705.0" y="60.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
         <omgdc:Bounds height="30.0" width="30.0" x="694.0" y="100.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer3" id="BPMNShape_boundarytimer3">
+        <omgdc:Bounds height="30.0" width="30.0" x="777.0" y="100.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
         <omgdc:Bounds height="40.0" width="40.0" x="737.0" y="147.0"></omgdc:Bounds>
@@ -161,8 +188,14 @@
       <bpmndi:BPMNShape bpmnElement="usertask4" id="BPMNShape_usertask4">
         <omgdc:Bounds height="55.0" width="105.0" x="705.0" y="270.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer4" id="BPMNShape_boundarytimer4">
+        <omgdc:Bounds height="30.0" width="30.0" x="790.0" y="260.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask5" id="BPMNShape_usertask5">
         <omgdc:Bounds height="55.0" width="105.0" x="490.0" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer5" id="BPMNShape_boundarytimer5">
+        <omgdc:Bounds height="30.0" width="30.0" x="582.0" y="260.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
         <omgdc:Bounds height="40.0" width="40.0" x="394.0" y="277.0"></omgdc:Bounds>
@@ -176,8 +209,14 @@
       <bpmndi:BPMNShape bpmnElement="boundarytimer2" id="BPMNShape_boundarytimer2">
         <omgdc:Bounds height="30.0" width="30.0" x="192.0" y="182.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer6" id="BPMNShape_boundarytimer6">
+        <omgdc:Bounds height="30.0" width="30.0" x="127.0" y="181.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask7" id="BPMNShape_usertask7">
         <omgdc:Bounds height="55.0" width="127.0" x="351.0" y="460.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer8" id="BPMNShape_boundarytimer8">
+        <omgdc:Bounds height="30.0" width="30.0" x="459.0" y="500.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
         <omgdc:Bounds height="55.0" width="105.0" x="600.0" y="460.0"></omgdc:Bounds>
@@ -206,8 +245,14 @@
       <bpmndi:BPMNShape bpmnElement="usertask9" id="BPMNShape_usertask9">
         <omgdc:Bounds height="70.0" width="105.0" x="490.0" y="182.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer7" id="BPMNShape_boundarytimer7">
+        <omgdc:Bounds height="30.0" width="30.0" x="581.0" y="170.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask6" id="BPMNShape_servicetask6">
         <omgdc:Bounds height="55.0" width="105.0" x="640.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask7" id="BPMNShape_servicetask7">
+        <omgdc:Bounds height="55.0" width="105.0" x="870.0" y="160.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="757.0" y="115.0"></omgdi:waypoint>
@@ -335,6 +380,46 @@
       <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
         <omgdi:waypoint x="595.0" y="217.0"></omgdi:waypoint>
         <omgdi:waypoint x="640.0" y="217.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow46" id="BPMNEdge_flow46">
+        <omgdi:waypoint x="807.0" y="115.0"></omgdi:waypoint>
+        <omgdi:waypoint x="922.0" y="114.0"></omgdi:waypoint>
+        <omgdi:waypoint x="922.0" y="160.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow47" id="BPMNEdge_flow47">
+        <omgdi:waypoint x="820.0" y="275.0"></omgdi:waypoint>
+        <omgdi:waypoint x="922.0" y="274.0"></omgdi:waypoint>
+        <omgdi:waypoint x="922.0" y="215.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow48" id="BPMNEdge_flow48">
+        <omgdi:waypoint x="612.0" y="275.0"></omgdi:waypoint>
+        <omgdi:waypoint x="743.0" y="256.0"></omgdi:waypoint>
+        <omgdi:waypoint x="922.0" y="215.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow49" id="BPMNEdge_flow49">
+        <omgdi:waypoint x="611.0" y="185.0"></omgdi:waypoint>
+        <omgdi:waypoint x="870.0" y="187.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow52" id="BPMNEdge_flow52">
+        <omgdi:waypoint x="400.0" y="56.0"></omgdi:waypoint>
+        <omgdi:waypoint x="922.0" y="55.0"></omgdi:waypoint>
+        <omgdi:waypoint x="922.0" y="160.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow53" id="BPMNEdge_flow53">
+        <omgdi:waypoint x="127.0" y="196.0"></omgdi:waypoint>
+        <omgdi:waypoint x="27.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="27.0" y="378.0"></omgdi:waypoint>
+        <omgdi:waypoint x="27.0" y="548.0"></omgdi:waypoint>
+        <omgdi:waypoint x="922.0" y="548.0"></omgdi:waypoint>
+        <omgdi:waypoint x="922.0" y="215.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow54" id="BPMNEdge_flow54">
+        <omgdi:waypoint x="489.0" y="515.0"></omgdi:waypoint>
+        <omgdi:waypoint x="528.0" y="532.0"></omgdi:waypoint>
+        <omgdi:waypoint x="711.0" y="532.0"></omgdi:waypoint>
+        <omgdi:waypoint x="902.0" y="532.0"></omgdi:waypoint>
+        <omgdi:waypoint x="922.0" y="514.0"></omgdi:waypoint>
+        <omgdi:waypoint x="922.0" y="215.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

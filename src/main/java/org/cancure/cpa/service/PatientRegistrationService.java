@@ -99,6 +99,12 @@ public class PatientRegistrationService {
 		logger.info("Moving Task Id ..." + taskId);
 		return COMPLETED_STR;
 	}
+	
+	public String reminderTask(String patientId) {
+		// Send reminder notifications
+		
+		return COMPLETED_STR;
+	}
 
 	public String mbApprove(String patientId, String doctorId) {
 
