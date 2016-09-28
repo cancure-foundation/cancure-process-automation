@@ -3,6 +3,7 @@ package org.cancure.cpa.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cancure.cpa.controller.beans.HpocHospitalBean;
 import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.persistence.repository.HpocHospitalRepository;
@@ -51,6 +52,38 @@ public class HpocHospitalServiceImpl implements HpocHospitalService {
             hpocHospitalRepo.delete(user.getId());
         }
         
+    }
+
+    @Override
+    public HpocHospital hpocHospitalMapping(HpocHospitalBean hpocHospitalBean) {
+        HpocHospital hpocHospital = new HpocHospital();
+        List<Integer> hpocIdList = hpocHospitalBean.getHpocIdList();
+        int count=0;
+        if(hpocIdList.size() ==0){
+            deleteHpocHospital(hpocHospitalBean.getHospitalId());
+            return null;
+        }else{
+        for(Integer hpocId:hpocIdList){
+            if (getHospitalFromHpoc(hpocId) == null || getHospitalFromHpoc(hpocId).getHospitalId()==hpocHospitalBean.getHospitalId()) {
+
+                if(count==0 && hpocHospitalBean.isStatus()){
+                    deleteHpocHospital(hpocHospitalBean.getHospitalId());
+                    count++;
+                }
+                
+                hpocHospital.setHospitalId(hpocHospitalBean.getHospitalId());
+                hpocHospital.setHpocId(hpocId);
+                saveHpocHospital(hpocHospital);
+                
+            } else {
+               
+                throw new RuntimeException("HPOC already mapped");
+                    
+
+            }
+        }
+        return hpocHospital;
+        }
     }
 
 }
