@@ -141,23 +141,7 @@
     <boundaryEvent id="boundarytimer5" name="Timer" attachedToRef="usertask5" cancelActivity="false">
       <timerEventDefinition></timerEventDefinition>
     </boundaryEvent>
-    <boundaryEvent id="boundarytimer6" name="Timer" attachedToRef="usertask6" cancelActivity="false">
-      <timerEventDefinition></timerEventDefinition>
-    </boundaryEvent>
     <sequenceFlow id="flow48" sourceRef="boundarytimer5" targetRef="servicetask7"></sequenceFlow>
-    <boundaryEvent id="boundarytimer7" name="Timer" attachedToRef="usertask9" cancelActivity="false">
-      <timerEventDefinition></timerEventDefinition>
-    </boundaryEvent>
-    <sequenceFlow id="flow49" sourceRef="boundarytimer7" targetRef="servicetask7"></sequenceFlow>
-    <boundaryEvent id="boundarytimer8" name="Timer" attachedToRef="usertask7" cancelActivity="false">
-      <timerEventDefinition></timerEventDefinition>
-    </boundaryEvent>
-    <boundaryEvent id="boundarytimer9" name="Timer" attachedToRef="usertask2" cancelActivity="false">
-      <timerEventDefinition></timerEventDefinition>
-    </boundaryEvent>
-    <sequenceFlow id="flow52" sourceRef="boundarytimer9" targetRef="servicetask7"></sequenceFlow>
-    <sequenceFlow id="flow53" sourceRef="boundarytimer6" targetRef="servicetask7"></sequenceFlow>
-    <sequenceFlow id="flow54" sourceRef="boundarytimer8" targetRef="servicetask7"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_patientRegn">
     <bpmndi:BPMNPlane bpmnElement="patientRegn" id="BPMNPlane_patientRegn">
@@ -169,9 +153,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
         <omgdc:Bounds height="55.0" width="105.0" x="288.0" y="60.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="boundarytimer9" id="BPMNShape_boundarytimer9">
-        <omgdc:Bounds height="30.0" width="30.0" x="370.0" y="41.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
         <omgdc:Bounds height="55.0" width="105.0" x="705.0" y="60.0"></omgdc:Bounds>
@@ -209,14 +190,8 @@
       <bpmndi:BPMNShape bpmnElement="boundarytimer2" id="BPMNShape_boundarytimer2">
         <omgdc:Bounds height="30.0" width="30.0" x="192.0" y="182.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="boundarytimer6" id="BPMNShape_boundarytimer6">
-        <omgdc:Bounds height="30.0" width="30.0" x="127.0" y="181.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask7" id="BPMNShape_usertask7">
         <omgdc:Bounds height="55.0" width="127.0" x="351.0" y="460.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="boundarytimer8" id="BPMNShape_boundarytimer8">
-        <omgdc:Bounds height="30.0" width="30.0" x="459.0" y="500.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
         <omgdc:Bounds height="55.0" width="105.0" x="600.0" y="460.0"></omgdc:Bounds>
@@ -244,9 +219,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask9" id="BPMNShape_usertask9">
         <omgdc:Bounds height="70.0" width="105.0" x="490.0" y="182.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="boundarytimer7" id="BPMNShape_boundarytimer7">
-        <omgdc:Bounds height="30.0" width="30.0" x="581.0" y="170.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask6" id="BPMNShape_servicetask6">
         <omgdc:Bounds height="55.0" width="105.0" x="640.0" y="190.0"></omgdc:Bounds>
@@ -394,31 +366,6 @@
       <bpmndi:BPMNEdge bpmnElement="flow48" id="BPMNEdge_flow48">
         <omgdi:waypoint x="612.0" y="275.0"></omgdi:waypoint>
         <omgdi:waypoint x="743.0" y="256.0"></omgdi:waypoint>
-        <omgdi:waypoint x="922.0" y="215.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow49" id="BPMNEdge_flow49">
-        <omgdi:waypoint x="611.0" y="185.0"></omgdi:waypoint>
-        <omgdi:waypoint x="870.0" y="187.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow52" id="BPMNEdge_flow52">
-        <omgdi:waypoint x="400.0" y="56.0"></omgdi:waypoint>
-        <omgdi:waypoint x="922.0" y="55.0"></omgdi:waypoint>
-        <omgdi:waypoint x="922.0" y="160.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow53" id="BPMNEdge_flow53">
-        <omgdi:waypoint x="127.0" y="196.0"></omgdi:waypoint>
-        <omgdi:waypoint x="27.0" y="195.0"></omgdi:waypoint>
-        <omgdi:waypoint x="27.0" y="378.0"></omgdi:waypoint>
-        <omgdi:waypoint x="27.0" y="548.0"></omgdi:waypoint>
-        <omgdi:waypoint x="922.0" y="548.0"></omgdi:waypoint>
-        <omgdi:waypoint x="922.0" y="215.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow54" id="BPMNEdge_flow54">
-        <omgdi:waypoint x="489.0" y="515.0"></omgdi:waypoint>
-        <omgdi:waypoint x="528.0" y="532.0"></omgdi:waypoint>
-        <omgdi:waypoint x="711.0" y="532.0"></omgdi:waypoint>
-        <omgdi:waypoint x="902.0" y="532.0"></omgdi:waypoint>
-        <omgdi:waypoint x="922.0" y="514.0"></omgdi:waypoint>
         <omgdi:waypoint x="922.0" y="215.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
