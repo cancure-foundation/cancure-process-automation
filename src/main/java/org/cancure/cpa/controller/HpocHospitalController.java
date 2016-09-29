@@ -22,60 +22,40 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HpocHospitalController {
 
-	@Autowired
-	private HpocHospitalService hpocHospitalService;
+    @Autowired
+    private HpocHospitalService hpocHospitalService;
 
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private HospitalService hospitalService;
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private HospitalService hospitalService;
 
     @RequestMapping(value = "/link/hpoc/hospital", method = RequestMethod.POST)
     public HpocHospital linkHpocHospital(@RequestBody HpocHospitalBean hpocHospitalBean) {
-        HpocHospital hpocHospital = new HpocHospital();
-        List<Integer> hpocIdList = hpocHospitalBean.getHpocIdList();
-        int count=0;
-        for(Integer hpocId:hpocIdList){
-            if (hpocHospitalService.getHospitalFromHpoc(hpocId) == null || hpocHospitalService.getHospitalFromHpoc(hpocId).getHospitalId()==hpocHospitalBean.getHospitalId()) {
 
-                if(count==0 && hpocHospitalBean.isStatus()){
-                    hpocHospitalService.deleteHpocHospital(hpocHospitalBean.getHospitalId());
-                    count++;
-                }
-                
-                hpocHospital.setHospitalId(hpocHospitalBean.getHospitalId());
-                hpocHospital.setHpocId(hpocId);
-                hpocHospitalService.saveHpocHospital(hpocHospital);
-                
-            } else {
-               
-                throw new RuntimeException("HPOC already mapped");
-                    
-
-            }
-        }
-        return hpocHospital;
+        return hpocHospitalService.hpocHospitalMapping(hpocHospitalBean);
     }
 
-	@RequestMapping("/list/hpoc/hospital/{hospital_id}")
-	public List<UserBean> listHpocHospital(@PathVariable("hospital_id") Integer hospitalId) {
-		return hpocHospitalService.getHpocUsersFromHospital(hospitalId);
-	}
-	
-	@RequestMapping("/listAll/hpoc/hospital")
-	public Map<String,Object> listAllHpocHospital() {
-	    Map<Integer,List<UserBean>> parentMap=new HashMap<>();
-	    Map<String,Object> map=new HashMap<>();
-	    Iterable<Hospital> list=hospitalService.listHospitals();
-	    for (Hospital hospital : list){
-	        List<UserBean> userBeanList=new ArrayList<>();
-	        userBeanList=hpocHospitalService.getHpocUsersFromHospital(hospital.getHospitalId());
-	        parentMap.put(hospital.getHospitalId(),userBeanList);
-	    }
-	    map.put("Hospitals", list);
-	    map.put("HospitalMappings",parentMap);
-	    return map;
-	}
+    @RequestMapping("/list/hpoc/hospital/{hospital_id}")
+    public List<UserBean> listHpocHospital(@PathVariable("hospital_id") Integer hospitalId) {
+
+        return hpocHospitalService.getHpocUsersFromHospital(hospitalId);
+    }
+
+    @RequestMapping("/listAll/hpoc/hospital")
+    public Map<String, Object> listAllHpocHospital() {
+        Map<Integer, List<UserBean>> parentMap = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
+        Iterable<Hospital> list = hospitalService.listHospitals();
+        for (Hospital hospital : list) {
+            List<UserBean> userBeanList = new ArrayList<>();
+            userBeanList = hpocHospitalService.getHpocUsersFromHospital(hospital.getHospitalId());
+            parentMap.put(hospital.getHospitalId(), userBeanList);
+        }
+        map.put("Hospitals", list);
+        map.put("HospitalMappings", parentMap);
+        return map;
+    }
 
 }
