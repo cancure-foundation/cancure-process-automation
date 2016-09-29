@@ -3,6 +3,7 @@ package org.cancure.cpa.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,7 +91,14 @@ public class MyTasksServiceImpl implements MyTasksService {
 		
 		String nextTask = null;
 		
-		Collections.sort(tasks, (x,y) -> x.getCreateTime().compareTo(y.getCreateTime()));
+		Collections.sort(tasks, new Comparator<HistoricTaskInstance>(){
+
+			@Override
+			public int compare(HistoricTaskInstance x, HistoricTaskInstance y) {
+				return x.getCreateTime().compareTo(y.getCreateTime());
+			}
+			
+		});
 		
 		int i=0;
 		for (HistoricTaskInstance t : tasks) {

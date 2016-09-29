@@ -60,11 +60,12 @@ public class UserServiceImpl implements UserService {
 	    Iterable<User> list = userRepo.findAll();
 	    List<UserBean> userBeans = new ArrayList<>();
 	    
-		list.forEach( x -> { 
+	    for (User usr : list){
 	    	UserBean userBean = new UserBean();
-	    	BeanUtils.copyProperties(x, userBean);
+	    	BeanUtils.copyProperties(usr, userBean);
 	    	userBeans.add(userBean);
-		});
+	    }
+	    
 	    return userBeans;
 	}
 
@@ -93,11 +94,11 @@ public class UserServiceImpl implements UserService {
 		Iterable<User> list = userRepo.findByUserRole("ROLE_HOSPITAL_POC");
 		List<UserBean> userBeans = new ArrayList<>();
 
-		list.forEach(x -> {
+		for (User usr : list){
 			UserBean userBean = new UserBean();
-			BeanUtils.copyProperties(x, userBean);
+			BeanUtils.copyProperties(usr, userBean);
 			userBeans.add(userBean);
-		});
+		}
 		return userBeans;
 	}
 
