@@ -1,10 +1,10 @@
 package org.cancure.cpa.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -13,7 +13,6 @@ import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
 import org.cancure.cpa.controller.beans.UserBean;
-import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.persistence.entity.PidnGenerator;
 import org.cancure.cpa.persistence.repository.PidnGeneratorRepository;
 import org.cancure.cpa.util.IDCardGenerator;
@@ -58,9 +57,12 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
 		if (prelimExamHospitalId != null) {
 			List<UserBean> hpocUsers = hpocHospitalService.getHpocUsersFromHospital(prelimExamHospitalId);
 			if (hpocUsers != null && !hpocUsers.isEmpty()) {
-				List<String> hpocEmailIds = hpocUsers.stream().map(x -> x.getEmail()).collect(Collectors.toList());
-				String csvEmails = StringUtils.join(hpocEmailIds, ',');
-				patRegMap.put("assignee", csvEmails);
+				List<Integer> hpocIds = new ArrayList<>();
+				for (UserBean usr : hpocUsers){
+					hpocIds.add(usr.getId());
+				}
+				String csvIds = StringUtils.join(hpocIds, ',');
+				patRegMap.put("assignee", csvIds);
 			}
 		}
         

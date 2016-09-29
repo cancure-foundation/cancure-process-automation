@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.cancure.cpa.service.MyTasksService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +24,9 @@ public class MyWorkflowController {
 	public List<Map<String, String>> getPendingTasks(OAuth2Authentication auth) {
 		if (auth != null) {
 			List<String> roles = new ArrayList<>();
-			auth.getAuthorities().forEach(x -> roles.add(x.getAuthority()));
-	
+			for (GrantedAuthority a : auth.getAuthorities()){
+				roles.add(a.getAuthority());
+			}
 			return myTasksService.getMyTasks(roles);
 		} else {
 			throw new RuntimeException("Not logged in");

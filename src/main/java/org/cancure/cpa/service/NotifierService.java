@@ -3,6 +3,7 @@ package org.cancure.cpa.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.activiti.engine.delegate.DelegateTask;
@@ -21,52 +22,26 @@ import org.springframework.context.ApplicationContext;
  */
 public class NotifierService implements TaskListener {
 
-	private UserRepository userRepository;
 	private List<Notifier> taskListeners = new ArrayList<>();
 	
 	public NotifierService(){
 		taskListeners.add(new EmailNotifier());
 		taskListeners.add(new SMSNotifier());
-		
-		ApplicationContext ctx = ApplicationContextProvider.getApplicationContext();
-		userRepository = ctx.getBean(UserRepository.class);
 	}
 	
 	@Override
 	public void notify(DelegateTask delegateTask) {
+		
 		TaskEntity task = (TaskEntity) delegateTask;
-		String assignee = task.getAssignee();
-		List<IdentityLinkEntity> identityLinks = task.getIdentityLinks();
+		Map vars = task.getVariables();
 
-		// If present, mail only assignee.
-		Object var = task.getVariable("assignee");
-		
+		String patName = (String)vars.get("patientName");
+		Integer prn = (Integer)vars.get("prn");
 		StringBuffer message = new StringBuffer("");
-		message.append("You have a new assigned task. <br/><br/>");
-		message.append(task.getName());
+		message.append("Hi, <br>A task has been assigned to you. <br>Patient Name : " + patName + 
+				"<br>PRN : " + prn + "<br>Task to do : " + task.getName() + 
+				"<br>Thanks, <br/>Cancure");
+		new NotificationComponent().notify(message.toString(), null, task);
 		
-		Set<User> userSet = new HashSet<>();
-		
-		for (IdentityLinkEntity link : identityLinks) {
-			if (link.getType().equals(IdentityLinkType.CANDIDATE)) {
-				
-				if (link.isGroup()) {
-					String role = link.getGroupId();
-					Iterable<User> userList = userRepository.findByUserRole(role);
-					userList.forEach( x -> userSet.add(x));
-				}
-				
-			}
-		}
-		
-		sendNotification(userSet, message.toString());
-	}
-	
-	protected void sendNotification(Set<User> userSet, String message) {
-		if (taskListeners != null && !taskListeners.isEmpty()) {
-			for (Notifier notifier : taskListeners) {
-				notifier.notify(userSet, message);
-			}
-		}
 	}
 }
