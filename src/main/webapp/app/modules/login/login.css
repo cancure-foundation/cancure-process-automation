@@ -33,7 +33,13 @@
     overflow: auto;
     text-align: center;
     color: #fff;
-    padding: 5em;
+    padding-top: 15em;
+    overflow: hidden;
+}
+.login-page form {
+    max-width: 420px;
+    margin: 0 auto;
+    position: relative;
 }
 .login-page .col-lg-4 {
     padding: 0;
@@ -113,7 +119,6 @@
 .login-wrapper .caption {
     height: 90px;
     padding: 12px 0px;
-    /* background-color: rgba(255, 255, 255, .20); */
     background-color: rgba(0, 0, 0, .40);
     position: absolute;
     bottom: 0px;
@@ -128,9 +133,14 @@
 .login-wrapper .caption span {
     color: #f4961c;
 }
-@media screen and (max-width: 1025px) {
+@media screen and (max-width: 1600px) {
     .login-page {
-        padding: 5em;
+        padding-top: 12em;
+    }
+}
+@media screen and (max-width: 1400px) {
+    .login-page {
+        padding-top: 5em;
     }
     .login-wrapper .caption {
         height: 75px;

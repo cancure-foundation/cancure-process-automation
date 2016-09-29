@@ -30,7 +30,7 @@
 
                                         <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
                                             <md-icon class="fa fa-chevron-right"></md-icon>
-                                            <select  data-ng-model="vm.formData.gender" ng-options="item.value as item.value for item in vm.Gender" ng-required="true">
+                                            <select data-ng-model="vm.formData.gender" ng-options="item.value as item.value for item in vm.Gender" ng-required="true">
                                                 <option value="">Select Gender</option>
                                             </select>
                                         </md-input-container>
@@ -69,7 +69,7 @@
                                         <div class="profile-image">
                                             <div class="title">
                                                 <span>Profile Image</span>
-                                                <i class="fa fa-times" ng-click="vm.removeProfileImg()" ng-show="vm.formData.profilePicSrc"></i>
+                                                <i class="fa fa-times" ng-click="vm.removeProfileImg()" ng-show="vm.formData.profilePicSrc && !vm.disableDelPic"></i>
                                                 <i class="fa fa-refresh" ng-click="vm.showFileDialog()" ng-show="vm.formData.profilePicSrc"></i>
                                             </div>
                                             <div class="select-div" ng-click="vm.showFileDialog()" ng-hide="vm.formData.profilePicSrc">Click to Select Image</div>
@@ -85,7 +85,7 @@
                                         <md-input-container class="md-icon-float md-block">
                                             <label>Contact No.</label>
                                             <md-icon class="fa fa-phone"></md-icon>
-                                            <input type="number" data-ng-model="vm.formData.contact" ng-required="true" maxlength="20" />
+                                            <input data-ng-model="vm.formData.contact" ng-required="true" maxlength="20" />
                                         </md-input-container>
                                     </div>
                                     <div class="col-md-4 col-sm-12">
@@ -126,17 +126,17 @@
                     </div>
                 </div>
             </div>
-            <div class="row patientRegistrationFamily">
+            <div class="row patientFamily">
                 <div class="col-md-12">
                     <div class="panel panel-success">
                         <div class="panel-heading">
                             Family Details
-                            <i class="fa fa-plus-square" aria-hidden="true" ng-click="vm.formData.familyDetails.push({});"></i>
-                            <i class="fa fa-minus-square" aria-hidden="true" ng-click="vm.formData.familyDetails.pop();"></i>
+                            <i class="fa fa-plus-square" aria-hidden="true" ng-click="vm.formData.patientFamily.push({});"></i>
+                            <i class="fa fa-minus-square" aria-hidden="true" ng-click="vm.formData.patientFamily.pop();" ng-hide="vm.formData.patientFamily.length == 0"></i>
                         </div>
                         <div class="clearfix">
-                            <div style="padding: 0px 15px 0px 8px;" ng-if="vm.formData.familyDetails.length == 0">No family member added.</div>
-                            <div class="col-sm-12 col-md-4 repeatingDiv" ng-repeat="fd in vm.formData.familyDetails">
+                            <div style="padding: 0px 15px 0px 8px;" ng-if="vm.formData.patientFamily.length == 0">No family member added.</div>
+                            <div class="col-sm-12 col-md-4 repeatingDiv" ng-repeat="fd in vm.formData.patientFamily">
                                 <md-content class="autoScroll">
                                     <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
                                         <md-icon class="fa fa-users"></md-icon>
@@ -171,13 +171,13 @@
                     </div>
                 </div>
             </div>
-            <div class="row diagDetails">
-                <div class="col-md-12">
+            <div class="diagDetails" style="margin: 0 15px;">
+                <div class="row">
                     <div class="panel panel-success">
                         <div class="panel-heading">
                             Diagnosis Details
                         </div>
-                        <div class="clearfix">
+                        <div class="clearfix" style="margin-top: 15px;">
                             <div class="col-sm-12 col-md-4">
                                 <md-input-container class="md-icon-float md-block">
                                     <label>Hospital Name</label>
@@ -199,6 +199,7 @@
                                     <input type="text" name="diagnosis" data-ng-model="vm.formData.diagnosis" maxlength="100" />
                                 </md-input-container>
                             </div>
+
                             <div class="col-sm-12 col-md-4">
                                 <fieldset>
                                     <legend>Doctor's comments</legend>
@@ -213,6 +214,16 @@
                                     <span ng-repeat="item in vm.formData.diagnosisFilesNames">
                                			{{item}} {{$last ? '' :  ', '}}
                                		</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4" ng-show="vm.editMode && vm.editFiles.diagFiles.length > 0" style="padding-left: 54px;">
+                            	<info>Files Uploaded Already</info>
+                                <div class="edit-file-names">
+                                    <div ng-repeat="doc in vm.editFiles.diagFiles" class="fileName">
+                                        <span ng-click="vm.viewDiagFile(doc)" ng-class="{'deleted' : doc.deleted}">{{doc.docName}}</span>
+                                        <i class="fa fa-times" ng-click="doc.deleted = true" ng-hide="doc.deleted"></i>
+                                        <i class="fa fa-repeat" ng-click="doc.deleted = false" ng-show="doc.deleted"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -235,7 +246,7 @@
                                 <md-input-container class="md-icon-float md-block">
                                     <label>Bystander Contact</label>
                                     <md-icon class="fa fa-user"></md-icon>
-                                    <input type="number" name="bystanderContact" data-ng-model="vm.formData.bystanderContact" maxlength="20">
+                                    <input name="bystanderContact" data-ng-model="vm.formData.bystanderContact" maxlength="20">
                                 </md-input-container>
                                 <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
                                     <label>Bystander Relation</label>

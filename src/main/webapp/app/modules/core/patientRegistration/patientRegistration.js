@@ -1,16 +1,23 @@
-core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Flash', 'apiService', 'appSettings', 'Loader', '$mdDialog', '$mdMedia', '$timeout',
-                                                  function ($q, $scope, $state, Flash, apiService, appSettings, Loader, $mdDialog, $mdMedia, $timeout) {
+core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Flash', 'apiService', 'appSettings', 'Loader', '$mdDialog', '$mdMedia', '$timeout', '$stateParams',
+                                                  function ($q, $scope, $state, Flash, apiService, appSettings, Loader, $mdDialog, $mdMedia, $timeout, $stateParams) {
 	var vm = this;
 
 	var init = function () {
 		Loader.create('Fetching Data. Please wait');
-		initializeVars();
+		initializeVars();	
 
 		var referenceData = apiService.asyncServiceRequest({URL : appSettings.requestURL.patientRegDrpDwn});
 		var hospitalList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hospitalList});
 		var doctorList = apiService.asyncServiceRequest({URL : appSettings.requestURL.doctorList});
+		var reqlist = [referenceData, hospitalList, doctorList];
 
-		$q.all([referenceData, hospitalList, doctorList]).then(function (success){
+		if ($stateParams.prn) { // check if execution is in edit mode
+			vm.editMode = true;
+			var patientDetails = apiService.asyncServiceRequest({URL :  'patient/' + parseInt($stateParams.prn)});
+			reqlist.push(patientDetails);
+		}
+
+		$q.all(reqlist).then(function (success){
 			angular.forEach(success[0], function (v, k) {
 				vm[k] = v[0].listValues;
 			});
@@ -20,9 +27,47 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 				value : 'Female'
 			},{
 				value : 'Transgender'
-			}]
+			}];
 			vm.hospitalList = success[1];
 			vm.doctorMainList = success[2];
+
+			if (vm.editMode) {
+				var patientDetails = success[3][0];					
+				angular.forEach(patientDetails, function(v,k){
+					if (k != "dob")
+						vm.formData[k] = angular.copy(v);
+				});
+				vm.formData.dob = new Date(patientDetails.dob);
+				// iterating through patient documents
+				for(var i = 0; i < patientDetails.document.length; i++) {
+					if (patientDetails.document[i].docCategory == "Profile Image") {
+						vm.formData.profilePicSrc = appSettings.baseURL + 'files/' + patientDetails.document[i].docId;
+						vm.disableDelPic = true;
+					} else if (patientDetails.document[i].docCategory == "Diagnosis File") {						
+						var fileSplit = patientDetails.document[i].docPath.split('/').pop();
+						vm.editFiles.diagFiles.push({
+							docName : fileSplit.split('_').pop(),
+							docId : patientDetails.document[i].docId,
+							docSrc : appSettings.baseURL + 'files/' + patientDetails.document[i].docId
+						});
+					} else  if (patientDetails.document[i].docCategory == "Income Proof") {
+//						vm.otherDouments.push({
+//						docCategory : vm.regDocument[i].docCategory,
+//						docType : vm.regDocument[i].docType,
+//						docSrc : appSettings.baseURL + 'files/' + vm.regDocument[i].docId
+//						});
+					} else if (patientDetails.document[i].docCategory == "Age Proof") {
+//						vm.otherDouments.push({
+//						docCategory : vm.regDocument[i].docCategory,
+//						docType : vm.regDocument[i].docType,
+//						docSrc : appSettings.baseURL + 'files/' + vm.regDocument[i].docId
+//						});
+					}
+				}
+
+				if (patientDetails.organisation.length > 0)
+					vm.formData.supportFromOther = true;
+			}
 			Loader.destroy();
 		});
 	};
@@ -33,10 +78,12 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 		vm.formData = {};
 		vm.formData.profileImage = null;
 		vm.formData.profilePicSrc = null;
-		vm.formData.familyDetails = [];
+		vm.formData.patientFamily = [];
 		vm.formData.organisation = [{}];
 		vm.formData.diagnosisFiles = [];
 		vm.formData.diagnosisFilesNames = [];
+		vm.editFiles = {};
+		vm.editFiles.diagFiles = [];
 		document.getElementById("patientReg-dianosis").value = "";
 		document.getElementById("patientReg-ageProof").value = "";
 		document.getElementById("patientReg-incomeProof").value = "";
@@ -108,6 +155,13 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 				vm.doctorList.push({ name : vm.doctorMainList[i].name, id : vm.doctorMainList[i].doctorId});
 	};
 	/**
+	 *  function to show diagnosis files in edit mode
+	 */
+	vm.viewDiagFile = function (doc){
+		if(!doc.deleted)
+			window.open(doc.docSrc, '_self');		
+	};
+	/**
 	 * function to handle save button click
 	 */
 	vm.submitForm = function () {	
@@ -147,13 +201,13 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 			fileCount++;
 		}
 
-		if (localVm.familyDetails.length > 0) { // get family details if available
-			for (var i=0; i < localVm.familyDetails.length; i++) {
-				fd.append("patientFamily[" + i + "].relation", localVm.familyDetails[i].relation);
-				fd.append("patientFamily[" + i + "].age", localVm.familyDetails[i].age);
-				fd.append("patientFamily[" + i + "].status", localVm.familyDetails[i].status);
-				fd.append("patientFamily[" + i + "].income", localVm.familyDetails[i].income);
-				fd.append("patientFamily[" + i + "].otherIncome", localVm.familyDetails[i].otherIncome);
+		if (localVm.patientFamily.length > 0) { // get family details if available
+			for (var i=0; i < localVm.patientFamily.length; i++) {
+				fd.append("patientFamily[" + i + "].relation", localVm.patientFamily[i].relation);
+				fd.append("patientFamily[" + i + "].age", localVm.patientFamily[i].age);
+				fd.append("patientFamily[" + i + "].status", localVm.patientFamily[i].status);
+				fd.append("patientFamily[" + i + "].income", localVm.patientFamily[i].income);
+				fd.append("patientFamily[" + i + "].otherIncome", localVm.patientFamily[i].otherIncome);
 			}
 		}
 
@@ -171,7 +225,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 		delete localVm.profilePicSrc;
 		delete localVm.profileImage;
 		delete localVm.organisation;
-		delete localVm.familyDetails;
+		delete localVm.patientFamily;
 		delete localVm.ageProof;
 		delete localVm.incomeProof;
 
