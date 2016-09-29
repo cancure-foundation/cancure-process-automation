@@ -22,71 +22,26 @@ import org.springframework.context.ApplicationContext;
  */
 public class NotifierService implements TaskListener {
 
-	private UserRepository userRepository;
 	private List<Notifier> taskListeners = new ArrayList<>();
 	
 	public NotifierService(){
 		taskListeners.add(new EmailNotifier());
 		taskListeners.add(new SMSNotifier());
-		
-		ApplicationContext ctx = ApplicationContextProvider.getApplicationContext();
-		userRepository = ctx.getBean(UserRepository.class);
 	}
 	
 	@Override
 	public void notify(DelegateTask delegateTask) {
+		
 		TaskEntity task = (TaskEntity) delegateTask;
-		String assignee = task.getAssignee();
-		List<IdentityLinkEntity> identityLinks = task.getIdentityLinks();
-
-		//Map localVar = task.getTaskLocalVariables();
-		//Map instVars = task.getActivityInstanceVariables();
-		//Map procVars = task.getProcessVariables();
-		//List qvars = task.getQueryVariables();
 		Map vars = task.getVariables();
-		
-		Set<User> userSet = new HashSet<>();
-		
-		// If present, mail only assignee.
-		Object var = task.getVariable("assignee");
-		if (var != null){
-			
-			String assignees = var.toString();
-			String[] assigneesCsv = assignees.split(",");
-			for (String id : assigneesCsv){
-				userSet.add(userRepository.findOne(Integer.parseInt(id)));
-			}
-			
-		} else {
-			for (IdentityLinkEntity link : identityLinks) {
-				if (link.getType().equals(IdentityLinkType.CANDIDATE)) {
-					
-					if (link.isGroup()) {
-						String role = link.getGroupId();
-						Iterable<User> userList = userRepository.findByUserRole(role);
-						userList.forEach( x -> userSet.add(x));
-					}
-					
-				}
-			}
-		}
-		
+
 		String patName = (String)vars.get("patientName");
 		Integer prn = (Integer)vars.get("prn");
 		StringBuffer message = new StringBuffer("");
 		message.append("Hi, <br>A task has been assigned to you. <br>Patient Name : " + patName + 
 				"<br>PRN : " + prn + "<br>Task to do : " + task.getName() + 
 				"<br>Thanks, <br/>Cancure");
-		message.append(task.getName());
+		new NotificationComponent().notify(message.toString(), null, task);
 		
-		sendNotification(userSet, message.toString());
-	}
-	
-	protected void sendNotification(Set<User> userSet, String message) {
-		if (taskListeners != null && !taskListeners.isEmpty()) {
-			for (Notifier notifier : taskListeners) {
-				notifier.notify(userSet, message);
-			}
-		}
 	}
 }

@@ -2,13 +2,14 @@ package org.cancure.cpa.service;
 
 import static org.cancure.cpa.common.Constants.PATIENT_REG_PROCESS_DEF_KEY;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
@@ -95,8 +96,39 @@ public class PatientRegistrationService {
 	public String performClosureTasks(String patientId) {
 
 		logger.info("performClosureTasks ...");
-		String taskId = findTask(patientId).getId();
+		TaskEntity task = (TaskEntity)findTask(patientId);
+		String taskId = task.getId();
 		logger.info("Moving Task Id ..." + taskId);
+		
+		Map vars = task.getVariables();
+		String patName = (String)vars.get("patientName");
+		Integer prn = (Integer)vars.get("prn");
+		StringBuffer message = new StringBuffer("");
+		message.append("Hi, <br>A person's workflow has been closed. <br>Patient Name : " + patName + 
+				"<br>PRN : " + prn + "<br>" + 
+				"<br>Thanks, <br/>Cancure");
+		
+		new NotificationComponent().notify(message.toString(), null, task);
+		
+		return COMPLETED_STR;
+	}
+	
+	public String reminderTask(String patientId) {
+		// Send reminder notifications
+		TaskEntity task = (TaskEntity)findTask(patientId);
+		String taskId = task.getId();
+		logger.info("Moving Task Id ..." + taskId);
+		
+		Map vars = task.getVariables();
+		String patName = (String)vars.get("patientName");
+		Integer prn = (Integer)vars.get("prn");
+		StringBuffer message = new StringBuffer("");
+		message.append("Hi, <br>This is a reminder to take action on a person's workflow. "
+				+ "<br>Patient Name : " + patName + 
+				"<br>PRN : " + prn + "<br>" + 
+				"<br>Thanks, <br/>Cancure");
+		
+		new NotificationComponent().notify(message.toString(), null, task);
 		return COMPLETED_STR;
 	}
 
