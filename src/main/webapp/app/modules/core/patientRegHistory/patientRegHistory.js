@@ -14,6 +14,9 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 				name : response.nextTask,
 				roles : response.Owner
 			};
+			if (vm.nextTask.name == "Rejected")
+				vm.patientReject = true;
+			
 			// iteration for first task
 			if (response.tasks[0]) {
 				vm.regDetails = response.tasks[0];
@@ -47,22 +50,10 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 					}
 				}
 				// iterating through patient details
-				for(var i = 0; i<vm.patientDetails.patientFamily.length; i++) {
-					vm.patientFamily.push({
-						relation : vm.patientDetails.patientFamily[i].relation,
-						age : vm.patientDetails.patientFamily[i].age,
-						status : vm.patientDetails.patientFamily[i].status,
-						income : vm.patientDetails.patientFamily[i].income,
-						otherIncome : vm.patientDetails.patientFamily[i].otherIncome
-					});
-				}
+				vm.patientFamily = vm.patientDetails.patientFamily;
+				
 				// iterating through support organisation details
-				for(var i = 0; i<vm.patientDetails.organisation.length; i++) {
-					vm.supportOrg.push({
-						name : vm.patientDetails.organisation[i].name,
-						amountRec : vm.patientDetails.organisation[i].amountRec
-					});
-				}
+				vm.supportOrg = vm.patientDetails.organisation;
 			}
 			// iteration for rest tasks
 			for(var i=1; i< response.tasks.length; i++){

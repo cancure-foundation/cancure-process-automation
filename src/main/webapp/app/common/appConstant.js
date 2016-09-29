@@ -74,7 +74,7 @@ app.constant('appSettings', {
 		pageId : 0
 	},
 	{
-		title: "Manage User",
+		title: "User",
 		icon: "users",
 		state: "manageUser.createUser",
 		pageId : 1

@@ -24,16 +24,16 @@
 .sessionExpired .info-block .info-text a {
     border: 1px solid #fff;
     padding: 4px 12px;
-    color: #f4961c;
-    background: #fff;
+    color: #fff;
+    background: #f4961c;
     display: inline-block;
     margin-top: 8px;
     cursor: pointer;
     border-radius: 15px;
 }
 .sessionExpired .info-block .info-text a:hover {
-    color: #fff;
-    background: #f4961c;
+    color: #f4961c;
+    background: #fff;
 }
 .sessionExpired .errorPg-footer {
     height: 50px;
