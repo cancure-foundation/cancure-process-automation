@@ -13,6 +13,8 @@ import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
+import org.cancure.cpa.persistence.entity.Settings;
+import org.cancure.cpa.persistence.repository.SettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,6 +28,9 @@ public class PatientRegistrationService {
 	@Autowired
 	private RuntimeService runtimeService;
 
+	@Autowired
+	private SettingsRepository settingsRepository;
+	
 	@Autowired
 	private TaskService taskService;
 
@@ -45,20 +50,44 @@ public class PatientRegistrationService {
 	@Value("${activiti.patientReg.count.minEcApproval}")
 	private int MIN_EC_COUNT;
 
+	/*
 	@Value("${activiti.patientReg.timeout.bgCheck}")
 	private String maxBgCheckTime;
 	
 	@Value("${activiti.patientReg.timeout.ecApproval}")
 	private String maxEcApprovalTime;
-
+*/
 	public String getMaxBgCheckTime() {
-		return maxBgCheckTime;
+		return getSettingsInHours(7);
 	}
 
 	public String getMaxEcApprovalTime() {
-		return maxEcApprovalTime;
+		return getSettingsInHours(8);
+	}
+	
+	public String getBgCheckTimeCycle(){
+		return "R/" + getSettingsInHours(9);
+	}
+	
+	public String getSecretaryApprovalTimeCycle(){
+		return "R/" + getSettingsInHours(11);
+	}
+	
+	public String getMbDoctorApprovalTimeCycle(){
+		return "R/" + getSettingsInHours(10);
 	}
 
+	/**
+	 * Return time in ISO 8601 Format (Duration).
+	 * Duration calculated in hours.
+	 * @param id
+	 * @return
+	 */
+	private String getSettingsInHours(Integer id){
+		Settings sett = settingsRepository.findOne(id);
+		return "PT" + sett.getValue() + "H";
+	}
+	
 	public String startPatientRegnProcess(Map<String, Object> variables,
 			String patientId) {
 
@@ -126,6 +155,7 @@ public class PatientRegistrationService {
 		message.append("Hi, <br>This is a reminder to take action on a person's workflow. "
 				+ "<br>Patient Name : " + patName + 
 				"<br>PRN : " + prn + "<br>" + 
+				"<br>Task to do : " + task.getName() + 
 				"<br>Thanks, <br/>Cancure");
 		
 		new NotificationComponent().notify(message.toString(), null, task);

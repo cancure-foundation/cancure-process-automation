@@ -131,15 +131,21 @@
     <sequenceFlow id="flow45" sourceRef="usertask9" targetRef="servicetask6"></sequenceFlow>
     <serviceTask id="servicetask7" name="Reminders" activiti:expression="#{patientRegistrationService.reminderTask(prn)}"></serviceTask>
     <boundaryEvent id="boundarytimer3" name="Timer" attachedToRef="usertask3" cancelActivity="false">
-      <timerEventDefinition></timerEventDefinition>
+      <timerEventDefinition>
+        <timeCycle>${patientRegistrationService.bgCheckTimeCycle}</timeCycle>
+      </timerEventDefinition>
     </boundaryEvent>
     <sequenceFlow id="flow46" sourceRef="boundarytimer3" targetRef="servicetask7"></sequenceFlow>
     <boundaryEvent id="boundarytimer4" name="Timer" attachedToRef="usertask4" cancelActivity="false">
-      <timerEventDefinition></timerEventDefinition>
+      <timerEventDefinition>
+        <timeCycle>${patientRegistrationService.mbDoctorApprovalTimeCycle}</timeCycle>
+      </timerEventDefinition>
     </boundaryEvent>
     <sequenceFlow id="flow47" sourceRef="boundarytimer4" targetRef="servicetask7"></sequenceFlow>
     <boundaryEvent id="boundarytimer5" name="Timer" attachedToRef="usertask5" cancelActivity="false">
-      <timerEventDefinition></timerEventDefinition>
+      <timerEventDefinition>
+        <timeCycle>${patientRegistrationService.secretaryApprovalTimeCycle}</timeCycle>
+      </timerEventDefinition>
     </boundaryEvent>
     <sequenceFlow id="flow48" sourceRef="boundarytimer5" targetRef="servicetask7"></sequenceFlow>
   </process>
