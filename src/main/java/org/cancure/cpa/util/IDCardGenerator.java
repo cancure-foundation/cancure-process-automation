@@ -1,9 +1,7 @@
 package org.cancure.cpa.util;
 
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,6 +10,7 @@ import java.util.List;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.persistence.entity.PatientDocument;
+import org.cancure.cpa.persistence.repository.SettingsRepository;
 import org.cancure.cpa.service.PatientDocumentService;
 import org.cancure.cpa.service.PatientService;
 import org.springframework.beans.BeanUtils;
@@ -33,6 +32,9 @@ public class IDCardGenerator {
 
 	@Autowired
 	private PatientService patientService;
+	
+	@Autowired
+	private SettingsRepository settingsRepository;
 
 	@Autowired
 	private PatientDocumentService patientDocumentService;
@@ -79,12 +81,12 @@ public class IDCardGenerator {
 		document.open();
 		PdfContentByte canvas = writer.getDirectContent();
 
-		printText(canvas, 137, 245 - 32, "CANCURE Foundation", 20, 1.5f);
-		printText(canvas, 137, 245 - 48, "Regd. Office: 60/3285, Benrub, P. K. Devoor Road, ", 9, 0.2f);
-		printText(canvas, 204, 245 - 63, "Perumanoor, Cochin -15 ", 9, 0.2f);
-		printText(canvas, 180, 245 - 77, "7025 00 33 33, 9846 031 667 ", 9, 0.2f);
-		printText(canvas, 155, 245 - 91, "www.cancure.in", 9, 0.2f);
-		printText(canvas, 291, 245 - 91, "info@cancure.in", 9, 0.2f);
+		printText(canvas, 137, 245 - 32, getSetting(1), 20, 1.5f);
+		printText(canvas, 137, 245 - 48, getSetting(2), 9, 0.2f);
+		printText(canvas, 204, 245 - 63, getSetting(3), 9, 0.2f);
+		printText(canvas, 180, 245 - 77, getSetting(4), 9, 0.2f);
+		printText(canvas, 155, 245 - 91, getSetting(5), 9, 0.2f);
+		printText(canvas, 291, 245 - 91, getSetting(6), 9, 0.2f);
 		drawLine(canvas, 129, 245 - 106, 397, 245 - 106);
 
 		printText(canvas, 147, 245 - 120, "PIDN : ", 10, 0.2f);
@@ -211,5 +213,9 @@ public class IDCardGenerator {
 		canvas.lineTo(tox, toy);
 		canvas.stroke();
 		canvas.restoreState();
+	}
+	
+	private String getSetting(Integer id){
+		return settingsRepository.findOne(id).getValue();
 	}
 }
