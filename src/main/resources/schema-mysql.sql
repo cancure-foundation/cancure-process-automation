@@ -101,7 +101,7 @@ create table user_role (
     unique (hpoc_id, hospital_id)
  );
 
-  create table DOCTOR (
+  create table doctor (
  	doctor_id int(10) primary key auto_increment,
  	name varchar(100),
  	specification varchar(100),
@@ -153,7 +153,7 @@ create table support_organisations (
 	org_id int(10) primary key auto_increment,
 	name varchar(100),
 	amount_rec int(10),
-	prn number(10) references patient(prn)
+	prn int(10) references patient(prn)
 );
 
 create table patient_family (
