@@ -5,7 +5,7 @@ app.constant('appSettings', {
 	title: "Cancure", // app name
 	lang: "en", // app default locale format
 	dateFormat: "mm/dd/yy", // app date format
-	baseURL: '/', // app service URL
+	baseURL: '', // app service URL
 	requestURL: {
 		authRequest: 'oauth/token', // oauth request
 		userRoles : 'roles', // fetching user roles
