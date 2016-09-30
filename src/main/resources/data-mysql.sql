@@ -92,7 +92,7 @@ insert into list_value values (57, 9, 'Medicine');
 insert into list_value values (58, 9, 'Others');
 
 
-insert into OAUTH_CLIENT_DETAILS values('cancureapp', 'restservice', 'cancure123456', 'read,write', 'password,refresh_token', null, 'USER', null,null, '{}', null);
+insert into oauth_client_details values('cancureapp', 'restservice', 'cancure123456', 'read,write', 'password,refresh_token', null, 'USER', null,null, '{}', null);
 
 insert into user_role (user_id, role_id) values (1, 1);
 insert into user_role (user_id, role_id) values (2, 1);

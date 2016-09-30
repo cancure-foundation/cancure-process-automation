@@ -83,7 +83,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 	
 	private Map<String, Object> extractHistoryTaskAttributes(List<HistoricTaskInstance> tasks,String patientID) {
 		Map<String, Object> parentMap = new HashMap<>();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 		PatientBean patient=patientService.get(Integer.parseInt(patientID));
 		
 		//Map taskMap = new HashMap<>();

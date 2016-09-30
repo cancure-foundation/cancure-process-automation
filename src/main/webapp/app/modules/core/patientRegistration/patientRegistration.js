@@ -4,7 +4,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 
 	var init = function () {
 		Loader.create('Fetching Data. Please wait');
-		initializeVars();	
+		vm.initializeVars();	
 
 		var referenceData = apiService.asyncServiceRequest({URL : appSettings.requestURL.patientRegDrpDwn});
 		var hospitalList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hospitalList});
@@ -51,17 +51,19 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 							docSrc : appSettings.baseURL + 'files/' + patientDetails.document[i].docId
 						});
 					} else  if (patientDetails.document[i].docCategory == "Income Proof") {
-//						vm.otherDouments.push({
-//						docCategory : vm.regDocument[i].docCategory,
-//						docType : vm.regDocument[i].docType,
-//						docSrc : appSettings.baseURL + 'files/' + vm.regDocument[i].docId
-//						});
+						var fileSplit = patientDetails.document[i].docPath.split('/').pop();
+						vm.editFiles.incomeProof = {
+							docName : fileSplit.split('_').pop(),
+							docId : patientDetails.document[i].docId,
+							docSrc : appSettings.baseURL + 'files/' + patientDetails.document[i].docId
+						};
 					} else if (patientDetails.document[i].docCategory == "Age Proof") {
-//						vm.otherDouments.push({
-//						docCategory : vm.regDocument[i].docCategory,
-//						docType : vm.regDocument[i].docType,
-//						docSrc : appSettings.baseURL + 'files/' + vm.regDocument[i].docId
-//						});
+						var fileSplit = patientDetails.document[i].docPath.split('/').pop();
+						vm.editFiles.ageProof = {
+							docName : fileSplit.split('_').pop(),
+							docId : patientDetails.document[i].docId,
+							docSrc : appSettings.baseURL + 'files/' + patientDetails.document[i].docId
+						};
 					}
 				}
 
@@ -74,7 +76,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 	/**
 	 *  function to initalize all variables in the page
 	 */
-	var initializeVars = function (){
+	vm.initializeVars = function (){
 		vm.formData = {};
 		vm.formData.profileImage = null;
 		vm.formData.profilePicSrc = null;
@@ -84,6 +86,8 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 		vm.formData.diagnosisFilesNames = [];
 		vm.editFiles = {};
 		vm.editFiles.diagFiles = [];
+		vm.editFiles.incomeProof = {};
+		vm.editFiles.ageProof = {};
 		document.getElementById("patientReg-dianosis").value = "";
 		document.getElementById("patientReg-ageProof").value = "";
 		document.getElementById("patientReg-incomeProof").value = "";
@@ -306,7 +310,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 			$scope.closeDialog = function(to) {
 				$("body").removeClass('sidebar-collapse'); // to expand the sidebar
 				$mdDialog.hide(); // hides the dialog box
-				initializeVars(); // clears the formFields
+				vm.initializeVars(); // clears the formFields
 				vm.patientRegisterForm.$setUntouched();
 				vm.patientRegisterForm.$setPristine();
 				if (to == 1)
