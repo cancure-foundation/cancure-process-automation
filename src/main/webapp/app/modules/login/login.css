@@ -110,6 +110,11 @@
 .login-page .form-content {
     padding: 20px 0px 40px 0px;
 }
+.login-page .form-content .resetPassNotify {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 14px;
+}
 .login-page .form-content .forgot-pass {
     position: absolute;
     right: 0px;

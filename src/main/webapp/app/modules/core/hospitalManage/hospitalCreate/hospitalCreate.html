@@ -1,31 +1,26 @@
 <div class="content" style="padding-top:0px;">
     <h4 ng-hide="vm.hospitalCreated">Fill the form to create/edit Hospital.</h4>
     <h4 ng-show="vm.hospitalCreated">Hospital created with the following details.</h4>
-    <div ng-hide="vm.hospitalCreated" class="panel panel-info">
+    <div ng-hide="vm.hospitalCreated" class="panel panel-info row">
         <div class="panel-body">
             <form ng-submit="vm.createHospital();" name="vm.registerForm">
-                <div class="col-md-7 col-xs-12">
-                    <md-input-container class="md-icon-float md-block">
-                        <label>Name</label>
-                        <md-icon class="fa fa-user"></md-icon>
-                        <input type="text" data-ng-model="vm.formData.name" ng-required="true" />
-                    </md-input-container>
-                    <md-input-container class="md-icon-float md-block">
-                        <label>Address</label>
-                        <md-icon class="fa fa-user"></md-icon>
-                        <input type="text" data-ng-model="vm.formData.address" ng-required="true" />
-                    </md-input-container>
-
-                    <md-input-container class="md-icon-float md-block">
-                        <label>Contact</label>
-                        <md-icon class="fa fa-unlock-alt"></md-icon>
-                        <input type="text" data-ng-model="vm.formData.contact" ng-required="true" />
-                    </md-input-container>
+                <div class="col-md-4 col-xs-12 input-box">
+                    <label>Hospital Name</label>
+                    <input type="text" data-ng-model="vm.formData.name" required placeholder="Enter hospital name" />
                 </div>
-
-                <div class="col-xs-12 text-center">
-                    <md-button class="md-raised md-primary" type="submit">Save</md-button>
-                    <md-button class="md-raised md-warn" type="reset">Clear</md-button>
+                <div class="col-md-4 col-xs-12 input-box">
+                    <label>Address</label>
+                    <input type="text" data-ng-model="vm.formData.address" required placeholder="Enter address" />
+                </div>
+                <div class="col-md-4 col-xs-12 input-box">
+                    <label>Contact Number</label>
+                    <input type="text" data-ng-model="vm.formData.contact" required placeholder="Enter contact number" />
+                </div>
+                <div class="col-xs-12 text-center" style="padding: 0px 15px;">
+                    <button type="submit" class="btn btn-success" style="margin-right: 8px;">
+                        Save Hospital
+                    </button>
+                    <input type="clear" class="btn btn-warning" ng-click="vm.formData = {};" value="Clear Form">
                 </div>
             </form>
         </div>
@@ -33,7 +28,7 @@
     <div ng-show="vm.hospitalCreated" class="panel panel-info" style="padding:15px;">
         <div class="row">
             <div class="col-xs-offset-3 col-xs-6">
-                <table class="table table-bordered">
+                <table class="table table-bordered" style="margin-bottom: 0px;">
                     <th class="col-xs-4">Name</th>
                     <th class="col-xs-4">Address</th>
                     <th class="col-xs-4">Contact</th>
@@ -43,6 +38,11 @@
                         <td class="col-xs-4">{{vm.formData.contact}}</td>
                     </tr>
                 </table>
+            </div>
+            <div class="col-xs-12 text-center" style="padding-top: 15px;">
+                <button class="btn btn-success" ng-click="vm.formData = {};vm.hospitalCreated=false;">
+                    Register another Hospital
+                </button>
             </div>
         </div>
     </div>

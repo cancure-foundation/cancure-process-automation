@@ -23,13 +23,7 @@ core.controller("HospitalCreateController", ['$scope', '$timeout', '$stateParams
 	/**
 	 * function to handle save button click
 	 */
-	vm.createHospital = function () { 	
-		var formState = formValidator(); // function to validate form fields
-		if(!formState.valid){
-			Flash.create('warning', formState.errMsg, 'large-text');
-			return;
-		}
-		
+	vm.createHospital = function () { 			
 		Loader.create('Please wait ...');
 
 		var serverData = angular.copy(vm.formData);
@@ -45,18 +39,7 @@ core.controller("HospitalCreateController", ['$scope', '$timeout', '$stateParams
 			Flash.create('success', 'Hospital successfully saved', 'large-text');   
 			vm.hospitalCreated = true; // to show the user summary div
 		});
-	};
-	/**
-	 * function to validate form fields
-	 */
-	var formValidator = function (){
-		var formState = {
-				valid : true
-		};
-				
-		return formState;
-	}
-	
+	};	
 	/**
 	 * function to show created user
 	 */
