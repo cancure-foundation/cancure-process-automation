@@ -4,11 +4,11 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 	vm.formData = {};
 	vm.formData.roles = [];
 	vm.userCreated = false;
-	
+
 	var init = function () {
 		Loader.create('Fetching Data. Please wait');
 		var id = $stateParams.userId;
-		
+
 		apiService.serviceRequest({
 			URL: appSettings.requestURL.userRoles
 		}, function (response) {
@@ -17,7 +17,7 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 			Loader.destroy();
 		});
 	};
-	
+
 	var getUser = function(id){
 		if (id != null && id != ''){
 			apiService.serviceRequest({
@@ -43,7 +43,7 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 			Flash.create('warning', formState.errMsg, 'large-text');
 			return;
 		}
-		
+
 		Loader.create('Please wait while we register you...');
 
 		var serverData = angular.copy(vm.formData);
@@ -72,20 +72,7 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 			formState.valid = false;
 			formState.errMsg = 'Please select at least 1 role to proceed.';
 			return formState;
-		}
-
-		if (vm.formData.password == ''){
-			formState.valid = false;
-			formState.errMsg = 'Password cannot be blank.';
-			return formState;
-		}
-		
-		if(vm.formData.password != vm.formData.retypepassword){
-			formState.valid = false;
-			formState.errMsg = 'Passwords do not match.';
-			return formState;
-		}
-		
+		}		
 		return formState;
 	}
 	/**
@@ -117,6 +104,17 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 				break;
 			}
 		}
+	};
+	/**
+	 * 
+	 */
+	vm.clearForm = function (){
+		$timeout(function (){
+			vm.formData = {};      
+			vm.formData.roles = [];
+		});
+		vm.registerForm.$setUntouched();
+		vm.registerForm.$setPristine();
 	};
 	/**
 	 * function to show created user

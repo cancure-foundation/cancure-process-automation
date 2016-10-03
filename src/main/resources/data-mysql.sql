@@ -74,7 +74,7 @@ insert into list_value values (38, 6, 'Life Member');
 insert into list_value values (39, 6, 'Other Member');
 insert into list_value values (40, 6, 'VIP/SIP');
 
-insert into list_value values (58, 7, 'Voter id');
+insert into list_value values (41, 7, 'Voter id');
 insert into list_value values (42, 7, 'Ration card');
 insert into list_value values (43, 7, 'Driving License');
 insert into list_value values (44, 7, 'Aadhar card');

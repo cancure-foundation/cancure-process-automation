@@ -233,7 +233,7 @@ create table ACT_RE_DEPLOYMENT (
     NAME_ varchar(255),
     CATEGORY_ varchar(255),
     TENANT_ID_ varchar(255) default '',
-    DEPLOY_TIME_ timestamp(3) NULL,
+    DEPLOY_TIME_ timestamp NULL,
     primary key (ID_)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
@@ -243,8 +243,8 @@ create table ACT_RE_MODEL (
     NAME_ varchar(255),
     KEY_ varchar(255),
     CATEGORY_ varchar(255),
-    CREATE_TIME_ timestamp(3) null,
-    LAST_UPDATE_TIME_ timestamp(3) null,
+    CREATE_TIME_ timestamp null,
+    LAST_UPDATE_TIME_ timestamp null,
     VERSION_ integer,
     META_INFO_ varchar(4000),
     DEPLOYMENT_ID_ varchar(64),
@@ -271,7 +271,7 @@ create table ACT_RU_EXECUTION (
     CACHED_ENT_STATE_ integer,
     TENANT_ID_ varchar(255) default '',
     NAME_ varchar(255),
-    LOCK_TIME_ timestamp(3) NULL,
+    LOCK_TIME_ timestamp NULL,
     primary key (ID_)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
@@ -279,7 +279,7 @@ create table ACT_RU_JOB (
     ID_ varchar(64) NOT NULL,
     REV_ integer,
     TYPE_ varchar(255) NOT NULL,
-    LOCK_EXP_TIME_ timestamp(3) NULL,
+    LOCK_EXP_TIME_ timestamp NULL,
     LOCK_OWNER_ varchar(255),
     EXCLUSIVE_ boolean,
     EXECUTION_ID_ varchar(64),
@@ -288,7 +288,7 @@ create table ACT_RU_JOB (
     RETRIES_ integer,
     EXCEPTION_STACK_ID_ varchar(64),
     EXCEPTION_MSG_ varchar(4000),
-    DUEDATE_ timestamp(3) NULL,
+    DUEDATE_ timestamp NULL,
     REPEAT_ varchar(255),
     HANDLER_TYPE_ varchar(255),
     HANDLER_CFG_ varchar(4000),
@@ -328,7 +328,7 @@ create table ACT_RU_TASK (
     ASSIGNEE_ varchar(255),
     DELEGATION_ varchar(64),
     PRIORITY_ integer,
-    CREATE_TIME_ timestamp(3) NULL,
+    CREATE_TIME_ timestamp NULL,
     DUE_DATE_ datetime,
     CATEGORY_ varchar(255),
     SUSPENSION_STATE_ integer,
@@ -374,7 +374,7 @@ create table ACT_RU_EVENT_SUBSCR (
     PROC_INST_ID_ varchar(64),
     ACTIVITY_ID_ varchar(64),
     CONFIGURATION_ varchar(255),
-    CREATED_ timestamp(3) not null DEFAULT CURRENT_TIMESTAMP(3),
+    CREATED_ timestamp not null DEFAULT CURRENT_TIMESTAMP,
     PROC_DEF_ID_ varchar(64),
     TENANT_ID_ varchar(255) default '',
     primary key (ID_)
@@ -387,11 +387,11 @@ create table ACT_EVT_LOG (
     PROC_INST_ID_ varchar(64),
     EXECUTION_ID_ varchar(64),
     TASK_ID_ varchar(64),
-    TIME_STAMP_ timestamp(3) not null,
+    TIME_STAMP_ timestamp not null,
     USER_ID_ varchar(255),
     DATA_ LONGBLOB,
     LOCK_OWNER_ varchar(255),
-    LOCK_TIME_ timestamp(3) null,
+    LOCK_TIME_ timestamp null,
     IS_PROCESSED_ tinyint default 0,
     primary key (LOG_NR_)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
