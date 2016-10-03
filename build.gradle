@@ -15,12 +15,12 @@ apply plugin: 'spring-boot'
 apply plugin: 'pmd'
 apply plugin: 'findbugs'
 apply plugin: 'jacoco'
-
+apply plugin: 'war'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 version = '1.0'
-jar {
+war {
     manifest {
         attributes 'Implementation-Title': 'Cancure Process Automation',
                    'Implementation-Version': version

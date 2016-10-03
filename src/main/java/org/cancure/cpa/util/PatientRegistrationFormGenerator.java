@@ -47,7 +47,7 @@ public class PatientRegistrationFormGenerator {
 	    file.close();
 	}
 
-	public static void main(String args[]) throws Exception{
+	/*public static void main(String args[]) throws Exception{
 		PatientBean bean = new PatientBean();
 		bean.setName("John Doe");
 		bean.setBloodGroup("AB+");
@@ -55,5 +55,5 @@ public class PatientRegistrationFormGenerator {
 		bean.setGender("M");
 		
 		new PatientRegistrationFormGenerator().generateRegistrationForm(bean);
-	}
+	}*/
 }
