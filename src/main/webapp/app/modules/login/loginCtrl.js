@@ -41,7 +41,7 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 			}, function (userData) {
 				$cookies.put('userName', userData.name);  // sets the userName values to the cookies
 				$cookies.put('roles', JSON.stringify(userData.roles));  // sets the roles values to the cookies
-				vm.userId = userData.id;
+				vm.userDetails = userData;
 				
 				if (userData.firstLog) { // checks if user is login in for the first time
 					vm.stateLogin = false;
@@ -72,7 +72,12 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 			method: 'POST',
 			payLoad: {
 				password : vm.resetPass.password,
-				id : vm.userId
+				id : vm.userDetails.id,
+				email : vm.userDetails.email,
+				enabled : vm.userDetails.enabled,
+				login : vm.userDetails.login,
+				name : vm.userDetails.name,
+				roles : vm.userDetails.roles
 			}
 		}, function (response) {
 			$state.go('app.home');
