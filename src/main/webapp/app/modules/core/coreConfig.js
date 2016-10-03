@@ -77,7 +77,7 @@ core.config(["$stateProvider", function ($stateProvider) {
 
     // patient registration page state
     $stateProvider.state('app.patientRegistration', {
-        url: '/patientRegistration',
+        url: '/patientRegistration/:prn',
         templateUrl: 'app/modules/core/patientRegistration/patientRegistration.html',
         controller: 'PatientRegistrationController',
         controllerAs: 'vm',

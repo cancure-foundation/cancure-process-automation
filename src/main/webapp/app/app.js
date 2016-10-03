@@ -36,13 +36,13 @@ app.run(function($rootScope, Idle, $state) {
 		// countdown beings
 	});
 	$rootScope.$on('IdleTimeout', function() { 	
-		// session expiry
-		Idle.watch(); // to restart the idle timer
+		// session expiry		
 		var currentState = $state.current.url.replace('/','');
 		if (currentState != 'login' && currentState != 'sessionExpired') {
 			console.log("Session Expiry : " + new Date());
 			$state.go('sessionExpired');
 		}
+		Idle.watch(); // to restart the idle timer
 	});
 	$rootScope.$on('IdleEnd', function() {
 		// event fired if user intervention during countdown

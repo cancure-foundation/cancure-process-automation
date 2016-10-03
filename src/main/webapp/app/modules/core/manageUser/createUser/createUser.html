@@ -26,14 +26,14 @@
                     	<label ng-if="!vm.formData.id">Password</label>
                     	<label ng-if="vm.formData.id">Password (Leave blank if you do not want to change password)</label>
                         <md-icon class="fa fa-unlock-alt"></md-icon>
-                        <input type="password" data-ng-model="vm.formData.password" />
+                        <input aria-label="password" type="password" data-ng-model="vm.formData.password" />
                     </md-input-container>
 
                     <md-input-container class="md-icon-float md-block">
                         <label ng-if="!vm.formData.id">Password</label>
                     	<label ng-if="vm.formData.id">Password (Leave blank if you do not want to change password)</label>
                         <md-icon class="fa fa-unlock-alt"></md-icon>
-                        <input type="password" data-ng-model="vm.formData.retypepassword"/>
+                        <input aria-label="retypepassword" type="password" data-ng-model="vm.formData.retypepassword"/>
                     </md-input-container>
                 </div>
                 <div class="col-md-5 col-xs-12">

@@ -24,7 +24,7 @@ core.controller("HpocMappingController", ['$q', '$timeout', '$scope', '$state', 
 	 * 
 	 */
 	vm.submitForm = function (){
-		if(!vm.hospitalListValue || !vm.hpocListValue || vm.hpocListValue.length == 0) {
+		if((!vm.hospitalListValue || !vm.hpocListValue || vm.hpocListValue.length == 0 ) && !vm.editMode) {
 			Flash.create('warning', 'Please select all options to procees.', 'large-text');   
 			return
 		}
@@ -36,7 +36,8 @@ core.controller("HpocMappingController", ['$q', '$timeout', '$scope', '$state', 
 			method: 'POST',
 			payLoad: {
 				hospitalId : vm.hospitalListValue,
-				hpocIdList : vm.hpocListValue
+				hpocIdList : vm.hpocListValue,
+				status : vm.editMode
 			},
 			errorMsg : 'Error Mapping selected HPOC to hospital. Please try again!'
 		}, function (response) {

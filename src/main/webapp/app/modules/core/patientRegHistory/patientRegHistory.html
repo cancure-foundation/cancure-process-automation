@@ -63,6 +63,7 @@
                                     <!-- basic details -->
                                     <div class="col-xs-12 infoDiv">
                                         <span class="section-title col-xs-12">Basic Details</span>
+                                        <div class="col-md-4 col-xs-6"><b>Date of Birth:&nbsp</b> &nbsp{{vm.patientDetails.dobString || "--"}} </div>
                                         <div class="col-md-4 col-xs-6"><b>Blood Group:&nbsp</b> &nbsp{{vm.patientDetails.bloodGroup || "--"}} </div>
                                         <div class="col-md-4 col-xs-6"><b>Marital Status : </b> &nbsp{{vm.patientDetails.maritalStatus || "--"}} </div>
                                         <div class="col-md-4 col-xs-6"><b>Employment Status : </b> &nbsp{{vm.patientDetails.employmentStatus || "--"}} </div>
@@ -226,10 +227,13 @@
                 <li ng-if="vm.nextTask">
                     <div class="timeline-item">
                         <div class="timeline-body">
-                            <div class="text-center nextTask" ng-if="vm.nextTask.name">
+                            <div class="text-center nextTask" ng-if="vm.nextTask.name && !vm.patientReject">
                                 <div class="title"> Next Step : <b>{{vm.nextTask.name}} </b></div>
                                 <div class="sub-title"> ({{vm.nextTask.description}}) </div>
                                 <span class="goto" ng-click="vm.nextAction()"> GO </span>
+                            </div>
+                            <div class="text-center nextTask" ng-if="vm.patientReject">
+                                Application has being rejected.
                             </div>
                             <div class="text-center nextTask" ng-if="vm.patientDetails.pidn">
                                 <span class="goto"> 
