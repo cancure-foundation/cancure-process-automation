@@ -46,8 +46,9 @@ public class EmailNotifier implements Notifier {
 			email.setHostName(host);
 			email.setSmtpPort(Integer.parseInt(port));
 			email.setFrom(from);
+			if(from!=null && password!=null){
 			email.setAuthentication(from, password);
-			
+			}
 			email.send();
 		} catch (EmailException e) {
 			Log.getLogger().error(e);
