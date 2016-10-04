@@ -19,7 +19,7 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 		$q.all(reqlist).then(function (response){
 			$scope.roles = response[0];
 			if (response[1]) 
-				vm.formData = response[1];			
+				vm.formData = response[1];
 			Loader.destroy();
 		});
 	};

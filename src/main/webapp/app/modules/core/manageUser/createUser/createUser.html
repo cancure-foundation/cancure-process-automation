@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>User ID</label>
-                    <input type="text" data-ng-model="vm.formData.login" required placeholder="Enter user id" />
+                    <input type="text" data-ng-model="vm.formData.login" required placeholder="Enter user id" ng-disabled="vm.editMode" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>E-mail</label>
@@ -28,7 +28,7 @@
                 </md-input-container>
             </div>
             <div class="col-xs-12 text-center" style="padding-bottom: 15px;">
-                <button type="submit" class="btn btn-success" style="margin-right: 8px;">
+                <button type="submit" class="btn btn-success" style="margin-right: 8px;" ng-disabled="vm.formData.firstLog">
                     Save User
                 </button>
                 <input type="button" class="btn btn-warning" ng-click="vm.clearForm()" value="Clear Form" ng-hide="vm.editMode">       

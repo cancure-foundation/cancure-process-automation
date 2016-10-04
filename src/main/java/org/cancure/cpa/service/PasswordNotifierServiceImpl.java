@@ -31,11 +31,11 @@ public class PasswordNotifierServiceImpl implements PasswordNotifier {
         String from = env.getProperty("email.from");
         String password = env.getProperty("email.password");
         HtmlEmail email = new HtmlEmail();
-        String message = "Please note your login Password :"+pass;
+        String message = "Please note your login Password : "+pass;
         try {
             email.setHtmlMsg(message);
             email.addTo(mail);            
-            email.setSubject(pass);
+            email.setSubject("Cancure Notification");
             email.setHtmlMsg(message);
             email.setHostName(host);
             email.setSmtpPort(Integer.parseInt(port));

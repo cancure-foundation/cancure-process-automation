@@ -1,5 +1,5 @@
 <div class="content row">
-    <div class="col-md-12">
+    <div class="col-md-12" style="padding: 0px;">
         <div class="panel panel-info">
             <div class="panel-heading clearfix">
                 User List
@@ -8,12 +8,14 @@
             <div class="panel-body">
                 <table class="table table-bordered">
                     <th class="col-xs-2">Name</th>
+                    <th class="col-xs-2">Log-in ID</th>
                     <th class="col-xs-3">Email</th>
                     <th class="col-xs-3">Assigned Roles</th>
-                    <th class="col-xs-2">Enabled</th>                 
-                    <th class="col-xs-2">Action</th>
+                    <th class="col-xs-1">Enabled</th>                 
+                    <th class="col-xs-1">Action</th>
                     <tr class="" ng-repeat="user in userList | filter:searchBox:user.name">
                         <td class="col-xs-2">{{user.name}}</td>
+                        <td class="col-xs-2">{{user.login}}</td>
                         <td class="col-xs-3">{{user.email}}</td>                        
                         <td class="col-xs-3">
                             <role><a>View Roles</a></role>
@@ -22,8 +24,8 @@
                                 {{role.displayName}}
                             </div>
                         </td>
-                        <td class="col-xs-2">{{user.enabled}}</td>
-                        <td class="col-xs-2" ng-click="vm.editUser(user.id)">
+                        <td class="col-xs-1">{{user.enabled}}</td>
+                        <td class="col-xs-1" ng-click="vm.editUser(user.id)">
                             <span style="color: #3c8dbc;cursor: pointer;">Edit</span>
                         </td>
                     </tr>
