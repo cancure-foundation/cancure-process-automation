@@ -77,7 +77,8 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 				enabled : vm.userDetails.enabled,
 				login : vm.userDetails.login,
 				name : vm.userDetails.name,
-				roles : vm.userDetails.roles
+				roles : vm.userDetails.roles,
+				firstLog : vm.userDetails.firstLog
 			}
 		}, function (response) {
 			$state.go('app.home');
