@@ -1,5 +1,5 @@
-core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', 'Flash', 'apiService', 'appSettings', 'Loader',
-                                         function ($scope, $stateParams, $timeout, Flash, apiService, appSettings, Loader) {
+core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', 'Flash', 'apiService', 'appSettings', 'Loader', '$q',
+                                         function ($scope, $stateParams, $timeout, Flash, apiService, appSettings, Loader, $q) {
 	var vm = this;
 	vm.formData = {};
 	vm.formData.roles = [];
@@ -9,27 +9,20 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 		Loader.create('Fetching Data. Please wait');
 		var id = $stateParams.userId;
 
-		apiService.serviceRequest({
-			URL: appSettings.requestURL.userRoles
-		}, function (response) {
-			$scope.roles = response; // assigns the roles to roles object in the scope
-			getUser(id);
+		var roleList = apiService.asyncServiceRequest({URL: appSettings.requestURL.userRoles});
+		var reqlist = [roleList];
+		if (id) { // check if its edit mode
+			var userDetails = apiService.asyncServiceRequest({URL: 'user/' + id});
+			reqlist.push(userDetails);
+			vm.editMode = true;
+		}
+		$q.all(reqlist).then(function (response){
+			$scope.roles = response[0];
+			if (response[1]) 
+				vm.formData = response[1];			
 			Loader.destroy();
 		});
 	};
-
-	var getUser = function(id){
-		if (id != null && id != ''){
-			apiService.serviceRequest({
-				URL: 'user/' + id
-			}, function (response) {
-				vm.formData = response;
-				Loader.destroy();
-			});
-		} else {
-			Loader.destroy();
-		}
-	}
 
 	// init function, execution starts here
 	init();
@@ -127,5 +120,23 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 		});
 		vm.registerForm.$setUntouched();
 		vm.registerForm.$setPristine();
-	}
+	};
+	/**
+	 * function to reset user password
+	 */
+	vm.resetPassword = function (){
+		Loader.create('Please wait ...');
+
+		// making the server call
+		apiService.serviceRequest({
+			URL: appSettings.requestURL.resetPassword + '/' +vm.formData.id,
+			method: 'POST',
+			payLoad: {
+				id : vm.formData.id
+			}
+		}, function (response) {
+			Loader.destroy();
+			Flash.create('success', 'Reset link send for ' + vm.formData.name, 'large-text'); 
+		});
+	};
 }]);

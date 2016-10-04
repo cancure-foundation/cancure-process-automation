@@ -31,7 +31,8 @@
                 <button type="submit" class="btn btn-success" style="margin-right: 8px;">
                     Save User
                 </button>
-                <input type="button" class="btn btn-warning" ng-click="vm.clearForm()" value="Clear Form">                          
+                <input type="button" class="btn btn-warning" ng-click="vm.clearForm()" value="Clear Form" ng-hide="vm.editMode">       
+                <input type="button" class="btn btn-warning" ng-click="vm.resetPassword()" value="Reset Password" ng-show="vm.editMode">                          
             </div>
         </form>
     </div>

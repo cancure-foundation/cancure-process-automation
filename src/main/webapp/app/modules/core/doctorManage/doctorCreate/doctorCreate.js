@@ -13,6 +13,7 @@ core.controller("DoctorCreateController", ['$scope', '$timeout', '$stateParams',
 		if (id) { // check if its edit mode
 			var doctorDetails = apiService.asyncServiceRequest({URL: 'doctor/' + id});
 			reqlist.push(doctorDetails);
+			vm.editMode = true;
 		}
 		$q.all(reqlist).then(function (response){
 			vm.hospitalList = response[0];
