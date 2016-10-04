@@ -17,89 +17,123 @@ import org.springframework.stereotype.Component;
 @Component("userService")
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	UserRepository userRepo;
-	@Autowired
-	RoleRepository roleRepo;
-	//@Autowired
-	PasswordEncoder encoder = new BCryptPasswordEncoder();
-   
-	public UserBean saveUser(User user) {
-		if (user.getId() == null) {
-			if (user.getPassword() == null){
-				throw new RuntimeException("User password cannot be empty");
-			}
-			String encPass = encoder.encode(user.getPassword());
-			user.setPassword(encPass);
-		} else {
-			if (user.getPassword() == null){
-				User actualUser= userRepo.findOne(user.getId());
-				user.setPassword(actualUser.getPassword());
-			} else {
-				String encPass = encoder.encode(user.getPassword());
-				user.setPassword(encPass);
-			}
-		}
-	    
-		userRepo.save(user);
-		UserBean userBean = new UserBean();
-		BeanUtils.copyProperties(user, userBean);
-		return userBean;
-	}
-	
-	@Override
-	public UserBean getUser(Integer id) {
-		User user= userRepo.findOne(id);
-		UserBean userBean = new UserBean();
-		BeanUtils.copyProperties(user, userBean);
-		return userBean;
-	}
+    @Autowired
+    UserRepository userRepo;
+    @Autowired
+    RoleRepository roleRepo;
+    // @Autowired
+    PasswordEncoder encoder = new BCryptPasswordEncoder();
+    
+    @Autowired
+    CommonService commonService;
 
-	public Iterable<UserBean> listUsers() {
-	    
-	    Iterable<User> list = userRepo.findAll();
-	    List<UserBean> userBeans = new ArrayList<>();
-	    
-	    for (User usr : list){
-	    	UserBean userBean = new UserBean();
-	    	BeanUtils.copyProperties(usr, userBean);
-	    	userBeans.add(userBean);
-	    }
-	    
-	    return userBeans;
-	}
+    @Autowired
+    PasswordNotifier passwordNotifier;
+    
+    public UserBean saveUser(User user) {
+        String password="";
+        if (user.getId() == null) {
+            user.setFirstLog(true);
+            password=commonService.generatePassword();
+            String encPass = encoder.encode(password);
+            user.setPassword(encPass);
+            
+        } else {
+            if (user.getFirstLog()) {
+                if (user.getPassword() == null) {
+                    throw new RuntimeException("User password cannot be empty");
+                }
+                String encPass = encoder.encode(user.getPassword());
+                user.setPassword(encPass);
+                user.setFirstLog(false);
+            } else {
+                if (user.getPassword() == null) {
+                    User actualUser = userRepo.findOne(user.getId());
+                    user.setPassword(actualUser.getPassword());
+                } else {
+                    String encPass = encoder.encode(user.getPassword());
+                    user.setPassword(encPass);
+                }
+            }
+        }
 
-	public Iterable<Role> listRoles() {
-		return roleRepo.findAll();
-	}
+        userRepo.save(user);
+        if(!password.equals("")){
+        passwordNotifier.notify(user.getEmail(), password);
+        }
+        UserBean userBean = new UserBean();
+        BeanUtils.copyProperties(user, userBean);
+        return userBean;
+    }
 
-	@Override
-	public UserBean getUserByLogin(String login) {
-		User user= userRepo.findByLogin(login);
-		UserBean userBean = new UserBean();
-		BeanUtils.copyProperties(user, userBean);
-		return userBean;
-	}
-	
-	public void setUserRepo(UserRepository userRepo) {
-		this.userRepo = userRepo;
-	}
+    @Override
+    public UserBean getUser(Integer id) {
+        User user = userRepo.findOne(id);
+        UserBean userBean = new UserBean();
+        BeanUtils.copyProperties(user, userBean);
+        return userBean;
+    }
 
-	public void setRoleRepo(RoleRepository roleRepo) {
-		this.roleRepo = roleRepo;
-	}
-	
-	@Override
-	public Iterable<UserBean> listHPOCUsers() {
-		Iterable<User> list = userRepo.findByUserRole("ROLE_HOSPITAL_POC");
-		List<UserBean> userBeans = new ArrayList<>();
+    public Iterable<UserBean> listUsers() {
 
-		for (User usr : list){
-			UserBean userBean = new UserBean();
-			BeanUtils.copyProperties(usr, userBean);
-			userBeans.add(userBean);
-		}
-		return userBeans;
-	}
+        Iterable<User> list = userRepo.findAll();
+        List<UserBean> userBeans = new ArrayList<>();
+
+        for (User usr : list) {
+            UserBean userBean = new UserBean();
+            BeanUtils.copyProperties(usr, userBean);
+            userBeans.add(userBean);
+        }
+
+        return userBeans;
+    }
+
+    public Iterable<Role> listRoles() {
+        return roleRepo.findAll();
+    }
+
+    @Override
+    public UserBean getUserByLogin(String login) {
+        User user = userRepo.findByLogin(login);
+        UserBean userBean = new UserBean();
+        BeanUtils.copyProperties(user, userBean);
+        return userBean;
+    }
+
+    public void setUserRepo(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
+
+    public void setRoleRepo(RoleRepository roleRepo) {
+        this.roleRepo = roleRepo;
+    }
+
+    @Override
+    public Iterable<UserBean> listHPOCUsers() {
+        Iterable<User> list = userRepo.findByUserRole("ROLE_HOSPITAL_POC");
+        List<UserBean> userBeans = new ArrayList<>();
+
+        for (User usr : list) {
+            UserBean userBean = new UserBean();
+            BeanUtils.copyProperties(usr, userBean);
+            userBeans.add(userBean);
+        }
+        return userBeans;
+    }
+
+    @Override
+    public UserBean resetPassword(Integer id) {
+        
+        User user=userRepo.findOne(id);
+        user.setFirstLog(true);
+        String password=commonService.generatePassword();
+        String encPass = encoder.encode(password);
+        user.setPassword(encPass);
+        passwordNotifier.notify(user.getEmail(), password);
+        userRepo.save(user);
+        UserBean userBean = new UserBean();
+        BeanUtils.copyProperties(user, userBean);
+        return userBean;
+    }
 
 }

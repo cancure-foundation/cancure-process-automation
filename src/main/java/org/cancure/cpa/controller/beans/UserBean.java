@@ -30,6 +30,8 @@ public class UserBean {
 	private Boolean enabled;
 	
 	private String email;
+	
+	private Boolean firstLog;
 
 	public Set<Role> getRoles() {
 		return roles;
@@ -78,5 +80,13 @@ public class UserBean {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+    public Boolean getFirstLog() {
+        return firstLog;
+    }
+
+    public void setFirstLog(Boolean firstLog) {
+        this.firstLog = firstLog;
+    }
 
 }

@@ -14,4 +14,6 @@ public interface CommonService {
 	Settings saveSetting(Settings setting);
 	
 	Settings findSettingsById(Integer id);
+	
+	String generatePassword();
 }
