@@ -38,9 +38,13 @@ public class NotifierService implements TaskListener {
 		String patName = (String)vars.get("patientName");
 		Integer prn = (Integer)vars.get("prn");
 		StringBuffer message = new StringBuffer("");
-		message.append("Hi, <br>A task has been assigned to you. <br>Patient Name : " + patName + 
-				"<br>PRN : " + prn + "<br>Task to do : " + task.getName() + 
-				"<br>Thanks, <br/>Cancure");
+		message.append("Hi, <br><br>"
+		        + "A task has been assigned to you.<br> "
+		        + "<b>Patient Name : <b>" + patName + "<br>"
+				+ "<b>PRN :</b> " + prn + "<br>"
+				+ "<b>Task to do :</b> " + task.getName() + "<br><br>"
+				+ "Visit <a href=http://www.cancure.in.net>www.cancure.in.net</a><br><br>"
+				+ "Thanks, <br/>Cancure");
 		new NotificationComponent().notify(message.toString(), null, task);
 		
 	}
