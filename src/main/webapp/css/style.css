@@ -101,5 +101,6 @@ a {
 .input-box input.focus,
 .input-box select.focus {
     border: solid 1px #707070;
+    outline: 1px solid #3478f5;
     box-shadow: 0 0 5px 1px #969696;
 }

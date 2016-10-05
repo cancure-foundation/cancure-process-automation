@@ -95,7 +95,17 @@ public class MyTasksServiceImpl implements MyTasksService {
 
 			@Override
 			public int compare(HistoricTaskInstance x, HistoricTaskInstance y) {
-				return x.getCreateTime().compareTo(y.getCreateTime());
+				int value = x.getCreateTime().compareTo(y.getCreateTime());
+				if (value == 0){
+					try {
+						value = Integer.parseInt(x.getId()) - Integer.parseInt(y.getId());
+					} catch (NumberFormatException e) {
+						value = x.getId().compareTo(y.getId());
+					}
+					return value;
+				} else {
+					return value;
+				}
 			}
 			
 		});

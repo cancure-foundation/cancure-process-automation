@@ -135,6 +135,7 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 				id : vm.formData.id
 			}
 		}, function (response) {
+			vm.formData.firstLog = true;
 			Loader.destroy();
 			Flash.create('success', 'Reset link send for ' + vm.formData.name, 'large-text'); 
 		});
