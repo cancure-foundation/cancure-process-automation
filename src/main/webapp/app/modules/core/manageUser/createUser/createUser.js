@@ -19,7 +19,7 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 		$q.all(reqlist).then(function (response){
 			$scope.roles = response[0];
 			if (response[1]) 
-				vm.formData = response[1];			
+				vm.formData = response[1];
 			Loader.destroy();
 		});
 	};
@@ -135,6 +135,7 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 				id : vm.formData.id
 			}
 		}, function (response) {
+			vm.formData.firstLog = true;
 			Loader.destroy();
 			Flash.create('success', 'Reset link send for ' + vm.formData.name, 'large-text'); 
 		});

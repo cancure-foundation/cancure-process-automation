@@ -2,14 +2,6 @@
     background-color: transparent;
     overflow: hidden;
 }
-.patientRegistrationFamily select {
-    width: 100%;
-    border: 0px;
-    border-bottom: 1px solid #e6e6e6;
-    padding-bottom: 5px;
-    cursor: pointer;
-    outline: none;
-}
 .patientRegistrationFamily select option {
     padding: 5px;
 }
@@ -27,7 +19,7 @@
 }
 .patientRegistrationFamily .profile-image {
     border: 5px solid #d9edf7;
-    height: 240px;
+    height: 231px;
 }
 .patientRegistrationFamily .profile-image * {
     outline: none;
@@ -73,13 +65,15 @@
 .patientFamily .clearfix {
     padding: 15px 7px;
 }
-.patientFamily .clearfix .autoScroll {
-    border: 1px solid #e6e6e6;
-    padding: 15px;
-    background: #fff;
-}
 .patientFamily .clearfix .repeatingDiv {
-    padding: 8px;
+    background: #fff;
+    padding-bottom: 15px;
+}
+.patientFamily .clearfix .repeatingDiv .form-group {
+    padding: 15px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    border: 1px solid #e6e6e6;
 }
 .diagDetails .clearfix {
     background-color: #fff;
@@ -98,16 +92,10 @@
     width: 100%;
     resize: none;
 }
-.diagDetails fieldset {
-    margin-left: 36px;
-}
 .diagDetails fieldset legend {
     font-size: 16px;
     border: none;
     margin-bottom: 5px;
-}
-.diagDetails .file-upload {
-    padding-left: 54px;
 }
 .diagDetails .file-upload .title {
     font-size: 16px;
@@ -177,11 +165,14 @@
 }
 .supportingOrg .repeatingDiv {
     padding: 8px;
+    padding-top: 0px;
 }
-.supportingOrg .repeatingDiv .autoScroll {
+.supportingOrg .repeatingDiv .form-group {
     border: 1px solid #e6e6e6;
     background: #fff;
     padding: 15px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 .patientRegDialogBx {
     padding: 15px;

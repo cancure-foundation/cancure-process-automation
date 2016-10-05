@@ -8,10 +8,12 @@
     <div class="content">
         <form data-ng-submit="vm.submitForm();" name="vm.patientRegisterForm">
             <div>
-                <md-button class="md-raised md-primary" type="submit">Register <i class="fa fa-angle-double-right"></i></md-button>
-                <md-button class="md-raised" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
+                <button type="submit" class="btn btn-success" style="margin-right: 8px;">
+                    Register
+                </button>
+                <input type="clear" class="btn btn-warning" ng-click="vm.initializeVars();" value="Clear Form">
             </div>
-            <br>
+            <br> 
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-info">
@@ -19,113 +21,101 @@
                             Patient Details
                         </div>
                         <div class="panel-body">
-                            <md-content class="autoScroll" style="overflow:hidden">
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-12">
-                                        <md-input-container class="md-icon-float md-block">
-                                            <label>Name</label>
-                                            <md-icon class="fa fa-user"></md-icon>
-                                            <input type="text" name="name" data-ng-model="vm.formData.name" ng-required="true" maxlength="100" />
-                                        </md-input-container>
-
-                                        <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
-                                            <md-icon class="fa fa-chevron-right"></md-icon>
-                                            <select data-ng-model="vm.formData.gender" ng-options="item.value as item.value for item in vm.Gender" ng-required="true">
-                                                <option value="">Select Gender</option>
-                                            </select>
-                                        </md-input-container>
-
-                                        <md-input-container class="md-icon-float md-block">
-                                            <md-icon class="fa fa-briefcase"></md-icon>
-                                            <select data-ng-model="vm.formData.employmentStatus" ng-options="item.value as item.value for item in vm.EmploymentStatus" required>
-                                                <option value="">Select Employment status</option>
-                                            </select>
-                                        </md-input-container>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="input-box">
+                                        <label>Pateint Name</label>
+                                        <input type="text" data-ng-model="vm.formData.name" maxlength="100" required placeholder="Enter patient name" />
                                     </div>
-
-                                    <div class="col-md-4 col-sm-12">
-                                        <md-input-container class="md-icon-float md-block">
-                                            <label>Date of Birth</label>
-                                            <md-icon class="fa fa-calendar"></md-icon>
-                                            <input type="date" data-ng-model="vm.formData.dob" ng-required="true">
-                                        </md-input-container>
-
-                                        <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
-                                            <md-icon class="fa fa-plus"></md-icon>
-                                            <select data-ng-model="vm.formData.bloodGroup" ng-options="item.value as item.value for item in vm.BloodGroups" ng-required="true">
-                                                <option value="">Select Blood Group</option>
-                                            </select>
-                                        </md-input-container>
-
-                                        <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
-                                            <md-icon class="fa fa-plus"></md-icon>
-                                            <select data-ng-model="vm.formData.maritalStatus" ng-required="true" ng-options="item.value as item.value for item in vm.MaritalStatus">
-                                                <option value="">Select Marital Status</option>
-                                            </select>
-                                        </md-input-container>
+                                    <div class="input-box">
+                                        <label>Gender</label>
+                                        <select class="form-control" data-ng-model="vm.formData.gender" required>
+                                            <option value="">Select Gender</option>
+                                            <option value="{{item.value}}" ng-repeat="item in vm.Gender">{{item.value}}</option>
+                                        </select>
                                     </div>
+                                    <div class="input-box">
+                                        <label>Employment status</label>
+                                        <select class="form-control" data-ng-model="vm.formData.employmentStatus" required>
+                                            <option value="">Select Employment status</option>
+                                            <option value="{{item.value}}" ng-repeat="item in vm.EmploymentStatus">{{item.value}}</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                                    <div class="col-md-4 col-sm-12">
-                                        <div class="profile-image">
-                                            <div class="title">
-                                                <span>Profile Image</span>
-                                                <i class="fa fa-times" ng-click="vm.removeProfileImg()" ng-show="vm.formData.profilePicSrc && !vm.disableDelPic"></i>
-                                                <i class="fa fa-refresh" ng-click="vm.showFileDialog()" ng-show="vm.formData.profilePicSrc"></i>
-                                            </div>
-                                            <div class="select-div" ng-click="vm.showFileDialog()" ng-hide="vm.formData.profilePicSrc">Click to Select Image</div>
-                                            <div class="img-container">
-                                                <img ng-src="{{vm.formData.profilePicSrc}}" ng-show="vm.formData.profilePicSrc" />
-                                            </div>
-                                            <input id="patientProfilePic_reg" type='file' onchange="angular.element(this).scope().vm.profileImageChange(this);" style="display: none;" />
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="input-box">
+                                        <label>Date of Birth</label>
+                                        <input type="date" data-ng-model="vm.formData.dob" required placeholder="Enter patient dob" />
+                                    </div>
+                                    <div class="input-box">
+                                        <label>Blood Group</label>
+                                        <select class="form-control" data-ng-model="vm.formData.bloodGroup" required>
+                                            <option value="">Select Blood Group</option>
+                                            <option value="{{item.value}}" ng-repeat="item in vm.BloodGroups">{{item.value}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-box">
+                                        <label>Marital Status</label>
+                                        <select class="form-control" data-ng-model="vm.formData.maritalStatus" required>
+                                            <option value="">Select Marital Status</option>
+                                            <option value="{{item.value}}" ng-repeat="item in vm.MaritalStatus">{{item.value}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="profile-image">
+                                        <div class="title">
+                                            <span>Profile Image</span>
+                                            <i class="fa fa-times" ng-click="vm.removeProfileImg()" ng-show="vm.formData.profilePicSrc && !vm.disableDelPic"></i>
+                                            <i class="fa fa-refresh" ng-click="vm.showFileDialog()" ng-show="vm.formData.profilePicSrc"></i>
                                         </div>
+                                        <div class="select-div" ng-click="vm.showFileDialog()" ng-hide="vm.formData.profilePicSrc">Click to Select Image</div>
+                                        <div class="img-container">
+                                            <img ng-src="{{vm.formData.profilePicSrc}}" ng-show="vm.formData.profilePicSrc" />
+                                        </div>
+                                        <input id="patientProfilePic_reg" type='file' onchange="angular.element(this).scope().vm.profileImageChange(this);" style="display: none;" />
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-12">
-                                        <md-input-container class="md-icon-float md-block">
-                                            <label>Contact No.</label>
-                                            <md-icon class="fa fa-phone"></md-icon>
-                                            <input data-ng-model="vm.formData.contact" ng-required="true" maxlength="20" />
-                                        </md-input-container>
-                                    </div>
-                                    <div class="col-md-4 col-sm-12">
-                                        <md-input-container class="md-icon-float md-block">
-                                            <label>Address for Communication</label>
-                                            <md-icon class="fa fa-home"></md-icon>
-                                            <input type="text" name="address" data-ng-model="vm.formData.address" ng-required="true" maxlength="250">
-                                        </md-input-container>
-                                    </div>
-                                    <div class="col-md-4 col-sm-12">
-                                        <md-input-container class="md-icon-float md-block">
-                                            <md-icon class="fa fa-chevron-right"></md-icon>
-                                            <select data-ng-model="vm.formData.typeOfSupport" ng-options="item.value as item.value for item in vm.TypeOfSupportSought" required>
-                                                <option value="">Type of Support from Cancure</option>
-                                            </select>
-                                        </md-input-container>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-12">
-                                        <md-input-container class="md-icon-float md-block" style="margin-bottom:0px">
-                                            <label>Assets Owned</label>
-                                            <md-icon class="fa fa-briefcase"></md-icon>
-                                            <input type="text" name="assetsOwned" data-ng-model="vm.formData.assetsOwned" maxlength="150">
-                                        </md-input-container>
-                                    </div>
-                                    <div class="col-md-4 col-sm-12">
-                                        <md-input-container class="md-icon-float md-block">
-                                            <md-checkbox data-ng-model="vm.formData.solebreadwinner">
-                                                Is the patient the sole bread winner of the family
-                                            </md-checkbox>
-                                        </md-input-container>
-                                    </div>
-                                </div>
-                            </md-content>
+                            </div>
 
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12 input-box">
+                                    <label>Contact No.</label>
+                                    <input type="text" data-ng-model="vm.formData.contact" maxlength="15" required placeholder="Enter patient number" />
+                                </div>
+                                <div class="col-md-4 col-sm-12 input-box">
+                                    <label>Address for Communication</label>
+                                    <input type="text" data-ng-model="vm.formData.address" required placeholder="Enter patient address" />
+                                </div>
+                                <div class="col-md-4 col-sm-12 input-box">
+                                    <label>Type of Support from Cancure</label>
+                                    <select class="form-control" data-ng-model="vm.formData.typeOfSupport" required>
+                                        <option value="">Select Type of Support</option>
+                                        <option value="{{item.value}}" ng-repeat="item in vm.TypeOfSupportSought">{{item.value}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12 input-box">
+                                    <label>Assets Owned</label>
+                                    <input type="text" data-ng-model="vm.formData.assetsOwned" required placeholder="Enter patient assets" />
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <md-input-container class="md-icon-float md-block">
+                                        <md-checkbox data-ng-model="vm.formData.solebreadwinner" style="margin: 14px 0px;">
+                                            Is the patient the sole bread winner of the family
+                                        </md-checkbox>
+                                    </md-input-container>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="row patientFamily">
                 <div class="col-md-12">
                     <div class="panel panel-success">
@@ -137,35 +127,41 @@
                         <div class="clearfix">
                             <div style="padding: 0px 15px 0px 8px;" ng-if="vm.formData.patientFamily.length == 0">No family member added.</div>
                             <div class="col-sm-12 col-md-4 repeatingDiv" ng-repeat="fd in vm.formData.patientFamily">
-                                <md-content class="autoScroll">
-                                    <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
-                                        <md-icon class="fa fa-users"></md-icon>
-                                        <md-select data-ng-model="fd.relation" placeholder="Relation to patient" ng-required="true">
-                                            <md-option ng-repeat="item in vm.FamilyRelation" value="{{item.value}}">{{item.value}}</md-option>
-                                        </md-select>
-                                    </md-input-container>
-                                    <md-input-container class="md-icon-float md-block">
+                                <div class="form-group">
+                                    <div class="input-box">
+                                        <label>Relation to patient</label>
+                                        <select class="form-control" data-ng-model="fd.relation">
+                                            <option value="">Select relation</option>
+                                            <option value="{{item.value}}" ng-repeat="item in vm.FamilyRelation">{{item.value}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-box">
                                         <label>Age</label>
-                                        <md-icon class="fa fa-user"></md-icon>
-                                        <input type="text" name="patientFamilyAge" data-ng-model="fd.age" maxlength="3">
-                                    </md-input-container>
-                                    <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
-                                        <md-icon class="fa fa-user"></md-icon>
-                                        <md-select data-ng-model="fd.status" placeholder="Employment status">
-                                            <md-option ng-repeat="item in vm.EmploymentStatus" value="{{item.value}}">{{item.value}}</md-option>
-                                        </md-select>
-                                    </md-input-container>
-                                    <md-input-container class="md-icon-float md-block">
+                                        <input type="number" data-ng-model="fd.age" maxlength="3" placeholder="Enter bystander age" />
+                                    </div>
+                                    <div class="input-box">
+                                        <label>Employment status</label>
+                                        <select class="form-control" data-ng-model="fd.status">
+                                            <option value="">Select Employment status</option>
+                                            <option value="{{item.value}}" ng-repeat="item in vm.EmploymentStatus">{{item.value}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-box">
                                         <label>Monthly Income</label>
-                                        <md-icon class="fa fa-money"></md-icon>
-                                        <input type="text" name="patientFamilyIncome" data-ng-model="fd.income" maxlength="10" />
-                                    </md-input-container>
-                                    <md-input-container class="md-icon-float md-block">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">₹</div>
+                                            <input type="number" data-ng-model="fd.income" maxlength="10" placeholder="Enter income" />
+                                        </div>
+                                    </div>
+                                    <div class="input-box">
                                         <label>Other Income</label>
-                                        <md-icon class="fa fa-money"></md-icon>
-                                        <input type="text" name="patientFamilyOtherIncome" data-ng-model="fd.otherIncome" maxlength="10" />
-                                    </md-input-container>
-                                    <md-content>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">₹</div>
+                                            <input type="number" data-ng-model="fd.otherIncome" maxlength="10" placeholder="Enter income" />
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -177,29 +173,19 @@
                         <div class="panel-heading">
                             Diagnosis Details
                         </div>
-                        <div class="clearfix" style="margin-top: 15px;">
-                            <div class="col-sm-12 col-md-4">
-                                <md-input-container class="md-icon-float md-block">
-                                    <label>Hospital Name</label>
-                                    <md-icon class="fa fa-plus"></md-icon>
-                                    <input type="text" name="hospital" data-ng-model="vm.formData.hospital" maxlength="100" />
-                                </md-input-container>
+                        <div class="clearfix">
+                            <div class="col-sm-12 col-md-4 input-box">
+                                <label>Hospital Name</label>
+                                <input type="text" data-ng-model="vm.formData.hospital" maxlength="100" placeholder="Enter hospital name" />
                             </div>
-                            <div class="col-sm-12 col-md-4">
-                                <md-input-container class="md-icon-float md-block">
-                                    <label>Doctor's Name</label>
-                                    <md-icon class="fa fa-user"></md-icon>
-                                    <input type="text" name="doctorName" data-ng-model="vm.formData.doctorName" maxlength="100" />
-                                </md-input-container>
+                            <div class="col-sm-12 col-md-4 input-box">
+                                <label>Doctor's Name</label>
+                                <input type="text" data-ng-model="vm.formData.doctorName" maxlength="100" placeholder="Enter doctor name" />
                             </div>
-                            <div class="col-sm-12 col-md-4">
-                                <md-input-container class="md-icon-float md-block">
-                                    <label>Diagnosis</label>
-                                    <md-icon class="fa fa-search"></md-icon>
-                                    <input type="text" name="diagnosis" data-ng-model="vm.formData.diagnosis" maxlength="100" />
-                                </md-input-container>
+                            <div class="col-sm-12 col-md-4 input-box">
+                                <label>Diagnosis</label>
+                                <input type="text" data-ng-model="vm.formData.hospital" maxlength="100" placeholder="Enter details" />
                             </div>
-
                             <div class="col-sm-12 col-md-4">
                                 <fieldset>
                                     <legend>Doctor's comments</legend>
@@ -217,7 +203,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4" ng-show="vm.editMode && vm.editFiles.diagFiles.length > 0" style="padding-left: 54px;">
-                            	<info>Files Uploaded Already</info>
+                                <info>Files Uploaded Already</info>
                                 <div class="edit-file-names">
                                     <div ng-repeat="doc in vm.editFiles.diagFiles" class="fileName">
                                         <span ng-click="vm.viewDiagFile(doc)" ng-class="{'deleted' : doc.deleted}">{{doc.docName}}</span>
@@ -232,63 +218,58 @@
             </div>
             <div class="row">
                 <div class="col-md-4 col-sm-12">
-                    <div class="panel panel-danger" style="height: 380px;">
+                    <div class="panel panel-danger" style="height: 360px;">
                         <div class="panel-heading">
                             Bystander Details
                         </div>
                         <div class="panel-body">
-                            <md-content>
-                                <md-input-container class="md-icon-float md-block">
-                                    <label>Bystander Name</label>
-                                    <md-icon class="fa fa-user"></md-icon>
-                                    <input type="text" name="bystanderName" data-ng-model="vm.formData.bystanderName" maxlength="100">
-                                </md-input-container>
-                                <md-input-container class="md-icon-float md-block">
-                                    <label>Bystander Contact</label>
-                                    <md-icon class="fa fa-user"></md-icon>
-                                    <input name="bystanderContact" data-ng-model="vm.formData.bystanderContact" maxlength="20">
-                                </md-input-container>
-                                <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
-                                    <label>Bystander Relation</label>
-                                    <md-icon class="fa fa-user"></md-icon>
-                                    <md-select data-ng-model="vm.formData.bystanderRelation" name="gender" ng-required="true">
-                                        <md-option ng-repeat="item in vm.FamilyRelation" value="{{item.value}}">{{item.value}}</md-option>
-                                    </md-select>
-                                </md-input-container>
-                            </md-content>
+                            <div class="input-box">
+                                <label>Bystander Name</label>
+                                <input type="text" data-ng-model="vm.formData.bystanderName" maxlength="100" placeholder="Enter name" />
+                            </div>
+                            <div class="input-box">
+                                <label>Bystander Contact</label>
+                                <input type="text" data-ng-model="vm.formData.bystanderContact" maxlength="20" placeholder="Enter number" />
+                            </div>
+                            <div class="input-box">
+                                <label>Bystander Relation</label>
+                                <select class="form-control" data-ng-model="vm.formData.bystanderRelation">
+                                    <option value="">Select Bystander Relation</option>
+                                    <option value="{{item.value}}" ng-repeat="item in vm.FamilyRelation">{{item.value}}</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <div class="panel panel-danger" style="height: 380px;">
+                    <div class="panel panel-danger" style="height: 360px;">
                         <div class="panel-heading">
                             Other Details
                         </div>
                         <div class="panel-body">
-                            <md-content class="autoScroll">
-                                <md-input-container class="md-icon-float md-block" style="padding-bottom: 26px;">
-                                    <md-icon class="fa fa-user"></md-icon>
-                                    <md-select data-ng-model="vm.formData.knowAboutCancure" placeholder="How did you know about Cancure">
-                                        <md-option ng-repeat="item in vm.KnowAboutCancure" value="{{item.value}}">{{item.value}}</md-option>
-                                    </md-select>
-                                </md-input-container>
-                                <md-input-container class="md-icon-float md-block">
-                                    <label>Recommended By</label>
-                                    <md-icon class="fa fa-user"></md-icon>
-                                    <input type="text" name="recommendationName" data-ng-model="vm.formData.recommendationName" maxlength="100" />
-                                </md-input-container>
-                                <md-input-container class="md-icon-float md-block">
-                                    <md-icon class="fa fa-user"></md-icon>
-                                    <md-select data-ng-model="vm.formData.recommendationType" placeholder="Recommendation type">
-                                        <md-option ng-repeat="item in vm.RecommendationType" value="{{item.value}}">{{item.value}}</md-option>
-                                    </md-select>
-                                </md-input-container>
-                            </md-content>
+                            <div class="input-box">
+                                <label>How did you know about Cancure</label>
+                                <select class="form-control" data-ng-model="vm.formData.knowAboutCancure">
+                                    <option value="">Select option</option>
+                                    <option value="{{item.value}}" ng-repeat="item in vm.KnowAboutCancure">{{item.value}}</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Recommended By</label>
+                                <input type="text" data-ng-model="vm.formData.recommendationName" maxlength="100" placeholder="Enter name" />
+                            </div>
+                            <div class="input-box">
+                                <label>Recommendation type</label>
+                                <select class="form-control" data-ng-model="vm.formData.recommendationType">
+                                    <option value="">Select Recommendation type</option>
+                                    <option value="{{item.value}}" ng-repeat="item in vm.RecommendationType">{{item.value}}</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12 supportingDocs">
-                    <div class="panel panel-danger" style="height: 380px;">
+                    <div class="panel panel-danger" style="height: 360px;">
                         <div class="panel-heading">
                             Supporting Documents
                         </div>
@@ -334,18 +315,19 @@
                                 </md-checkbox>
                             </md-input-container>
                             <div class="col-md-4 col-sm-12 repeatingDiv" ng-if="vm.formData.supportFromOther" ng-repeat="org in vm.formData.organisation">
-                                <md-content class="autoScroll">
-                                    <md-input-container class="md-icon-float md-block">
+                                <div class="form-group">
+                                    <div class="input-box">
                                         <label>Organisation Name</label>
-                                        <md-icon class="fa fa-chevron-right"></md-icon>
-                                        <input type="text" name="organisationName" data-ng-model="org.name" ng-required="true" maxlength="100" />
-                                    </md-input-container>
-                                    <md-input-container class="md-icon-float md-block">
+                                        <input type="text" data-ng-model="org.name" maxlength="100" placeholder="Enter name" required/>
+                                    </div>
+                                    <div class="input-box">
                                         <label>Amount received</label>
-                                        <md-icon class="fa fa-dollar"></md-icon>
-                                        <input type="text" name="amountRec" data-ng-model="org.amountRec" ng-required="true" maxlength="10" />
-                                    </md-input-container>
-                                </md-content>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">₹</div>
+                                            <input type="number" data-ng-model="org.amountRec" maxlength="10" placeholder="Enter income" required/>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -359,33 +341,33 @@
                         </div>
                         <div class="panel-body">
                             <div class="col-xs-12" style="padding-left: 0px;">
-                                <md-checkbox data-ng-model="vm.donePrelimChck" ng-change="vm.formData.hospitalId = null;vm.formData.doctorId = null">
+                                <md-checkbox data-ng-model="vm.donePrelimChck" ng-change="vm.formData.preliminaryExamHospitalId = null;vm.formData.preliminaryExamDoctorId = null">
                                     Has the patient completed preliminary examination?
                                 </md-checkbox>
                             </div>
-                            <div class="col-md-4 col-xs-12" ng-hide="vm.donePrelimChck" style="padding-left: 0px;">
-                                <md-input-container class="md-icon-float md-block">
-                                    <label>Select Hospital</label>
-                                    <md-select data-ng-model="vm.formData.preliminaryExamHospitalId" ng-change="vm.onHospitalChange();">
-                                        <md-option ng-repeat="item in vm.hospitalList" value="{{item.hospitalId}}">{{item.name}}</md-option>
-                                    </md-select>
-                                </md-input-container>
+                            <div class="col-md-4 col-xs-12 input-box" ng-hide="vm.donePrelimChck" style="padding: 0 15px 0 0;">
+                                <label>Select Hospital</label>
+                                <select class="form-control" data-ng-model="vm.formData.preliminaryExamHospitalId" ng-change="vm.onHospitalChange();">
+                                    <option value="">Select Hospital</option>
+                                    <option value="{{item.hospitalId}}" ng-repeat="item in vm.hospitalList" ng-selected="vm.formData.preliminaryExamHospitalId==item.hospitalId">{{item.name}}</option>
+                                </select>
                             </div>
-                            <div class="col-md-4 col-xs-12" ng-hide="vm.donePrelimChck" style="padding-left: 0px;">
-                                <md-input-container class="md-icon-float md-block">
-                                    <label>Select Doctor</label>
-                                    <md-select data-ng-model="vm.formData.preliminaryExamDoctorId" ng-disabled="!vm.formData.preliminaryExamHospitalId">
-                                        <md-option ng-repeat="item in vm.doctorList" value="{{item.id}}">{{item.name}}</md-option>
-                                    </md-select>
-                                </md-input-container>
+                            <div class="col-md-4 col-xs-12 input-box" ng-hide="vm.donePrelimChck" style="padding: 0 15px 0 0;">
+                                <label>Select Doctor</label>
+                                <select class="form-control" data-ng-model="vm.formData.preliminaryExamDoctorId" ng-disabled="!vm.formData.preliminaryExamHospitalId">
+                                    <option value="">Select Doctor</option>
+                                    <option value="{{item.id}}" ng-repeat="item in vm.doctorList">{{item.name}}</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div>
-                <md-button class="md-raised md-primary" type="submit">Register <i class="fa fa-angle-double-right"></i></md-button>
-                <md-button class="md-raised" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
+                <button type="submit" class="btn btn-success" style="margin-right: 8px;">
+                    Register
+                </button>
+                <input type="clear" class="btn btn-warning" ng-click="vm.initializeVars();" value="Clear Form">
             </div>
         </form>
     </div>

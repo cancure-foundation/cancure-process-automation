@@ -1,8 +1,7 @@
 --create user 'cancure'@'localhost' identified by 'cancure123';
 --grant all privileges on cancure.* to 'cancure'@'localhost' with grant option;
 
-insert into user(id, name, login, password, enabled) values (1,'Geetha','geetha','$2a$10$uLTQyV4LZu5QAczsTR.eW.cWvUttoTb2XqWJlQsTauQQTkI8tcGqC', true);
-insert into user(id, name, login, password, enabled) values (2,'cancure','cancure','$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true);
+insert into user(id, name, login, password, enabled) values (1,'cancure','cancure','$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true);
  
 insert into role(id, name, display_name) values (1,'ROLE_ADMIN', 'Admin');
 insert into role(id, name, display_name) values (2,'ROLE_GUEST', 'Guest');
@@ -73,7 +72,7 @@ insert into list_value values (38, 6, 'Life Member');
 insert into list_value values (39, 6, 'Other Member');
 insert into list_value values (40, 6, 'VIP/SIP');
 
-insert into list_value values (58, 7, 'Voter id');
+insert into list_value values (41, 7, 'Voter id');
 insert into list_value values (42, 7, 'Ration card');
 insert into list_value values (43, 7, 'Driving License');
 insert into list_value values (44, 7, 'Aadhar card');

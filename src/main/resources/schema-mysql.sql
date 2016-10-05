@@ -73,6 +73,7 @@ create table user (
 	email varchar(100),
 	password varchar(100),
 	enabled boolean,
+	first_log boolean,
 	unique (login)
 );
 
