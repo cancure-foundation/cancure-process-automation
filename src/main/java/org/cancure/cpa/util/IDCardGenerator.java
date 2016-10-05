@@ -1,11 +1,14 @@
 package org.cancure.cpa.util;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.ServletContext;
 
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
@@ -30,6 +33,9 @@ import com.itextpdf.text.pdf.PdfWriter;
 @Component
 public class IDCardGenerator {
 
+    @Autowired
+    private ServletContext servletContext;
+    
 	@Autowired
 	private PatientService patientService;
 	
@@ -140,7 +146,8 @@ public class IDCardGenerator {
 			printImage(canvas, 10, 245 - 232, 114, 126, filePath);
 		}
 
-		Image cancureLog = Image.getInstance(this.getClass().getClassLoader().getSystemResource("images/logo.jpg"));
+		String logoFile = servletContext.getRealPath("/images/logo.jpg");
+		Image cancureLog = Image.getInstance(logoFile);
 		printImage(canvas, 10, 245 - 96, 100, 100, cancureLog);
 		printTransparentImage(canvas, 127, 245 - 232, 273, 226, cancureLog);
 
@@ -190,10 +197,11 @@ public class IDCardGenerator {
 		canvas.setRGBColorFill(0x00, 0x00, 0x00);
 		BaseFont bf = null;
 		try {
-			bf = BaseFont.createFont("fonts/FreeSans.ttf", BaseFont.IDENTITY_H, 
+		    String fontPath = servletContext.getRealPath("/fonts/FreeSans.ttf");
+			bf = BaseFont.createFont(fontPath, BaseFont.IDENTITY_H, 
 	                  BaseFont.EMBEDDED);
 		} catch (Exception e) {
-			bf = BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1257, 
+			bf = BaseFont.createFont(BaseFont.HELVETICA,BaseFont.CP1257, 
 	                  BaseFont.EMBEDDED);
 		}
 		
