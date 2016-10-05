@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class PasswordNotifierServiceImpl implements PasswordNotifier {
 
     @Override
-    public void notify(String mail, String pass) {
+    public void notify(String mail, String pass, String login) {
         if (mail == null || pass == null){
             Log.getLogger().warn("Email cannot be empty. No one to email or SMS.");
             return;
@@ -31,12 +31,19 @@ public class PasswordNotifierServiceImpl implements PasswordNotifier {
         String from = env.getProperty("email.from");
         String password = env.getProperty("email.password");
         HtmlEmail email = new HtmlEmail();
-        String message = "Please note your login Password : "+pass;
+        StringBuffer message = new StringBuffer("");
+        message.append("Hi, <br><br>"
+                + "You have been registered with Cancure.<br> "
+                + "Note your login details<br>"
+                + "Login : " + login + "<br>"
+                + "Password : " + pass + "<br><br>"
+                + "Visit <a href=http://www.cancure.in.net>www.cancure.in.net</a><br><br>" 
+                + "Thanks, <br>Cancure");
         try {
-            email.setHtmlMsg(message);
+            email.setHtmlMsg(message.toString());
             email.addTo(mail);            
             email.setSubject("Cancure Notification");
-            email.setHtmlMsg(message);
+            email.setHtmlMsg(message.toString());
             email.setHostName(host);
             email.setSmtpPort(Integer.parseInt(port));
             email.setFrom(from);
