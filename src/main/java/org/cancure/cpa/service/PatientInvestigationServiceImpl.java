@@ -1,6 +1,7 @@
 package org.cancure.cpa.service;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class PatientInvestigationServiceImpl implements PatientInvestigationServ
         	bean.setInvestigatorId(Integer.parseInt(patientInvestigationBean.getInvestigatorId()));
         }
         bean.setStatus(status);
-        bean.setInvestigationDate(new Date());
+        bean.setInvestigationDate(new Timestamp(new Date().getTime()));
         patientInvestigationRepo.save(bean);
         return "Success";
     }

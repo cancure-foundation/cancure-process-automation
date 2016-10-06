@@ -220,11 +220,12 @@ public class MyTasksServiceImpl implements MyTasksService {
     
     private Map<String, String> toMap(PatientInvestigation patientInvestigation) {
         Map<String, String> map = new HashMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm");
         if (patientInvestigation != null) {
             map.put("comments", patientInvestigation.getComments());
             map.put("investigatorType", patientInvestigation.getInvestigatorType());
             map.put("status", patientInvestigation.getStatus());
-            map.put("investigationDate", patientInvestigation.getInvestigationDate().toString());
+            map.put("investigationDate", sdf.format(patientInvestigation.getInvestigationDate().getTime()));
 
             Integer investigatorId = patientInvestigation.getInvestigatorId();
             if (investigatorId != null) {
