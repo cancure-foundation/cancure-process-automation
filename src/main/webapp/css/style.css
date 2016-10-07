@@ -85,6 +85,16 @@ a {
 .input-box {
     padding-bottom: 15px;
 }
+.req-indicator {
+    font-size: 12px;
+    font-style: italic;
+    padding-top: 2px;
+}
+.input-box req,
+.req-indicator req {
+    color: #ff0000;
+    font-weight: bold;
+}
 .input-box label {
     display: block;
 }

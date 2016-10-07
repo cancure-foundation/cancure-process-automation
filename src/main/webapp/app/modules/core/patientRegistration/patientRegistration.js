@@ -71,6 +71,8 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 					vm.formData.supportFromOther = true;
 			}
 			Loader.destroy();
+		},function (fail){
+			Flash.create('danger', 'Unable to fetch data. Try Again!', 'large-text');
 		});
 	};
 	/**
