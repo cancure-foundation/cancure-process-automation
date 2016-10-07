@@ -118,7 +118,7 @@
                                     <label>Address for Communication
                                         <req>*</req>
                                     </label>
-                                    <input type="text" data-ng-model="vm.formData.address" required placeholder="Enter patient address" />
+                                    <input type="text" data-ng-model="vm.formData.address" maxlength="250" required placeholder="Enter patient address" />
                                 </div>
                                 <div class="col-md-4 col-sm-12 input-box">
                                     <label>Type of Support from Cancure
@@ -136,7 +136,7 @@
                                     <label>Assets Owned
                                         <req>*</req>
                                     </label>
-                                    <input type="text" data-ng-model="vm.formData.assetsOwned" required placeholder="Enter patient assets" />
+                                    <input type="text" data-ng-model="vm.formData.assetsOwned" maxlength="150" required placeholder="Enter patient assets" />
                                 </div>
                                 <div class="col-md-4 col-sm-12">
                                     <md-input-container class="md-icon-float md-block">
@@ -172,7 +172,7 @@
                                     </div>
                                     <div class="input-box">
                                         <label>Age</label>
-                                        <input type="number" data-ng-model="fd.age" maxlength="3" placeholder="Enter bystander age" />
+                                        <input type="number" data-ng-model="fd.age" placeholder="Enter bystander age" />
                                     </div>
                                     <div class="input-box">
                                         <label>Employment status</label>
@@ -221,7 +221,7 @@
                                 <label>Diagnosis</label>
                                 <input type="text" data-ng-model="vm.formData.hospital" maxlength="100" placeholder="Enter details" />
                             </div>
-                            <div class="col-sm-12 col-md-4">
+                            <div class="input-box col-sm-12 col-md-4">
                                 <fieldset>
                                     <legend>Doctor's comments</legend>
                                     <textarea rows="5" cols="5" data-ng-model="vm.formData.doctorComments" maxlength="500"></textarea>

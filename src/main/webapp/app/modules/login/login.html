@@ -6,12 +6,12 @@
                 <form name="vm.loginForm" data-ng-submit="vm.login(vm.formData);" ng-show="vm.stateLogin">
                     <div class="form-content">
                         <div class="form-group">
-                            <input class="form-control input-underline input-lg" placeholder="Username" required type="text" data-ng-model="vm.formData.Username" ng-disabled="vm.loggingIn">
+                            <input class="form-control input-underline input-lg" placeholder="Login ID" required type="text" data-ng-model="vm.formData.Username" ng-disabled="vm.loggingIn">
                         </div>
                         <div class="form-group">
                             <input class="form-control input-underline input-lg" placeholder="Password" required type="password" data-ng-model="vm.formData.Password" ng-disabled="vm.loggingIn">
                         </div>
-                        <span class="forgot-pass">Forgot Password ?</span>
+                        <span class="forgot-pass" ng-click="vm.stateLogin = false; vm.stateResetPassword = false; vm.stateForgotPassword = true;">Forgot Password ?</span>
                     </div>
                     <button type="submit" class="btn rounded-btn" data-ng-hide="vm.loggingIn">
                         Log in
@@ -32,6 +32,25 @@
                     </div>
                     <button type="submit" class="btn rounded-btn" data-ng-hide="vm.loggingIn">
                         Reset Password
+                    </button>
+                    <span data-ng-show="vm.loggingIn">
+                    	<i class="fa fa-refresh fa-spin"></i>
+                    </span>
+                </form>
+                 <form name="vm.loginForm" data-ng-submit="vm.forgotPassword();" ng-show="vm.stateForgotPassword">                	
+                    <div class="form-content" style=" padding-bottom: 5px;">
+                        <div class="form-group">
+                            <input class="form-control input-underline input-lg" placeholder="Enter Login ID" required type="test" data-ng-model="vm.forgotPass.userid" ng-disabled="vm.loggingIn">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control input-underline input-lg" placeholder="Enter email address" required type="email" data-ng-model="vm.forgotPass.email" ng-disabled="vm.loggingIn">
+                        </div>                        
+                    </div>
+                    <button type="submit" class="btn rounded-btn" data-ng-hide="vm.loggingIn" style="margin-right: 5px;">
+                        Reset Password
+                    </button>
+                     <button  class="btn rounded-btn" data-ng-hide="vm.loggingIn" ng-click="vm.stateLogin = true; vm.stateResetPassword = false; vm.stateForgotPassword = false;">
+                        Back
                     </button>
                     <span data-ng-show="vm.loggingIn">
                     	<i class="fa fa-refresh fa-spin"></i>

@@ -1,81 +1,75 @@
 <section class="content-header">
     <h1>
-        Patient Registration Workflow - Next Action
+        Patient Registration Workflow - {{nextTaskObject.nextTask}}
+        <div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h1>
 </section>
 <!-- Main content -->
 <section class="content">
-	<div class="row">
-        <div class="col-md-7">
-            <div class="panel panel-info" style="min-height:453px;">
+    <div class="row">
+        <div class="col-md-8 col-xs-12">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-                    {{nextTaskObject.nextTask}}
+                    <div class="row">
+                        <div class="col-md-2 col-xs-12">
+                            <div class="timeline-body">
+                                <b>PRN : </b>{{prn}}
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xs-12">
+                            <div class="timeline-bowsredy">
+                                <b>Patient Name : </b>{{nextTaskObject.patientName}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-body">
-                	<div class="row">
-                        <div class="col-md-3 col-sd-12">
-	                        <div class="timeline-body">
-				            	<b>PRN :</b>
-				            </div>
-			            </div>
-			            <div class="col-md-9 col-sd-12">
-	                        <div class="timeline-body">
-				            	{{prn}}
-				            </div>
-			            </div>
-			        </div>
-			        <div class="row">
-                        <div class="col-md-3 col-sd-12">
-	                        <div class="timeline-body">
-				            	<b>Patient Name :</b>
-				            </div>
-			            </div>
-			            <div class="col-md-9 col-sd-12">
-	                        <div class="timeline-body">
-				            	{{nextTaskObject.patientName}}
-				            </div>
-			            </div>
-			        </div>
-					        
-                    <form name="vm.registerForm" ng-submit="vm.submitTask();" >
-                        <md-content class="autoScroll">
-					        
-					        <md-input-container ng-if = "doctorList">
-					        	<label>Select</label>
-					        	<md-icon class="fa fa-user"></md-icon>
-								<md-select data-ng-model="vm.formData.people" placeholder="Select a Doctor">
-									<md-option value="{{doc.doctorId}}" ng-repeat="doc in doctorList">{{doc.name}}</md-option> 
-								</md-select> 
-							</md-input-container>
-
-                            <md-input-container ng-if="uploadNeeded" class="md-icon-float md-block">
-                                Select File
-                                <md-icon class="fa fa-user"></md-icon>
-                                <input type="file" onchange="angular.element(this).scope().vm.patientFile = this.files[0]" aria-label="patientFile">
-                            </md-input-container>
-
-                            <md-input-container class="md-icon-float md-block">
-                                <label>Comments</label>
-                                <md-icon class="fa fa-user"></md-icon>
-                                <textarea ng-required="true" name="comments" data-ng-model="vm.formData.comments"></textarea>
-                            </md-input-container>
-
-							<md-input-container ng-if = "vm.statuses">
-					        	<label>Select Status</label>
-					        	<md-icon class="fa fa-user"></md-icon>
-								<md-select data-ng-model="vm.formData.status" placeholder="Select a status" ng-required="true">
-									<md-option value="{{sts.id}}" ng-repeat="sts in vm.statuses">{{sts.name}}</md-option> 
-								</md-select> 
-							</md-input-container>				
-                        </md-content>
-                         <div class="text-center">
-                                <md-button class="md-raised md-primary" type="submit">Submit <i class="fa fa-angle-double-right"></i></md-button>
-                                <md-button class="md-raised md-warn" type="reset">Clear <i class="fa fa-trash-o"></i></md-button>
+                    <form name="vm.registerForm" ng-submit="vm.submitTask();" class="clearfix">
+                        <div class="row">
+                            <div class="input-box col-md-6 col-xs-12" ng-if="doctorList">
+                                <label>Doctor List
+                                    <req>*</req>
+                                </label>
+                                <select class="form-control" data-ng-model="vm.formData.people" required>
+                                    <option value="">Select a Doctor</option>
+                                    <option value="{{doc.doctorId}}" ng-repeat="doc in doctorList">{{doc.name}}</option>
+                                </select>
                             </div>
+                            <div class="input-box col-md-6 col-xs-12" ng-if="uploadNeeded">
+                                <label>Upload File </label>
+                                <input id="patientNextTask-file" type="file" multiple="multiple" onchange="angular.element(this).scope().vm.FilesSelection(this)" aria-label="patientFile">
+                            </div>
+                            <div class="input-box col-xs-12" ng-show="vm.patientFile.length > 0 && vm.patientFileNames.length > 0" multiple="multiple">
+                                <label>Selected Files</label>
+                                <span ng-repeat="item in vm.patientFileNames">
+                               			{{item}} {{$last ? '' :  ', '}}
+                               		</span>
+                            </div>
+                            <div class="input-box col-md-6 col-xs-12" ng-if="vm.statuses">
+                                <label>Select Status
+                                    <req>*</req>
+                                </label>
+                                <select class="form-control" data-ng-model="vm.formData.status" required>
+                                    <option value="">Select Status</option>
+                                    <option value="{{sts.id}}" ng-repeat="sts in vm.statuses">{{sts.name}}</option>
+                                </select>
+                            </div>
+                            <div class="input-box col-xs-12">
+                                <label>Enter Comments
+                                    <req>*</req>
+                                </label>
+                                <textarea data-ng-model="vm.formData.comments" required rows="4" maxlength="500"> </textarea>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success" style="margin-right: 8px;">
+                                Submit
+                            </button>
+                            <input type="clear" class="btn btn-warning" ng-click="vm.clearForm();" value="Clear Form">
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
-
     </div>
-</section><!-- /.content -->
+</section>

@@ -16,6 +16,7 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 		vm.loggingIn = false;
 		vm.stateLogin = true;
 		vm.stateResetPassword = false;		
+		vm.stateForgotPassword = false;
 	}
 	/**
 	 * access login
@@ -58,7 +59,7 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 		});
 	};
 	/**
-	 * 
+	 *  function to reset password
 	 */
 	vm.resetPassword = function (){	
 		if (vm.resetPass.password != vm.resetPass.retypePassword){
@@ -85,6 +86,29 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 			vm.loggingIn = false; // to show the user summary div
 		}, function (fail){
 			vm.resetPass = {};
+			vm.loggingIn = false;
+		});
+	};
+	/**
+	 *  function to reset password on forgot password scenario
+	 */
+	vm.forgotPassword = function (){
+		vm.loggingIn = true;
+		apiService.serviceRequest({
+			URL: appSettings.requestURL.forgotPassword,
+			method: 'POST',
+			payLoad: {
+				id : vm.forgotPass.userid,
+				email : vm.forgotPass.email
+			}
+		}, function (response) {			
+			Flash.create('warning', 'Passwords reset successful. Please check your email.', 'large-text');
+			vm.loggingIn = false; // to show the user summary div
+			vm.stateLogin = true; 
+			vm.stateResetPassword = false; 
+			vm.stateForgotPassword = false;
+		}, function (fail){
+			vm.forgotPass = {};			
 			vm.loggingIn = false;
 		});
 	}

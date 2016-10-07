@@ -99,6 +99,7 @@ a {
     display: block;
 }
 .input-box input,
+.input-box textarea,
 .input-box select {
     height: 42px;
     width: 100%;
@@ -106,10 +107,16 @@ a {
     border: solid 1px #dcdcdc;
     transition: box-shadow 0.3s, border 0.3s;
 }
+.input-box textarea {
+    height: auto !important;
+    resize: none;
+}
 .input-box input:focus,
 .input-box select:focus,
+.input-box textarea:focus,
 .input-box input.focus,
-.input-box select.focus {
+.input-box select.focus,
+.input-box textarea.focus {
     border: solid 1px #707070;
     outline: 1px solid #3478f5;
     box-shadow: 0 0 5px 1px #969696;
