@@ -60,9 +60,9 @@ public class UserController {
 	    return userService.listHPOCUsers();
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/user/resetpassword/{id}", consumes = "application/json")
-    public UserBean resetPassword(@PathVariable("id") Integer id) {
-        return userService.resetPassword(id);
+	@RequestMapping(method = RequestMethod.POST, value = "/user/resetpassword/{id}/{resetPassword}", consumes = "application/json")
+    public UserBean resetPassword(@PathVariable("id") Integer id,@PathVariable("resetPassword") Boolean resetPassword) {
+        return userService.resetPassword(id,resetPassword);
     }
 
 }

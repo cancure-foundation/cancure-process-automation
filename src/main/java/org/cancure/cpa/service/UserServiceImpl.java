@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
         userRepo.save(user);
         if(!password.equals("")){
-        passwordNotifier.notify(user.getEmail(), password, user.getLogin());
+        passwordNotifier.notify(user.getEmail(), password, user.getLogin(), false);
         }
         UserBean userBean = new UserBean();
         BeanUtils.copyProperties(user, userBean);
@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserBean resetPassword(Integer id) {
+    public UserBean resetPassword(Integer id, Boolean resetPassword) {
         
         User user=userRepo.findOne(id);
         user.setFirstLog(true);
@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
         String encPass = encoder.encode(password);
         user.setPassword(encPass);
         userRepo.save(user);
-        passwordNotifier.notify(user.getEmail(), password, user.getLogin());
+        passwordNotifier.notify(user.getEmail(), password, user.getLogin(), resetPassword);
         UserBean userBean = new UserBean();
         BeanUtils.copyProperties(user, userBean);
         return userBean;
