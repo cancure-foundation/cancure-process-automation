@@ -43,7 +43,7 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 				$cookies.put('userName', userData.name);  // sets the userName values to the cookies
 				$cookies.put('roles', JSON.stringify(userData.roles));  // sets the roles values to the cookies
 				vm.userDetails = userData;
-				
+
 				if (userData.firstLog) { // checks if user is login in for the first time
 					vm.stateLogin = false;
 					vm.stateResetPassword = true;		
@@ -101,12 +101,19 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 				login : vm.forgotPass.login,
 				email : vm.forgotPass.email
 			}
-		}, function (response) {			
-			Flash.create('warning', 'Passwords reset successful. Please check your email.', 'large-text');
-			vm.loggingIn = false; // to show the user summary div
-			vm.stateLogin = true; 
-			vm.stateResetPassword = false; 
-			vm.stateForgotPassword = false;
+		}, function (response) {
+			if (response.status == "SUCCESS") {
+				Flash.create('success', 'Passwords reset successful. Please check your email.', 'large-text');
+				vm.loggingIn = false; // to show the user summary div
+				vm.stateLogin = true; 
+				vm.stateResetPassword = false; 
+				vm.stateForgotPassword = false;
+				vm.forgotPass = {};		
+			} else {
+				Flash.create('danger', 'Sorry, data provided does not match any record.', 'large-text');
+				vm.forgotPass = {};			
+				vm.loggingIn = false;
+			}					
 		}, function (fail){
 			vm.forgotPass = {};			
 			vm.loggingIn = false;
