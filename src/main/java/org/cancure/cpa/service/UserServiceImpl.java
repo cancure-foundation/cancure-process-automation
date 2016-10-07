@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
         userRepo.save(user);
         if(!password.equals("")){
-        passwordNotifier.notify(user.getEmail(), password, user.getLogin());
+        passwordNotifier.notify(user.getEmail(), password, user.getLogin(), false);
         }
         UserBean userBean = new UserBean();
         BeanUtils.copyProperties(user, userBean);
@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserBean resetPassword(Integer id) {
+    public UserBean resetPassword(Integer id, Boolean resetPassword) {
         
         User user=userRepo.findOne(id);
         user.setFirstLog(true);
@@ -130,10 +130,29 @@ public class UserServiceImpl implements UserService {
         String encPass = encoder.encode(password);
         user.setPassword(encPass);
         userRepo.save(user);
-        passwordNotifier.notify(user.getEmail(), password, user.getLogin());
+        passwordNotifier.notify(user.getEmail(), password, user.getLogin(), resetPassword);
         UserBean userBean = new UserBean();
         BeanUtils.copyProperties(user, userBean);
         return userBean;
+    }
+
+    @Override
+    public String forgotPassword(UserBean userBean) {
+
+        if (userRepo.findByLogin(userBean.getLogin()) == null || !userRepo.findByLogin(userBean.getLogin()).getEmail().equals(userBean.getEmail())) {
+            return "{\"status\" : \"FAIL\"}";
+        } else {
+            User user = new User();
+            user = userRepo.findByLogin(userBean.getLogin());
+            user.setFirstLog(true);
+            String password = commonService.generatePassword();
+            String encPass = encoder.encode(password);
+            user.setPassword(encPass);
+            userRepo.save(user);
+            passwordNotifier.notify(user.getEmail(), password, user.getLogin(), true);
+            return "{\"status\" : \"SUCCESS\"}";
+        }
+
     }
 
 }
