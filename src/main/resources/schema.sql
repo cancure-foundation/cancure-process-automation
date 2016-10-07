@@ -183,7 +183,7 @@ create table patient_investigation (
 	investigation_id number(10) primary key auto_increment,
 	investigator_type varchar(100) references investigator_type(name),
  	investigator_id number(10),
- 	investigation_date date,
+ 	investigation_date timestamp,
  	comments varchar(2000),
  	status varchar(30),
  	task_id varchar(10),

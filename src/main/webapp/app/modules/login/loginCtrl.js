@@ -98,7 +98,7 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 			URL: appSettings.requestURL.forgotPassword,
 			method: 'POST',
 			payLoad: {
-				id : vm.forgotPass.userid,
+				login : vm.forgotPass.login,
 				email : vm.forgotPass.email
 			}
 		}, function (response) {			

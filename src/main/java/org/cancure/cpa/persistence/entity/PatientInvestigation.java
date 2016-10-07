@@ -1,6 +1,8 @@
 package org.cancure.cpa.persistence.entity;
 
 import java.util.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,8 +31,7 @@ public class PatientInvestigation {
     
     
     @Column(name="investigation_date")
-    private Date investigationDate;
-    
+    private Timestamp investigationDate;    
     
     private String comments;
     
@@ -71,11 +72,11 @@ public class PatientInvestigation {
         this.investigatorId = investigatorId;
     }
 
-    public Date getInvestigationDate() {
-        return investigationDate;
+    public Timestamp getInvestigationDate() {
+      return investigationDate;
     }
 
-    public void setInvestigationDate(Date investigationDate) {
+    public void setInvestigationDate(Timestamp investigationDate) {
         this.investigationDate = investigationDate;
     }
 
