@@ -1,19 +1,22 @@
 <div class="content" style="padding-top:0px;">
-    <h4 ng-hide="vm.hospitalCreated">Fill the form to create/edit Hospital.</h4>
+    <h4 ng-hide="vm.hospitalCreated">
+    	Fill the form to create/edit Hospital.
+    	<div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
+    </h4>
     <h4 ng-show="vm.hospitalCreated">Hospital created with the following details.</h4>
     <div ng-hide="vm.hospitalCreated" class="panel panel-info row">
         <div class="panel-body">
             <form ng-submit="vm.createHospital();" name="vm.registerForm">
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>Hospital Name</label>
+                    <label>Hospital Name <req>*</req></label>
                     <input type="text" data-ng-model="vm.formData.name" required placeholder="Enter hospital name" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>Address</label>
+                    <label>Address <req>*</req></label>
                     <input type="text" data-ng-model="vm.formData.address" required placeholder="Enter address" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>Contact Number</label>
+                    <label>Contact Number <req>*</req></label>
                     <input type="text" data-ng-model="vm.formData.contact" required placeholder="Enter contact number" />
                 </div>
                 <div class="col-xs-12 text-center" style="padding: 0px 15px;">

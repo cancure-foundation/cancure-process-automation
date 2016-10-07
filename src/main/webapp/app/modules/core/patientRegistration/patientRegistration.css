@@ -63,11 +63,12 @@
     color: #f90000;
 }
 .patientFamily .clearfix {
-    padding: 15px 7px;
+    padding: 15px;
+    padding-top: 8px;
 }
 .patientFamily .clearfix .repeatingDiv {
     background: #fff;
-    padding-bottom: 15px;
+    padding: 7px 8px 0px 0px;
 }
 .patientFamily .clearfix .repeatingDiv .form-group {
     padding: 15px;

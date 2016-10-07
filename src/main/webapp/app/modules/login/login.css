@@ -3,7 +3,7 @@
     height: calc(100%);
     width: 100%;
     overflow: hidden;
-    background-image: url(../../../images/login/background3.jpg);
+    background-image: url(../../../images/login/background.jpg);
     background-size: cover;
     position: relative;
 }

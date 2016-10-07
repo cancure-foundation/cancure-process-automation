@@ -1,19 +1,23 @@
 <div class="content">
-    <h4 ng-hide="vm.userCreated">Fill the form to create a new user.</h4>
+    <h4 ng-hide="vm.userCreated">
+    	Fill the form to create a new user. 
+    	<div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
+    </h4>
+    
     <h4 ng-show="vm.userCreated">User created with the following details.</h4>
     <div ng-hide="vm.userCreated" class="panel panel-info row" style="margin: 0px;">
         <form ng-submit="vm.createUser();" name="vm.registerForm">
             <div class="panel-body" style="padding-bottom: 0px;">
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>Name</label>
+                    <label>Name <req>*</req></label>
                     <input type="text" data-ng-model="vm.formData.name" required placeholder="Enter name" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>User ID</label>
+                    <label>User ID <req>*</req></label>
                     <input type="text" data-ng-model="vm.formData.login" required placeholder="Enter user id" ng-disabled="vm.editMode" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>E-mail</label>
+                    <label>E-mail <req>*</req></label>
                     <input type="email" data-ng-model="vm.formData.email" required placeholder="Enter email address" />
                 </div>
             </div>

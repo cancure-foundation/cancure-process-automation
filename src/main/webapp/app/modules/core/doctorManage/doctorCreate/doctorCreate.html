@@ -1,31 +1,34 @@
 <div class="content" style="padding-top:0px;">
-    <h4 ng-hide="vm.doctorCreated">Fill the form to create Doctor.</h4>
+    <h4 ng-hide="vm.doctorCreated">
+    	Fill the form to create Doctor.
+    	<div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
+    </h4>
     <h4 ng-show="vm.doctorCreated">Doctor created with the following details.</h4>     
     <div ng-hide="vm.doctorCreated" class="panel panel-info">
         <div class="panel-body">
             <form ng-submit="vm.createDoctor();" name="vm.registerForm">
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>Doctor Name</label>
+                    <label>Doctor Name <req>*</req></label>
                     <input type="text" data-ng-model="vm.formData.name" required placeholder="Enter doctor name" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>Specialization</label>
+                    <label>Specialization <req>*</req></label>
                     <input type="text" data-ng-model="vm.formData.specification" required placeholder="Enter doctor specialization" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>Address</label>
+                    <label>Address <req>*</req></label>
                     <input type="text" data-ng-model="vm.formData.address" required placeholder="Enter address" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>Email Address</label>
+                    <label>Email Address <req>*</req></label>
                     <input type="email" data-ng-model="vm.formData.email" required placeholder="Enter email address" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>Contact</label>
+                    <label>Contact <req>*</req></label>
                     <input type="text" data-ng-model="vm.formData.contact" required placeholder="Enter address" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>Hospital</label>
+                    <label>Hospital <req>*</req></label>
                     <select class="form-control" data-ng-model="vm.formData.hospital.hospitalId" required>
                         <option value=""> Select a Hospital </option>
                         <option value="{{hospital.hospitalId}}" ng-repeat="hospital in vm.hospitalList" ng-selected="vm.formData.hospital.hospitalId==hospital.hospitalId">{{hospital.name}}</option>
