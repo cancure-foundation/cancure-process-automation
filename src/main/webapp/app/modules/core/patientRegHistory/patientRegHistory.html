@@ -21,18 +21,17 @@
                             <div class="row">
                                 <div class="col-md-6 col-sd-8 col-xs-12">
                                     <table class="table table-bordered" style="margin-bottom: 0px;">
-                                        <tr>
-                                            <td rowspan="5" class="user_img">
-                                                <img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
+                                    	<tr>
+                                    		 <td rowspan="5" class="user_img">
+                                    		 	<img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
                                                 <i ng-hide="vm.profileSrc" class="fa fa-user" aria-hidden="true" />
-                                                <div><b>{{vm.patientDetails.name}}</b></div>
-                                                <div><b>PRN : {{vm.patientDetails.prn}}</b></div>
-                                            </td>
-                                        </tr>
-                                        <tr ng-if = "vm.patientDetails.pidn">
-                                            <td class="fieldName">PIDN</td>
-                                            <td class="fieldValue">{{vm.patientDetails.pidn}}</td>
-                                        </tr>
+                                                <div> <b>{{vm.patientDetails.name}}</b> </div>
+                                                <div>
+                                                	<b>PRN : {{vm.patientDetails.prn}}</b>
+                                                	<b ng-show="vm.patientDetails.pidn"> | PIDN : {{vm.patientDetails.prn}}</b>                                                
+                                                </div>
+                                    		 </td>
+                                    	</tr>                                                                               
                                         <tr>
                                             <td class="fieldName">Age</td>
                                             <td class="fieldValue">{{vm.patientDetails.age}}</td>

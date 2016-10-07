@@ -1,19 +1,34 @@
+<script type="text/javascript">
+    document.getElementById('dobpicker').max = new Date().toISOString().substring(0, 10);
+    // function to validate contact number
+    function validatephone(input) {
+        var maintainplus = '';
+        var numval = input.value
+        if (numval.charAt(0) == '+') {
+            var maintainplus = '';
+        }
+        curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\)\(*_={};:'@#~,.Š\/<>\" "\?|`¬\]\[]/g, '');
+        input.value = maintainplus + curphonevar;
+        var maintainplus = '';
+        input.focus;
+    }
+</script>
 <div class="patientRegistrationFamily">
-    <div class="content-header">
-        <h1>
+    <form data-ng-submit="vm.submitForm();" name="vm.patientRegisterForm">
+        <div class="content-header clearfix">
+            <h1 class="pull-left">
        		Patient Registration
+       		<div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     	</h1>
-    </div>
-    <!-- Main content -->
-    <div class="content">
-        <form data-ng-submit="vm.submitForm();" name="vm.patientRegisterForm">
-            <div>
+            <div class="pull-right">
                 <button type="submit" class="btn btn-success" style="margin-right: 8px;">
                     Register
                 </button>
                 <input type="clear" class="btn btn-warning" ng-click="vm.initializeVars();" value="Clear Form">
             </div>
-            <br> 
+        </div>
+        <!-- Main content -->
+        <div class="content">
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-info">
@@ -24,18 +39,24 @@
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">
                                     <div class="input-box">
-                                        <label>Pateint Name</label>
+                                        <label>Pateint Name
+                                            <req>*</req>
+                                        </label>
                                         <input type="text" data-ng-model="vm.formData.name" maxlength="100" required placeholder="Enter patient name" />
                                     </div>
                                     <div class="input-box">
-                                        <label>Gender</label>
+                                        <label>Gender
+                                            <req>*</req>
+                                        </label>
                                         <select class="form-control" data-ng-model="vm.formData.gender" required>
                                             <option value="">Select Gender</option>
                                             <option value="{{item.value}}" ng-repeat="item in vm.Gender">{{item.value}}</option>
                                         </select>
                                     </div>
                                     <div class="input-box">
-                                        <label>Employment status</label>
+                                        <label>Employment status
+                                            <req>*</req>
+                                        </label>
                                         <select class="form-control" data-ng-model="vm.formData.employmentStatus" required>
                                             <option value="">Select Employment status</option>
                                             <option value="{{item.value}}" ng-repeat="item in vm.EmploymentStatus">{{item.value}}</option>
@@ -45,18 +66,24 @@
 
                                 <div class="col-md-4 col-sm-12">
                                     <div class="input-box">
-                                        <label>Date of Birth</label>
-                                        <input type="date" data-ng-model="vm.formData.dob" required placeholder="Enter patient dob" />
+                                        <label>Date of Birth
+                                            <req>*</req>
+                                        </label>
+                                        <input id="dobpicker" type="date" data-ng-model="vm.formData.dob" required placeholder="Enter patient dob" />
                                     </div>
                                     <div class="input-box">
-                                        <label>Blood Group</label>
+                                        <label>Blood Group
+                                            <req>*</req>
+                                        </label>
                                         <select class="form-control" data-ng-model="vm.formData.bloodGroup" required>
                                             <option value="">Select Blood Group</option>
                                             <option value="{{item.value}}" ng-repeat="item in vm.BloodGroups">{{item.value}}</option>
                                         </select>
                                     </div>
                                     <div class="input-box">
-                                        <label>Marital Status</label>
+                                        <label>Marital Status
+                                            <req>*</req>
+                                        </label>
                                         <select class="form-control" data-ng-model="vm.formData.maritalStatus" required>
                                             <option value="">Select Marital Status</option>
                                             <option value="{{item.value}}" ng-repeat="item in vm.MaritalStatus">{{item.value}}</option>
@@ -82,15 +109,21 @@
 
                             <div class="row">
                                 <div class="col-md-4 col-sm-12 input-box">
-                                    <label>Contact No.</label>
-                                    <input type="text" data-ng-model="vm.formData.contact" maxlength="15" required placeholder="Enter patient number" />
+                                    <label>Contact No.
+                                        <req>*</req>
+                                    </label>
+                                    <input type="text" data-ng-model="vm.formData.contact" maxlength="15" required onkeyup="validatephone(this);" placeholder="Enter patient number" />
                                 </div>
                                 <div class="col-md-4 col-sm-12 input-box">
-                                    <label>Address for Communication</label>
+                                    <label>Address for Communication
+                                        <req>*</req>
+                                    </label>
                                     <input type="text" data-ng-model="vm.formData.address" required placeholder="Enter patient address" />
                                 </div>
                                 <div class="col-md-4 col-sm-12 input-box">
-                                    <label>Type of Support from Cancure</label>
+                                    <label>Type of Support from Cancure
+                                        <req>*</req>
+                                    </label>
                                     <select class="form-control" data-ng-model="vm.formData.typeOfSupport" required>
                                         <option value="">Select Type of Support</option>
                                         <option value="{{item.value}}" ng-repeat="item in vm.TypeOfSupportSought">{{item.value}}</option>
@@ -100,7 +133,9 @@
 
                             <div class="row">
                                 <div class="col-md-4 col-sm-12 input-box">
-                                    <label>Assets Owned</label>
+                                    <label>Assets Owned
+                                        <req>*</req>
+                                    </label>
                                     <input type="text" data-ng-model="vm.formData.assetsOwned" required placeholder="Enter patient assets" />
                                 </div>
                                 <div class="col-md-4 col-sm-12">
@@ -125,7 +160,7 @@
                             <i class="fa fa-minus-square" aria-hidden="true" ng-click="vm.formData.patientFamily.pop();" ng-hide="vm.formData.patientFamily.length == 0"></i>
                         </div>
                         <div class="clearfix">
-                            <div style="padding: 0px 15px 0px 8px;" ng-if="vm.formData.patientFamily.length == 0">No family member added.</div>
+                            <div style="padding: 0px 15px 0px 0px;" ng-if="vm.formData.patientFamily.length == 0">No family member added.</div>
                             <div class="col-sm-12 col-md-4 repeatingDiv" ng-repeat="fd in vm.formData.patientFamily">
                                 <div class="form-group">
                                     <div class="input-box">
@@ -229,7 +264,7 @@
                             </div>
                             <div class="input-box">
                                 <label>Bystander Contact</label>
-                                <input type="text" data-ng-model="vm.formData.bystanderContact" maxlength="20" placeholder="Enter number" />
+                                <input type="text" data-ng-model="vm.formData.bystanderContact" maxlength="20" placeholder="Enter number" onkeyup="validatephone(this);" />
                             </div>
                             <div class="input-box">
                                 <label>Bystander Relation</label>
@@ -317,11 +352,15 @@
                             <div class="col-md-4 col-sm-12 repeatingDiv" ng-if="vm.formData.supportFromOther" ng-repeat="org in vm.formData.organisation">
                                 <div class="form-group">
                                     <div class="input-box">
-                                        <label>Organisation Name</label>
+                                        <label>Organisation Name
+                                            <req>*</req>
+                                        </label>
                                         <input type="text" data-ng-model="org.name" maxlength="100" placeholder="Enter name" required/>
                                     </div>
                                     <div class="input-box">
-                                        <label>Amount received</label>
+                                        <label>Amount received
+                                            <req>*</req>
+                                        </label>
                                         <div class="input-group">
                                             <div class="input-group-addon">₹</div>
                                             <input type="number" data-ng-model="org.amountRec" maxlength="10" placeholder="Enter income" required/>
@@ -363,12 +402,12 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <button type="submit" class="btn btn-success" style="margin-right: 8px;">
+            <div class="clearfix">
+                <input type="clear" class="btn btn-warning pull-right" ng-click="vm.initializeVars();" value="Clear Form">
+                <button type="submit" class="btn btn-success pull-right" style="margin-right: 8px;">
                     Register
                 </button>
-                <input type="clear" class="btn btn-warning" ng-click="vm.initializeVars();" value="Clear Form">
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>

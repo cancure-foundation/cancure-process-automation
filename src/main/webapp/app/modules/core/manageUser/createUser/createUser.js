@@ -129,11 +129,9 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 
 		// making the server call
 		apiService.serviceRequest({
-			URL: appSettings.requestURL.resetPassword + '/' +vm.formData.id,
+			URL: appSettings.requestURL.resetPassword + '/' + vm.formData.id + '/true',
 			method: 'POST',
-			payLoad: {
-				id : vm.formData.id
-			}
+			errorMsg : 'Unable to reset. Please try again'
 		}, function (response) {
 			vm.formData.firstLog = true;
 			Loader.destroy();
