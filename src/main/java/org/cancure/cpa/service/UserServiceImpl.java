@@ -136,4 +136,23 @@ public class UserServiceImpl implements UserService {
         return userBean;
     }
 
+    @Override
+    public String forgotPassword(UserBean userBean) {
+
+        if (userRepo.findByLogin(userBean.getLogin()) == null || !userRepo.findByLogin(userBean.getLogin()).getEmail().equals(userBean.getEmail())) {
+            return "{\"status\" : \"FAIL\"}";
+        } else {
+            User user = new User();
+            user = userRepo.findByLogin(userBean.getLogin());
+            user.setFirstLog(true);
+            String password = commonService.generatePassword();
+            String encPass = encoder.encode(password);
+            user.setPassword(encPass);
+            userRepo.save(user);
+            passwordNotifier.notify(user.getEmail(), password, user.getLogin(), true);
+            return "{\"status\" : \"SUCCESS\"}";
+        }
+
+    }
+
 }
