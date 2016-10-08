@@ -24,7 +24,7 @@
                 <button type="submit" class="btn btn-success" style="margin-right: 8px;">
                     Register
                 </button>
-                <input type="clear" class="btn btn-warning" ng-click="vm.initializeVars();" value="Clear Form">
+                <input type="clear" class="btn btn-warning" ng-click="vm.initializeVars();" value="Clear Form" readonly>
             </div>
         </div>
         <!-- Main content -->
@@ -218,8 +218,8 @@
                                 <input type="text" data-ng-model="vm.formData.doctorName" maxlength="100" placeholder="Enter doctor name" />
                             </div>
                             <div class="col-sm-12 col-md-4 input-box">
-                                <label>Diagnosis</label>
-                                <input type="text" data-ng-model="vm.formData.hospital" maxlength="100" placeholder="Enter details" />
+                                <label>Diagnosis Details</label>
+                                <input type="text" data-ng-model="vm.formData.diagnosis" maxlength="100" placeholder="Enter details" />
                             </div>
                             <div class="input-box col-sm-12 col-md-4">
                                 <fieldset>
@@ -403,7 +403,7 @@
                 </div>
             </div>
             <div class="clearfix">
-                <input type="clear" class="btn btn-warning pull-right" ng-click="vm.initializeVars();" value="Clear Form">
+                <input type="clear" class="btn btn-warning pull-right" ng-click="vm.initializeVars();" value="Clear Form" readonly>
                 <button type="submit" class="btn btn-success pull-right" style="margin-right: 8px;">
                     Register
                 </button>
