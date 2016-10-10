@@ -172,18 +172,8 @@ core.config(["$stateProvider", function ($stateProvider) {
     
     $stateProvider.state('app.settingsList', {
         url: '/settingsList',
-        templateUrl: 'app/modules/core/settingsManage/settingsList/settingsList.html',
+        templateUrl: 'app/modules/core/settingsManage/settingsList.html',
         controller: 'SettingsListController',
-        controllerAs: 'vm',
-        data: {
-            pageTitle: 'Settings'
-        }
-    });
-    
-    $stateProvider.state('app.settingsCreate', {
-        url: '/settingsCreate/:settingsId',
-        templateUrl: 'app/modules/core/settingsManage/settingsCreate/settingsCreate.html',
-        controller: 'SettingsCreateController',
         controllerAs: 'vm',
         data: {
             pageTitle: 'Settings'
