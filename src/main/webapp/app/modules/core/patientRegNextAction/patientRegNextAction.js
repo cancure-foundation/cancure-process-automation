@@ -84,7 +84,8 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 		vm.formData = {};
 		vm.patientFile = [];
 		vm.patientFileNames = [];
-		document.getElementById("patientNextTask-file").value = "";
+		if (document.getElementById("patientNextTask-file"))
+			document.getElementById("patientNextTask-file").value = "";
 	};
 	/**
 	 * 

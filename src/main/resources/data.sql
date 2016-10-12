@@ -97,7 +97,6 @@ insert into list_value values (58, 9, 'Others');
 insert into OAUTH_CLIENT_DETAILS values('cancureapp', 'restservice', 'cancure123456', 'read,write', 'password,refresh_token', null, 'USER', null,null, '{}', null);
 
 insert into user_role (user_id, role_id) values (1, 1);
-insert into user_role (user_id, role_id) values (2, 1);
 
 insert into settings values (1, 'ID Card Title', 'CANCURE Foundation');
 insert into settings values (2, 'ID Card Address Line 1', 'Regd. Office: 60/3285, Benrub, P. K. Devoor Road,');

@@ -121,3 +121,15 @@ a {
     outline: 1px solid #3478f5;
     box-shadow: 0 0 5px 1px #969696;
 }
+.appFieldset {
+    border: 1px solid #c0c0c0 !important;
+    padding: 0.35em 0.625em 0.75em !important;
+}
+.appFieldset legend {
+    border-bottom: none !important;
+    margin: 0 0 8px 0 !important;
+    padding: 0px 15px;
+    width: auto;
+    font-size: 16px;
+    font-weight: 500;
+}

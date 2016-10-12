@@ -4,13 +4,16 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 	vm.formData = {};
 	vm.formData.roles = [];
 	vm.userCreated = false;
-
+	vm.doctor = {};
+	
 	var init = function () {
 		Loader.create('Fetching Data. Please wait');
 		var id = $stateParams.userId;
 
 		var roleList = apiService.asyncServiceRequest({URL: appSettings.requestURL.userRoles});
-		var reqlist = [roleList];
+		var hospitalList = apiService.asyncServiceRequest({URL: 'hospital/list'});
+		
+		var reqlist = [roleList, hospitalList];
 		if (id) { // check if its edit mode
 			var userDetails = apiService.asyncServiceRequest({URL: 'user/' + id});
 			reqlist.push(userDetails);
@@ -18,7 +21,8 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 		}
 		$q.all(reqlist).then(function (response){
 			$scope.roles = response[0];
-			if (response[1]) 
+			vm.hospitalList = response[1];
+			if (response[2]) 
 				vm.formData = response[1];
 			Loader.destroy();
 		});
@@ -30,7 +34,7 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 	/**
 	 * function to handle save button click
 	 */
-	vm.createUser = function () { 	
+	vm.createUser = function () { 
 		var formState = formValidator(); // function to validate form fields
 		if(!formState.valid){
 			Flash.create('warning', formState.errMsg, 'large-text');
@@ -42,7 +46,9 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 		var serverData = angular.copy(vm.formData);
 		delete serverData.retypepassword;
 		serverData.enabled = true;
-
+		if (vm.doctorDetails)
+			serverData.doctor = angular.copy(vm.doctor);
+	
 		// making the server call
 		apiService.serviceRequest({
 			URL: appSettings.requestURL.createUser,
@@ -74,6 +80,7 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 	vm.roleSelection = function (selectedId) {
 		// checks if the index is already present in roles array, if yes the remove, else push the index
 		var pushItem = true;
+		vm.doctorDetails = false;
 		for (var i = 0; i < vm.formData.roles.length; i++) {
 			if (vm.formData.roles[i].id == selectedId) {
 				vm.formData.roles.splice(i, 1);
@@ -85,6 +92,12 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 			vm.formData.roles.push({
 				id: selectedId
 			});
+		for (var i = 0; i < vm.formData.roles.length; i++) {
+			if (vm.formData.roles[i].id == 5) {
+				vm.doctorDetails = true; // shows the doctor details tab
+				break;
+			}
+		}
 	};
 	/**
 	 * handles the checkbox selection
@@ -117,6 +130,8 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 		$timeout(function (){
 			vm.formData = {};      
 			vm.formData.roles = [];
+			vm.doctor = {};
+			vm.doctorDetails = false;
 		});
 		vm.registerForm.$setUntouched();
 		vm.registerForm.$setPristine();

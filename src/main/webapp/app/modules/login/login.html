@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-4 col-lg-offset-4">
                 <h1>CANCURE</h1>
-                <form name="vm.loginForm" data-ng-submit="vm.login(vm.formData);" ng-show="vm.stateLogin">
+                <form name="vm.loginForm" data-ng-submit="vm.login(vm.formData);" ng-show="vm.stateLogin" autocomplete="off" >
                     <div class="form-content">
                         <div class="form-group">
                             <input class="form-control input-underline input-lg" placeholder="Login ID" required type="text" data-ng-model="vm.formData.Username" ng-disabled="vm.loggingIn">
@@ -20,7 +20,7 @@
                     	<i class="fa fa-refresh fa-spin"></i>
                     </span>
                 </form>
-                <form name="vm.loginForm" data-ng-submit="vm.resetPassword();" ng-show="vm.stateResetPassword">                	
+                <form name="vm.loginForm" data-ng-submit="vm.resetPassword();" ng-show="vm.stateResetPassword" autocomplete="off" >                	
                     <div class="form-content" style=" padding-bottom: 5px;">
                     <div class="resetPassNotify">Hi, Please reset password to login.</div>
                         <div class="form-group">
@@ -37,7 +37,7 @@
                     	<i class="fa fa-refresh fa-spin"></i>
                     </span>
                 </form>
-                 <form name="vm.loginForm" data-ng-submit="vm.forgotPassword();" ng-show="vm.stateForgotPassword">                	
+                 <form name="vm.loginForm" data-ng-submit="vm.forgotPassword();" ng-show="vm.stateForgotPassword" autocomplete="off" >          	
                     <div class="form-content" style=" padding-bottom: 5px;">
                         <div class="form-group">
                             <input class="form-control input-underline input-lg" placeholder="Enter Login ID" required type="test" data-ng-model="vm.forgotPass.login" ng-disabled="vm.loggingIn">

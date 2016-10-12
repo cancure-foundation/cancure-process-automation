@@ -2,7 +2,7 @@
 --create user 'cancure'@'localhost' identified by 'cancure123';
 --grant all privileges on cancure.* to 'cancure'@'localhost';
 
-insert into user(id, name, login, password, enabled) values (1,'cancure','cancure','$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true);
+insert into user(id, name, login, password, enabled) values (1,'Cancure','cancure','$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true);
  
 insert into role(id, name, display_name) values (1,'ROLE_ADMIN', 'Admin');
 insert into role(id, name, display_name) values (2,'ROLE_GUEST', 'Guest');
@@ -98,7 +98,6 @@ insert into list_value values (58, 9, 'Others');
 insert into oauth_client_details values('cancureapp', 'restservice', 'cancure123456', 'read,write', 'password,refresh_token', null, 'USER', null,null, '{}', null);
 
 insert into user_role (user_id, role_id) values (1, 1);
-insert into user_role (user_id, role_id) values (2, 1);
 
 insert into settings values (1, 'ID Card Title', 'CANCURE Foundation');
 insert into settings values (2, 'ID Card Address Line 1', 'Regd. Office: 60/3285, Benrub, P. K. Devoor Road,');

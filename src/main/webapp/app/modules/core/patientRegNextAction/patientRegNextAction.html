@@ -24,10 +24,10 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <form name="vm.registerForm" ng-submit="vm.submitTask();" class="clearfix">
+                    <form name="vm.registerForm" ng-submit="vm.submitTask();" class="clearfix" autocomplete="off">
                         <div class="row">
                             <div class="input-box col-md-6 col-xs-12" ng-if="doctorList">
-                                <label>Doctor List
+                                <label>{{nextTaskObject.nextTask}} By
                                     <req>*</req>
                                 </label>
                                 <select class="form-control" data-ng-model="vm.formData.people" required>
@@ -46,7 +46,7 @@
                                		</span>
                             </div>
                             <div class="input-box col-md-6 col-xs-12" ng-if="vm.statuses">
-                                <label>Select Status
+                                <label>{{nextTaskObject.nextTask}} Status
                                     <req>*</req>
                                 </label>
                                 <select class="form-control" data-ng-model="vm.formData.status" required>
@@ -65,7 +65,7 @@
                             <button type="submit" class="btn btn-success" style="margin-right: 8px;">
                                 Submit
                             </button>
-                            <input type="clear" class="btn btn-warning" ng-click="vm.clearForm();" value="Clear Form">
+                            <input type="clear" class="btn btn-warning" ng-click="vm.clearForm();" value="Clear Form" readonly>
                         </div>
                     </form>
                 </div>
