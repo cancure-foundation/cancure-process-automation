@@ -138,32 +138,10 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
     
-    
- // Search page state
-    $stateProvider.state('app.doctor.doctorCreate', {
-        url: '/doctorCreate/:doctor_id',
-        templateUrl: 'app/modules/core/doctorManage/doctorCreate/doctorCreate.html',
-        controller: 'DoctorCreateController',
-        controllerAs: 'vm',
-        data: {
-            pageTitle: 'Doctors'
-        }
-    });
-    
-    $stateProvider.state('app.doctor.doctorList', {
-        url: '/doctorList',
-        templateUrl: 'app/modules/core/doctorManage/doctorList/doctorList.html',
-        controller: 'DoctorListController',
-        controllerAs: 'vm',
-        data: {
-            pageTitle: 'Doctors'
-        }
-    });
-    
     $stateProvider.state('app.doctor', {
-        url: '/doctor',
-        templateUrl: 'app/modules/core/doctorManage/doctorManage.html',
-        controller: 'DoctorManageController',
+        url: '/doctorList',
+        templateUrl: 'app/modules/core/doctorManage/doctor.html',
+        controller: 'DoctorListController',
         controllerAs: 'vm',
         data: {
             pageTitle: 'Doctors'

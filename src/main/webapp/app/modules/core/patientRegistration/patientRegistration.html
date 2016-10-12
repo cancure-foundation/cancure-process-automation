@@ -377,21 +377,17 @@
                     <div class="panel panel-warning">
                         <div class="panel-heading">
                             Preliminary Examination
+                            <div class="req-indicator">(Kindly select a hospital for preliminary examination to be done or already done.)</div>
                         </div>
                         <div class="panel-body">
-                            <div class="col-xs-12" style="padding-left: 0px;">
-                                <md-checkbox data-ng-model="vm.donePrelimChck" ng-change="vm.formData.preliminaryExamHospitalId = null;vm.formData.preliminaryExamDoctorId = null">
-                                    Has the patient completed preliminary examination?
-                                </md-checkbox>
-                            </div>
-                            <div class="col-md-4 col-xs-12 input-box" ng-hide="vm.donePrelimChck" style="padding: 0 15px 0 0;">
-                                <label>Select Hospital</label>
-                                <select class="form-control" data-ng-model="vm.formData.preliminaryExamHospitalId" ng-change="vm.onHospitalChange();">
+                            <div class="col-md-4 col-xs-12 input-box" style="padding: 0 15px 0 0;">
+                                <label>Select Hospital <req>*</req></label>
+                                <select class="form-control" data-ng-model="vm.formData.preliminaryExamHospitalId" ng-change="vm.onHospitalChange();" required>
                                     <option value="">Select Hospital</option>
                                     <option value="{{item.hospitalId}}" ng-repeat="item in vm.hospitalList" ng-selected="vm.formData.preliminaryExamHospitalId==item.hospitalId">{{item.name}}</option>
                                 </select>
                             </div>
-                            <div class="col-md-4 col-xs-12 input-box" ng-hide="vm.donePrelimChck" style="padding: 0 15px 0 0;">
+                            <div class="col-md-4 col-xs-12 input-box" style="padding: 0 15px 0 0;">
                                 <label>Select Doctor</label>
                                 <select class="form-control" data-ng-model="vm.formData.preliminaryExamDoctorId" ng-disabled="!vm.formData.preliminaryExamHospitalId">
                                     <option value="">Select Doctor</option>

@@ -97,7 +97,7 @@ app.constant('appSettings', {
 	{
 		title: "Doctors",
 		icon: "user-md",
-		state: "doctor.doctorList",
+		state: "doctor",
 		pageId : 4
 	},
 	{
