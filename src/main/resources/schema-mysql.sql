@@ -112,6 +112,7 @@ create table user_role (
  	contact varchar(25),
  	email varchar(50),
  	hospital_id int(10) references hospital(hospital_id),
+ 	user_id int(10) references user(id),
  	enabled boolean
  );
 

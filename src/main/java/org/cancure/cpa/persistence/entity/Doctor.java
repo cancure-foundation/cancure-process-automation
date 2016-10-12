@@ -38,7 +38,9 @@ public class Doctor {
 	
     @NotNull
 	private Boolean enabled;
-	
+
+    @Column(name="user_id")
+    private Integer userId;
 
 	public Doctor() {
 
@@ -122,4 +124,12 @@ public class Doctor {
 		this.enabled = enabled;
 	}
 
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	
 }

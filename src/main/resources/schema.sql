@@ -101,7 +101,7 @@ create table user_role (
     unique (hpoc_id, hospital_id)
  );
 
- create table DOCTOR (
+ create table doctor (
  	doctor_id number(10) primary key auto_increment,
  	name varchar(100),
  	specification varchar(100),
@@ -109,6 +109,7 @@ create table user_role (
  	contact varchar(25),
  	email varchar(50),
  	hospital_id number(10) references hospital(hospital_id),
+ 	user_id int(10) references user(id)
  	enabled boolean
  );
 
