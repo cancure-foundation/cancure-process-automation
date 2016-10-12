@@ -5,13 +5,15 @@ core.controller("DoctorListController", [ '$scope', '$state', 'Loader', 'apiServ
 	var init = function (token) {
 		Loader.create(token? 'Refreshing Data.. Please wait...' : 'Fetching Data.. Please wait...');
 		
-		var doctorList = apiService.asyncServiceRequest({URL: appSettings.requestURL.doctorList});
-		var hospitalList = apiService.asyncServiceRequest({URL: 'hospital/list'});
-		var reqlist = [doctorList, hospitalList];
-
+		var reqlist = [];
+		reqlist.push(apiService.asyncServiceRequest({URL: appSettings.requestURL.doctorList}));
+		if (!token)
+			reqlist.push(apiService.asyncServiceRequest({URL: 'hospital/list'}));
+		
 		$q.all(reqlist).then(function (response){
 			$scope.doctorList = response[0];
-			vm.hospitalList = response[1];
+			if (response[1])
+				vm.hospitalList = response[1];
 			Loader.destroy();
 		});
 	};
