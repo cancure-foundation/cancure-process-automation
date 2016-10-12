@@ -3,7 +3,10 @@ package org.cancure.cpa.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.cancure.cpa.controller.beans.UserBean;
+import org.cancure.cpa.persistence.entity.Doctor;
 import org.cancure.cpa.persistence.entity.Role;
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.RoleRepository;
@@ -21,7 +24,9 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepo;
     @Autowired
     RoleRepository roleRepo;
-    // @Autowired
+    @Autowired
+    DoctorService doctorService;
+    
     PasswordEncoder encoder = new BCryptPasswordEncoder();
     
     @Autowired
@@ -30,6 +35,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PasswordNotifier passwordNotifier;
     
+    @Transactional
     public UserBean saveUser(User user) {
         String password="";
         if (user.getId() == null) {
@@ -57,9 +63,13 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        userRepo.save(user);
+        User savedUser = userRepo.save(user);
+        Doctor doc = user.getDoctor();
+        doc.setUserId(savedUser.getId());
+        doctorService.saveDoctor(doc);
+        
         if(!password.equals("")){
-        passwordNotifier.notify(user.getEmail(), password, user.getLogin(), false);
+        	passwordNotifier.notify(user.getEmail(), password, user.getLogin(), false);
         }
         UserBean userBean = new UserBean();
         BeanUtils.copyProperties(user, userBean);

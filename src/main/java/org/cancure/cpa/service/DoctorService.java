@@ -11,6 +11,7 @@ public interface DoctorService {
 	Doctor saveDoctor(Doctor doctor);
 	Iterable<Doctor> listDoctors();
 	Doctor getDoctor(Integer doctor_id);
+	Doctor getDoctorByUserId(Integer user_id);
 	Doctor updateDoctor(Integer doctor_id);
     List<Doctor> listHospitalDoctors(Integer hospitalId);
 	
