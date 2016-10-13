@@ -107,6 +107,7 @@
     </boundaryEvent>
     <sequenceFlow id="flow38" sourceRef="boundarytimer2" targetRef="servicetask2"></sequenceFlow>
     <userTask id="usertask8" name="Background Clarification" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+      <documentation>Secretary requests for more details about the patient's background.</documentation>	
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>

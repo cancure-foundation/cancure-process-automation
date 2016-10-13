@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.service.MyTasksService;
+import org.cancure.cpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -19,6 +21,9 @@ public class MyWorkflowController {
 
 	@Autowired
 	private MyTasksService myTasksService;
+	
+	@Autowired
+    private UserService userService;
 
 	@RequestMapping("/tasks/my")
 	public List<Map<String, String>> getPendingTasks(OAuth2Authentication auth) {
@@ -27,7 +32,12 @@ public class MyWorkflowController {
 			for (GrantedAuthority a : auth.getAuthorities()){
 				roles.add(a.getAuthority());
 			}
-			return myTasksService.getMyTasks(roles);
+			
+			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
+			UserBean user = userService.getUserByLogin(login);
+			Integer userId = user.getId();
+			
+			return myTasksService.getMyTasks(roles, userId);
 		} else {
 			throw new RuntimeException("Not logged in");
 		}
@@ -44,7 +54,7 @@ public class MyWorkflowController {
 				}
 			}
 			
-			return myTasksService.getMyTasks(rolesList);
+			return myTasksService.getMyTasks(rolesList, null);
 		}
 		
 		return new ArrayList<>();

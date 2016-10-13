@@ -19,6 +19,7 @@ import org.activiti.engine.task.Task;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.persistence.entity.Doctor;
+import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.persistence.entity.PatientDocument;
 import org.cancure.cpa.persistence.entity.PatientInvestigation;
 import org.cancure.cpa.persistence.entity.User;
@@ -50,26 +51,61 @@ public class MyTasksServiceImpl implements MyTasksService {
 	private PatientDocumentService patientDocumentService;
 	
 	@Autowired
+    private HpocHospitalService hpocHospitalService;
+	
+	@Autowired
     private UserRepository userRepository;
 	
 	@Autowired
     private DoctorRepository doctorRepository;
 	
 	@Override
-	public List<Map<String, String>> getMyTasks(List<String> roles) {
+	public List<Map<String, String>> getMyTasks(List<String> roles, Integer myUserId) {
 
 		List<Map<String, String>> list = new ArrayList<>();
 
-		if (roles == null || roles.size() < 1) {
+		if (roles == null || roles.isEmpty()) {
 			return list;
 		}
 
 		List<Task> tasks = taskService.createTaskQuery().includeProcessVariables().orderByTaskCreateTime().asc()
 				.taskCandidateGroupIn(roles).list();
 
+		if (myUserId != null) {
+			tasks = filterTasksForRoles(roles, tasks, myUserId);
+		}
 		list = extractTaskAttributes(tasks);
 
 		return list;
+	}
+
+	private List<Task> filterTasksForRoles(List<String> roles, List<Task> tasks, Integer myUserId) {
+		if (roles.contains("ROLE_HOSPITAL_POC")){
+			List<Task> filteredTasks = new ArrayList<>();
+			for (Task task: tasks){
+				if ("Preliminary Examination".equals(task.getName())){
+					Map<String, Object> processVars = task.getProcessVariables();
+					Object preliminaryExamHospitalId = processVars.get("preliminaryExamHospitalId");
+					if (preliminaryExamHospitalId != null){
+						HpocHospital hpocHosMapping = hpocHospitalService.getHospitalFromHpoc(myUserId);
+						// Show to a HPOC only if the Task is assigned to his hospital.
+						if (hpocHosMapping != null && hpocHosMapping.getHospitalId() == Integer.parseInt(preliminaryExamHospitalId.toString())){
+							filteredTasks.add(task);
+						}
+					} else {
+						// If the task is not assigned to a specific hospital, show it to all.
+						filteredTasks.add(task);
+					}
+				} else {
+					filteredTasks.add(task);
+				}
+			}
+			
+			return filteredTasks;
+			
+		} else {
+			return tasks;
+		}
 	}
 
 	private List<Map<String, String>> extractTaskAttributes(List<Task> tasks) {
@@ -83,7 +119,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 	
 	private Map<String, Object> extractHistoryTaskAttributes(List<HistoricTaskInstance> tasks,String patientID) {
 		Map<String, Object> parentMap = new HashMap<>();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss");
 		PatientBean patient=patientService.get(Integer.parseInt(patientID));
 		
 		//Map taskMap = new HashMap<>();
@@ -95,22 +131,12 @@ public class MyTasksServiceImpl implements MyTasksService {
 
 			@Override
 			public int compare(HistoricTaskInstance x, HistoricTaskInstance y) {
-				int value = x.getCreateTime().compareTo(y.getCreateTime());
-				if (value == 0){
-					try {
-						value = Integer.parseInt(x.getId()) - Integer.parseInt(y.getId());
-					} catch (NumberFormatException e) {
-						value = x.getId().compareTo(y.getId());
-					}
-					return value;
-				} else {
-					return value;
-				}
+				return x.getCreateTime().compareTo(y.getCreateTime());
 			}
 			
 		});
 		
-		int i=0,flag=0;
+		int i=0;
 		for (HistoricTaskInstance t : tasks) {
             Map<String, Object> map = new HashMap<>();
 		    if(t.getName().equals("Patient Registration")){
@@ -171,12 +197,9 @@ public class MyTasksServiceImpl implements MyTasksService {
 				}
 				parentMap.put("Owner", roleNames);
 			}
-			if(t.getName().equals("Patient ID Card Generation")){
-			    flag=1;
-			}
 		}
 
-        if (nextTask != null || flag==1 ) {
+        if (nextTask != null) {
             parentMap.put("nextTask", nextTask);
         } else {
             parentMap.put("nextTask", "Rejected");
@@ -220,12 +243,11 @@ public class MyTasksServiceImpl implements MyTasksService {
     
     private Map<String, String> toMap(PatientInvestigation patientInvestigation) {
         Map<String, String> map = new HashMap<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm");
         if (patientInvestigation != null) {
             map.put("comments", patientInvestigation.getComments());
             map.put("investigatorType", patientInvestigation.getInvestigatorType());
             map.put("status", patientInvestigation.getStatus());
-            map.put("investigationDate", sdf.format(patientInvestigation.getInvestigationDate().getTime()));
+            map.put("investigationDate", patientInvestigation.getInvestigationDate().toString());
 
             Integer investigatorId = patientInvestigation.getInvestigatorId();
             if (investigatorId != null) {
