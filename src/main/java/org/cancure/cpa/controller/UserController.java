@@ -3,8 +3,8 @@ package org.cancure.cpa.controller;
 import java.util.Map;
 
 import org.cancure.cpa.controller.beans.UserBean;
+import org.cancure.cpa.controller.beans.UserSuperBean;
 import org.cancure.cpa.persistence.entity.Role;
-import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -21,7 +21,7 @@ public class UserController {
 	UserService userService;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/user/save", consumes = "application/json")
-	public UserBean saveUser(@RequestBody User user) {
+	public UserSuperBean saveUser(@RequestBody UserSuperBean user) {
 		return userService.saveUser (user);
 	}
 

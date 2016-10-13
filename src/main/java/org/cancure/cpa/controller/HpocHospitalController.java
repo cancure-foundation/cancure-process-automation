@@ -43,6 +43,12 @@ public class HpocHospitalController {
         return hpocHospitalService.getHpocUsersFromHospital(hospitalId);
     }
 
+    @RequestMapping("/list/hospital/hpoc/{hpoc_id}")
+    public HpocHospital listHospitalHpoc(@PathVariable("hpoc_id") Integer hpocId) {
+
+        return hpocHospitalService.getHospitalFromHpoc(hpocId);
+    }
+    
     @RequestMapping("/listAll/hpoc/hospital")
     public Map<String, Object> listAllHpocHospital() {
         Map<Integer, List<UserBean>> parentMap = new HashMap<>();
