@@ -74,7 +74,7 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 			$timeout(function (){
 				vm.viewMorePtDetails();
 				Loader.destroy();
-			}, 1000);
+			}, 400);
 		});
 	};
 	/**

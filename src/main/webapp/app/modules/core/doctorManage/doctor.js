@@ -3,7 +3,6 @@ core.controller("DoctorListController", [ '$scope', '$state', 'Loader', 'apiServ
 	var vm = this;
 
 	var init = function (token) {
-		vm.varInit();
 		Loader.create(token? 'Refreshing Data.. Please wait...' : 'Fetching Data.. Please wait...');
 		
 		var reqlist = [];
@@ -12,16 +11,11 @@ core.controller("DoctorListController", [ '$scope', '$state', 'Loader', 'apiServ
 			reqlist.push(apiService.asyncServiceRequest({URL: 'hospital/list'}));
 		
 		$q.all(reqlist).then(function (response){
-			vm.doctorList = response[0];
+			$scope.doctorList = response[0];
 			if (response[1])
 				vm.hospitalList = response[1];
 			Loader.destroy();
 		});
-	};
-	vm.varInit = function (){
-		vm.doctorList = [];
-		vm.formData = {};
-		vm.editMode = false;
 	};
 	/**
 	 * 
@@ -51,7 +45,8 @@ core.controller("DoctorListController", [ '$scope', '$state', 'Loader', 'apiServ
 			URL: 'doctor/save',
 			method: 'POST',
 			payLoad: serverData
-		}, function (response) {						
+		}, function (response) {
+			vm.editMode = false;			
 			Loader.destroy();	
 			init(1);
 		});

@@ -26,7 +26,7 @@ core.config(["$stateProvider", function ($stateProvider) {
     });
     //  Create User
     $stateProvider.state('app.manageUser.createUser', {
-        url: '/createUser/:user',
+        url: '/createUser/:userId',
         templateUrl: 'app/modules/core/manageUser/createUser/createUser.html',
         controller: 'CreateUserController',
         controllerAs: 'vm',

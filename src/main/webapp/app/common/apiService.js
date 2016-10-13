@@ -49,7 +49,7 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 	 * function to be called on logout
 	 */
 	var logoutAction = function (redirectTo){
-		Loader.create('Logging out.. Please wait...');
+		Loader.create('Loggin out. Please wait');
 		var to = redirectTo ? redirectTo : 'login';
 		serviceRequest({
 			URL: appSettings.requestURL.logout,

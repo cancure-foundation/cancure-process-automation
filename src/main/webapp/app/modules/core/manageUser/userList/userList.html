@@ -6,7 +6,7 @@
                 <span style="float: right;"> Search User  :  <input type="text" ng-model="searchBox" placeholder="Enter Name"/></span>
             </div>
             <div class="panel-body">
-                <table class="table table-bordered" style="margin-bottom: 0px;">
+                <table class="table table-bordered">
                     <th class="col-xs-2">Name</th>
                     <th class="col-xs-2">Log-in ID</th>
                     <th class="col-xs-3">Email</th>
@@ -25,7 +25,7 @@
                             </div>
                         </td>
                         <td class="col-xs-1">{{user.enabled}}</td>
-                        <td class="col-xs-1" ng-click="vm.editUser(user)">
+                        <td class="col-xs-1" ng-click="vm.editUser(user.id)">
                             <span style="color: #3c8dbc;cursor: pointer;">Edit</span>
                         </td>
                     </tr>

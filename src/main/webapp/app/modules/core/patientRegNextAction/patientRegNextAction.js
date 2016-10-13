@@ -45,20 +45,24 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 				}
 			});
 
-		} else if ($scope.nextTaskObject.nextTask == 'Background Check') {
+		}		
+
+		if ($scope.nextTaskObject.nextTask == 'Background Check') {
 			vm.statuses = [{'id': 'PASS', 'name' : 'Pass'}, {'id': 'FAIL', 'name' : 'Fail'}];
 			callback(null);
-		} else if ($scope.nextTaskObject.nextTask == 'Secretary Approval') {
+		}
+
+		if ($scope.nextTaskObject.nextTask == 'Secretary Approval') {
 			vm.statuses = [{'id': 'Approved', 'name' : 'Approve'}, {'id': 'Recommend', 'name' : 'Forward to EC'},
 			               {'id': 'Reject', 'name' : 'Reject'}, {'id': 'SendBackToPC', 'name' : 'Need background check clarification'},
 			               {'id': 'prelimExamClarificationReqd', 'name' : 'Need preliminary exam clarification'}];
 			callback(null);
-		} else if ($scope.nextTaskObject.nextTask == 'EC Approval') {
+		}
+
+		if ($scope.nextTaskObject.nextTask == 'EC Approval') {
 			vm.statuses = [{'id': 'accept/save', 'name' : 'Approve'}, {'id': 'reject/save', 'name' : 'Reject'}];
 			callback(null);
-		} else {
-			callback(null);
-		}
+		}		
 	};
 	/**
 	 * 

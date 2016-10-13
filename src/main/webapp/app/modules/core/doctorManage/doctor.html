@@ -11,28 +11,30 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-info" ng-show="vm.doctorList.length > 0 && !vm.editMode" >
+            <div class="panel panel-info" ng-show="doctorList.length > 0" ng-hide="vm.editMode">
                 <table class="table">
 
                     <th class="col-xs-2">Doctor Name</th>
-                    <th class="col-xs-2">Specification</th>
+                    <th class="col-xs-1">Specification</th>
                     <th class="col-xs-2">Address</th>
                     <th class="col-xs-2">Contact No</th>
                     <th class="col-xs-2">Email Address</th>
                     <th class="col-xs-2">Hospital</th>
+                    <th class="col-xs-1">Action</th>
 
-                    <tr class="" ng-repeat="doct in vm.doctorList">
+                    <tr class="" ng-repeat="doct in doctorList">
                         <td class="col-xs-2">{{doct.name}}</td>
-                        <td class="col-xs-2">{{doct.specification}}</td>
+                        <td class="col-xs-1">{{doct.specification}}</td>
                         <td class="col-xs-2">{{doct.address}}</td>
                         <td class="col-xs-2">{{doct.contact}}</td>
                         <td class="col-xs-2">{{doct.email}}</td>
                         <td class="col-xs-2">{{doct.hospital.name}}</td>
+                        <td class="col-xs-1" ng-click="vm.editDoctor(doct.doctorId)" style="color: #3c8dbc;">Edit</td>
                     </tr>
 
                 </table>
             </div>
-            <div class="warningText" ng-hide="vm.doctorList.length > 0"> No Doctors found</div>
+            <div class="warningText" ng-hide="doctorList.length > 0"> No Doctors found</div>
             <div ng-show="vm.editMode" class="panel panel-info">
                 <div class="panel-body">
                     <form ng-submit="vm.createDoctor();" name="vm.registerForm" autocomplete="off">

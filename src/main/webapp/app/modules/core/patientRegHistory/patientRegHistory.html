@@ -28,7 +28,7 @@
                                                 <div> <b>{{vm.patientDetails.name}}</b> </div>
                                                 <div>
                                                 	<b>PRN : {{vm.patientDetails.prn}}</b>
-                                                	<b ng-show="vm.patientDetails.pidn"> | PIDN : {{vm.patientDetails.pidn}}</b>                                                
+                                                	<b ng-show="vm.patientDetails.pidn"> | PIDN : {{vm.patientDetails.prn}}</b>                                                
                                                 </div>
                                     		 </td>
                                     	</tr>                                                                               
@@ -183,7 +183,7 @@
                                                 <td class="col-xs-2">{{task.investigation.investigatorType}}</td>
                                                 <td class="col-xs-2">{{task.investigation.investigationDate}}</td>
                                                 <td class="col-xs-3" style="word-break: break-all;">{{task.investigation.comments || "Not Available"}}</td>
-                                                <td class="col-xs-2">{{task.investigation.status || "Not Applicable"}}</td>
+                                                <td class="col-xs-2">{{task.investigation.status || "Not Available"}}</td>
                                             </tr>
                                         </tbody>
                                     </table>                                   
@@ -232,7 +232,7 @@
                                 <span class="goto" ng-click="vm.nextAction()"> GO </span>
                             </div>
                             <div class="text-center nextTask" ng-if="vm.patientReject">
-                                Application has been rejected.
+                                Application has being rejected.
                             </div>
                             <div class="text-center nextTask" ng-if="vm.patientDetails.pidn">
                                 <span class="goto"> 
