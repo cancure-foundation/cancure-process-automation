@@ -6,7 +6,7 @@
       <documentation>Patient registers with Cancure providing personal details, family details, ID proofs
     		, income proofs etc.</documentation>
     </userTask>
-    <userTask id="usertask2" name="Preliminary Examination" activiti:candidateGroups="ROLE_HOSPITAL_POC">
+    <userTask id="usertask2" name="Preliminary Examination" activiti:candidateGroups="ROLE_HOSPITAL_POC,ROLE_DOCTOR">
       <documentation>Doctor conducts preliminary examination and provides reports. 
     		HPOC estimates the treatment costs.</documentation>
       <extensionElements>
@@ -27,7 +27,7 @@
     <sequenceFlow id="flow3" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="usertask2" targetRef="usertask3"></sequenceFlow>
     <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask4" name="MB Doctor Approval" activiti:candidateGroups="ROLE_HOSPITAL_POC">
+    <userTask id="usertask4" name="MB Doctor Approval" activiti:candidateGroups="ROLE_HOSPITAL_POC,ROLE_DOCTOR">
       <documentation>MB Doctors verifies the cost estimations and provides their input.</documentation>
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
@@ -118,7 +118,7 @@
     <sequenceFlow id="flow40" sourceRef="usertask8" targetRef="usertask5"></sequenceFlow>
     <sequenceFlow id="flow41" sourceRef="servicetask2" targetRef="endevent2"></sequenceFlow>
     <sequenceFlow id="flow42" sourceRef="boundarytimer1" targetRef="servicetask2"></sequenceFlow>
-    <userTask id="usertask9" name="Preliminary Examination Clarification" activiti:candidateGroups="ROLE_HOSPITAL_POC">
+    <userTask id="usertask9" name="Preliminary Examination Clarification" activiti:candidateGroups="ROLE_HOSPITAL_POC,ROLE_DOCTOR">
       <documentation>Preliminary examination to be revisited by the Hospital POC</documentation>
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
