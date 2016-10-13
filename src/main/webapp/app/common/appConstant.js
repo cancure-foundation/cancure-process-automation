@@ -5,7 +5,7 @@ app.constant('appSettings', {
 	title: "Cancure", // app name
 	lang: "en", // app default locale format
 	dateFormat: "mm/dd/yy", // app date format
-	baseURL: '/', // app service URL
+	baseURL: '', // app service URL
 	requestURL: {
 		authRequest: 'oauth/token', // oauth request
 		userRoles : 'roles', // fetching user roles
@@ -18,7 +18,10 @@ app.constant('appSettings', {
 		hpocList : 'user/hpoc', // to fetch hpoc list
 		hpocMapping : 'link/hpoc/hospital', // to map hpoc with hospital
 		hospitalHpoc : 'listAll/hpoc/hospital', //list all hospital and hpoc
+		hpocDoctors : 'doctor/hpoclist', // to get all doctors under that HPOC
 		myQueue : 'tasks/my', // to fetch tasks in myQueue
+		resetPassword : 'user/resetpassword', // to reset password
+		forgotPassword : 'user/forgotpassword', // to reset password on forgot password scenario
 		logout : 'logout' // logout service
 	},
 
@@ -74,7 +77,7 @@ app.constant('appSettings', {
 		pageId : 0
 	},
 	{
-		title: "Manage User",
+		title: "User",
 		icon: "users",
 		state: "manageUser.createUser",
 		pageId : 1
@@ -94,7 +97,7 @@ app.constant('appSettings', {
 	{
 		title: "Doctors",
 		icon: "user-md",
-		state: "doctor.doctorList",
+		state: "doctor",
 		pageId : 4
 	},
 	{

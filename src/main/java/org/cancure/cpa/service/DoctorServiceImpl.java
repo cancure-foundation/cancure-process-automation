@@ -1,5 +1,6 @@
 package org.cancure.cpa.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.cancure.cpa.persistence.entity.Doctor;
@@ -46,4 +47,14 @@ public class DoctorServiceImpl implements DoctorService {
     public List<Doctor> listHospitalDoctors(Integer hospitalId) {
         return doctorRepo.findByHospitalId(hospitalId);
     }
+
+	@Override
+	public Doctor getDoctorByUserId(Integer userId) {
+		List<Doctor> list = doctorRepo.findByUserId(userId);
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		
+		return null;
+	}
 }

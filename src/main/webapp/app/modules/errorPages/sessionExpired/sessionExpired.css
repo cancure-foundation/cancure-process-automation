@@ -1,0 +1,59 @@
+.sessionExpired {
+    background-color: #f4961c;
+    height: 100%;
+    color: #fff;
+}
+.sessionExpired .info-block {
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 15%;
+}
+.sessionExpired .info-block div {
+    display: inline-block;
+}
+.sessionExpired .info-block i {
+    font-size: 8em;
+}
+.sessionExpired .info-block .info-text {
+    vertical-align: top;
+    padding-top: 25px;
+}
+.sessionExpired .info-block .info-text span {
+    font-size: 18px;
+}
+.sessionExpired .info-block .info-text a {
+    border: 1px solid #fff;
+    padding: 4px 12px;
+    color: #fff;
+    background: #f4961c;
+    display: inline-block;
+    margin-top: 8px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+.sessionExpired .info-block .info-text a:hover {
+    color: #f4961c;
+    background: #fff;
+}
+.sessionExpired .errorPg-footer {
+    height: 50px;
+    line-height: 50px;
+    background-color: #222d32;
+    font-size: 16px;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+}
+@media ( max-width: 767px) {
+    .sessionExpired .info-block i {
+        font-size: 5em;
+    }
+    .sessionExpired .info-block .info-text {
+        padding-top: 5px;
+    }
+}
+@media ( max-width: 600px) {
+    .sessionExpired .info-block {
+        padding-top: 45%;
+    }
+}

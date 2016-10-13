@@ -33,7 +33,7 @@ public class EmailNotifier implements Notifier {
 		String host = env.getProperty("email.server");
 		String port = env.getProperty("email.port");
 		String from = env.getProperty("email.from");
-		
+		String password = env.getProperty("email.password");
 		
 		HtmlEmail email = new HtmlEmail();
 		try {
@@ -46,7 +46,9 @@ public class EmailNotifier implements Notifier {
 			email.setHostName(host);
 			email.setSmtpPort(Integer.parseInt(port));
 			email.setFrom(from);
-			
+			if(from!=null && password!=null){
+			email.setAuthentication(from, password);
+			}
 			email.send();
 		} catch (EmailException e) {
 			Log.getLogger().error(e);

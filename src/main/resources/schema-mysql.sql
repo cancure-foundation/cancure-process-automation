@@ -1,3 +1,5 @@
+-- This is for MySql 5.1. For 5.7, change datetime fields to datetime(3).
+
 create table oauth_client_details (
   client_id VARCHAR(256) PRIMARY KEY,
   resource_ids VARCHAR(256),
@@ -71,6 +73,7 @@ create table user (
 	email varchar(100),
 	password varchar(100),
 	enabled boolean,
+	first_log boolean,
 	unique (login)
 );
 
@@ -101,7 +104,7 @@ create table user_role (
     unique (hpoc_id, hospital_id)
  );
 
-  create table DOCTOR (
+  create table doctor (
  	doctor_id int(10) primary key auto_increment,
  	name varchar(100),
  	specification varchar(100),
@@ -109,6 +112,7 @@ create table user_role (
  	contact varchar(25),
  	email varchar(50),
  	hospital_id int(10) references hospital(hospital_id),
+ 	user_id int(10) references user(id),
  	enabled boolean
  );
 
@@ -145,7 +149,7 @@ create table patient(
 	doctor_comments varchar(2000),
 	type_of_support varchar(100),
 	task_id varchar(10),
-	preliminary_exam_doctor_id int(10) references DOCTOR(doctor_id),
+	preliminary_exam_doctor_id int(10) references doctor(doctor_id),
 	preliminary_exam_hospital_id int(10) references hospital(hospital_id)
 );
 
@@ -153,7 +157,7 @@ create table support_organisations (
 	org_id int(10) primary key auto_increment,
 	name varchar(100),
 	amount_rec int(10),
-	prn number(10) references patient(prn)
+	prn int(10) references patient(prn)
 );
 
 create table patient_family (
@@ -184,7 +188,7 @@ create table patient_document (
 	investigation_id int(10) primary key auto_increment,
 	investigator_type varchar(100) references investigator_type(name),
  	investigator_id int(10),
- 	investigation_date date,
+ 	investigation_date timestamp,
  	comments varchar(2000),
  	status varchar(30),
  	task_id varchar(10),
@@ -231,7 +235,7 @@ create table ACT_RE_DEPLOYMENT (
     NAME_ varchar(255),
     CATEGORY_ varchar(255),
     TENANT_ID_ varchar(255) default '',
-    DEPLOY_TIME_ timestamp(3) NULL,
+    DEPLOY_TIME_ timestamp NULL,
     primary key (ID_)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
@@ -241,8 +245,8 @@ create table ACT_RE_MODEL (
     NAME_ varchar(255),
     KEY_ varchar(255),
     CATEGORY_ varchar(255),
-    CREATE_TIME_ timestamp(3) null,
-    LAST_UPDATE_TIME_ timestamp(3) null,
+    CREATE_TIME_ timestamp null,
+    LAST_UPDATE_TIME_ timestamp null,
     VERSION_ integer,
     META_INFO_ varchar(4000),
     DEPLOYMENT_ID_ varchar(64),
@@ -269,7 +273,7 @@ create table ACT_RU_EXECUTION (
     CACHED_ENT_STATE_ integer,
     TENANT_ID_ varchar(255) default '',
     NAME_ varchar(255),
-    LOCK_TIME_ timestamp(3) NULL,
+    LOCK_TIME_ timestamp NULL,
     primary key (ID_)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
@@ -277,7 +281,7 @@ create table ACT_RU_JOB (
     ID_ varchar(64) NOT NULL,
     REV_ integer,
     TYPE_ varchar(255) NOT NULL,
-    LOCK_EXP_TIME_ timestamp(3) NULL,
+    LOCK_EXP_TIME_ timestamp NULL,
     LOCK_OWNER_ varchar(255),
     EXCLUSIVE_ boolean,
     EXECUTION_ID_ varchar(64),
@@ -286,7 +290,7 @@ create table ACT_RU_JOB (
     RETRIES_ integer,
     EXCEPTION_STACK_ID_ varchar(64),
     EXCEPTION_MSG_ varchar(4000),
-    DUEDATE_ timestamp(3) NULL,
+    DUEDATE_ timestamp NULL,
     REPEAT_ varchar(255),
     HANDLER_TYPE_ varchar(255),
     HANDLER_CFG_ varchar(4000),
@@ -326,8 +330,8 @@ create table ACT_RU_TASK (
     ASSIGNEE_ varchar(255),
     DELEGATION_ varchar(64),
     PRIORITY_ integer,
-    CREATE_TIME_ timestamp(3) NULL,
-    DUE_DATE_ datetime(3),
+    CREATE_TIME_ timestamp NULL,
+    DUE_DATE_ datetime,
     CATEGORY_ varchar(255),
     SUSPENSION_STATE_ integer,
     TENANT_ID_ varchar(255) default '',
@@ -372,7 +376,7 @@ create table ACT_RU_EVENT_SUBSCR (
     PROC_INST_ID_ varchar(64),
     ACTIVITY_ID_ varchar(64),
     CONFIGURATION_ varchar(255),
-    CREATED_ timestamp(3) not null DEFAULT CURRENT_TIMESTAMP(3),
+    CREATED_ timestamp not null DEFAULT CURRENT_TIMESTAMP,
     PROC_DEF_ID_ varchar(64),
     TENANT_ID_ varchar(255) default '',
     primary key (ID_)
@@ -385,11 +389,11 @@ create table ACT_EVT_LOG (
     PROC_INST_ID_ varchar(64),
     EXECUTION_ID_ varchar(64),
     TASK_ID_ varchar(64),
-    TIME_STAMP_ timestamp(3) not null,
+    TIME_STAMP_ timestamp not null,
     USER_ID_ varchar(255),
     DATA_ LONGBLOB,
     LOCK_OWNER_ varchar(255),
-    LOCK_TIME_ timestamp(3) null,
+    LOCK_TIME_ timestamp null,
     IS_PROCESSED_ tinyint default 0,
     primary key (LOG_NR_)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
@@ -529,8 +533,8 @@ create table ACT_HI_PROCINST (
     PROC_INST_ID_ varchar(64) not null,
     BUSINESS_KEY_ varchar(255),
     PROC_DEF_ID_ varchar(64) not null,
-    START_TIME_ datetime(3) not null,
-    END_TIME_ datetime(3),
+    START_TIME_ datetime not null,
+    END_TIME_ datetime,
     DURATION_ bigint,
     START_USER_ID_ varchar(255),
     START_ACT_ID_ varchar(255),
@@ -554,8 +558,8 @@ create table ACT_HI_ACTINST (
     ACT_NAME_ varchar(255),
     ACT_TYPE_ varchar(255) not null,
     ASSIGNEE_ varchar(255),
-    START_TIME_ datetime(3) not null,
-    END_TIME_ datetime(3),
+    START_TIME_ datetime not null,
+    END_TIME_ datetime,
     DURATION_ bigint,
     TENANT_ID_ varchar(255) default '',
     primary key (ID_)
@@ -572,13 +576,13 @@ create table ACT_HI_TASKINST (
     DESCRIPTION_ varchar(4000),
     OWNER_ varchar(255),
     ASSIGNEE_ varchar(255),
-    START_TIME_ datetime(3) not null,
-    CLAIM_TIME_ datetime(3),
-    END_TIME_ datetime(3),
+    START_TIME_ datetime not null,
+    CLAIM_TIME_ datetime,
+    END_TIME_ datetime,
     DURATION_ bigint,
     DELETE_REASON_ varchar(4000),
     PRIORITY_ integer,
-    DUE_DATE_ datetime(3),
+    DUE_DATE_ datetime,
     FORM_KEY_ varchar(255),
     CATEGORY_ varchar(255),
     TENANT_ID_ varchar(255) default '',
@@ -598,8 +602,8 @@ create table ACT_HI_VARINST (
     LONG_ bigint,
     TEXT_ varchar(4000),
     TEXT2_ varchar(4000),
-    CREATE_TIME_ datetime(3),
-    LAST_UPDATED_TIME_ datetime(3),
+    CREATE_TIME_ datetime,
+    LAST_UPDATED_TIME_ datetime,
     primary key (ID_)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
@@ -613,7 +617,7 @@ create table ACT_HI_DETAIL (
     NAME_ varchar(255) not null,
     VAR_TYPE_ varchar(255),
     REV_ integer,
-    TIME_ datetime(3) not null,
+    TIME_ datetime not null,
     BYTEARRAY_ID_ varchar(64),
     DOUBLE_ double,
     LONG_ bigint,
@@ -625,7 +629,7 @@ create table ACT_HI_DETAIL (
 create table ACT_HI_COMMENT (
     ID_ varchar(64) not null,
     TYPE_ varchar(255),
-    TIME_ datetime(3) not null,
+    TIME_ datetime not null,
     USER_ID_ varchar(255),
     TASK_ID_ varchar(64),
     PROC_INST_ID_ varchar(64),
@@ -646,7 +650,7 @@ create table ACT_HI_ATTACHMENT (
     PROC_INST_ID_ varchar(64),
     URL_ varchar(4000),
     CONTENT_ID_ varchar(64),
-    TIME_ datetime(3),
+    TIME_ datetime,
     primary key (ID_)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 

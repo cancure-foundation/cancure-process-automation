@@ -13,4 +13,6 @@ public interface DoctorRepository extends CrudRepository<Doctor, Integer> {
 
     @Query("Select d from Doctor d join d.hospital h where h.hospitalId = ?1 and d.enabled = true")
     public List<Doctor> findByHospitalId(Integer hospitalId);
+    
+    public List<Doctor> findByUserId(Integer userId);
 }

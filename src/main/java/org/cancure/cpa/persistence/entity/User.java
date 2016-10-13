@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -37,11 +38,18 @@ public class User {
 	
 	@NotEmpty
 	private String email;
+	
+	@NotNull
+	@Column(name="first_log")
+	private Boolean firstLog;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	private Set<Role> roles = new HashSet<Role>();
 
+	@Transient
+	private Doctor doctor;
+	
 	public User() {
 	}
 
@@ -112,4 +120,21 @@ public class User {
 		this.email = email;
 	}
 
+    public Boolean getFirstLog() {
+        return firstLog;
+    }
+
+    public void setFirstLog(Boolean firstLog) {
+        this.firstLog = firstLog;
+    }
+
+    //@Transient
+	public Doctor getDoctor() {
+		return doctor;
+	}
+
+	//@Transient
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
 }

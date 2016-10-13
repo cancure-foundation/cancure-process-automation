@@ -1,6 +1,9 @@
 .searchPatient {
     padding: 15px;
 }
+.searchPatient .rejected {
+    color: #ff0000;
+}
 .searchPatient .searchBox {
     margin: 0 15px;
     border-bottom: 2px solid #1e282c;

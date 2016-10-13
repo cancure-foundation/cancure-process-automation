@@ -21,18 +21,17 @@
                             <div class="row">
                                 <div class="col-md-6 col-sd-8 col-xs-12">
                                     <table class="table table-bordered" style="margin-bottom: 0px;">
-                                        <tr>
-                                            <td rowspan="5" class="user_img">
-                                                <img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
+                                    	<tr>
+                                    		 <td rowspan="5" class="user_img">
+                                    		 	<img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
                                                 <i ng-hide="vm.profileSrc" class="fa fa-user" aria-hidden="true" />
-                                                <div><b>{{vm.patientDetails.name}}</b></div>
-                                                <div><b>PRN : {{vm.patientDetails.prn}}</b></div>
-                                            </td>
-                                        </tr>
-                                        <tr ng-if = "vm.patientDetails.pidn">
-                                            <td class="fieldName">PIDN</td>
-                                            <td class="fieldValue">{{vm.patientDetails.pidn}}</td>
-                                        </tr>
+                                                <div> <b>{{vm.patientDetails.name}}</b> </div>
+                                                <div>
+                                                	<b>PRN : {{vm.patientDetails.prn}}</b>
+                                                	<b ng-show="vm.patientDetails.pidn"> | PIDN : {{vm.patientDetails.prn}}</b>                                                
+                                                </div>
+                                    		 </td>
+                                    	</tr>                                                                               
                                         <tr>
                                             <td class="fieldName">Age</td>
                                             <td class="fieldValue">{{vm.patientDetails.age}}</td>
@@ -63,6 +62,7 @@
                                     <!-- basic details -->
                                     <div class="col-xs-12 infoDiv">
                                         <span class="section-title col-xs-12">Basic Details</span>
+                                        <div class="col-md-4 col-xs-6"><b>Date of Birth:&nbsp</b> &nbsp{{vm.patientDetails.dobString || "--"}} </div>
                                         <div class="col-md-4 col-xs-6"><b>Blood Group:&nbsp</b> &nbsp{{vm.patientDetails.bloodGroup || "--"}} </div>
                                         <div class="col-md-4 col-xs-6"><b>Marital Status : </b> &nbsp{{vm.patientDetails.maritalStatus || "--"}} </div>
                                         <div class="col-md-4 col-xs-6"><b>Employment Status : </b> &nbsp{{vm.patientDetails.employmentStatus || "--"}} </div>
@@ -182,7 +182,7 @@
                                                 <td class="col-xs-3">{{task.investigation.investigatorName}}</td>
                                                 <td class="col-xs-2">{{task.investigation.investigatorType}}</td>
                                                 <td class="col-xs-2">{{task.investigation.investigationDate}}</td>
-                                                <td class="col-xs-3">{{task.investigation.comments || "Not Available"}}</td>
+                                                <td class="col-xs-3" style="word-break: break-all;">{{task.investigation.comments || "Not Available"}}</td>
                                                 <td class="col-xs-2">{{task.investigation.status || "Not Available"}}</td>
                                             </tr>
                                         </tbody>
@@ -226,14 +226,17 @@
                 <li ng-if="vm.nextTask">
                     <div class="timeline-item">
                         <div class="timeline-body">
-                            <div class="text-center nextTask" ng-if="vm.nextTask.name">
+                            <div class="text-center nextTask" ng-if="vm.nextTask.name && !vm.patientReject">
                                 <div class="title"> Next Step : <b>{{vm.nextTask.name}} </b></div>
                                 <div class="sub-title"> ({{vm.nextTask.description}}) </div>
                                 <span class="goto" ng-click="vm.nextAction()"> GO </span>
                             </div>
+                            <div class="text-center nextTask" ng-if="vm.patientReject">
+                                Application has being rejected.
+                            </div>
                             <div class="text-center nextTask" ng-if="vm.patientDetails.pidn">
                                 <span class="goto"> 
-                                	<a href="/files/idcard/{{vm.patientDetails.prn}}" style="color:white">Download ID Card</a>  
+                                	<a href="files/idcard/{{vm.patientDetails.prn}}" style="color:white">Download ID Card</a>  
                                 	<i class="fa fa-arrow-circle-down" aria-hidden="true"></i>                                	
                                 </span>
                             </div>

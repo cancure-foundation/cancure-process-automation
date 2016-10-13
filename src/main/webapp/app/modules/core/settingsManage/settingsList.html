@@ -1,0 +1,33 @@
+<div class="content-header">
+    <h1>           
+        Settings
+        <div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
+    </h1>
+</div>
+<!-- Main content -->
+<div class="content">
+    <div class="panel panel-info panel-body" ng-show="settingsList.length > 0">
+        <form name="vm.settList" autocomplete="off">
+            <div class="row" ng-repeat="sett in settingsList">
+                <div class="input-box col-xs-4">
+                    <label>Display Name </label>
+                    <input type="text" ng-value="sett.displayName" required placeholder="Enter patient name" ng-disabled=true />
+                </div>
+                <div class="input-box col-xs-4">
+                    <label>Value
+                        <req>*</req>
+                    </label>
+                    <input type="text" ng-model="sett.value" ng-value="sett.value" required placeholder="Enter {{sett.displayName}}" ng-disabled="!sett.enabled" />
+                </div>
+                <div class="col-xs-4" style="margin-top: 29px;">
+                    <input type="button" class="col-xs-6 btn btn-success" ng-hide="sett.enabled" ng-click="sett.enabled= true;" value="Edit" readonly style="max-width: 100px">
+                    <button type="submit" class="col-xs-6 btn btn-success" ng-show="sett.enabled" ng-click="vm.editSettings(sett);" value="Save" readonly style="max-width: 100px;margin-right: 8px;">
+                        Save
+                    </button>
+                    <input type="button" class="col-xs-6 btn btn-warning" ng-show="sett.enabled" ng-click="sett.enabled= false;" value="Cancel" readonly style="max-width: 100px">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="warningText" ng-hide="settingsList.length > 0"> No settings found</div>
+</div>

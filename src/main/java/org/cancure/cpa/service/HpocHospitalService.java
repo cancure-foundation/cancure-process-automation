@@ -2,6 +2,7 @@ package org.cancure.cpa.service;
 
 import java.util.List;
 
+import org.cancure.cpa.controller.beans.HpocHospitalBean;
 import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.persistence.entity.HpocHospital;
 
@@ -14,4 +15,6 @@ public interface HpocHospitalService {
 	List<UserBean> getHpocUsersFromHospital(Integer hospitalId);
 
     void deleteHpocHospital(Integer hospitalId);
+    
+    HpocHospital hpocHospitalMapping(HpocHospitalBean hpocHospitalBean);
 }

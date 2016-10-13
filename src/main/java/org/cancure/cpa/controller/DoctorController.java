@@ -49,6 +49,11 @@ public class DoctorController {
     public Doctor getDoctor(@PathVariable("doctor_id") Integer doctor_id) {
         return doctorService.getDoctor(doctor_id);
     }
+    
+    @RequestMapping("/doctor/user/{user_id}")
+    public Doctor getDoctorByUserId(@PathVariable("user_id") Integer userId) {
+        return doctorService.getDoctorByUserId(userId);
+    }
 
     @RequestMapping("/doctor/delete/{doctor_id}")
     public Doctor updateDoctor(@PathVariable("doctor_id") Integer doctor_id) {

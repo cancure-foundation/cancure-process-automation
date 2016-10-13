@@ -27,6 +27,7 @@
 }
 .patientRegHistory .task-1 table .user_img img {
     max-width: 100%;
+    max-height: 200px;
 }
 .patientRegHistory .task-1 .patientInfo-expandable {
     padding: 15px;

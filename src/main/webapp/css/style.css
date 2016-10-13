@@ -82,3 +82,54 @@ a {
         margin-top: 5%;
     }
 }
+.input-box {
+    padding-bottom: 15px;
+}
+.req-indicator {
+    font-size: 12px;
+    font-style: italic;
+    padding-top: 2px;
+}
+.input-box req,
+.req-indicator req {
+    color: #ff0000;
+    font-weight: bold;
+}
+.input-box label {
+    display: block;
+}
+.input-box input,
+.input-box textarea,
+.input-box select {
+    height: 42px;
+    width: 100%;
+    padding: 10px;
+    border: solid 1px #dcdcdc;
+    transition: box-shadow 0.3s, border 0.3s;
+}
+.input-box textarea {
+    height: auto !important;
+    resize: none;
+}
+.input-box input:focus,
+.input-box select:focus,
+.input-box textarea:focus,
+.input-box input.focus,
+.input-box select.focus,
+.input-box textarea.focus {
+    border: solid 1px #707070;
+    outline: 1px solid #3478f5;
+    box-shadow: 0 0 5px 1px #969696;
+}
+.appFieldset {
+    border: 1px solid #c0c0c0 !important;
+    padding: 0.35em 0.625em 0.75em !important;
+}
+.appFieldset legend {
+    border-bottom: none !important;
+    margin: 0 0 8px 0 !important;
+    padding: 0px 15px;
+    width: auto;
+    font-size: 16px;
+    font-weight: 500;
+}

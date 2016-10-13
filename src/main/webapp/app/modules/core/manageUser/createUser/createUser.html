@@ -1,80 +1,124 @@
-<div class="content" style="padding-top:0px;">
-    <h4 ng-hide="vm.userCreated">Fill the form to create a new user.</h4>
+<div class="content">
+    <h4 ng-hide="vm.userCreated">
+    	Fill the form to create a new user. 
+    	<div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
+    </h4>
+
     <h4 ng-show="vm.userCreated">User created with the following details.</h4>
-    <div ng-hide="vm.userCreated" class="panel panel-info">
-        <div class="panel-body">
-            <form ng-submit="vm.createUser();" name="vm.registerForm">
-                <div class="col-md-7 col-xs-12">
-                    <md-input-container class="md-icon-float md-block">
-                        <label>Name</label>
-                        <md-icon class="fa fa-user"></md-icon>
-                        <input type="text" data-ng-model="vm.formData.name" ng-required="true" />
-                    </md-input-container>
-                    <md-input-container class="md-icon-float md-block">
-                        <label>User Id</label>
-                        <md-icon class="fa fa-user"></md-icon>
-                        <input type="text" data-ng-model="vm.formData.login" ng-required="true" />
-                    </md-input-container>
-
-					<md-input-container class="md-icon-float md-block">
-                        <label>Email</label>
-                        <md-icon class="fa fa-envelope"></md-icon>
-                        <input type="email" data-ng-model="vm.formData.email" ng-required="true" ng-maxlength="100"/>
-                    </md-input-container>
-                    
-                    <md-input-container class="md-icon-float md-block">
-                    	<label ng-if="!vm.formData.id">Password</label>
-                    	<label ng-if="vm.formData.id">Password (Leave blank if you do not want to change password)</label>
-                        <md-icon class="fa fa-unlock-alt"></md-icon>
-                        <input type="password" data-ng-model="vm.formData.password" />
-                    </md-input-container>
-
-                    <md-input-container class="md-icon-float md-block">
-                        <label ng-if="!vm.formData.id">Password</label>
-                    	<label ng-if="vm.formData.id">Password (Leave blank if you do not want to change password)</label>
-                        <md-icon class="fa fa-unlock-alt"></md-icon>
-                        <input type="password" data-ng-model="vm.formData.retypepassword"/>
-                    </md-input-container>
+    <div ng-hide="vm.userCreated" class="panel panel-info row" style="margin: 0px;">
+        <form ng-submit="vm.createUser();" name="vm.registerForm" autocomplete="off">
+            <div class="panel-body" style="padding-bottom: 0px;">
+                <div class="col-md-4 col-xs-12 input-box">
+                    <label>Name
+                        <req>*</req>
+                    </label>
+                    <input type="text" data-ng-model="vm.formData.name" required placeholder="Enter name" />
                 </div>
-                <div class="col-md-5 col-xs-12">
-                    <md-input-container class=" md-block">
-                        <div ng-repeat="role in roles">
+                <div class="col-md-4 col-xs-12 input-box">
+                    <label>User ID
+                        <req>*</req>
+                    </label>
+                    <input type="text" data-ng-model="vm.formData.login" required placeholder="Enter user id" ng-disabled="vm.editMode" />
+                </div>
+                <div class="col-md-4 col-xs-12 input-box">
+                    <label>E-mail
+                        <req>*</req>
+                    </label>
+                    <input type="email" data-ng-model="vm.formData.email" required placeholder="Enter email address" />
+                </div>
+            </div>
+            <div class="col-xs-12" style="padding: 0px 28px; margin-bottom: 15px;">
+                <fieldset class="appFieldset">
+                    <legend>Please select atleast one role.</legend>
+                    <md-input-container class="md-block" style="margin: 8px 0px;">
+                        <div ng-repeat="role in roles" class="col-xs-4" style="padding-left: 0px;">
                             <md-checkbox ng-checked="vm.exists(role.id);" ng-click="vm.roleSelection(role.id, vm.formData.roles)" checklist-value="role.id" style="display:block;margin-bottom: 18px;" ng-required="true">
                                 {{role.displayName}}
                             </md-checkbox>
                         </div>
                     </md-input-container>
-                </div>
-                <div class="col-xs-12 text-center">
-                    <md-button class="md-raised md-primary" type="submit">Save User </md-button>
-                    <md-button class="md-raised md-warn" type="reset">Clear</md-button>
-                </div>
-            </form>
-        </div>
+                </fieldset>
+            </div>
+            <div class="panel-body" ng-show="vm.doctorDetails">
+                <fieldset class="appFieldset" style="margin: 0px 15px;">
+                    <legend>
+                        Doctor Details 
+                    </legend>
+                    <div class="col-md-4 col-xs-12 input-box">
+                        <label>Doctor Name
+                            <req>*</req>
+                        </label>
+                        <input type="text" data-ng-model="vm.doctor.name" ng-required="vm.doctorDetails"  placeholder="Enter doctor name" />
+                    </div>
+                    <div class="col-md-4 col-xs-12 input-box">
+                        <label>Specialization
+                            <req>*</req>
+                        </label>
+                        <input type="text" data-ng-model="vm.doctor.specification" ng-required="vm.doctorDetails"  placeholder="Enter doctor specialization" />
+                    </div>
+                    <div class="col-md-4 col-xs-12 input-box">
+                        <label>Address
+                            <req>*</req>
+                        </label>
+                        <input type="text" data-ng-model="vm.doctor.address" ng-required="vm.doctorDetails"  placeholder="Enter address" />
+                    </div>
+                    <div class="col-md-4 col-xs-12 input-box">
+                        <label>Email Address
+                            <req>*</req>
+                        </label>
+                        <input type="email" data-ng-model="vm.doctor.email" ng-required="vm.doctorDetails"  placeholder="Enter email address" />
+                    </div>
+                    <div class="col-md-4 col-xs-12 input-box">
+                        <label>Contact
+                            <req>*</req>
+                        </label>
+                        <input type="text" data-ng-model="vm.doctor.contact" ng-required="vm.doctorDetails"  placeholder="Enter address" />
+                    </div>
+                    <div class="col-md-4 col-xs-12 input-box">
+                        <label>Hospital
+                            <req>*</req>
+                        </label>
+                        <select class="form-control" data-ng-model="vm.doctor.hospital.hospitalId" ng-required="vm.doctorDetails" >
+                            <option value=""> Select a Hospital </option>
+                            <option value="{{hospital.hospitalId}}" ng-repeat="hospital in vm.hospitalList" ng-selected="vm.formData.hospital.hospitalId==hospital.hospitalId">{{hospital.name}}</option>
+                        </select>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-xs-12 text-center" style="padding-bottom: 15px;">
+                <button type="submit" class="btn btn-success" style="margin-right: 8px;" ng-disabled="vm.formData.firstLog">
+                    Save User
+                </button>
+                <input type="button" class="btn btn-warning" ng-click="vm.clearForm()" value="Clear Form" ng-hide="vm.editMode">
+                <input type="button" class="btn btn-warning" ng-click="vm.resetPassword()" value="Reset Password" ng-show="vm.editMode">
+            </div>
+        </form>
     </div>
-    <div ng-show="vm.userCreated" class="panel panel-info" style="padding:15px;">
-        <div class="row">
-            <div class="col-xs-offset-3 col-xs-6">
-                <table class="table table-bordered">
-                    <th class="col-xs-4">Name</th>
-                    <th class="col-xs-4">Login ID</th>
-                    <th class="col-xs-4">Roles</th>
-                    <tr>
-                        <td class="col-xs-4">{{vm.formData.name}}</td>
-                        <td class="col-xs-4">{{vm.formData.login}}</td>
-                        <td class="col-xs-4">
-                            <div ng-repeat="role in roles">
-                                <div ng-repeat="selectedRole in vm.formData.roles">
-                                    <span ng-if="role.id == selectedRole.id"> {{role.displayName}} </span>
-                                </div>
+</div>
+
+<div ng-show="vm.userCreated" class="panel panel-info" style="padding:15px;">
+    <div class="row">
+        <div class="col-xs-offset-3 col-xs-6">
+            <table class="table table-bordered">
+                <th class="col-xs-4">Name</th>
+                <th class="col-xs-4">Login ID</th>
+                <th class="col-xs-4">Roles</th>
+                <tr>
+                    <td class="col-xs-4">{{vm.formData.name}}</td>
+                    <td class="col-xs-4">{{vm.formData.login}}</td>
+                    <td class="col-xs-4">
+                        <div ng-repeat="role in roles">
+                            <div ng-repeat="selectedRole in vm.formData.roles">
+                                <span ng-if="role.id == selectedRole.id"> {{role.displayName}} </span>
                             </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-xs-12 text-center">
-                <md-button class="md-raised" ng-click="vm.createNwUsrBtn();">Create another user</md-button>
-            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xs-12 text-center">
+            <md-button class="md-raised" ng-click="vm.createNwUsrBtn();">Create another user</md-button>
         </div>
     </div>
+</div>
 </div>

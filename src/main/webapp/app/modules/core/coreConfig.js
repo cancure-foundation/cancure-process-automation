@@ -77,7 +77,7 @@ core.config(["$stateProvider", function ($stateProvider) {
 
     // patient registration page state
     $stateProvider.state('app.patientRegistration', {
-        url: '/patientRegistration',
+        url: '/patientRegistration/:prn',
         templateUrl: 'app/modules/core/patientRegistration/patientRegistration.html',
         controller: 'PatientRegistrationController',
         controllerAs: 'vm',
@@ -138,32 +138,10 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
     
-    
- // Search page state
-    $stateProvider.state('app.doctor.doctorCreate', {
-        url: '/doctorCreate/:doctor_id',
-        templateUrl: 'app/modules/core/doctorManage/doctorCreate/doctorCreate.html',
-        controller: 'DoctorCreateController',
-        controllerAs: 'vm',
-        data: {
-            pageTitle: 'Doctors'
-        }
-    });
-    
-    $stateProvider.state('app.doctor.doctorList', {
-        url: '/doctorList',
-        templateUrl: 'app/modules/core/doctorManage/doctorList/doctorList.html',
-        controller: 'DoctorListController',
-        controllerAs: 'vm',
-        data: {
-            pageTitle: 'Doctors'
-        }
-    });
-    
     $stateProvider.state('app.doctor', {
-        url: '/doctor',
-        templateUrl: 'app/modules/core/doctorManage/doctorManage.html',
-        controller: 'DoctorManageController',
+        url: '/doctorList',
+        templateUrl: 'app/modules/core/doctorManage/doctor.html',
+        controller: 'DoctorListController',
         controllerAs: 'vm',
         data: {
             pageTitle: 'Doctors'
@@ -172,18 +150,8 @@ core.config(["$stateProvider", function ($stateProvider) {
     
     $stateProvider.state('app.settingsList', {
         url: '/settingsList',
-        templateUrl: 'app/modules/core/settingsManage/settingsList/settingsList.html',
+        templateUrl: 'app/modules/core/settingsManage/settingsList.html',
         controller: 'SettingsListController',
-        controllerAs: 'vm',
-        data: {
-            pageTitle: 'Settings'
-        }
-    });
-    
-    $stateProvider.state('app.settingsCreate', {
-        url: '/settingsCreate/:settingsId',
-        templateUrl: 'app/modules/core/settingsManage/settingsCreate/settingsCreate.html',
-        controller: 'SettingsCreateController',
         controllerAs: 'vm',
         data: {
             pageTitle: 'Settings'

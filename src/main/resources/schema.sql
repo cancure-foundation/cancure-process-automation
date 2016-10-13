@@ -70,6 +70,7 @@ create table user (
 	email varchar(100),
 	password varchar(100),
 	enabled boolean,
+	first_log boolean,
 	unique (login)
 );
 
@@ -100,7 +101,7 @@ create table user_role (
     unique (hpoc_id, hospital_id)
  );
 
- create table DOCTOR (
+ create table doctor (
  	doctor_id number(10) primary key auto_increment,
  	name varchar(100),
  	specification varchar(100),
@@ -108,6 +109,7 @@ create table user_role (
  	contact varchar(25),
  	email varchar(50),
  	hospital_id number(10) references hospital(hospital_id),
+ 	user_id int(10) references user(id)
  	enabled boolean
  );
 
@@ -182,7 +184,7 @@ create table patient_investigation (
 	investigation_id number(10) primary key auto_increment,
 	investigator_type varchar(100) references investigator_type(name),
  	investigator_id number(10),
- 	investigation_date date,
+ 	investigation_date timestamp,
  	comments varchar(2000),
  	status varchar(30),
  	task_id varchar(10),

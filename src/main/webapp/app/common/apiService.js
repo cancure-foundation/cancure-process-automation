@@ -49,6 +49,7 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 	 * function to be called on logout
 	 */
 	var logoutAction = function (redirectTo){
+		Loader.create('Loggin out. Please wait');
 		var to = redirectTo ? redirectTo : 'login';
 		serviceRequest({
 			URL: appSettings.requestURL.logout,
@@ -70,6 +71,7 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 			appSettings.roles = undefined;  // clears roles
 			appSettings.rolesList = []; // clears role list 
 			delete $http.defaults.headers.common.Authorization;  // clears Authorization header
+			Loader.destroy();
 			$state.go(to); // route to the specified page    		
 		}
 	};

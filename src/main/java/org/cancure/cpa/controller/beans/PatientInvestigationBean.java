@@ -1,13 +1,14 @@
 package org.cancure.cpa.controller.beans;
 
-import java.util.Date;
+import java.sql.Timestamp;
+
 
 public class PatientInvestigationBean {
 
     private String prn;
     private String investigatorType;
     private String investigatorId;
-    private Date investigationDate;
+    private Timestamp investigationDate;
     private String status;
     private String comments;
     private String taskId;
@@ -26,13 +27,13 @@ public class PatientInvestigationBean {
 
     public void setInvestigatorId(String investigatorId) {
         this.investigatorId = investigatorId;
-    }
+    }    
 
-    public Date getInvestigationDate() {
+    public Timestamp getInvestigationDate() {
         return investigationDate;
     }
 
-    public void setInvestigationDate(Date investigationDate) {
+    public void setInvestigationDate(Timestamp investigationDate) {
         this.investigationDate = investigationDate;
     }
 

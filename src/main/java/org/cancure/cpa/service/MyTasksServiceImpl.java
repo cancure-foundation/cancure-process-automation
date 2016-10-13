@@ -83,7 +83,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 	
 	private Map<String, Object> extractHistoryTaskAttributes(List<HistoricTaskInstance> tasks,String patientID) {
 		Map<String, Object> parentMap = new HashMap<>();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 		PatientBean patient=patientService.get(Integer.parseInt(patientID));
 		
 		//Map taskMap = new HashMap<>();
@@ -95,12 +95,22 @@ public class MyTasksServiceImpl implements MyTasksService {
 
 			@Override
 			public int compare(HistoricTaskInstance x, HistoricTaskInstance y) {
-				return x.getCreateTime().compareTo(y.getCreateTime());
+				int value = x.getCreateTime().compareTo(y.getCreateTime());
+				if (value == 0){
+					try {
+						value = Integer.parseInt(x.getId()) - Integer.parseInt(y.getId());
+					} catch (NumberFormatException e) {
+						value = x.getId().compareTo(y.getId());
+					}
+					return value;
+				} else {
+					return value;
+				}
 			}
 			
 		});
 		
-		int i=0;
+		int i=0,flag=0;
 		for (HistoricTaskInstance t : tasks) {
             Map<String, Object> map = new HashMap<>();
 		    if(t.getName().equals("Patient Registration")){
@@ -161,9 +171,12 @@ public class MyTasksServiceImpl implements MyTasksService {
 				}
 				parentMap.put("Owner", roleNames);
 			}
+			if(t.getName().equals("Patient ID Card Generation")){
+			    flag=1;
+			}
 		}
 
-        if (nextTask != null) {
+        if (nextTask != null || flag==1 ) {
             parentMap.put("nextTask", nextTask);
         } else {
             parentMap.put("nextTask", "Rejected");
@@ -207,11 +220,12 @@ public class MyTasksServiceImpl implements MyTasksService {
     
     private Map<String, String> toMap(PatientInvestigation patientInvestigation) {
         Map<String, String> map = new HashMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm");
         if (patientInvestigation != null) {
             map.put("comments", patientInvestigation.getComments());
             map.put("investigatorType", patientInvestigation.getInvestigatorType());
             map.put("status", patientInvestigation.getStatus());
-            map.put("investigationDate", patientInvestigation.getInvestigationDate().toString());
+            map.put("investigationDate", sdf.format(patientInvestigation.getInvestigationDate().getTime()));
 
             Integer investigatorId = patientInvestigation.getInvestigatorId();
             if (investigatorId != null) {

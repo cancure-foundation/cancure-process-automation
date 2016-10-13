@@ -7,13 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
+@Table(name="doctor")
 public class Doctor {
 
 	@Id
@@ -38,7 +38,9 @@ public class Doctor {
 	
     @NotNull
 	private Boolean enabled;
-	
+
+    @Column(name="user_id")
+    private Integer userId;
 
 	public Doctor() {
 
@@ -122,4 +124,12 @@ public class Doctor {
 		this.enabled = enabled;
 	}
 
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	
 }
