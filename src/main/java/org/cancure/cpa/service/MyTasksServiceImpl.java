@@ -136,7 +136,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 			
 		});
 		
-		int i=0;
+		int i=0,flag=0;
 		for (HistoricTaskInstance t : tasks) {
             Map<String, Object> map = new HashMap<>();
 		    if(t.getName().equals("Patient Registration")){
@@ -197,9 +197,12 @@ public class MyTasksServiceImpl implements MyTasksService {
 				}
 				parentMap.put("Owner", roleNames);
 			}
+			if(t.getName().equals("Patient ID Card Generation")){
+			    flag=1;
+			}
 		}
 
-        if (nextTask != null) {
+        if (nextTask != null || flag==1) {
             parentMap.put("nextTask", nextTask);
         } else {
             parentMap.put("nextTask", "Rejected");
