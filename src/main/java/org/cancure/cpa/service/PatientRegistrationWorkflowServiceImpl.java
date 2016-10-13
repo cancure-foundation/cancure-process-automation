@@ -48,6 +48,9 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
         variables.put("patientName", patient.getName());
         variables.put("phoneNumber", patient.getContact());
         variables.put("prn", patient.getPrn());
+        if (patient.getPreliminaryExamHospitalId() != null){
+        	variables.put("preliminaryExamHospitalId", patient.getPreliminaryExamHospitalId());
+        }
         
         patientRegistrationService.startPatientRegnProcess(variables, String.valueOf(patient.getPrn()));
 
