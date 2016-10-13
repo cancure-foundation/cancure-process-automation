@@ -52,9 +52,12 @@
                             <td class="col-xs-2">{{patient.name}}</td>
                             <td class="col-xs-2">{{patient.contact}}</td>
                             <td class="col-xs-3">{{patient.address}}</td>
-                            <td class="col-xs-2" ng-class="{'rejected' : patient.nextTask==''}">{{patient.nextTask || "Rejected"}}</td>
+                            <td class="col-xs-2" ng-class="{'rejected' : (patient.nextTask == null || patient.nextTask == '') && patient.pidn == null}">
+                            					<span ng-if="!patient.pidn">{{patient.nextTask || "Rejected"}}</span>
+                            					<span ng-if="patient.pidn"> Registered</span>
+                            </td>
                             <td class="col-xs-2"> <a ui-sref="app.patientRegHistory({ prn: patient.prn })"> View History</a>  
-                            	 <a  ng-hide="{{patient.nextTask==''}}" ui-sref="app.patientRegistration({ prn: patient.prn })"> | Edit Patient </a> 
+                            	 <a  ng-hide="{{patient.nextTask == null || patient.nextTask == ''}}" ui-sref="app.patientRegistration({ prn: patient.prn })"> | Edit Patient </a> 
                             </td>
                         </tr>
                     </tbody>

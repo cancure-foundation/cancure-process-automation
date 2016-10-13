@@ -1,17 +1,15 @@
 <script type="text/javascript">
     document.getElementById('dobpicker').max = new Date().toISOString().substring(0, 10);
     // function to validate contact number
-    function validatephone(input) {
-        var maintainplus = '';
-        var numval = input.value
-        if (numval.charAt(0) == '+') {
-            var maintainplus = '';
+    function validatephone(evt) {
+    	evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
         }
-        curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\)\(*_={};:'@#~,.Š\/<>\" "\?|`¬\]\[]/g, '');
-        input.value = maintainplus + curphonevar;
-        var maintainplus = '';
-        input.focus;
+        return true;
     }
+    
 </script>
 <div class="patientRegistrationFamily">
     <form data-ng-submit="vm.submitForm();" name="vm.patientRegisterForm" autocomplete="off">
@@ -39,7 +37,7 @@
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">
                                     <div class="input-box">
-                                        <label>Pateint Name
+                                        <label>Patient Name
                                             <req>*</req>
                                         </label>
                                         <input type="text" data-ng-model="vm.formData.name" maxlength="100" required placeholder="Enter patient name" />
@@ -69,7 +67,7 @@
                                         <label>Date of Birth
                                             <req>*</req>
                                         </label>
-                                        <input id="dobpicker" type="date" data-ng-model="vm.formData.dob" required placeholder="Enter patient dob" />
+                                        <input id="dobpicker" type="date" data-ng-model="vm.formData.dob" required placeholder="Enter patient dob" onkeydown="return false;"/>
                                     </div>
                                     <div class="input-box">
                                         <label>Blood Group
@@ -112,7 +110,7 @@
                                     <label>Contact No.
                                         <req>*</req>
                                     </label>
-                                    <input type="text" data-ng-model="vm.formData.contact" maxlength="15" required onkeyup="validatephone(this);" placeholder="Enter patient number" />
+                                    <input type="text" data-ng-model="vm.formData.contact" maxlength="10" required onkeypress="return validatephone(event);" placeholder="Enter patient number" />
                                 </div>
                                 <div class="col-md-4 col-sm-12 input-box">
                                     <label>Address for Communication
@@ -264,7 +262,7 @@
                             </div>
                             <div class="input-box">
                                 <label>Bystander Contact</label>
-                                <input type="text" data-ng-model="vm.formData.bystanderContact" maxlength="20" placeholder="Enter number" onkeyup="validatephone(this);" />
+                                <input type="text" data-ng-model="vm.formData.bystanderContact" maxlength="10" placeholder="Enter number" onkeypress="return validatephone(event);" />
                             </div>
                             <div class="input-box">
                                 <label>Bystander Relation</label>
