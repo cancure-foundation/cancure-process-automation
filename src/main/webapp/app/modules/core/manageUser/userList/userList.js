@@ -28,9 +28,9 @@ function ($scope, $state, Flash, apiService, appSettings, Loader) {
         // init function, execution starts here
         init();
         
-        vm.editUser = function(id){
+        vm.editUser = function(userDetails){
     		$scope.$parent.vm.currentNavItem  = "app.manageUser.createUser";
-    		$state.go('app.manageUser.createUser', { userId: id });
+    		$state.go('app.manageUser.createUser', { user: JSON.stringify(userDetails) });
     	}
 
 }]);

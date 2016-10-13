@@ -43,6 +43,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserSuperBean saveUser(UserSuperBean UserSuperBean) {
 
+    	if (userRepo.findByLogin(UserSuperBean.getLogin()) != null) {
+    		throw new RuntimeException("Login ID already exists");
+    	}
         User user = new User();
         BeanUtils.copyProperties(UserSuperBean, user);
         String password = "";

@@ -1,10 +1,25 @@
+<script type="text/javascript">
+    // function to validate contact number
+    function validatephone(evt) {
+    	evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+    
+</script>
 <div class="content">
     <h4 ng-hide="vm.userCreated">
     	Fill the form to create a new user. 
     	<div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h4>
 
-    <h4 ng-show="vm.userCreated">User created with the following details.</h4>
+    <h4 ng-show="vm.userCreated">
+    	<span ng-show="vm.editMode">User created with the following details.</span>
+    	<span>User created with the following details.</span>
+    </h4>
     <div ng-hide="vm.userCreated" class="panel panel-info row" style="margin: 0px;">
         <form ng-submit="vm.createUser();" name="vm.registerForm" autocomplete="off">
             <div class="panel-body" style="padding-bottom: 0px;">
@@ -15,7 +30,7 @@
                     <input type="text" data-ng-model="vm.formData.name" required placeholder="Enter name" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>User ID
+                    <label>Login ID
                         <req>*</req>
                     </label>
                     <input type="text" data-ng-model="vm.formData.login" required placeholder="Enter user id" ng-disabled="vm.editMode" />
@@ -32,7 +47,7 @@
                     <legend>Please select atleast one role.</legend>
                     <md-input-container class="md-block" style="margin: 8px 0px;">
                         <div ng-repeat="role in roles" class="col-xs-4" style="padding-left: 0px;">
-                            <md-checkbox ng-checked="vm.exists(role.id);" ng-click="vm.roleSelection(role.id, vm.formData.roles)" checklist-value="role.id" style="display:block;margin-bottom: 18px;" ng-required="true">
+                            <md-checkbox ng-checked="vm.exists(role.id);" ng-click="vm.roleSelection(role.id, vm.formData.roles)" checklist-value="role.id" style="display:block;margin-bottom: 18px;" >
                                 {{role.displayName}}
                             </md-checkbox>
                         </div>
@@ -44,12 +59,6 @@
                     <legend>
                         Doctor Details 
                     </legend>
-                    <div class="col-md-4 col-xs-12 input-box">
-                        <label>Doctor Name
-                            <req>*</req>
-                        </label>
-                        <input type="text" data-ng-model="vm.doctor.name" ng-required="vm.doctorDetails"  placeholder="Enter doctor name" />
-                    </div>
                     <div class="col-md-4 col-xs-12 input-box">
                         <label>Specialization
                             <req>*</req>
@@ -63,24 +72,34 @@
                         <input type="text" data-ng-model="vm.doctor.address" ng-required="vm.doctorDetails"  placeholder="Enter address" />
                     </div>
                     <div class="col-md-4 col-xs-12 input-box">
-                        <label>Email Address
-                            <req>*</req>
-                        </label>
-                        <input type="email" data-ng-model="vm.doctor.email" ng-required="vm.doctorDetails"  placeholder="Enter email address" />
-                    </div>
-                    <div class="col-md-4 col-xs-12 input-box">
                         <label>Contact
                             <req>*</req>
                         </label>
-                        <input type="text" data-ng-model="vm.doctor.contact" ng-required="vm.doctorDetails"  placeholder="Enter address" />
+                        <input type="text" data-ng-model="vm.doctor.contact" ng-required="vm.doctorDetails" onkeypress="return validatephone(event);" placeholder="Enter contact number" />
                     </div>
                     <div class="col-md-4 col-xs-12 input-box">
-                        <label>Hospital
+                        <label>Hospital 
                             <req>*</req>
                         </label>
                         <select class="form-control" data-ng-model="vm.doctor.hospital.hospitalId" ng-required="vm.doctorDetails" >
                             <option value=""> Select a Hospital </option>
-                            <option value="{{hospital.hospitalId}}" ng-repeat="hospital in vm.hospitalList" ng-selected="vm.formData.hospital.hospitalId==hospital.hospitalId">{{hospital.name}}</option>
+                            <option value="{{hospital.hospitalId}}" ng-repeat="hospital in vm.hospitalList" ng-selected="vm.doctor.hospital.hospitalId==hospital.hospitalId">{{hospital.name}}</option>
+                        </select>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="panel-body" ng-show="vm.hpocDetails">
+                <fieldset class="appFieldset" style="margin: 0px 15px;">
+                    <legend>
+                        HPOC Details 
+                    </legend>                    
+                    <div class="col-md-4 col-xs-12 input-box">
+                        <label>Hospital
+                            <req>*</req>
+                        </label>
+                        <select class="form-control" data-ng-model="vm.hpoc.hospitalId" ng-required="vm.hpocDetails" >
+                            <option value=""> Select a Hospital </option>
+                            <option value="{{hospital.hospitalId}}" ng-repeat="hospital in vm.hospitalList" ng-selected="vm.hpoc.hospitalId==hospital.hospitalId">{{hospital.name}}</option>
                         </select>
                     </div>
                 </fieldset>
@@ -89,8 +108,8 @@
                 <button type="submit" class="btn btn-success" style="margin-right: 8px;" ng-disabled="vm.formData.firstLog">
                     Save User
                 </button>
-                <input type="button" class="btn btn-warning" ng-click="vm.clearForm()" value="Clear Form" ng-hide="vm.editMode">
-                <input type="button" class="btn btn-warning" ng-click="vm.resetPassword()" value="Reset Password" ng-show="vm.editMode">
+                <input type="button" class="btn btn-warning" ng-click="vm.varInit(1);" value="Clear Form" ng-hide="vm.editMode">
+                <input type="button" class="btn btn-warning" ng-click="vm.resetPassword();" value="Reset Password" ng-show="vm.editMode">
             </div>
         </form>
     </div>
@@ -117,7 +136,7 @@
             </table>
         </div>
         <div class="col-xs-12 text-center">
-            <md-button class="md-raised" ng-click="vm.createNwUsrBtn();">Create another user</md-button>
+            <md-button class="md-raised" ng-click="vm.varInit();">Create another user</md-button>
         </div>
     </div>
 </div>
