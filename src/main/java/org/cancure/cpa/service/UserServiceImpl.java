@@ -6,7 +6,9 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.cancure.cpa.controller.beans.UserBean;
+import org.cancure.cpa.controller.beans.UserSuperBean;
 import org.cancure.cpa.persistence.entity.Doctor;
+import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.persistence.entity.Role;
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.RoleRepository;
@@ -26,24 +28,30 @@ public class UserServiceImpl implements UserService {
     RoleRepository roleRepo;
     @Autowired
     DoctorService doctorService;
-    
+
     PasswordEncoder encoder = new BCryptPasswordEncoder();
-    
+
     @Autowired
     CommonService commonService;
 
     @Autowired
     PasswordNotifier passwordNotifier;
+
+    @Autowired
+    HpocHospitalService hpocHospitalService;
     
     @Transactional
-    public UserBean saveUser(User user) {
-        String password="";
+    public UserSuperBean saveUser(UserSuperBean UserSuperBean) {
+
+        User user = new User();
+        BeanUtils.copyProperties(UserSuperBean, user);
+        String password = "";
         if (user.getId() == null) {
             user.setFirstLog(true);
-            password=commonService.generatePassword();
+            password = commonService.generatePassword();
             String encPass = encoder.encode(password);
             user.setPassword(encPass);
-            
+
         } else {
             if (user.getFirstLog()) {
                 if (user.getPassword() == null) {
@@ -64,16 +72,21 @@ public class UserServiceImpl implements UserService {
         }
 
         User savedUser = userRepo.save(user);
-        Doctor doc = user.getDoctor();
-        doc.setUserId(savedUser.getId());
-        doctorService.saveDoctor(doc);
-        
-        if(!password.equals("")){
-        	passwordNotifier.notify(user.getEmail(), password, user.getLogin(), false);
+        if (UserSuperBean.getDoctor() != null) {
+            Doctor doc = UserSuperBean.getDoctor();
+            doc.setUserId(savedUser.getId());
+            doctorService.saveDoctor(doc);
         }
-        UserBean userBean = new UserBean();
-        BeanUtils.copyProperties(user, userBean);
-        return userBean;
+        if (UserSuperBean.getHospitalId()!=null){
+            HpocHospital hpocHospital=new HpocHospital();
+            hpocHospital.setHospitalId(UserSuperBean.getHospitalId());
+            hpocHospital.setHpocId(savedUser.getId());
+            hpocHospitalService.saveHpocHospital(hpocHospital);
+        }
+        if (!password.equals("")) {
+            passwordNotifier.notify(user.getEmail(), password, user.getLogin(), false);
+        }
+        return UserSuperBean;
     }
 
     @Override
@@ -133,10 +146,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserBean resetPassword(Integer id, Boolean resetPassword) {
-        
-        User user=userRepo.findOne(id);
+
+        User user = userRepo.findOne(id);
         user.setFirstLog(true);
-        String password=commonService.generatePassword();
+        String password = commonService.generatePassword();
         String encPass = encoder.encode(password);
         user.setPassword(encPass);
         userRepo.save(user);
@@ -149,7 +162,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public String forgotPassword(UserBean userBean) {
 
-        if (userRepo.findByLogin(userBean.getLogin()) == null || !userRepo.findByLogin(userBean.getLogin()).getEmail().equals(userBean.getEmail())) {
+        if (userRepo.findByLogin(userBean.getLogin()) == null
+                || !userRepo.findByLogin(userBean.getLogin()).getEmail().equals(userBean.getEmail())) {
             return "{\"status\" : \"FAIL\"}";
         } else {
             User user = new User();

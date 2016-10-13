@@ -5,7 +5,7 @@ import java.util.List;
 public class HpocHospitalBean {
 
     private Integer hospitalId;
-    private List<Integer> hpocIdList ;
+    private Integer hpocId ;
     private boolean status;
     
     public Integer getHospitalId() {
@@ -14,17 +14,17 @@ public class HpocHospitalBean {
     public void setHospitalId(Integer hospitalId) {
         this.hospitalId = hospitalId;
     }
-    public List<Integer> getHpocIdList() {
-        return hpocIdList;
-    }
-    public void setHpocIdList(List<Integer> hpocIdList) {
-        this.hpocIdList = hpocIdList;
-    }
     public boolean isStatus() {
         return status;
     }
     public void setStatus(boolean status) {
         this.status = status;
+    }
+    public Integer getHpocId() {
+        return hpocId;
+    }
+    public void setHpocId(Integer hpocId) {
+        this.hpocId = hpocId;
     }
     
 }
