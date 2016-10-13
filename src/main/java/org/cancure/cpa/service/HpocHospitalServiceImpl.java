@@ -56,7 +56,7 @@ public class HpocHospitalServiceImpl implements HpocHospitalService {
 
     @Override
     public HpocHospital hpocHospitalMapping(HpocHospitalBean hpocHospitalBean) {
-        HpocHospital hpocHospital = new HpocHospital();
+        /*HpocHospital hpocHospital = new HpocHospital();
         List<Integer> hpocIdList = hpocHospitalBean.getHpocIdList();
         int count=0;
         if(hpocIdList.size() ==0){
@@ -83,7 +83,7 @@ public class HpocHospitalServiceImpl implements HpocHospitalService {
             }
         }
         return hpocHospital;
-        }
+        }*/return null;
     }
 
 }
