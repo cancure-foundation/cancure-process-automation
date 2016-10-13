@@ -1,33 +1,73 @@
 core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', 'Flash', 'apiService', 'appSettings', 'Loader', '$q',
                                          function ($scope, $stateParams, $timeout, Flash, apiService, appSettings, Loader, $q) {
-	var vm = this;
-	vm.formData = {};
-	vm.formData.roles = [];
-	vm.userCreated = false;
-	vm.doctor = {};
-	
-	var init = function () {
-		Loader.create('Fetching Data. Please wait');
-		var id = $stateParams.userId;
+	var vm = this;	
 
-		var roleList = apiService.asyncServiceRequest({URL: appSettings.requestURL.userRoles});
-		var hospitalList = apiService.asyncServiceRequest({URL: 'hospital/list'});
-		
-		var reqlist = [roleList, hospitalList];
-		if (id) { // check if its edit mode
-			var userDetails = apiService.asyncServiceRequest({URL: 'user/' + id});
-			reqlist.push(userDetails);
+	var init = function () {
+		vm.varInit();
+		Loader.create('Fetching Data. Please wait');
+
+		var userDetails = ($stateParams.user) ? JSON.parse($stateParams.user) : undefined,
+				reqList = [];
+
+		reqList.push(apiService.asyncServiceRequest({URL: appSettings.requestURL.userRoles}));
+		reqList.push(apiService.asyncServiceRequest({URL: appSettings.requestURL.hospitalList}));
+
+		if (userDetails) { // check if its edit mode
+			reqList.push(apiService.asyncServiceRequest({URL: 'user/' + userDetails.id}));
+			for (var i = 0; i < userDetails.roles.length; i++) {
+				if (userDetails.roles[i].id == 5) {
+					vm.doctorDetails = true; // shows the doctor details tab
+					reqList.push(apiService.asyncServiceRequest({URL: 'doctor/user/' + userDetails.id}));
+				}
+				if (userDetails.roles[i].id == 4) {
+					vm.hpocDetails = true; // shows the hpoc details tab
+					reqList.push(apiService.asyncServiceRequest({URL: 'list/hospital/hpoc/' + userDetails.id}));
+				}
+			}
 			vm.editMode = true;
 		}
-		$q.all(reqlist).then(function (response){
+
+		$q.all(reqList).then(function (response){			
 			$scope.roles = response[0];
 			vm.hospitalList = response[1];
+			
 			if (response[2]) 
-				vm.formData = response[1];
+				vm.formData = response[2];				
+
+			if (vm.doctorDetails && vm.hpocDetails) {
+				vm.doctor = response[3];
+				vm.hpoc = response[4];
+				vm.doctor.hospital.hospitalId = response[3].hospital.hospitalId.toString();
+				vm.hpoc.hospitalId = response[3].hospitalId.toString();
+			} else if (vm.doctorDetails){
+				vm.doctor = response[3];
+				vm.doctor.hospital.hospitalId = response[3].hospital.hospitalId.toString();
+			} else if (vm.hpocDetails) {
+				vm.hpoc = response[3];	
+				vm.hpoc.hospitalId = response[3].hospitalId.toString();
+			}
+			
 			Loader.destroy();
 		});
 	};
-
+	/**
+	 *  reset entire page to initial state
+	 */
+	vm.varInit = function (token) {
+		vm.formData = {};
+		vm.formData.roles = [];
+		vm.editMode = false;
+		vm.userCreated = false;
+		vm.doctor = {};
+		vm.doctor.hospital = {};
+		vm.doctorDetails = false;
+		vm.hpoc = {};
+		vm.hpocDetails = false;
+		if (token) {
+			vm.registerForm.$setUntouched();
+			vm.registerForm.$setPristine();
+		}
+	};
 	// init function, execution starts here
 	init();
 
@@ -35,45 +75,39 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 	 * function to handle save button click
 	 */
 	vm.createUser = function () { 
-		var formState = formValidator(); // function to validate form fields
-		if(!formState.valid){
-			Flash.create('warning', formState.errMsg, 'large-text');
+		if (vm.formData.roles.length == 0) {
+			Flash.create('warning', 'Please select at least 1 role to proceed.', 'large-text');
 			return;
-		}
+		}	
 
 		Loader.create('Please wait while we register you...');
 
 		var serverData = angular.copy(vm.formData);
-		delete serverData.retypepassword;
-		serverData.enabled = true;
-		if (vm.doctorDetails)
+		serverData.enabled = true;		
+
+		if (vm.doctorDetails) {
 			serverData.doctor = angular.copy(vm.doctor);
-	
+			serverData.doctor.name = serverData.name;
+			serverData.doctor.email = serverData.email;
+		}
+
+		if (vm.hpocDetails) {
+			serverData.hospitalId = angular.copy(vm.hpoc.hospitalId);
+		}
+
 		// making the server call
 		apiService.serviceRequest({
 			URL: appSettings.requestURL.createUser,
 			method: 'POST',
-			payLoad: serverData
+			payLoad: serverData,
+			hideErrMsg : true
 		}, function (response) {
-			Loader.destroy();
-			Flash.create('success', 'User successfully saved.', 'large-text');   
+			Loader.destroy();  
 			vm.userCreated = true; // to show the user summary div
+		}, function (fail){
+			Flash.create('danger', fail.message, 'large-text');
 		});
 	};
-	/**
-	 * function to validate form fields
-	 */
-	var formValidator = function (){
-		var formState = {
-				valid : true
-		};
-		if (vm.formData.roles.length == 0) {
-			formState.valid = false;
-			formState.errMsg = 'Please select at least 1 role to proceed.';
-			return formState;
-		}		
-		return formState;
-	}
 	/**
 	 * function to handle save button click
 	 */
@@ -81,6 +115,7 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 		// checks if the index is already present in roles array, if yes the remove, else push the index
 		var pushItem = true;
 		vm.doctorDetails = false;
+		vm.hpocDetails = false;
 		for (var i = 0; i < vm.formData.roles.length; i++) {
 			if (vm.formData.roles[i].id == selectedId) {
 				vm.formData.roles.splice(i, 1);
@@ -95,7 +130,9 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 		for (var i = 0; i < vm.formData.roles.length; i++) {
 			if (vm.formData.roles[i].id == 5) {
 				vm.doctorDetails = true; // shows the doctor details tab
-				break;
+			}
+			if (vm.formData.roles[i].id == 4) {
+				vm.hpocDetails = true; // shows the hpoc details tab
 			}
 		}
 	};
@@ -110,31 +147,6 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 				break;
 			}
 		}
-	};
-	/**
-	 * 
-	 */
-	vm.clearForm = function (){
-		$timeout(function (){
-			vm.formData = {};      
-			vm.formData.roles = [];
-		});
-		vm.registerForm.$setUntouched();
-		vm.registerForm.$setPristine();
-	};
-	/**
-	 * function to show created user
-	 */
-	vm.createNwUsrBtn = function (){
-		vm.userCreated = false; // to hide the user summary div
-		$timeout(function (){
-			vm.formData = {};      
-			vm.formData.roles = [];
-			vm.doctor = {};
-			vm.doctorDetails = false;
-		});
-		vm.registerForm.$setUntouched();
-		vm.registerForm.$setPristine();
 	};
 	/**
 	 * function to reset user password

@@ -1,7 +1,7 @@
 .searchPatient {
     padding: 15px;
 }
-.searchPatient .rejected {
+.searchPatient .rejected span{
     color: #ff0000;
 }
 .searchPatient .searchBox {
