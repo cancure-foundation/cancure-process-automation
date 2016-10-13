@@ -71,7 +71,7 @@ public class DoctorController {
     public List<DoctorBean> listHpocDoctors(OAuth2Authentication auth) {
         Integer userId = null;
         List<DoctorBean> doctorBeanList = new ArrayList<>();
-        int flag = 0;
+        Boolean  isDoctor = false;
         if (auth != null) {
             String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
             UserBean user = userService.getUserByLogin(login);
@@ -79,10 +79,10 @@ public class DoctorController {
             Set<Role> roles = user.getRoles();
             for (Role role : roles) {
                 if (role.getName().equals("ROLE_DOCTOR")) {
-                    flag = 1;
+                    isDoctor = true;
                 }
             }
-            if (flag == 0) {
+            if (!isDoctor) {
                 HpocHospital hpocHospital = hpocHospitalService.getHospitalFromHpoc(userId);
                 List<Doctor> DoctorList = doctorService.listHospitalDoctors(hpocHospital.getHospitalId());
 
