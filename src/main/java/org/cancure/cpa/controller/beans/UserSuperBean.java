@@ -20,6 +20,8 @@ public class UserSuperBean {
 	
 	private String email;
 	
+	private String password;
+	
 	private Boolean firstLog;
 	
 	private Doctor doctor;
@@ -97,6 +99,14 @@ public class UserSuperBean {
 	public void setHospitalId(Integer hospitalId) {
 		this.hospitalId = hospitalId;
 	}
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     
 }
