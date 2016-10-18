@@ -55,7 +55,7 @@
                                         <label>Employment status
                                             <req>*</req>
                                         </label>
-                                        <select class="form-control" data-ng-model="vm.formData.employmentStatus" required>
+                                        <select class="form-control" data-ng-model="vm.formData.employmentStatus" required ng-change="vm.formData.patientIncome = undefined;">
                                             <option value="">Select Employment status</option>
                                             <option value="{{item.value}}" ng-repeat="item in vm.EmploymentStatus">{{item.value}}</option>
                                         </select>
@@ -138,10 +138,22 @@
                                 </div>
                                 <div class="col-md-4 col-sm-12">
                                     <md-input-container class="md-icon-float md-block">
-                                        <md-checkbox data-ng-model="vm.formData.solebreadwinner" style="margin: 14px 0px;">
+                                        <md-checkbox data-ng-model="vm.formData.solebreadwinner" style="margin: 14px 0px;" ng-change="vm.formData.patientIncome = undefined;">
                                             Is the patient the sole bread winner of the family
                                         </md-checkbox>
                                     </md-input-container>
+                                </div>
+                                <div class="col-md-4 col-sm-12 input-box" ng-show="vm.formData.employmentStatus=='Employed' || vm.formData.solebreadwinner">
+                                    <label>Patient Income
+                                        <req>*</req>
+                                    </label>
+                                    <input type="text" data-ng-model="vm.formData.patientIncome" maxlength="10" onkeypress="return validatephone(event);" ng-required="vm.formData.employmentStatus=='Employed' || vm.formData.solebreadwinner" placeholder="Enter patient income" />
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-md-4 col-sm-12 input-box">
+                                    <label>Estimated Total Income</label>
+                                    <input type="text" data-ng-model="vm.formData.totalIncome" disabled />
                                 </div>
                             </div>
                         </div>
@@ -155,7 +167,7 @@
                         <div class="panel-heading">
                             Family Details
                             <i class="fa fa-plus-square" aria-hidden="true" ng-click="vm.formData.patientFamily.push({});"></i>
-                            <i class="fa fa-minus-square" aria-hidden="true" ng-click="vm.formData.patientFamily.pop();" ng-hide="vm.formData.patientFamily.length == 0"></i>
+                            <i class="fa fa-minus-square" aria-hidden="true" ng-click="vm.formData.patientFamily.pop();vm.calcIncome();" ng-hide="vm.formData.patientFamily.length == 0"></i>
                         </div>
                         <div class="clearfix">
                             <div style="padding: 0px 15px 0px 0px;" ng-if="vm.formData.patientFamily.length == 0">No family member added.</div>
@@ -183,14 +195,14 @@
                                         <label>Monthly Income</label>
                                         <div class="input-group">
                                             <div class="input-group-addon">₹</div>
-                                            <input type="number" data-ng-model="fd.income" maxlength="10" placeholder="Enter income" />
+                                            <input type="text" data-ng-model="fd.income" ng-change="vm.calcIncome()" maxlength="10" placeholder="Enter income" />
                                         </div>
                                     </div>
                                     <div class="input-box">
                                         <label>Other Income</label>
                                         <div class="input-group">
                                             <div class="input-group-addon">₹</div>
-                                            <input type="number" data-ng-model="fd.otherIncome" maxlength="10" placeholder="Enter income" />
+                                            <input type="text" data-ng-model="fd.otherIncome" ng-change="vm.calcIncome()" maxlength="10" placeholder="Enter income" />
                                         </div>
                                     </div>
                                 </div>

@@ -1,20 +1,9 @@
 package org.cancure.cpa.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import org.cancure.cpa.Application;
-import org.cancure.cpa.controller.beans.UserBean;
-import org.cancure.cpa.persistence.entity.Role;
-import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.RoleRepository;
 import org.cancure.cpa.persistence.repository.UserRepository;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
