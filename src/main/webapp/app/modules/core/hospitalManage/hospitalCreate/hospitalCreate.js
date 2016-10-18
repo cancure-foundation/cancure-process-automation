@@ -7,6 +7,7 @@ core.controller("HospitalCreateController", ['$scope', '$timeout', '$stateParams
 	var init = function() {
 		var id = $stateParams.hospitalId;
 		if (id) {
+			Loader.create('Please wait .. Loading Data ...');
 			vm.editMode = true;
 			apiService.serviceRequest({
 				URL: 'hospital/' + id,

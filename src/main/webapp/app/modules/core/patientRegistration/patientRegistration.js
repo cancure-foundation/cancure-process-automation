@@ -5,7 +5,9 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 	var init = function () {
 		Loader.create('Fetching Data. Please wait');
 		vm.initializeVars();	
-
+		$scope.$watch("vm.formData.patientIncome", function(newValue, oldValue) {
+				vm.calcIncome();
+		});
 		var referenceData = apiService.asyncServiceRequest({URL : appSettings.requestURL.patientRegDrpDwn});
 		var hospitalList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hospitalList});
 		var doctorList = apiService.asyncServiceRequest({URL : appSettings.requestURL.doctorList});
@@ -53,16 +55,16 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 					} else  if (patientDetails.document[i].docCategory == "Income Proof") {
 						var fileSplit = patientDetails.document[i].docPath.split('/').pop();
 						vm.editFiles.incomeProof = {
-							docName : fileSplit.split('_').pop(),
-							docId : patientDetails.document[i].docId,
-							docSrc : appSettings.baseURL + 'files/' + patientDetails.document[i].docId
+								docName : fileSplit.split('_').pop(),
+								docId : patientDetails.document[i].docId,
+								docSrc : appSettings.baseURL + 'files/' + patientDetails.document[i].docId
 						};
 					} else if (patientDetails.document[i].docCategory == "Age Proof") {
 						var fileSplit = patientDetails.document[i].docPath.split('/').pop();
 						vm.editFiles.ageProof = {
-							docName : fileSplit.split('_').pop(),
-							docId : patientDetails.document[i].docId,
-							docSrc : appSettings.baseURL + 'files/' + patientDetails.document[i].docId
+								docName : fileSplit.split('_').pop(),
+								docId : patientDetails.document[i].docId,
+								docSrc : appSettings.baseURL + 'files/' + patientDetails.document[i].docId
 						};
 					}
 				}
@@ -80,6 +82,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 	 */
 	vm.initializeVars = function (){
 		vm.formData = {};
+		vm.formData.totalIncome = 0;
 		vm.formData.profileImage = null;
 		vm.formData.profilePicSrc = null;
 		vm.formData.patientFamily = [];
@@ -97,7 +100,20 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 
 	// init function, execution starts here
 	init();
-
+	/**
+	 *  function to calculate total income of the patient
+	 */
+	vm.calcIncome = function (){		
+		vm.formData.totalIncome = vm.formData.patientIncome ? parseInt(vm.formData.patientIncome) : 0;
+		var familyIncomeSum = 0;
+		for (var i = 0; i < vm.formData.patientFamily.length; i++){
+			if (parseInt(vm.formData.patientFamily[i].income) >= 0)
+				familyIncomeSum = familyIncomeSum + parseInt(vm.formData.patientFamily[i].income);
+			if (parseInt(vm.formData.patientFamily[i].otherIncome) >= 0)
+				familyIncomeSum = familyIncomeSum + parseInt(vm.formData.patientFamily[i].otherIncome);
+		}
+		vm.formData.totalIncome = familyIncomeSum + vm.formData.totalIncome;
+	};
 	/**
 	 *  function to pop up window explorer on "select image" click
 	 */
