@@ -20,9 +20,9 @@ public interface PatientRegistrationWorkflowService {
     
     void secretaryRecommendation(PatientInvestigationBean patientInvestigationBean,String status) throws IOException;
     
-    void executiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean) throws IOException;
+    void executiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean, String status) throws IOException;
     
-    void executiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean) throws IOException;
+    void executiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean, String status) throws IOException;
     
     void savePreliminaryExamClarification(PatientInvestigationBean patientInvestigationBean) throws IOException;
     

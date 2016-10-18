@@ -1,4 +1,4 @@
-package org.cancure.cpa.controller;
+/*package org.cancure.cpa.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -45,7 +45,7 @@ public class PatientWorkFlowControllerTest {
     @Autowired
     private UserRepository userRepository;
     
-    /*@Autowired
+    @Autowired
     private PatientRepository patientRepo;
     
     @Autowired
@@ -59,7 +59,7 @@ public class PatientWorkFlowControllerTest {
     
     @Autowired
     private PatientInvestigationRepository PatientInvestigationRepo;
-    */
+    
     
     private OAuth2Authentication getAuth() {
     	return getAuth("cancure");
@@ -466,7 +466,7 @@ public class PatientWorkFlowControllerTest {
         Map<String, String> mb1NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
         assertEquals("MB Doctor Approval", mb1NextTask.get("nextTask"));
         
-/*        //------------- MBDoctor Approval 2 -------------------------------
+        //------------- MBDoctor Approval 2 -------------------------------
         PatientInvestigationBean mb2PatientInvestigation=new PatientInvestigationBean(); 
         mb2PatientInvestigation.setComments("Cannot be treated");
         mb2PatientInvestigation.setInvestigatorId(4);
@@ -475,7 +475,7 @@ public class PatientWorkFlowControllerTest {
         pc.saveDoctorRecommendation(mb2PatientInvestigation);
         
         Map<String, String> mb2NextTask = myTasksService.getNextTask(patientId + "", Constants.PATIENT_REG_PROCESS_DEF_KEY);
-        assertEquals("", mb2NextTask.get("nextTask"));*/
+        assertEquals("", mb2NextTask.get("nextTask"));
         
       //------------- MBDoctor Approval 3 -------------------------------
         PatientInvestigationBean mb3PatientInvestigation=new PatientInvestigationBean(); 
@@ -1343,7 +1343,7 @@ public class PatientWorkFlowControllerTest {
         
     }
     
-   /* @Test
+    @Test
     public void testSaveExamination() throws IOException{
         
         PatientDocumentBean patientDocument = new PatientDocumentBean();
@@ -1423,6 +1423,6 @@ public class PatientWorkFlowControllerTest {
         patientInvestigation.setPrn(1);
         pc.savePatientIDCard(patientInvestigation);
         assertTrue(patientInvestigation.getComments().equals("Blood Cancer"));
-    }*/
+    }
     
-}
+}*/

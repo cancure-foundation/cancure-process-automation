@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
             hpocHospitalService.saveHpocHospital(hpocHospital);
         }
         if (!password.equals("")) {
-            passwordNotifier.notify(user.getEmail(), password, user.getLogin(), false);
+            passwordNotifier.notify(user, password, false);
         }
         return UserSuperBean;
     }
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
         String encPass = encoder.encode(password);
         user.setPassword(encPass);
         userRepo.save(user);
-        passwordNotifier.notify(user.getEmail(), password, user.getLogin(), resetPassword);
+        passwordNotifier.notify(user, password, resetPassword);
         UserBean userBean = new UserBean();
         BeanUtils.copyProperties(user, userBean);
         return userBean;
@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService {
             String encPass = encoder.encode(password);
             user.setPassword(encPass);
             userRepo.save(user);
-            passwordNotifier.notify(user.getEmail(), password, user.getLogin(), true);
+            passwordNotifier.notify(user, password, true);
             return "{\"status\" : \"SUCCESS\"}";
         }
 
