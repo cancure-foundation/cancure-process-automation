@@ -14,15 +14,13 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 
 		if (userDetails) { // check if its edit mode
 			reqList.push(apiService.asyncServiceRequest({URL: 'user/' + userDetails.id}));
-			for (var i = 0; i < userDetails.roles.length; i++) {
-				if (userDetails.roles[i].id == 5) {
-					vm.doctorDetails = true; // shows the doctor details tab
-					reqList.push(apiService.asyncServiceRequest({URL: 'doctor/user/' + userDetails.id}));
-				}
-				if (userDetails.roles[i].id == 4) {
-					vm.hpocDetails = true; // shows the hpoc details tab
-					reqList.push(apiService.asyncServiceRequest({URL: 'list/hospital/hpoc/' + userDetails.id}));
-				}
+			if (userDetails.isDoctor) {
+				vm.doctorDetails = true; // shows the doctor details tab
+				reqList.push(apiService.asyncServiceRequest({URL: 'doctor/user/' + userDetails.id}));
+			}
+			if (userDetails.isHpoc) {
+				vm.hpocDetails = true; // shows the hpoc details tab
+				reqList.push(apiService.asyncServiceRequest({URL: 'list/hospital/hpoc/' + userDetails.id}));
 			}
 			vm.editMode = true;
 		}
@@ -38,7 +36,7 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 				vm.doctor = response[3];
 				vm.hpoc = response[4];
 				vm.doctor.hospital.hospitalId = response[3].hospital.hospitalId.toString();
-				vm.hpoc.hospitalId = response[3].hospitalId.toString();
+				vm.hpoc.hospitalId = response[4].hospitalId.toString();
 			} else if (vm.doctorDetails){
 				vm.doctor = response[3];
 				vm.doctor.hospital.hospitalId = response[3].hospital.hospitalId.toString();
@@ -80,7 +78,7 @@ core.controller("CreateUserController", ['$scope', '$stateParams', '$timeout', '
 			return;
 		}	
 
-		Loader.create('Please wait while we register you...');
+		Loader.create((vm.editMode) ? 'Updating Data .. Please wait ...' : 'Saving Data .. Please wait ...');
 
 		var serverData = angular.copy(vm.formData);
 		serverData.enabled = true;		

@@ -8,7 +8,7 @@
 <div class="content">
     <div class="panel panel-info panel-body" ng-show="settingsList.length > 0">
         <form name="vm.settList" autocomplete="off">
-            <div class="row" ng-repeat="sett in settingsList">
+            <div class="row" ng-repeat="sett in settingsList | orderBy : 'id'">
                 <div class="input-box col-md-6 col-xs-8">
                     <label>{{sett.displayName}}
                         <req>*</req>
