@@ -69,5 +69,10 @@ public class UserController {
 	public String forgotPassword(@RequestBody UserBean userBean){
 	    return userService.forgotPassword(userBean);
 	}
+	
+	@RequestMapping(method= RequestMethod.POST, value="/user/firstlogin/save")
+    public String firstLogin(@RequestBody UserSuperBean user){
+        return userService.firstLogin(user);
+    }
 
 }

@@ -1,6 +1,8 @@
 package org.cancure.cpa.service;
 
+import org.cancure.cpa.persistence.entity.User;
+
 public interface PasswordNotifier {
 
-    void notify(String mail, String password, String login, Boolean resetPassword);
+    void notify(User user, String password, Boolean resetPassword);
 }

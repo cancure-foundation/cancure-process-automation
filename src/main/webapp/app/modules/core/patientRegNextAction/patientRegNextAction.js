@@ -54,7 +54,7 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 			               {'id': 'prelimExamClarificationReqd', 'name' : 'Need preliminary exam clarification'}];
 			callback(null);
 		} else if ($scope.nextTaskObject.nextTask == 'EC Approval') {
-			vm.statuses = [{'id': 'accept/save', 'name' : 'Approve'}, {'id': 'reject/save', 'name' : 'Reject'}];
+			vm.statuses = [{'id': 'accept/save/Approve', 'name' : 'Approve'}, {'id': 'reject/save/Reject', 'name' : 'Reject'}];
 			callback(null);
 		} else {
 			callback(null);

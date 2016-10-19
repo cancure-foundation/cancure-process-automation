@@ -69,17 +69,12 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 		}
 		vm.loggingIn = true;
 		apiService.serviceRequest({
-			URL: appSettings.requestURL.createUser,
+			URL: appSettings.requestURL.firstLogResetPassword,
 			method: 'POST',
 			payLoad: {
 				password : vm.resetPass.password,
 				id : vm.userDetails.id,
-				email : vm.userDetails.email,
-				enabled : vm.userDetails.enabled,
-				login : vm.userDetails.login,
-				name : vm.userDetails.name,
-				roles : vm.userDetails.roles,
-				firstLog : vm.userDetails.firstLog
+				login : vm.userDetails.login
 			}
 		}, function (response) {
 			$state.go('app.home');
@@ -104,11 +99,7 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 		}, function (response) {
 			if (response.status == "SUCCESS") {
 				Flash.create('success', 'Passwords reset successful. Please check your email.', 'large-text');
-				vm.loggingIn = false; // to show the user summary div
-				vm.stateLogin = true; 
-				vm.stateResetPassword = false; 
-				vm.stateForgotPassword = false;
-				vm.forgotPass = {};		
+				vm.initVar();
 			} else {
 				Flash.create('danger', 'Sorry, data provided does not match any record.', 'large-text');
 				vm.forgotPass = {};			

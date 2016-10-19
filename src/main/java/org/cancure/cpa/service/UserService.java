@@ -15,4 +15,5 @@ public interface UserService {
     Iterable<UserBean> listHPOCUsers();
     UserBean resetPassword(Integer id, Boolean resetPassword);
     String forgotPassword(UserBean userBean);
+    String firstLogin(UserSuperBean user);
 }
