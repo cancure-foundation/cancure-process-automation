@@ -39,13 +39,13 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     HpocHospitalService hpocHospitalService;
-    
+
     @Transactional
     public UserSuperBean saveUser(UserSuperBean UserSuperBean) {
 
-    	if (UserSuperBean.getId()==null && userRepo.findByLogin(UserSuperBean.getLogin()) != null )  {
-    		throw new RuntimeException("Login ID already exists");
-    	}
+        if (UserSuperBean.getId() == null && userRepo.findByLogin(UserSuperBean.getLogin()) != null) {
+            throw new RuntimeException("Login ID already exists");
+        }
         User user = new User();
         BeanUtils.copyProperties(UserSuperBean, user);
         String password = "";
@@ -56,32 +56,17 @@ public class UserServiceImpl implements UserService {
             user.setPassword(encPass);
 
         } else {
-            if (user.getFirstLog()) {
-                if (user.getPassword() == null) {
-                    throw new RuntimeException("User password cannot be empty");
-                }
-                String encPass = encoder.encode(user.getPassword());
-                user.setPassword(encPass);
-                user.setFirstLog(false);
-            } else {
-                if (user.getPassword() == null) {
-                    User actualUser = userRepo.findOne(user.getId());
-                    user.setPassword(actualUser.getPassword());
-                } else {
-                    String encPass = encoder.encode(user.getPassword());
-                    user.setPassword(encPass);
-                }
-            }
+                User actualUser = userRepo.findOne(user.getId());
+                user.setPassword(actualUser.getPassword());
         }
-
         User savedUser = userRepo.save(user);
         if (UserSuperBean.getDoctor() != null) {
             Doctor doc = UserSuperBean.getDoctor();
             doc.setUserId(savedUser.getId());
             doctorService.saveDoctor(doc);
         }
-        if (UserSuperBean.getHospitalId()!=null){
-            HpocHospital hpocHospital=new HpocHospital();
+        if (UserSuperBean.getHospitalId() != null) {
+            HpocHospital hpocHospital = new HpocHospital();
             hpocHospital.setHospitalId(UserSuperBean.getHospitalId());
             hpocHospital.setHpocId(savedUser.getId());
             hpocHospitalService.saveHpocHospital(hpocHospital);
@@ -180,6 +165,17 @@ public class UserServiceImpl implements UserService {
             return "{\"status\" : \"SUCCESS\"}";
         }
 
+    }
+
+    @Override
+    public String firstLogin(UserSuperBean UserSuperBean) {
+       
+        User user = new User();
+        user = userRepo.findByLogin(UserSuperBean.getLogin());
+        user.setFirstLog(false);
+        user.setPassword(encoder.encode(UserSuperBean.getPassword()));
+        userRepo.save(user);
+        return "{\"status\" : \"SUCCESS\"}";
     }
 
 }

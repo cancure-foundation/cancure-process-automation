@@ -10,6 +10,7 @@ app.constant('appSettings', {
 		authRequest: 'oauth/token', // oauth request
 		userRoles : 'roles', // fetching user roles
 		createUser: 'user/save', // creating user
+		firstLogResetPassword: 'user/firstlogin/save', //first login reset password
 		userList: 'user/list', // listing out the user
 		patientRegistration: 'patientregistration/patient/save', // patient registration
 		patientRegDrpDwn : 'common/lovs/FamilyRelation_BloodGroups_MaritalStatus_EmploymentStatus_KnowAboutCancure_RecommendationType_IDProof_IncomeProof_TypeOfSupportSought', // to get dropdown values for patient reg page

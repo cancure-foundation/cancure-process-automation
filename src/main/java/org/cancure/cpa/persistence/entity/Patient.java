@@ -106,6 +106,9 @@ public class Patient {
     @Column(name="task_id")
     private String taskId;
     
+    @Column(name="total_income")
+    private Long totalIncome; 
+    
     @Column(name="preliminary_exam_doctor_id")
     private Integer preliminaryExamDoctorId;
     
@@ -356,6 +359,15 @@ public class Patient {
     public void setOrganisation(List<SupportOrganisation> organisation) {
         this.organisation = organisation;
     }
+
+    public Long getTotalIncome() {
+        return totalIncome;
+    }
+
+    public void setTotalIncome(Long totalIncome) {
+        this.totalIncome = totalIncome;
+    }
+    
 
  /*   public List<PatientDocument> getDocument() {
         return document;
