@@ -131,19 +131,19 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     }
     
     @Transactional
-    public void executiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean) throws IOException {
+    public void executiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean,String status) throws IOException {
         
         String taskId=patientRegistrationService.ecApprove(String.valueOf(patientInvestigationBean.getPrn()),String.valueOf(patientInvestigationBean.getInvestigatorId()));
         patientInvestigationBean.setTaskId(taskId);
-        patientInvestigationService.savePatientInvestigation(patientInvestigationBean,null);
+        patientInvestigationService.savePatientInvestigation(patientInvestigationBean, status);
     }
     
     @Transactional
-    public void executiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean) throws IOException {
+    public void executiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean, String status) throws IOException {
 
         String taskId=patientRegistrationService.ecReject(String.valueOf(patientInvestigationBean.getPrn()),String.valueOf(patientInvestigationBean.getInvestigatorId()));
         patientInvestigationBean.setTaskId(taskId);      
-        patientInvestigationService.savePatientInvestigation(patientInvestigationBean,null);
+        patientInvestigationService.savePatientInvestigation(patientInvestigationBean,status);
     }
 
     @Override

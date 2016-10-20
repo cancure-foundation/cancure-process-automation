@@ -35,6 +35,7 @@ public class PatientBean {
     private String typeOfSupport ;
     private String taskId;
     private String nextTask;
+    private Long totalIncome;
     private Integer preliminaryExamDoctorId;
     private Integer preliminaryExamHospitalId;
     private List<PatientFamilyBean> patientFamily=new ArrayList<PatientFamilyBean>();
@@ -214,6 +215,12 @@ public class PatientBean {
     }
     public void setNextTask(String nextTask) {
         this.nextTask = nextTask;
+    }    
+    public Long getTotalIncome() {
+        return totalIncome;
+    }
+    public void setTotalIncome(Long totalIncome) {
+        this.totalIncome = totalIncome;
     }
     public Integer getPreliminaryExamDoctorId() {
         return preliminaryExamDoctorId;

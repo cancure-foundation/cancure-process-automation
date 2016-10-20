@@ -118,8 +118,9 @@ public class PatientWorkFlowController {
        return "{\"status\" : \"SUCCESS\"}";
    }
    
-   @RequestMapping(value= "/patientregistration/executiveboardrecommendation/accept/save", method=RequestMethod.POST)
-    public String saveExecutiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean, OAuth2Authentication auth) throws IOException {
+   @RequestMapping(value= "/patientregistration/executiveboardrecommendation/accept/save/{status}", method=RequestMethod.POST)
+    public String saveExecutiveBoardRecommendationAccept(PatientInvestigationBean patientInvestigationBean,@PathVariable("status") String status,
+            OAuth2Authentication auth) throws IOException {
 	   Integer userId = null;
 		if (auth != null) {
 			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
@@ -132,12 +133,13 @@ public class PatientWorkFlowController {
 		patientInvestigationBean.setStatus("Approved");
 		patientInvestigationBean.setInvestigatorId(userId.toString());
     	patientInvestigationBean.setInvestigatorType("Executive Committee");
-        patientRegistrationWorkflowService.executiveBoardRecommendationAccept(patientInvestigationBean); 
+        patientRegistrationWorkflowService.executiveBoardRecommendationAccept(patientInvestigationBean,status); 
         return "{\"status\" : \"SUCCESS\"}";
     }
    
-   @RequestMapping(value= "/patientregistration/executiveboardrecommendation/reject/save", method=RequestMethod.POST)
-   public String saveExecutiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean, OAuth2Authentication auth) throws IOException {
+   @RequestMapping(value= "/patientregistration/executiveboardrecommendation/reject/save/{status}", method=RequestMethod.POST)
+   public String saveExecutiveBoardRecommendationReject(PatientInvestigationBean patientInvestigationBean,
+           @PathVariable("status") String status,  OAuth2Authentication auth) throws IOException {
 	   Integer userId = null;
 		if (auth != null) {
 			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
@@ -151,7 +153,7 @@ public class PatientWorkFlowController {
 		patientInvestigationBean.setInvestigatorId(userId.toString());
 		patientInvestigationBean.setInvestigatorType("Executive Committee");
    	
-        patientRegistrationWorkflowService.executiveBoardRecommendationReject(patientInvestigationBean); 
+        patientRegistrationWorkflowService.executiveBoardRecommendationReject(patientInvestigationBean,status); 
         return "{\"status\" : \"SUCCESS\"}";
    }
    

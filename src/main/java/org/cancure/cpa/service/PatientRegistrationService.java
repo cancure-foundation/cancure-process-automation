@@ -133,10 +133,32 @@ public class PatientRegistrationService {
 		String patName = (String)vars.get("patientName");
 		Integer prn = (Integer)vars.get("prn");
 		StringBuffer message = new StringBuffer("");
-		message.append("Hi, <br>A person's workflow has been closed. <br>Patient Name : " + patName + 
+		/*message.append("Hi, <br>A person's workflow has been closed. <br>Patient Name : " + patName + 
 				"<br>PRN : " + prn + "<br>" + 
-				"<br>Thanks, <br/>Cancure");
-		
+				"<br>Thanks, <br/>Cancure");*/
+		message.append("<div style='border : 2px solid #f4961c;'>"
+                + "<div style='background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;'>"
+                + "Cancure Foundation</div>"
+                + "<div style='padding:15px;color: #222d32;font-weight:500;'> "
+                + "Hi, <br><br>"
+                + "<b>The folowing workflow has been closed.</b> <br> <br>"
+                + "<table border=1 style='border-collapse: collapse;'>"
+                + "<tr>"
+                + "<th style='padding:4px 8px;'> PRN</th>"
+                + "<th style='padding:4px 8px;'> Patient Name</th>"
+                + "<th style='padding:4px 8px;'> Task Name</th>"
+                + "</tr>"
+                + "<tr>"
+                + "<td style='padding:4px 8px;'>"+ prn +"</td>"
+                + "<td style='padding:4px 8px;'>"+ patName +"</td>"
+                + "<td style='padding:4px 8px;'>"+ task.getName() +"</td>"
+                + "</tr>"
+                + "</table><br>"
+                + "Visit <a href='www.cancure.in.net'>www.cancure.in.net</a> <br> <br>"
+                + "<b>Thanks,</b> <br>"
+                + "Admin"
+                + "</div>"
+                + "</div>");
 		new NotificationComponent().notify(message.toString(), null, task);
 		
 		return COMPLETED_STR;
@@ -152,12 +174,37 @@ public class PatientRegistrationService {
 		String patName = (String)vars.get("patientName");
 		Integer prn = (Integer)vars.get("prn");
 		StringBuffer message = new StringBuffer("");
-		message.append("Hi, <br>This is a reminder to take action on a person's workflow. "
+		/*message.append("Hi, <br>This is a reminder to take action on a person's workflow. "
 				+ "<br>Patient Name : " + patName + 
 				"<br>PRN : " + prn + "<br>" + 
 				"<br>Task to do : " + task.getName() + 
-				"<br>Thanks, <br/>Cancure");
-		
+				"<br>Thanks, <br/>Cancure");*/
+		message.append("<div style='border : 2px solid #f4961c;'>"
+                + "<div style='background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;'>"
+                + "Cancure Foundation</div>"
+                + "<div style='padding:15px;color: #222d32;font-weight:500;'> "
+                + "Hi, <br><br>"
+                + "<b>The following task is pending in your queue.</b> <br> <br>"
+                + "<table border=1 style='border-collapse: collapse;'>"
+                + "<tr>"
+                + "<th style='padding:4px 8px;'> PRN</th>"
+                + "<th style='padding:4px 8px;'> Patient Name</th>"
+                + "<th style='padding:4px 8px;'> Task Name</th>"
+                + "<th style='padding:4px 8px;'> Task Expiry</th>"
+                + "</tr>"
+                + "<tr>"
+                + "<td style='padding:4px 8px;'>"+ prn +"</td>"
+                + "<td style='padding:4px 8px;'>"+ patName +"</td>"
+                + "<td style='padding:4px 8px;'>"+ task.getName() +"</td>"
+                + "<td style='padding:4px 8px;'>"+ task.getDueDate() +"</td>"
+                + "</tr>"
+                + "</table><br>"
+                + "<i>Please take necessary action.</i> <br>"
+                + "Visit <a href='www.cancure.in.net'>www.cancure.in.net</a> <br> <br>"
+                + "<b>Thanks,</b> <br>"
+                + "Admin"
+                + "</div>"
+                + "</div>");
 		new NotificationComponent().notify(message.toString(), null, task);
 		return COMPLETED_STR;
 	}
