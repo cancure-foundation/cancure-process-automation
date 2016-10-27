@@ -19,5 +19,7 @@ public interface PatientService {
     int updateTaskId(String taskId, Integer id);
 	
 	int updatePidn(Integer pidn, Integer prn);
+
+    Boolean searchByAadhar(Long aadharNo);
 	
 }

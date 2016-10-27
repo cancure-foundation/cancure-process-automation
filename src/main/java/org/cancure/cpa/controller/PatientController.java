@@ -66,4 +66,9 @@ public class PatientController {
 	    return patientBeanList;
     }
 
+	@RequestMapping("/patient/search/aadhar/{aadharNo}")
+	public Boolean getPatient(@PathVariable("aadharNo") Long aadharNo){
+	    return patientService.searchByAadhar(aadharNo);
+	}
+	
 }
