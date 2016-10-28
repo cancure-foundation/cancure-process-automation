@@ -146,7 +146,7 @@
 }
 .supportingDocs fieldset legend {
     border-bottom: none !important;
-    margin: 0 0 15px 0 !important;
+    margin: 0 !important;
     text-align: center;
     font-size: 18px;
 }

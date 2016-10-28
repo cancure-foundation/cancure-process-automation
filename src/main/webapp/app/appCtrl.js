@@ -150,8 +150,10 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 				2 : ['app.patientRegistration'],
 				3 : ['app.hospital.hospitalList', 'app.hospital.hospitalCreate', 'app.hospital.hpocMapping'],
 				4 : ['app.doctor'],
-				5 : ['app.searchPatient'],
-				6 : ['app.settingsList']
+				5 : [],
+				6 : [],
+				7 : ['app.searchPatient'],
+				8 : ['app.settingsList']
 		}, currentState = $state.current.name;
 
 		if (pageList[pageId] && pageList[pageId].indexOf(currentState) >= 0) 

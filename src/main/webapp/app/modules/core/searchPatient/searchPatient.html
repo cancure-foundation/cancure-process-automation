@@ -1,3 +1,14 @@
+<script type="text/javascript">
+    // function to validate contact number
+    function validatephone(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
 <div class="searchPatient" id="searchPatient">
     <div class="row searchBox">
         <form data-ng-submit="vm.search();" name="vm.searchForm" autocomplete="off">
@@ -5,22 +16,41 @@
                 Search Patient
             </div>
             <div class="col-md-3 col-xs-12">
-                <md-input-container class="md-icon-float md-block searchBy">
-                    <label>Search By</label>
-                    <md-select data-ng-model="vm.formData.searchBy" required>
-                        <md-option value="prn">PRN</md-option>
-                        <md-option value="name">Name</md-option>
-                    </md-select>
-                </md-input-container>
+                <div class="input-box">
+                    <label>Search By
+                        <req>*</req>
+                    </label>
+                    <select class="form-control" data-ng-model="vm.formData.searchBy" required style="background: transparent;" ng-change="vm.formData.searchText=undefined">
+                        <option value="prn">PRN</option>
+                        <option value="pidn">PIDN</option>
+                        <option value="name">Patient Name</option>
+                        <option value="aadharNo">Aadhar Number</option>
+                    </select>
+                </div>
             </div>
-            <div class="col-md-3 col-xs-12">
-                <md-input-container class="md-icon-float md-block">
-                    <label>Select text to search</label>
-                    <input type="text" required data-ng-model="vm.formData.searchText" ng-disabled="!vm.formData.searchBy" style="background-image: none;border-bottom-color: rgba(0,0,0,0.12);">
-                </md-input-container>
+            <div class="col-md-3 col-xs-12" ng-if="vm.formData.searchBy=='prn' || vm.formData.searchBy=='pidn' || vm.formData.searchBy=='aadharNo'">
+                <div class="input-box">
+                    <label>
+                    	<span ng-switch on="vm.formData.searchBy">
+                    		<span ng-switch-when="prn">Enter PRN</span>
+                    		<span ng-switch-when="pidn">Enter PIDN</span>
+                    		<span ng-switch-when="aadharNo">Enter Aadhar No</span>
+                    	</span>
+                        <req>*</req>
+                    </label>
+                    <input type="text" required data-ng-model="vm.formData.searchText" style="background: transparent;" maxlength="12" required onkeypress="return validatephone(event);">
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-12" ng-if="vm.formData.searchBy=='name'">
+                <div class="input-box">
+                    <label>Enter Patient Name
+                        <req>*</req>
+                    </label>
+                    <input type="text" required data-ng-model="vm.formData.searchText" maxlength="50" style="background: transparent;" required>
+                </div>
             </div>
             <div class="col-md-1 col-xs-12 hidden-xs">
-                <i class="fa fa-search" ng-click="vm.search();"></i>
+                <button class="md-raised" type="submit">Search</button>
             </div>
             <div class="col-md-1 col-xs-12 hidden-md hidden-lg hidden-sm">
                 <md-button class="md-raised" type="submit">Search</md-button>
@@ -53,11 +83,11 @@
                             <td class="col-xs-2">{{patient.contact}}</td>
                             <td class="col-xs-3">{{patient.address}}</td>
                             <td class="col-xs-2" ng-class="{'rejected' : (patient.nextTask == null || patient.nextTask == '') && patient.pidn == null}">
-                            					<span ng-if="!patient.pidn">{{patient.nextTask || "Rejected"}}</span>
-                            					<span ng-if="patient.pidn"> Registered</span>
+                                <span ng-if="!patient.pidn">{{patient.nextTask || "Rejected"}}</span>
+                                <span ng-if="patient.pidn"> Registered</span>
                             </td>
-                            <td class="col-xs-2"> <a ui-sref="app.patientRegHistory({ prn: patient.prn })"> View History</a>  
-                            	 <a  ng-hide="{{patient.nextTask == null || patient.nextTask == ''}}" ui-sref="app.patientRegistration({ prn: patient.prn })"> | Edit Patient </a> 
+                            <td class="col-xs-2"> <a ui-sref="app.patientRegHistory({ prn: patient.prn })"> View History</a>
+                                <a ng-hide="{{patient.nextTask == null || patient.nextTask == ''}}" ui-sref="app.patientRegistration({ prn: patient.prn })"> | Edit Patient </a>
                             </td>
                         </tr>
                     </tbody>

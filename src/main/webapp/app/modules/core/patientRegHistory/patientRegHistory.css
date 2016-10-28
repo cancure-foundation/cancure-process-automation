@@ -15,6 +15,10 @@
     vertical-align: middle;
     text-align: center;
     width: 200px;
+    padding-bottom: 0px;
+}
+.patientRegHistory .task-1 table td {
+    vertical-align: middle;
 }
 .patientRegHistory .task-1 table .user_img i {
     font-size: 10em;

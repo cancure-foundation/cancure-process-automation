@@ -42,6 +42,7 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 				callback(response);
 				if ($scope.nextTaskObject.nextTask == 'Preliminary Examination') {
 					$scope.uploadNeeded = true;
+					vm.isPrelimEx = true;
 				}
 			});
 

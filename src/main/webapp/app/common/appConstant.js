@@ -102,26 +102,39 @@ app.constant('appSettings', {
 		pageId : 4
 	},
 	{
+		title: "Pharmacy",
+		icon: "medkit",
+		state: "",
+		pageId : 5
+	},
+
+	{
+		title: "Lab",
+		icon: "flask",
+		state: "",
+		pageId : 6
+	},
+	{
 		title: "Patient Search",
 		icon: "search",
 		state: "searchPatient",
-		pageId : 5
+		pageId : 7
 	},
 	{
 		title: "Settings",
 		icon: "gears",
 		state: "settingsList",
-		pageId : 6
+		pageId : 8
 	}],
 	
 	pageAccess : {
-		ROLE_GUEST : [0,5],
-		ROLE_SECRETARY : [0, 5],
-		ROLE_EXECUTIVE_COMMITTEE : [0,5],
-		ROLE_ADMIN : [0, 1, 3, 4, 5, 6],
-		ROLE_HOSPITAL_POC : [0, 2, 5],
-		ROLE_DOCTOR : [0,5],
-		ROLE_PROGRAM_COORDINATOR : [0, 2, 5]
+		ROLE_GUEST : [0, 7],
+		ROLE_SECRETARY : [0, 7],
+		ROLE_EXECUTIVE_COMMITTEE : [0, 7],
+		ROLE_ADMIN : [0, 1, 3, 4, 5, 6, 7, 8],
+		ROLE_HOSPITAL_POC : [0, 2, 7],
+		ROLE_DOCTOR : [0, 7],
+		ROLE_PROGRAM_COORDINATOR : [0, 2, 7]
 	},
 	
 	rolesList : [] // stores all role names (authority)

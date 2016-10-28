@@ -39,6 +39,20 @@
                                 <label>Upload File </label>
                                 <input id="patientNextTask-file" type="file" multiple="multiple" onchange="angular.element(this).scope().vm.FilesSelection(this)" aria-label="patientFile">
                             </div>
+                            <div class="input-box col-md-6 col-xs-12" ng-if="vm.isPrelimEx">
+                                <label>Estimated Medicine Cost  <req>*</req> </label>
+                                <div class="input-group">
+                                	<div class="input-group-addon">₹</div>
+                                    <input type="text" maxlength="10"/>
+                                </div>
+                            </div>
+                            <div class="input-box col-md-6 col-xs-12" ng-if="vm.isPrelimEx">
+                                <label>Estimated Hospital Cost  <req>*</req></label>
+                                <div class="input-group">
+                                	<div class="input-group-addon">₹</div>
+                                    <input type="text" maxlength="10"/>
+                                </div> 
+                            </div>
                             <div class="input-box col-xs-12" ng-show="vm.patientFile.length > 0 && vm.patientFileNames.length > 0" multiple="multiple">
                                 <label>Selected Files</label>
                                 <span ng-repeat="item in vm.patientFileNames">

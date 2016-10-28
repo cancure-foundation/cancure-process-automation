@@ -11,6 +11,8 @@ insert into role(id, name, display_name) values (4,'ROLE_HOSPITAL_POC', 'Hospita
 insert into role(id, name, display_name) values (5,'ROLE_DOCTOR', 'Doctor');
 insert into role(id, name, display_name) values (6,'ROLE_SECRETARY', 'Secretary');
 insert into role(id, name, display_name) values (7,'ROLE_EXECUTIVE_COMMITTEE', 'Executive Committee');
+insert into role(id, name, display_name) values (8,'ROLE_PHARMACY', 'Pharmacy Representative');
+insert into role(id, name, display_name) values (9,'ROLE_LAB', 'Lab Representative');
 
 insert into investigator_type values ('Doctor');
 insert into investigator_type values ('Program Coordinator');

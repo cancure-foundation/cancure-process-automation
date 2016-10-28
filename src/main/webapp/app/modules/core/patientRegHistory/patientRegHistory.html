@@ -21,17 +21,13 @@
                             <div class="row">
                                 <div class="col-md-6 col-sd-8 col-xs-12">
                                     <table class="table table-bordered" style="margin-bottom: 0px;">
-                                    	<tr>
-                                    		 <td rowspan="5" class="user_img">
-                                    		 	<img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
+                                        <tr>
+                                            <td rowspan="5" class="user_img">
+                                                <img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
                                                 <i ng-hide="vm.profileSrc" class="fa fa-user" aria-hidden="true" />
                                                 <div> <b>{{vm.patientDetails.name}}</b> </div>
-                                                <div>
-                                                	<b>PRN : {{vm.patientDetails.prn}}</b>
-                                                	<b ng-show="vm.patientDetails.pidn"> | PIDN : {{vm.patientDetails.pidn}}</b>                                                
-                                                </div>
-                                    		 </td>
-                                    	</tr>                                                                               
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td class="fieldName">Age</td>
                                             <td class="fieldValue">{{vm.patientDetails.age}}</td>
@@ -47,11 +43,15 @@
                                         <tr>
                                             <td colspan="2" style="text-align: center;">
                                                 <span ng-click="vm.viewMorePtDetails()">
-					                                View More details
+					                                View More details 
 					                                <i ng-show="vm.isExpandedInfo" class="fa fa-plus-square" aria-hidden="true"></i>
 					                                <i ng-hide="vm.isExpandedInfo" class="fa fa-minus-square" aria-hidden="true"></i>
 					                            </span>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center"><b>Patient Total Income : ₹ {{vm.patientDetails.totalIncome}}</b></td>
+                                            <td class="text-center" colspan="2"><b>PRN : {{vm.patientDetails.prn}}</b> <b ng-show="vm.patientDetails.pidn"> | PIDN : {{vm.patientDetails.pidn}}</b></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -164,7 +164,7 @@
                             <div class="sub-title">{{task.description}}</div>
                         </div>
                         <div class="timeline-body">
-                          <div class="row">
+                            <div class="row">
                                 <div class="col-xs-12">
                                     <div ng-hide="task.investigation" class="empty-text">No Investigation Comments available.</div>
                                     <table class="table table-bordered" ng-show="task.investigation">
@@ -186,7 +186,7 @@
                                                 <td class="col-xs-2">{{task.investigation.status || "Not Applicable"}}</td>
                                             </tr>
                                         </tbody>
-                                    </table>                                   
+                                    </table>
                                 </div>
                             </div>
                             <div class="row">
@@ -219,7 +219,6 @@
                     </div>
                 </li>
 
-
                 <li>
                     <i class="fa fa-clock-o bg-gray"></i>
                 </li>
@@ -229,7 +228,7 @@
                             <div class="text-center nextTask" ng-if="vm.nextTask.name && !vm.patientReject">
                                 <div class="title"> Next Step : <b>{{vm.nextTask.name}} </b></div>
                                 <div class="sub-title"> ({{vm.nextTask.description}}) </div>
-                                <span class="goto" ng-click="vm.nextAction()"> GO </span>
+                                <span class="goto" ng-click="vm.nextAction()" ng-show="vm.nextAction(true)"> GO </span>
                             </div>
                             <div class="text-center nextTask" ng-if="vm.patientReject">
                                 Application has been rejected.
