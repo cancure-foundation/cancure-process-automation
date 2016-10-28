@@ -22,35 +22,33 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Component("patientService")
 public class PatientServiceImpl implements PatientService {
-    
+
     @Autowired
-	private PatientRepository patientRepo;
-	
-	@Autowired
-	private PatientDocumentRepository patientDocumentRepo;
-	
-	@Autowired
-	private SupportOrganisationRepository supportOrganisationRepo;
-	
-	@Autowired
-	private PatientFamilyRepository patientFamilyRepo;
-	
-	@Value("${spring.files.save.path}")
+    private PatientRepository patientRepo;
+
+    @Autowired
+    private PatientDocumentRepository patientDocumentRepo;
+
+    @Autowired
+    private SupportOrganisationRepository supportOrganisationRepo;
+
+    @Autowired
+    private PatientFamilyRepository patientFamilyRepo;
+
+    @Value("${spring.files.save.path}")
     private String fileSavePath;
-	
-	
+
     @Transactional
-	@Override
-	public PatientBean save(PatientBean patientBean) throws  IOException {
-        
+    @Override
+    public PatientBean save(PatientBean patientBean) throws IOException {
+
         Patient patient = new Patient();
         BeanUtils.copyProperties(patientBean, patient);
-        patientRepo.save(patient);  
+        patientRepo.save(patient);
         patientBean.setPrn(patient.getPrn());
-        
+
         List<PatientFamilyBean> temp4 = new ArrayList<>();
         temp4 = patientBean.getPatientFamily();
 
@@ -62,34 +60,34 @@ public class PatientServiceImpl implements PatientService {
         List<PatientDocumentBean> patientDocumentList = new ArrayList<>();
         patientDocumentList = patientBean.getDocument();
 
-        
         for (PatientFamilyBean c : temp4) {
 
             PatientFamily patientFamily = new PatientFamily();
-            BeanUtils.copyProperties(c, patientFamily);          
+            BeanUtils.copyProperties(c, patientFamily);
             patientFamily.setFamilyPatient(patient);
             patientFamilyRepo.save(patientFamily);
         }
-        
+
         for (SupportOrganisationBean b : temp2) {
             SupportOrganisation supportOrganisation = new SupportOrganisation();
             BeanUtils.copyProperties(b, supportOrganisation);
             supportOrganisation.setPatient(patient);
             supportOrganisationRepo.save(supportOrganisation);
         }
-        
+
         for (PatientDocumentBean patientDocBean : patientDocumentList) {
             PatientDocument patientDocument = new PatientDocument();
-            
-            //Save patient document only if File is present.
+
+            // Save patient document only if File is present.
             if (patientDocBean.getPatientFile() != null) {
-            	BeanUtils.copyProperties(patientDocBean, patientDocument);
+                BeanUtils.copyProperties(patientDocBean, patientDocument);
                 patientDocument.setPrn(id);
                 patientDocumentRepo.save(patientDocument);
-                
+
                 Integer docId = patientDocument.getDocId();
-                
-                File file = new File(fileSavePath + "/" + id + "/" + docId + "_" + patientDocBean.getPatientFile().getOriginalFilename());
+
+                File file = new File(fileSavePath + "/" + id + "/" + docId + "_"
+                        + patientDocBean.getPatientFile().getOriginalFilename());
                 patientDocBean.getPatientFile().transferTo(file);
                 String docPath = "/" + id + "/" + docId + "_" + patientDocBean.getPatientFile().getOriginalFilename();
                 patientDocBean.setDocPath(docPath);
@@ -97,55 +95,60 @@ public class PatientServiceImpl implements PatientService {
                 patientDocument.setDocPath(docPath);
                 patientDocumentRepo.save(patientDocument);
             }
-            
+
         }
-	    return patientBean;
-	}
-    
+        return patientBean;
+    }
+
     @Transactional
     @Override
     public void savePatientDocuments(List<PatientDocumentBean> patientDocuments) {
-        
-        for (PatientDocumentBean bean : patientDocuments){
+
+        for (PatientDocumentBean bean : patientDocuments) {
             PatientDocument patientDocument = new PatientDocument();
             BeanUtils.copyProperties(bean, patientDocument);
             patientDocument.setPrn(Integer.parseInt(bean.getPrn()));
             patientDocumentRepo.save(patientDocument);
         }
-        
+
     }
 
-	@Override
-	public PatientBean get(Integer id) {
-		Patient patient = patientRepo.findOne(id);
-		if (patient == null) {
-			return null;
-		}
-		PatientBean patientBean = new PatientBean();
-		BeanUtils.copyProperties(patient, patientBean);
-		return patientBean;
-	}
+    @Override
+    public PatientBean get(Integer id) {
+        Patient patient = patientRepo.findOne(id);
+        if (patient == null) {
+            return null;
+        }
+        PatientBean patientBean = new PatientBean();
+        BeanUtils.copyProperties(patient, patientBean);
+        return patientBean;
+    }
 
-	@Override
+    @Override
     public List<PatientBean> searchByName(String name) {
-	    List<Patient> patientList= patientRepo.findByNameContainingIgnoreCase("%" + name + "%");
-	    List<PatientBean> patientBeanList=new ArrayList<>();
-	    for(Patient patient:patientList){
-	        PatientBean patientBean=new PatientBean();
-	        BeanUtils.copyProperties(patient, patientBean);
-	        patientBeanList.add(patientBean);
-	    }
-	    return patientBeanList;
+        List<Patient> patientList = patientRepo.findByNameContainingIgnoreCase("%" + name + "%");
+        List<PatientBean> patientBeanList = new ArrayList<>();
+        for (Patient patient : patientList) {
+            PatientBean patientBean = new PatientBean();
+            BeanUtils.copyProperties(patient, patientBean);
+            patientBeanList.add(patientBean);
+        }
+        return patientBeanList;
     }
-	
-	@Override
-	public int updateTaskId(String taskId,Integer id){
-	    return patientRepo.updateTaskId(taskId, id);
-	}
 
-	@Override
-	public int updatePidn(Integer pidn, Integer prn) {
-		return patientRepo.updatePidn(pidn, prn);
-	}
+    @Override
+    public int updateTaskId(String taskId, Integer id) {
+        return patientRepo.updateTaskId(taskId, id);
+    }
+
+    @Override
+    public int updatePidn(Integer pidn, Integer prn) {
+        return patientRepo.updatePidn(pidn, prn);
+    }
+
+    @Override
+	public Boolean searchByAadhar(Long aadharNo){
+        return patientRepo.findByAadharNo(aadharNo);
+    }    
 	
 }

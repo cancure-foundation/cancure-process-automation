@@ -2,7 +2,7 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="patientRegn" name="Patient Registration" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="usertask1" name="Patient Registration" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+    <userTask id="usertask1" name="Patient Registration" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR,ROLE_HOSPITAL_POC">
       <documentation>Patient registers with Cancure providing personal details, family details, ID proofs
     		, income proofs etc.</documentation>
     </userTask>
@@ -27,7 +27,7 @@
     <sequenceFlow id="flow3" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="usertask2" targetRef="usertask3"></sequenceFlow>
     <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask4" name="MB Doctor Approval" activiti:candidateGroups="ROLE_HOSPITAL_POC,ROLE_DOCTOR" activiti:dueDate="${patientRegistrationService.maxBgCheckTime}">
+    <userTask id="usertask4" name="MB Doctor Approval" activiti:candidateGroups="ROLE_DOCTOR" activiti:dueDate="${patientRegistrationService.maxBgCheckTime}">
       <documentation>MB Doctors verifies the cost estimations and provides their input.</documentation>
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
