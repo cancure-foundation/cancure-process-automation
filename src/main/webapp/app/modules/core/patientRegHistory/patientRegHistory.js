@@ -21,6 +21,7 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 			if (response.tasks[0]) {
 				vm.regDetails = response.tasks[0];
 				vm.patientDetails = vm.regDetails.patient;
+				vm.patientDetails.totalIncome = vm.patientDetails.totalIncome.toLocaleString();
 				vm.regDocument = vm.patientDetails.document;
 				vm.patientFamily = [];
 				vm.supportOrg = [];
@@ -41,7 +42,7 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 							docType : vm.regDocument[i].docType,
 							docSrc : appSettings.baseURL + 'files/' + vm.regDocument[i].docId
 						});
-					} else if (vm.regDocument[i].docCategory == "Age Proof") {
+					} else if (vm.regDocument[i].docCategory == "Aadhar Card") {
 						vm.otherDouments.push({
 							docCategory : vm.regDocument[i].docCategory,
 							docType : vm.regDocument[i].docType,
@@ -80,7 +81,7 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 	/**
 	 *  function to proceed to next task
 	 */
-	vm.nextAction = function() {
+	vm.nextAction = function(checkAccess) {
 		var hasAccess = false; // flag to indicate if access to next step is there
 		for (var i=0; i < appSettings.rolesList.length; i++){ // checks if access to next step is there
 			var role = appSettings.rolesList[i];
@@ -89,6 +90,9 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 				break;
 			}
 		};
+		if (checkAccess) {
+			return hasAccess;
+		}
 		if (hasAccess)
 			$state.go('app.patientRegNextAction', { prn: $stateParams.prn });
 		else

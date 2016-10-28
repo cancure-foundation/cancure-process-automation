@@ -40,13 +40,13 @@
                                         <label>Patient Name
                                             <req>*</req>
                                         </label>
-                                        <input type="text" data-ng-model="vm.formData.name" maxlength="100" required placeholder="Enter patient name" />
+                                        <input type="text" data-ng-model="vm.formData.name" maxlength="100" required placeholder="Enter patient name" ng-disabled="vm.editMode"/>
                                     </div>
                                     <div class="input-box">
                                         <label>Gender
                                             <req>*</req>
                                         </label>
-                                        <select class="form-control" data-ng-model="vm.formData.gender" required>
+                                        <select class="form-control" data-ng-model="vm.formData.gender" required ng-disabled="vm.editMode">
                                             <option value="">Select Gender</option>
                                             <option value="{{item.value}}" ng-repeat="item in vm.Gender">{{item.value}}</option>
                                         </select>
@@ -67,13 +67,13 @@
                                         <label>Date of Birth
                                             <req>*</req>
                                         </label>
-                                        <input id="dobpicker" type="date" data-ng-model="vm.formData.dob" required placeholder="Enter patient dob" onkeydown="return false;"/>
+                                        <input id="dobpicker" type="date" data-ng-model="vm.formData.dob" required placeholder="Enter patient dob" onkeydown="return false;" ng-disabled="vm.editMode"/>
                                     </div>
                                     <div class="input-box">
                                         <label>Blood Group
                                             <req>*</req>
                                         </label>
-                                        <select class="form-control" data-ng-model="vm.formData.bloodGroup" required>
+                                        <select class="form-control" data-ng-model="vm.formData.bloodGroup" required ng-disabled="vm.editMode">
                                             <option value="">Select Blood Group</option>
                                             <option value="{{item.value}}" ng-repeat="item in vm.BloodGroups">{{item.value}}</option>
                                         </select>
@@ -122,7 +122,7 @@
                                     <label>Type of Support from Cancure
                                         <req>*</req>
                                     </label>
-                                    <select class="form-control" data-ng-model="vm.formData.typeOfSupport" required>
+                                    <select class="form-control" data-ng-model="vm.formData.typeOfSupport" required ng-disabled="vm.editMode">
                                         <option value="">Select Type of Support</option>
                                         <option value="{{item.value}}" ng-repeat="item in vm.TypeOfSupportSought">{{item.value}}</option>
                                     </select>
@@ -134,7 +134,7 @@
                                     <label>Assets Owned
                                         <req>*</req>
                                     </label>
-                                    <input type="text" data-ng-model="vm.formData.assetsOwned" maxlength="150" required placeholder="Enter patient assets" />
+                                    <input type="text" data-ng-model="vm.formData.assetsOwned" maxlength="150" required placeholder="Enter patient assets" ng-disabled="vm.editMode"/>
                                 </div>
                                 <div class="col-md-4 col-sm-12">
                                     <md-input-container class="md-icon-float md-block">
@@ -147,13 +147,19 @@
                                     <label>Patient Income
                                         <req>*</req>
                                     </label>
-                                    <input type="text" data-ng-model="vm.formData.patientIncome" maxlength="10" onkeypress="return validatephone(event);" ng-required="vm.formData.employmentStatus=='Employed' || vm.formData.solebreadwinner" placeholder="Enter patient income" />
+                                    <div class="input-group">
+                                    	<div class="input-group-addon">₹</div>
+                                        <input type="text" data-ng-model="vm.formData.patientIncome" maxlength="10" onkeypress="return validatephone(event);" ng-required="vm.formData.employmentStatus=='Employed' || vm.formData.solebreadwinner" placeholder="Enter patient income" ng-disabled="vm.editMode"/>
+                                    </div> 
                                 </div>
                             </div>
                              <div class="row">
                                 <div class="col-md-4 col-sm-12 input-box">
                                     <label>Estimated Total Income</label>
-                                    <input type="text" data-ng-model="vm.formData.totalIncome" disabled />
+                                    <div class="input-group">
+                                    	<div class="input-group-addon">₹</div>
+                                        <input type="text" data-ng-model="vm.formData.totalIncome" disabled />
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
@@ -232,10 +238,8 @@
                                 <input type="text" data-ng-model="vm.formData.diagnosis" maxlength="100" placeholder="Enter details" />
                             </div>
                             <div class="input-box col-sm-12 col-md-4">
-                                <fieldset>
-                                    <legend>Doctor's comments</legend>
-                                    <textarea rows="5" cols="5" data-ng-model="vm.formData.doctorComments" maxlength="500"></textarea>
-                                </fieldset>
+                            	<label>Doctor's comments</label>
+                                <textarea rows="5" cols="5" data-ng-model="vm.formData.doctorComments" maxlength="500"></textarea>
                             </div>
                             <div class="col-sm-12 col-md-4 file-upload">
                                 <div class="title">Upload Diagnosis Records</div>
@@ -263,7 +267,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4 col-sm-12">
-                    <div class="panel panel-danger" style="height: 360px;">
+                    <div class="panel panel-danger" style="height: 407px;">
                         <div class="panel-heading">
                             Bystander Details
                         </div>
@@ -287,7 +291,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <div class="panel panel-danger" style="height: 360px;">
+                    <div class="panel panel-danger" style="height: 407px;">
                         <div class="panel-heading">
                             Other Details
                         </div>
@@ -314,23 +318,28 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12 supportingDocs">
-                    <div class="panel panel-danger" style="height: 360px;">
+                    <div class="panel panel-danger" style="height: 407px;">
                         <div class="panel-heading">
                             Supporting Documents
                         </div>
                         <div class="panel-body">
                             <md-content class="autoScroll">
-                                <fieldset>
-                                    <legend>Identity, Address and Age Proof</legend>
-                                    <md-input-container class="md-icon-float md-block">
-                                        <label>Document Category</label>
-                                        <md-select data-ng-model="vm.formData.ageProof">
-                                            <md-option ng-repeat="item in vm.IDProof" value="{{item.value}}">{{item.value}}</md-option>
-                                        </md-select>
-                                    </md-input-container>
-                                    <input id="patientReg-ageProof" type="file" aria-label="ageProof" ng-disabled="!vm.formData.ageProof" onchange="angular.element(this).scope().vm.formData.ageProofFile = this.files[0]" />
+                                <fieldset style="padding-bottom: 0px !important;">
+                                    <legend>Aadhar Card Details</legend>                                   
+	                                    <div class="input-box">
+	                                        <label>Card Number
+	                                            <req>*</req>
+	                                        </label>
+	                                        <input type="text" data-ng-model="vm.formData.aadharNo" maxlength="12" placeholder="Enter name" required onkeypress="return validatephone(event);"/>
+	                                    </div>
+	                                    <div class="input-box">
+	                                        <label>Aadhar Photo
+	                                            <req>*</req>
+	                                        </label>
+                                    		<input id="patientReg-ageProof" type="file" aria-label="ageProof" onchange="angular.element(this).scope().vm.formData.ageProofFile = this.files[0]" required/>
+                                    	</div>
                                 </fieldset>
-                                <fieldset>
+                                <fieldset style="margin-bottom: 0px !important;">
                                     <legend>Income Proof Details</legend>
                                     <md-input-container class="md-icon-float md-block">
                                         <label>Document Category</label>

@@ -3,8 +3,11 @@
         Edit Doctor Details 
         <div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h1>
-    <h1 ng-hide="vm.editMode">           
-         Doctor List
+    <h1 ng-hide="vm.editMode" class="clearfix">           
+         Doctor List 
+         <button class="btn btn-success pull-right" style="padding: 4px 8px;">
+		 	<a style="color: #fff !important;" ui-sref="app.manageUser.createUser"> Add Doctor </a>
+         </button>
     </h1>
 </section>
 <!-- Main content -->

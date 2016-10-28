@@ -40,6 +40,15 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 						vm.formData[k] = angular.copy(v);
 				});
 				vm.formData.dob = new Date(patientDetails.dob);
+				// to calc patient income
+				var familyIncomeSum = 0;
+				for (var i = 0; i < vm.formData.patientFamily.length; i++){
+					if (parseInt(vm.formData.patientFamily[i].income) >= 0)
+						familyIncomeSum = familyIncomeSum + parseInt(vm.formData.patientFamily[i].income);
+					if (parseInt(vm.formData.patientFamily[i].otherIncome) >= 0)
+						familyIncomeSum = familyIncomeSum + parseInt(vm.formData.patientFamily[i].otherIncome);
+				}
+				vm.formData.patientIncome = vm.formData.totalIncome - familyIncomeSum;
 				// iterating through patient documents
 				for(var i = 0; i < patientDetails.document.length; i++) {
 					if (patientDetails.document[i].docCategory == "Profile Image") {
@@ -103,8 +112,8 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 	/**
 	 *  function to calculate total income of the patient
 	 */
-	vm.calcIncome = function (){		
-		vm.formData.totalIncome = vm.formData.patientIncome ? parseInt(vm.formData.patientIncome) : 0;
+	vm.calcIncome = function (type){		
+		var patientIncome = vm.formData.patientIncome ? parseInt(vm.formData.patientIncome) : 0;
 		var familyIncomeSum = 0;
 		for (var i = 0; i < vm.formData.patientFamily.length; i++){
 			if (parseInt(vm.formData.patientFamily[i].income) >= 0)
@@ -112,7 +121,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 			if (parseInt(vm.formData.patientFamily[i].otherIncome) >= 0)
 				familyIncomeSum = familyIncomeSum + parseInt(vm.formData.patientFamily[i].otherIncome);
 		}
-		vm.formData.totalIncome = familyIncomeSum + vm.formData.totalIncome;
+		vm.formData.totalIncome = familyIncomeSum + patientIncome;
 	};
 	/**
 	 *  function to pop up window explorer on "select image" click
@@ -210,8 +219,8 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 		}
 
 		if (vm.formData.ageProofFile) { // get age proof file 
-			fd.append("document[" + fileCount + "].docCategory", 'Age Proof');
-			fd.append("document[" + fileCount + "].docType", localVm.ageProof);
+			fd.append("document[" + fileCount + "].docCategory", 'Aadhar Card');
+			fd.append("document[" + fileCount + "].docType", "Aadhar Card");
 			fd.append("document[" + fileCount + "].patientFile",  vm.formData.ageProofFile);
 			fileCount++;
 		}

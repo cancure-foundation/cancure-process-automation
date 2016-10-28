@@ -1,7 +1,7 @@
 .searchPatient {
     padding: 15px;
 }
-.searchPatient .rejected span{
+.searchPatient .rejected span {
     color: #ff0000;
 }
 .searchPatient .searchBox {
@@ -12,20 +12,10 @@
     font-size: 36px;
     line-height: 70px;
 }
-.searchPatient .searchBox i {
-    font-size: 24px;
-    line-height: 70px;
-    padding-left: 0px;
+.searchPatient .searchBox button {
+    margin-top: 30px;
     cursor: pointer;
     outline: none;
-}
-.searchPatient .searchBox .md-raised {
-    width: 100%;
-    margin: 0px;
-    margin-bottom: 18px;
-}
-.searchPatient .md-errors-spacer {
-    min-height: 0px;
 }
 .searchPatient .searchResult {
     margin: 15px;

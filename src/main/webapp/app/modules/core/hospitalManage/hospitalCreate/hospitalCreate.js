@@ -38,7 +38,6 @@ core.controller("HospitalCreateController", ['$scope', '$timeout', '$stateParams
 			payLoad: serverData
 		}, function (response) {
 			Loader.destroy();
-			Flash.create('success', 'Hospital successfully saved', 'large-text');   
 			vm.hospitalCreated = true; // to show the user summary div
 		});
 	};	
