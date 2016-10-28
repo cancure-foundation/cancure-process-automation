@@ -106,12 +106,14 @@ insert into settings values (3, 'ID Card Address Line 2', 'Perumanoor, Cochin -1
 insert into settings values (4, 'ID Card Phone Numbers', '7025 00 33 33, 9846 031 667');
 insert into settings values (5, 'ID Card website', 'www.cancure.in');
 insert into settings values (6, 'ID Card Email', 'info@cancure.in');
-insert into settings values (7, 'Background Check Timeout Duration (Hours)', '24');
-insert into settings values (8, 'Executive Committee Timeout Duration (Hours)', '5');
-insert into settings values (9, 'Background Check Reminder Frequency (Hours)', '24');
-insert into settings values (10, 'MB Doctor Reminder Frequency (Hours)', '24');
-insert into settings values (11, 'Sectretary Approval Reminder Frequency (Hours)', '24');
-
+insert into settings values (7, 'Preliminary Doctor Examination Timeout Duration (Hours)', '24');
+insert into settings values (8, 'Background Check Timeout Duration (Hours)', '24');
+insert into settings values (9, 'Medical Board Doctor Approval Timeout Duration (Hours)', '24');
+insert into settings values (10, 'Secretary Approval Timeout Duration (Hours)', '24');
+insert into settings values (11, 'Executive Committee Timeout Duration (Hours)', '5');
+insert into settings values (12, 'Background Check Reminder Frequency (Hours)', '24');
+insert into settings values (13, 'MB Doctor Reminder Frequency (Hours)', '24');
+insert into settings values (14, 'Sectretary Approval Reminder Frequency (Hours)', '24');
 
 
 insert into ACT_GE_PROPERTY

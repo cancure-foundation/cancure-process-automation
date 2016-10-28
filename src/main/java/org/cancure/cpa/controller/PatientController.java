@@ -31,39 +31,50 @@ public class PatientController {
 	@Autowired
 	private MyTasksService mytaskService;
 	
-	@RequestMapping("/patient/{id}")
-	public List<PatientBean> getPatient(@PathVariable("id") Integer id){
-		List<PatientBean> list = new ArrayList<PatientBean>();
-		List<PatientDocument>document=new ArrayList<PatientDocument>();
-		List<PatientDocumentBean>documentBean=new ArrayList<PatientDocumentBean>();
-	    PatientBean bean = patientService.get(id);
-	    if (bean == null) {
-	    	return Collections.emptyList();
-	    }
-	    document=patientDocumentService.findByTaskId(bean.getTaskId());
-	    for(PatientDocument patientDocument:document){
-	        PatientDocumentBean patientDocumentBean=new PatientDocumentBean();
-	        BeanUtils.copyProperties(patientDocument, patientDocumentBean);
-	        documentBean.add(patientDocumentBean);
-	    }
-	    bean.setDocument(documentBean);
-	    Map<String, String> map=mytaskService.getNextTask(id.toString(), PATIENT_REG_PROCESS_DEF_KEY);
-	    String nextTask=map.get("nextTask");
-	    bean.setNextTask(nextTask);
-	    list.add(bean);
-	    
+	@RequestMapping("/patient/search/{key}/{value}")
+	public List<PatientBean> getPatient(@PathVariable("key") String key, @PathVariable("value") String value){
+	    List<PatientBean> list = new ArrayList<PatientBean>();
+	    if(key.equals("prn")){
+	        List<PatientDocument>document=new ArrayList<PatientDocument>();
+	        List<PatientDocumentBean>documentBean=new ArrayList<PatientDocumentBean>();
+	        PatientBean bean = patientService.get(Integer.parseInt(value));
+	        if (bean == null) {
+	            return Collections.emptyList();
+	        }
+	        document=patientDocumentService.findByTaskId(bean.getTaskId());
+	        for(PatientDocument patientDocument:document){
+	            PatientDocumentBean patientDocumentBean=new PatientDocumentBean();
+	            BeanUtils.copyProperties(patientDocument, patientDocumentBean);
+	            documentBean.add(patientDocumentBean);
+	        }
+	        bean.setDocument(documentBean);
+	        Map<String, String> map=mytaskService.getNextTask(value, PATIENT_REG_PROCESS_DEF_KEY);
+	        String nextTask=map.get("nextTask");
+	        bean.setNextTask(nextTask);
+	        list.add(bean); 
+		}else if(key.equals("name")){
+		    list = patientService.searchByName(value);
+	        for(PatientBean patienBean:list){
+	            Map<String, String> map=mytaskService.getNextTask(patienBean.getPrn().toString(), PATIENT_REG_PROCESS_DEF_KEY);
+	            String nextTask=map.get("nextTask");
+	            patienBean.setNextTask(nextTask); 
+	        }
+		}else if(key.equals("pidn")){
+		    list = patientService.searchByPidn(Integer.parseInt(value));
+		    for(PatientBean patienBean:list){
+                Map<String, String> map=mytaskService.getNextTask(patienBean.getPrn().toString(), PATIENT_REG_PROCESS_DEF_KEY);
+                String nextTask=map.get("nextTask");
+                patienBean.setNextTask(nextTask);
+		    }
+		}else{
+		    list = patientService.searchByAadhar((long) Integer.parseInt(value)); 
+	          for(PatientBean patienBean:list){
+	                Map<String, String> map=mytaskService.getNextTask(patienBean.getPrn().toString(), PATIENT_REG_PROCESS_DEF_KEY);
+	                String nextTask=map.get("nextTask");
+	                patienBean.setNextTask(nextTask);
+	          }
+		}	    	    
 	    return list;
 	}
 	
-	@RequestMapping("/patient/search/{name}")
-    public List<PatientBean> getPatient(@PathVariable("name") String searchText){
-	    List<PatientBean> patientBeanList= patientService.searchByName(searchText);
-	    for(PatientBean patienBean:patientBeanList){
-	        Map<String, String> map=mytaskService.getNextTask(patienBean.getPrn().toString(), PATIENT_REG_PROCESS_DEF_KEY);
-	        String nextTask=map.get("nextTask");
-	        patienBean.setNextTask(nextTask); 
-	    }
-	    return patientBeanList;
-    }
-
 }

@@ -109,6 +109,9 @@ public class Patient {
     @Column(name="total_income")
     private Long totalIncome; 
     
+    @Column(name="aadhar_no")
+    private Long aadharNo;
+    
     @Column(name="preliminary_exam_doctor_id")
     private Integer preliminaryExamDoctorId;
     
@@ -366,6 +369,14 @@ public class Patient {
 
     public void setTotalIncome(Long totalIncome) {
         this.totalIncome = totalIncome;
+    }
+
+    public Long getAadharNo() {
+        return aadharNo;
+    }
+
+    public void setAadharNo(Long aadharNo) {
+        this.aadharNo = aadharNo;
     }
     
 
