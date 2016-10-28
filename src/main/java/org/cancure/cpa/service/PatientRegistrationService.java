@@ -58,23 +58,35 @@ public class PatientRegistrationService {
 	private String maxEcApprovalTime;
 */
 	public String getMaxBgCheckTime() {
-		return getSettingsInHours(7);
+		return getSettingsInHours(8);
 	}
 
 	public String getMaxEcApprovalTime() {
-		return getSettingsInHours(8);
+		return getSettingsInHours(11);
 	}
 	
+	public String getMaxPreliminaryExaminationTime() {
+        return getSettingsInHours(7);
+    }
+	
+	public String getMaxMBDoctorApprovalTime() {
+        return getSettingsInHours(9);
+    }
+	
+	public String getMaxSecretaryApprovalTime() {
+        return getSettingsInHours(10);
+    }
+	
 	public String getBgCheckTimeCycle(){
-		return "R/" + getSettingsInHours(9);
+		return "R/" + getSettingsInHours(12);
 	}
 	
 	public String getSecretaryApprovalTimeCycle(){
-		return "R/" + getSettingsInHours(11);
+		return "R/" + getSettingsInHours(14);
 	}
 	
 	public String getMbDoctorApprovalTimeCycle(){
-		return "R/" + getSettingsInHours(10);
+		return "R/" + getSettingsInHours(13);
 	}
 
 	/**

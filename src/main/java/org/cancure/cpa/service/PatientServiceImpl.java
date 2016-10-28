@@ -147,8 +147,27 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-	public Boolean searchByAadhar(Long aadharNo){
-        return patientRepo.findByAadharNo(aadharNo);
+	public List<PatientBean>  searchByAadhar(Long aadharNo){
+        List<Patient> patientList= patientRepo.findByAadharNo(aadharNo);
+        List<PatientBean> patientBeanList = new ArrayList<>();
+        for (Patient patient : patientList) {
+            PatientBean patientBean = new PatientBean();
+            BeanUtils.copyProperties(patient, patientBean);
+            patientBeanList.add(patientBean);
+        }
+        return patientBeanList;
+    }
+
+    @Override
+    public List<PatientBean> searchByPidn(Integer pidn) {
+        List<Patient> patientList= patientRepo.findByPidn(pidn);
+        List<PatientBean> patientBeanList = new ArrayList<>();
+        for (Patient patient : patientList) {
+            PatientBean patientBean = new PatientBean();
+            BeanUtils.copyProperties(patient, patientBean);
+            patientBeanList.add(patientBean);
+        }
+        return patientBeanList;
     }    
 	
 }
