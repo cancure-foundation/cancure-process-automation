@@ -150,7 +150,7 @@ create table patient(
 	type_of_support varchar(100),
 	task_id varchar(10),
 	total_income int(10),
-	aadhar_no int(12),
+	aadhar_no varchar(12),
 	preliminary_exam_doctor_id int(10) references doctor(doctor_id),
 	preliminary_exam_hospital_id int(10) references hospital(hospital_id)
 );
