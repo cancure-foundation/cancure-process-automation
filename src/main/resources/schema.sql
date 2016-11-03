@@ -220,9 +220,9 @@ create table patient_investigation (
  create table journal(
 	id number(10) primary key auto_increment,
 	date date,
-	from_account_type number(10) references account_types(id),
+	from_account_type_id number(10) references account_types(id),
 	from_account_holder_id number(10), 
-	to_account_type number(10) references account_types(id),
+	to_account_type_id number(10) references account_types(id),
 	to_account_holder_id number(10),
 	amount decimal(10,2)
  );
@@ -240,9 +240,9 @@ create table patient_investigation (
 	id number(10) primary key auto_increment,
 	date date,
 	pidn number(10) references pidn_generator(pidn),
-	from_account_type number(10) references account_types(id),
+	from_account_type_id number(10) references account_types(id),
 	from_account_holder_id number(10), 
-	to_account_type number(10) references account_types(id),
+	to_account_type_id number(10) references account_types(id),
 	to_account_holder_id number(10),
 	amount decimal(10,2),
 	status varchar(10),

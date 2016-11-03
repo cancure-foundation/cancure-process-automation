@@ -222,9 +222,9 @@ create table account_types (
 create table journal(
 	id int(10) primary key auto_increment,
 	date date,
-	from_account_type int(10) references account_types(id),
+	from_account_type_id int(10) references account_types(id),
 	from_account_holder_id int(10), 
-	to_account_type int(10) references account_types(id),
+	to_account_type_id int(10) references account_types(id),
 	to_account_holder_id int(10),
 	amount decimal(10,2)
 );
@@ -242,9 +242,9 @@ create table invoices (
 	id int(10) primary key auto_increment,
 	date date,
 	pidn int(10) references pidn_generator(pidn),
-	from_account_type int(10) references account_types(id),
+	from_account_type_id int(10) references account_types(id),
 	from_account_holder_id int(10), 
-	to_account_type int(10) references account_types(id),
+	to_account_type_id int(10) references account_types(id),
 	to_account_holder_id int(10),
 	amount decimal(10,2),
 	status varchar(10),
