@@ -214,6 +214,45 @@ create table settings (
  	value varchar(500)
  );
  
+create table account_types (
+	id int(10) primary key auto_increment,
+	name varchar(100)
+);
+
+create table journal(
+	id int(10) primary key auto_increment,
+	date date,
+	from_account_type_id int(10) references account_types(id),
+	from_account_holder_id int(10), 
+	to_account_type_id int(10) references account_types(id),
+	to_account_holder_id int(10),
+	amount decimal(10,2)
+);
+
+create table approvals (
+	id int(10) primary key auto_increment,
+	date date,
+	pidn int(10) references pidn_generator(pidn),
+	amount decimal(10,2),
+	approved_for_account_type int(10) references account_types(id),
+	expiry_date date
+);
+
+create table invoices (
+	id int(10) primary key auto_increment,
+	date date,
+	pidn int(10) references pidn_generator(pidn),
+	from_account_type_id int(10) references account_types(id),
+	from_account_holder_id int(10), 
+	to_account_type_id int(10) references account_types(id),
+	to_account_holder_id int(10),
+	amount decimal(10,2),
+	status varchar(10),
+	closed_date date,
+	balance_amount int(10),
+	bill_no int(10),
+	bill_amount decimal(10,2)
+); 
  
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
