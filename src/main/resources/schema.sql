@@ -146,7 +146,7 @@ create table patient(
 	type_of_support varchar(100),
 	task_id varchar(10),
 	total_income number(10),
-	aadhar_no number(12),
+	aadhar_no varchar(12),
 	preliminary_exam_doctor_id number(10) references DOCTOR(doctor_id),
 	preliminary_exam_hospital_id number(10) references hospital(hospital_id)
 );

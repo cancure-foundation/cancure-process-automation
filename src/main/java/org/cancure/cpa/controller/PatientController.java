@@ -67,7 +67,7 @@ public class PatientController {
                 patienBean.setNextTask(nextTask);
 		    }
 		}else{
-		    list = patientService.searchByAadhar(Long.parseLong(value)); 
+		    list = patientService.searchByAadhar(value); 
 	          for(PatientBean patienBean:list){
 	                Map<String, String> map=mytaskService.getNextTask(patienBean.getPrn().toString(), PATIENT_REG_PROCESS_DEF_KEY);
 	                String nextTask=map.get("nextTask");

@@ -18,7 +18,7 @@ public interface PatientRepository extends CrudRepository<Patient, Integer> {
     @Query("update Patient u set u.pidn = ?1 where u.prn = ?2")
     public int updatePidn(Integer pidn, Integer prn);
 
-    public List<Patient>  findByAadharNo(Long aadharNo);
+    public List<Patient>  findByAadharNo(String aadharNo);
     
     public List<Patient>  findByPidn(Integer pidn);
 }

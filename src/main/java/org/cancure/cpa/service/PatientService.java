@@ -20,7 +20,7 @@ public interface PatientService {
 	
 	int updatePidn(Integer pidn, Integer prn);
 
-    List<PatientBean> searchByAadhar(Long aadharNo);
+    List<PatientBean> searchByAadhar(String aadharNo);
     
     List<PatientBean> searchByPidn(Integer pidn);
 	

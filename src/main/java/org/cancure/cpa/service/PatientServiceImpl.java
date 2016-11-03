@@ -147,7 +147,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-	public List<PatientBean>  searchByAadhar(Long aadharNo){
+	public List<PatientBean>  searchByAadhar(String aadharNo){
         List<Patient> patientList= patientRepo.findByAadharNo(aadharNo);
         List<PatientBean> patientBeanList = new ArrayList<>();
         for (Patient patient : patientList) {

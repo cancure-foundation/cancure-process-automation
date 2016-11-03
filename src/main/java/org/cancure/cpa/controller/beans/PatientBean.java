@@ -36,7 +36,7 @@ public class PatientBean {
     private String taskId;
     private String nextTask;
     private Long totalIncome;
-    private Long aadharNo;
+    private String aadharNo;
     private Integer preliminaryExamDoctorId;
     private Integer preliminaryExamHospitalId;
     private List<PatientFamilyBean> patientFamily=new ArrayList<PatientFamilyBean>();
@@ -223,10 +223,10 @@ public class PatientBean {
     public void setTotalIncome(Long totalIncome) {
         this.totalIncome = totalIncome;
     }
-    public Long getAadharNo() {
+    public String getAadharNo() {
         return aadharNo;
     }
-    public void setAadharNo(Long aadharNo) {
+    public void setAadharNo(String aadharNo) {
         this.aadharNo = aadharNo;
     }
     public Integer getPreliminaryExamDoctorId() {
