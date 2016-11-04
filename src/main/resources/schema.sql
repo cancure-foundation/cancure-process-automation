@@ -95,6 +95,15 @@ create table user_role (
  	enabled boolean
  );
  
+  create table pharmacy (
+ 	pharmacy_id number(10) primary key auto_increment,
+ 	name varchar(100),
+ 	address varchar(200),
+ 	contact varchar(25),
+ 	enabled boolean
+ );
+ 
+ 
  create table hpoc_hospital (
     hpoc_id number(10) primary key,
     hospital_id number(10),
