@@ -1,13 +1,19 @@
 package org.cancure.cpa.persistence.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Pharmacy {
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="pharmacy_id")
 	private Integer pharmacyId;
 	@NotEmpty
 	private String name;

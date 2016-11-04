@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 @Component("pharmacyService")
 public class PharmacyServiceImpl implements PharmacyService {
 	
+
+	@Autowired
+	PharmacyRepository pharmacyRepo;
+	
 	@Override
 	public Pharmacy savePharmacy(Pharmacy pharmacy) {
 		if (pharmacy.getPharmacyId()== null) {
@@ -16,8 +20,6 @@ public class PharmacyServiceImpl implements PharmacyService {
 	}
 	
 
-	@Autowired
-	PharmacyRepository pharmacyRepo;
 	
 	@Override
 	public Iterable<Pharmacy> listPharmacies() {
