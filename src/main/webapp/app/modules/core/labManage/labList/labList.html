@@ -1,0 +1,30 @@
+<section class="content-header">
+    <h1>           
+        Labs
+    </h1>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info" ng-show="labList.length > 0">
+                <table class="table">
+                
+                    <th class="col-xs-3">Lab Name</th>
+                    <th class="col-xs-3">Address</th>
+                    <th class="col-xs-3">Contact</th>
+                    <th class="col-xs-3">Action</th>
+
+                    <tr class="" ng-repeat="doc in labList">
+                        <td class="col-xs-3">{{doc.name}}</td>
+                        <td class="col-xs-3">{{doc.address}}</td>
+                        <td class="col-xs-3">{{doc.contact}}</td>
+                        <td class="col-xs-3"  ng-click="vm.editLab(doc.hospitalId)" style="color: #3c8dbc;">Edit</td>
+                    </tr>
+                    
+                </table>
+            </div>
+            <div class="warningText" ng-hide="labList.length > 0"> No Labs found</div>
+        </div>
+    </div>
+</section>
