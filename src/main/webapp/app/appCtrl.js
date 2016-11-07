@@ -151,7 +151,7 @@ app.controller("appCtrl", ['$rootScope', '$scope', '$state', '$http', '$cookies'
 				3 : ['app.hospital.hospitalList', 'app.hospital.hospitalCreate', 'app.hospital.hpocMapping'],
 				4 : ['app.doctor'],
 				5 : [],
-				6 : [],
+				6 : ['app.lab.labList', 'app.lab.labCreate'],
 				7 : ['app.searchPatient'],
 				8 : ['app.settingsList']
 		}, currentState = $state.current.name;
