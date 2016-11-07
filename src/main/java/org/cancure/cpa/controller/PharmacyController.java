@@ -15,13 +15,13 @@ public class PharmacyController {
 	@Autowired
 	PharmacyService pharmacyService;
 	
-	@RequestMapping(method=RequestMethod.POST, value="/pharmacy/save")
+	@RequestMapping(method=RequestMethod.POST, value="/pharmacy")
 	public Pharmacy savePharmacy(@RequestBody Pharmacy pharmacy){
 		
 		return pharmacyService.savePharmacy(pharmacy);
 	}
 	
-	@RequestMapping("/pharmacy/list")
+	@RequestMapping("/pharmacy/all")
     public Iterable<Pharmacy> listPharmacies(){
     	
     	return pharmacyService.listPharmacies();
@@ -31,7 +31,7 @@ public class PharmacyController {
     @RequestMapping("/pharmacy/{pharmacyId}")
     public Pharmacy gePharmacy(@PathVariable("pharmacyId") Integer pharmacyId) {
     	
-    	return pharmacyService.gePharmacy(pharmacyId);
+    	return pharmacyService.getPharmacy(pharmacyId);
     	
     }
 

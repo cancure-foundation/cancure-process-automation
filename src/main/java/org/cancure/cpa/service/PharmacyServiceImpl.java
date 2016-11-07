@@ -27,7 +27,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 	}
 
 	@Override
-	public Pharmacy gePharmacy(Integer id) {
+	public Pharmacy getPharmacy(Integer id) {
 		return pharmacyRepo.findOne(id);
 	}
 }

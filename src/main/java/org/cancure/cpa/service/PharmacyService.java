@@ -5,7 +5,7 @@ import org.cancure.cpa.persistence.entity.Pharmacy;
 
 public interface PharmacyService {
 
-	Pharmacy gePharmacy(Integer pharmacyId);
+	Pharmacy getPharmacy(Integer pharmacyId);
 
 	Iterable<Pharmacy> listPharmacies();
 
