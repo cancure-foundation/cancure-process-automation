@@ -252,6 +252,31 @@ create table patient_investigation (
 	partner_bill_amount decimal(10,2)
  );
  
+ create table patient_visit (
+	id number(10) primary key auto_increment,
+	pidn number(10) references pidn_generator(pidn),
+	date date,
+	account_type_id number(10) references account_types(id),
+	account_holder_id number(10),
+	task_id varchar(10),
+	status varchar(10)
+ );
+
+create table patient_visit_forwards (
+	id number(10) primary key auto_increment,
+	patient_visit_id number(10) references patient_visit(id),
+	account_type_id number(10) references account_types(id),
+	account_holder_id number(10)
+);
+
+create table patient_visit_documents (
+	doc_id number(10) primary key auto_increment,
+	patient_visit_id number(10) references patient_visit(id),
+	account_type_id number(10) references account_types(id),
+	doc_type varchar(100),
+	doc_path varchar(250)
+ );
+
  create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),

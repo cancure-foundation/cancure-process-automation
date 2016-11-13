@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="PatientHospitalVisit" name="Patient Hospital Visit" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <userTask id="patientVisitInput" name="Patient Visit Input">
+      <documentation>Patient visits Doctor/Hospital. Doctor gives prescription for medicines and labs. Patient meets HPOC.  HPOC saves patient's visit details.</documentation>
+    </userTask>
+    <userTask id="topupParmaApprovedAmount" name="Topup Pharma Approved Amount"></userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="patientVisitInput"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow2" sourceRef="patientVisitInput" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="exclusivegateway1" targetRef="topupParmaApprovedAmount">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${topupNeeded =='TRUE'}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow5" sourceRef="topupParmaApprovedAmount" targetRef="exclusivegateway2"></sequenceFlow>
+    <userTask id="selectPharmacy" name="Select Pharmacy"></userTask>
+    <sequenceFlow id="flow6" sourceRef="exclusivegateway2" targetRef="selectPharmacy">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${topupApproved =='TRUE'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow7" sourceRef="exclusivegateway1" targetRef="selectPharmacy">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${topupNeeded =='FALSE'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="selectPharmacy" targetRef="servicetask1"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow9" sourceRef="servicetask1" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow10" sourceRef="exclusivegateway2" targetRef="servicetask1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${topupApproved =='FALSE'}]]></conditionExpression>
+    </sequenceFlow>
+    <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="topupParmaApprovedAmount" cancelActivity="true">
+      <timerEventDefinition>
+        <timeDuration>${patientHospitalVisitService.maxTopupApprovalWaitTime}</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow11" sourceRef="boundarytimer1" targetRef="endevent1"></sequenceFlow>
+    <boundaryEvent id="boundarytimer2" name="Timer" attachedToRef="selectPharmacy" cancelActivity="true">
+      <timerEventDefinition>
+        <timeDuration>${patientHospitalVisitService.maxSelectPharmaTime}</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow12" sourceRef="boundarytimer2" targetRef="endevent1"></sequenceFlow>
+    <serviceTask id="servicetask1" name="Closure Tasks"></serviceTask>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_PatientHospitalVisit">
+    <bpmndi:BPMNPlane bpmnElement="PatientHospitalVisit" id="BPMNPlane_PatientHospitalVisit">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="40.0" y="198.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="patientVisitInput" id="BPMNShape_patientVisitInput">
+        <omgdc:Bounds height="71.0" width="121.0" x="150.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="topupParmaApprovedAmount" id="BPMNShape_topupParmaApprovedAmount">
+        <omgdc:Bounds height="71.0" width="131.0" x="410.0" y="80.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
+        <omgdc:Bounds height="30.0" width="30.0" x="530.0" y="80.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="316.0" y="196.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="640.0" y="96.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="selectPharmacy" id="BPMNShape_selectPharmacy">
+        <omgdc:Bounds height="55.0" width="105.0" x="608.0" y="188.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer2" id="BPMNShape_boundarytimer2">
+        <omgdc:Bounds height="30.0" width="30.0" x="678.0" y="238.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="920.0" y="198.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="758.0" y="188.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="75.0" y="215.0"></omgdi:waypoint>
+        <omgdi:waypoint x="150.0" y="215.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="271.0" y="215.0"></omgdi:waypoint>
+        <omgdi:waypoint x="316.0" y="216.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="336.0" y="196.0"></omgdi:waypoint>
+        <omgdi:waypoint x="336.0" y="115.0"></omgdi:waypoint>
+        <omgdi:waypoint x="410.0" y="115.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="541.0" y="115.0"></omgdi:waypoint>
+        <omgdi:waypoint x="640.0" y="116.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="660.0" y="136.0"></omgdi:waypoint>
+        <omgdi:waypoint x="660.0" y="188.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="356.0" y="216.0"></omgdi:waypoint>
+        <omgdi:waypoint x="608.0" y="215.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="713.0" y="215.0"></omgdi:waypoint>
+        <omgdi:waypoint x="758.0" y="215.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="863.0" y="215.0"></omgdi:waypoint>
+        <omgdi:waypoint x="920.0" y="215.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="680.0" y="116.0"></omgdi:waypoint>
+        <omgdi:waypoint x="810.0" y="116.0"></omgdi:waypoint>
+        <omgdi:waypoint x="810.0" y="188.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+        <omgdi:waypoint x="560.0" y="95.0"></omgdi:waypoint>
+        <omgdi:waypoint x="937.0" y="94.0"></omgdi:waypoint>
+        <omgdi:waypoint x="937.0" y="198.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="708.0" y="253.0"></omgdi:waypoint>
+        <omgdi:waypoint x="937.0" y="252.0"></omgdi:waypoint>
+        <omgdi:waypoint x="937.0" y="233.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

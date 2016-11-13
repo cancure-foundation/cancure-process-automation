@@ -253,7 +253,32 @@ create table invoices (
 	bill_no int(10),
 	bill_amount decimal(10,2)
 ); 
- 
+
+create table patient_visit (
+	id int(10) primary key auto_increment,
+	pidn int(10) references pidn_generator(pidn),
+	date date,
+	account_type_id int(10) references account_types(id),
+	account_holder_id int(10),
+	task_id varchar(10),
+	status varchar(10)
+);
+
+create table patient_visit_forwards (
+	id int(10) primary key auto_increment,
+	patient_visit_id int(10) references patient_visit(id),
+	account_type_id int(10) references account_types(id),
+	account_holder_id int(10)
+);
+
+create table patient_visit_documents (
+	doc_id int(10) primary key auto_increment,
+	patient_visit_id int(10) references patient_visit(id),
+	account_type_id int(10) references account_types(id),
+	doc_type varchar(100),
+	doc_path varchar(250)
+);
+
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),
