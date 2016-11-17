@@ -63,6 +63,10 @@ public class PatientHospitalVisitService {
 		taskService.complete(taskId, activitiVars);
 		return taskId;
 	}
+	
+	public void performClosureTasks(String pidn){
+		logger.info("Closing task for PIDN ..." + pidn);
+	}
 
 	private Task findTask(String pidn) {
 		ProcessInstance procInsts = runtimeService.createProcessInstanceQuery()
