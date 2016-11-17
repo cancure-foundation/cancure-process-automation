@@ -39,7 +39,7 @@
       </timerEventDefinition>
     </boundaryEvent>
     <sequenceFlow id="flow12" sourceRef="boundarytimer2" targetRef="endevent1"></sequenceFlow>
-    <serviceTask id="servicetask1" name="Closure Tasks" activiti:expression="#{patientHospitalVisitService.performClosureTasks(pidn)}"></serviceTask>
+    <serviceTask id="servicetask1" name="Closure Tasks" activiti:expression="#{patientHospitalVisitService.performClosureTasks(pidn, patientVisitId)}"></serviceTask>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_PatientHospitalVisit">
     <bpmndi:BPMNPlane bpmnElement="PatientHospitalVisit" id="BPMNPlane_PatientHospitalVisit">

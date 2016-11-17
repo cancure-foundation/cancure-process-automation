@@ -1,10 +1,14 @@
 package org.cancure.cpa.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.transaction.Transactional;
 
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
@@ -13,6 +17,7 @@ import org.cancure.cpa.persistence.entity.PatientVisit;
 import org.cancure.cpa.persistence.entity.PatientVisitDocuments;
 import org.cancure.cpa.persistence.repository.PatientVisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,28 +29,57 @@ public class PatientHospitalVisitWorkflowImpl implements PatientHospitalVisitWor
 	@Autowired
 	private PatientVisitRepository patientVisitRepository;
 	
+	@Value("${spring.files.save.path}")
+    private String fileSavePath;
+	
 	@Override
-	public String startWorkflow(PatientVisitBean patientVisitBean) {
+	@Transactional
+	public String startWorkflow(PatientVisitBean patientVisitBean) throws IOException {
 		
-		Integer pidn = patientVisitBean.getPidn();
-		Map<String, Object> variables = new HashMap<>();
-        variables.put("pidn", pidn);
-        
-        PatientVisit patientVisit =  transformPatientBeanToEntity(patientVisitBean);
+		PatientVisit patientVisit =  transformPatientBeanToEntity(patientVisitBean);
         
         patientVisitRepository.save(patientVisit);
         
-        patientHospitalVisitService.startPatientHospitalVisitWorkflow(variables, pidn + "");
+        savePatientDocs(patientVisit, patientVisitBean);
+        
+        Integer pidn = patientVisitBean.getPidn();
+		Map<String, Object> variables = new HashMap<>();
+        variables.put("pidn", pidn);
+        variables.put("patientVisitId", patientVisit.getId());
+        
+        patientHospitalVisitService.startPatientHospitalVisitWorkflow(variables, pidn + "", patientVisit.getId());
         
         // Move to next task
-        /*Map<String, Object> activitiVars = new HashMap<String, Object>();
-        activitiVars.put("topupNeeded", "TRUE/FALSE"); 
-        String taskId = patientHospitalVisitService.moveToNextTask(pidn + "", activitiVars);
+        Map<String, Object> activitiVars = new HashMap<String, Object>();
+        activitiVars.put("topupNeeded", patientVisitBean.getTopupNeeded()); 
+        String taskId = patientHospitalVisitService.moveToNextTask(pidn + "", patientVisit.getId(), activitiVars);
         
         patientVisit.setTaskId(taskId);
-        patientVisitRepository.save(patientVisit);*/
+        patientVisitRepository.save(patientVisit);
         
 		return null;
+	}
+
+	private void savePatientDocs(PatientVisit patientVisit, PatientVisitBean patientVisitBean) throws IOException {
+		
+		List<PatientVisitDocuments> docList = patientVisit.getPatientVisitDocumentsList();
+		
+		if (docList != null && !docList.isEmpty()) {
+			Integer patientVisitId = patientVisit.getId();
+			new File(fileSavePath + "/patientVisit/" + patientVisitId).mkdirs();
+			for (int i=0; i < docList.size(); i++){
+				
+				PatientVisitDocuments patDocs = docList.get(i);
+				String originalFileName = patientVisitBean.getPatientHospitalVisitDocumentBeanList().get(i).getPatientVisitFile().getOriginalFilename();
+				
+				String docPath = "/patientVisit/" + patientVisitId + "/" + patDocs.getDocId() + "_" + originalFileName;
+				
+				File file = new File(fileSavePath + docPath);
+				patientVisitBean.getPatientHospitalVisitDocumentBeanList().get(i).getPatientVisitFile().transferTo(file);
+				patDocs.setDocPath(docPath);
+				
+			}
+		}
 	}
 
 	private PatientVisit transformPatientBeanToEntity(PatientVisitBean patientVisitBean) {
@@ -73,22 +107,26 @@ public class PatientHospitalVisitWorkflowImpl implements PatientHospitalVisitWor
         return patientVisit;
 	}
 
+	
 	@Override
-	public String topUpApprovedAmount() {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public String topUpApprovedAmount(String pidn, Integer patientVisitId, String topupApproved) {
+		// Save topups for Pharma and Lab
+		
+		
+		// Move to next task
+        Map<String, Object> activitiVars = new HashMap<String, Object>();
+        activitiVars.put("topupApproved", topupApproved); 
+        String taskId = patientHospitalVisitService.moveToNextTask(pidn + "", patientVisitId, activitiVars);
+        return taskId;
 	}
 
 	@Override
-	public String selectPharmacy() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String doClosureTasks() {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public String selectPharmacy(String pidn, Integer patientVisitId) {
+		// save referred Pharma.
+		
+		return patientHospitalVisitService.moveToNextTask(pidn + "", patientVisitId, null);
 	}
 
 }

@@ -12,6 +12,14 @@ public class PatientVisitBean {
 	private String accountHolderId;
 	private String taskId;
 	private String status;
+	private String topupNeeded;
+	
+	public String getTopupNeeded() {
+		return topupNeeded;
+	}
+	public void setTopupNeeded(String topupNeeded) {
+		this.topupNeeded = topupNeeded;
+	}
 	private List<PatientVisitDocumentBean> patientHospitalVisitDocumentBeanList;
 	
 	public List<PatientVisitDocumentBean> getPatientHospitalVisitDocumentBeanList() {

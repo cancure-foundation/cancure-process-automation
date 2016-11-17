@@ -47,30 +47,30 @@ public class PatientHospitalVisitService {
 		return "PT" + sett.getValue() + "H";
 	}
 
-	public String startPatientHospitalVisitWorkflow(Map<String, Object> variables, String pidn) {
+	public String startPatientHospitalVisitWorkflow(Map<String, Object> variables, String pidn, Integer patientVisitId) {
 
-		ProcessInstance procInst = runtimeService.startProcessInstanceByKey(PATIENT_HOSPITAL_VISIT_DEF_KEY, pidn,
+		ProcessInstance procInst = runtimeService.startProcessInstanceByKey(PATIENT_HOSPITAL_VISIT_DEF_KEY, pidn + "_" + patientVisitId,
 				variables);
 		logger.debug("Started patient hospital visit workflow for patient with pidn = " + pidn);
 		return procInst.getId();
 	}
 
-	public String moveToNextTask(String pidn, Map<String, Object> activitiVars) {
+	public String moveToNextTask(String pidn, Integer patientVisitId, Map<String, Object> activitiVars) {
 
-		String taskId = findTask(pidn).getId();
+		String taskId = findTask(pidn + "_" + patientVisitId).getId();
 		logger.info("Moving Task Id ..." + taskId);
 		// Complete current task
 		taskService.complete(taskId, activitiVars);
 		return taskId;
 	}
 	
-	public void performClosureTasks(String pidn){
-		logger.info("Closing task for PIDN ..." + pidn);
+	public void performClosureTasks(String pidn, Integer patientVisitId){
+		logger.info("Closing task for PIDN ..." + pidn + " and patientVisitId " + patientVisitId);
 	}
 
-	private Task findTask(String pidn) {
+	private Task findTask(String pidnAndPatientVisitId) {
 		ProcessInstance procInsts = runtimeService.createProcessInstanceQuery()
-				.processDefinitionKey(PATIENT_HOSPITAL_VISIT_DEF_KEY).processInstanceBusinessKey(pidn)
+				.processDefinitionKey(PATIENT_HOSPITAL_VISIT_DEF_KEY).processInstanceBusinessKey(pidnAndPatientVisitId)
 				.singleResult();
 		Task taskData = taskService.createTaskQuery().processInstanceId(procInsts.getProcessInstanceId())
 				.singleResult();

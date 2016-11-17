@@ -1,11 +1,22 @@
 package org.cancure.cpa.controller.beans;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class PatientVisitDocumentBean {
 
 	private Long docId;
 	private String docType;
 	private String docPath;
 	private Integer accountTypeId;
+	private MultipartFile patientVisitFile;
+
+	public MultipartFile getPatientVisitFile() {
+		return patientVisitFile;
+	}
+
+	public void setPatientVisitFile(MultipartFile patientVisitFile) {
+		this.patientVisitFile = patientVisitFile;
+	}
 
 	public Long getDocId() {
 		return docId;
