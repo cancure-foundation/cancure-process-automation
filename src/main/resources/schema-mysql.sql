@@ -234,7 +234,7 @@ create table approvals (
 	date date,
 	pidn int(10) references pidn_generator(pidn),
 	amount decimal(10,2),
-	approved_for_account_type int(10) references account_types(id),
+	approved_for_account_type_id int(10) references account_types(id),
 	expiry_date date
 );
 

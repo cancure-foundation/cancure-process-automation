@@ -1,6 +1,6 @@
 package org.cancure.cpa.persistence.entity;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -22,10 +22,10 @@ public class PatientVisit {
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	@Column(name="pidn",unique = true, nullable = false)
+	@Column(name="pidn", nullable = false)
     private Integer pidn;
 	
-	private Date date;
+	private Timestamp date;
 	
 	@ManyToOne
 	@JoinColumn(name="account_type_id")
@@ -74,11 +74,11 @@ public class PatientVisit {
 		this.pidn = pidn;
 	}
 
-	public Date getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 
