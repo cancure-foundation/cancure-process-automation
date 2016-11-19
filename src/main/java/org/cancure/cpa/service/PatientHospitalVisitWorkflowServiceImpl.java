@@ -69,7 +69,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		patientVisit.setTaskId(taskId);
 		patientVisitRepository.save(patientVisit);
 
-		return null;
+		return patientVisit.getId() + "";
 	}
 
 	private void savePatientDocs(PatientVisit patientVisit, PatientVisitBean patientVisitBean) throws IOException {
@@ -156,21 +156,30 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 
 	@Override
 	@Transactional
-	public String selectPharmacy(PatientVisitForwardsBean forward) {
-		// save referred Pharma.
-		PatientVisitForwards fwd = new PatientVisitForwards();
-		fwd.setAccountHolderId(forward.getAccountHolderId());
-		fwd.setDate(new Timestamp(System.currentTimeMillis()));
-		fwd.setPatientVisitId(forward.getPatientVisitId());
-		AccountTypes actType = new AccountTypes();
-		actType.setId(forward.getAccountTypeId());
-		fwd.setAccountTypeId(actType);
-		fwd.setPidn(forward.getPidn());
+	public String selectPartners(List<PatientVisitForwardsBean> forwardList) throws Exception {
+		Integer pidn = null;
+		Integer patientVisitId = null;
+		if (forwardList != null && !forwardList.isEmpty()) {
+			for (PatientVisitForwardsBean forward : forwardList) {
+				pidn = forward.getPidn();
+				patientVisitId = forward.getPatientVisitId();
+				// save referred Pharma.
+				PatientVisitForwards fwd = new PatientVisitForwards();
+				fwd.setAccountHolderId(forward.getAccountHolderId());
+				fwd.setDate(new Timestamp(System.currentTimeMillis()));
+				fwd.setPatientVisitId(forward.getPatientVisitId());
+				AccountTypes actType = new AccountTypes();
+				actType.setId(forward.getAccountTypeId());
+				fwd.setAccountTypeId(actType);
+				fwd.setPidn(forward.getPidn());
 
-		patientVisitForwardsRepository.save(fwd);
+				patientVisitForwardsRepository.save(fwd);
+			}
+		} else {
+			throw new Exception("No forwards present");
+		}
 
-		return patientHospitalVisitService.moveToNextTask(forward.getPidn() + "", 
-				forward.getPatientVisitId(), null);
+		return patientHospitalVisitService.moveToNextTask(pidn.toString() + "", patientVisitId, null);
 	}
 
 }
