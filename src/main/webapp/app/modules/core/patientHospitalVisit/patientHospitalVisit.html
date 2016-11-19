@@ -1,0 +1,80 @@
+<div class="content-header">
+    <h1>
+        Patient Hospital Visit
+    </h1>
+</div>
+<!-- Main content -->
+<div class="content patientRegHistory">
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info panel-body">
+            	<div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>PIDN
+	                        <req>*</req>
+	                    </label>
+	                    <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" />
+	                </div>
+	                <div class="col-md-12 col-xs-12 text-left" style="padding-bottom: 15px;">
+		                <input type="button" class="btn btn-success" ng-click="vm.searchUser();" value="Search">
+		            </div>
+	            </div>
+            </div>
+            
+            <div class="noResultText" ng-show="vm.noSearchResult">Sorry, no items match your query.</div>
+            
+            <div class="panel panel-info panel-body" ng-show="vm.patient">
+            	<div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>Name
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.patient.name }}
+	                </div>
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>Gender
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.patient.gender }}
+	                </div>
+	            </div>
+	            
+	            <div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>DOB
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.patient.dob }}
+	                </div>
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>Address
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.patient.address }}
+	                </div>
+	            </div>
+	            
+	            <div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>Contact No
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.patient.contact }}
+	                </div>
+	            </div>
+	            
+            </div>
+            
+            Show approved amounts
+            
+            Upload bills by category
+            Enter medicine total cost
+            Enter lab total cost
+            Send to partners
+            or 
+            Send for topup
+            
+        </div>
+    </div>
+</div>
