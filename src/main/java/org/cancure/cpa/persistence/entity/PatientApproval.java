@@ -34,6 +34,17 @@ public class PatientApproval {
 	@JoinColumn(name="approved_for_account_type_id")
 	private AccountTypes approvedForAccountType;
 
+	@Column(name="patient_visit_id")
+	private Integer patientVisitId;
+	
+	public Integer getPatientVisitId() {
+		return patientVisitId;
+	}
+
+	public void setPatientVisitId(Integer patientVisitId) {
+		this.patientVisitId = patientVisitId;
+	}
+
 	public Integer getId() {
 		return id;
 	}
