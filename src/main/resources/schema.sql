@@ -238,7 +238,7 @@ create table patient_investigation (
 
  create table invoices (
 	id number(10) primary key auto_increment,
-	date date,
+	date timestamp,
 	pidn number(10) references pidn_generator(pidn),
 	from_account_type_id number(10) references account_types(id),
 	from_account_holder_id number(10), 
@@ -267,7 +267,7 @@ create table patient_investigation (
 	date timestamp,
 	pidn number(10) references pidn_generator(pidn),
 	amount decimal(10,2),
-	approved_for_account_type int(10) references account_types(id),
+	approved_for_account_type_id int(10) references account_types(id),
 	patient_visit_id number(10),
 	expiry_date date
  );

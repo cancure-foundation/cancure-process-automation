@@ -16,15 +16,15 @@ core.controller("PatientHospitalVisitController", ['Loader', '$scope', '$state',
 		}
 		// making the server call
 		apiService.serviceRequest({
-			URL: '/patient/search/pidn/' + vm.pidn,
+			URL: '/patientvisit/patient/' + vm.pidn,
 			method: 'GET',
 			hideErrMsg : true
 		}, function (response) {
 			Flash.dismiss();
-			if (response.length == 0) {
+			if (response == null) {
 				vm.noSearchResult = true;
 			} else {
-				vm.patient = response[0];
+				vm.patient = response;
 				vm.noSearchResult = false;
 			}
 		}, function (fail){

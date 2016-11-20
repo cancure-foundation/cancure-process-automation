@@ -11,16 +11,21 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.cancure.cpa.controller.beans.PatientApprovalBean;
+import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
+import org.cancure.cpa.controller.beans.PatientVisitHistoryBean;
 import org.cancure.cpa.controller.beans.TopupStatusBean;
 import org.cancure.cpa.persistence.entity.AccountTypes;
+import org.cancure.cpa.persistence.entity.InvoicesEntity;
 import org.cancure.cpa.persistence.entity.PatientApproval;
 import org.cancure.cpa.persistence.entity.PatientVisit;
 import org.cancure.cpa.persistence.entity.PatientVisitDocuments;
 import org.cancure.cpa.persistence.entity.PatientVisitForwards;
+import org.cancure.cpa.persistence.entity.Pharmacy;
 import org.cancure.cpa.persistence.repository.ApprovalRepository;
+import org.cancure.cpa.persistence.repository.InvoicesRepository;
 import org.cancure.cpa.persistence.repository.PatientVisitForwardsRepository;
 import org.cancure.cpa.persistence.repository.PatientVisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +42,20 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 	private PatientVisitRepository patientVisitRepository;
 
 	@Autowired
+	private PatientService patientService;
+	
+	@Autowired
 	private ApprovalRepository approvalRepository;
 
+	@Autowired
+	private InvoicesRepository invoicesRepository;
+	
+	@Autowired
 	private PatientVisitForwardsRepository patientVisitForwardsRepository;
-
+	
+	@Autowired
+	private PharmacyService pharmacyService;
+	
 	@Value("${spring.files.save.path}")
 	private String fileSavePath;
 
@@ -180,6 +195,46 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		}
 
 		return patientHospitalVisitService.moveToNextTask(pidn.toString() + "", patientVisitId, null);
+	}
+
+	@Override
+	public PatientVisitHistoryBean selectPatient(String pidnString) {
+		Integer pidn = Integer.parseInt(pidnString);
+		List<PatientBean> list = new ArrayList<PatientBean>();
+		list = patientService.searchByPidn(pidn);
+		if (list != null && !list.isEmpty()) {
+			PatientVisitHistoryBean historyBean = new PatientVisitHistoryBean();
+			PatientBean patientBean = list.get(0);
+			historyBean.setPatientBean(patientBean);
+			
+			List<PatientApproval> patientApprovals = approvalRepository.findByPidn(pidn);
+			if (patientApprovals != null && !patientApprovals.isEmpty()) {
+				historyBean.setPatientApprovals(patientApprovals);
+				List<InvoicesEntity> invoicesList = invoicesRepository.findByPidn(pidn);
+				if (invoicesList != null && !invoicesList.isEmpty()){
+					for (InvoicesEntity entity : invoicesList){
+						entity.setFromAccountHolderName(getPartnerName(entity.getFromAccountTypeId().getId(), entity.getFromAccountHolderId()));
+					}
+					historyBean.setInvoicesList(invoicesList);
+				}
+			}
+			
+			return historyBean;
+		}
+		
+		return null;
+	}
+
+	private String getPartnerName(Integer fromAccountTypeId, Integer fromAccountHolderId) {
+		if (fromAccountTypeId == 3) { //Pharmacy
+			Pharmacy phar = pharmacyService.getPharmacy(fromAccountHolderId);
+			if (phar == null){
+				return "Unknown Pharmacy";
+			}
+			return phar.getName();
+		}
+		
+		return "";
 	}
 
 }

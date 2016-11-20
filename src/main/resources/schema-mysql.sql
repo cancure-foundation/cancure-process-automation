@@ -250,8 +250,8 @@ create table invoices (
 	status varchar(10),
 	closed_date timestamp,
 	balance_amount int(10),
-	bill_no int(10),
-	bill_amount decimal(10,2)
+	partner_bill_no int(10),
+	partner_bill_amount decimal(10,2)
 ); 
 
 create table patient_visit (

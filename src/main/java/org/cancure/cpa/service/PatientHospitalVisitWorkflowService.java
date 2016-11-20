@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
+import org.cancure.cpa.controller.beans.PatientVisitHistoryBean;
 import org.cancure.cpa.controller.beans.TopupStatusBean;
 
 public interface PatientHospitalVisitWorkflowService {
@@ -15,4 +16,5 @@ public interface PatientHospitalVisitWorkflowService {
 
 	String selectPartners(List<PatientVisitForwardsBean> forwardList) throws Exception;
 
+	PatientVisitHistoryBean selectPatient(String pidn);
 }
