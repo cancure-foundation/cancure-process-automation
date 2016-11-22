@@ -103,6 +103,13 @@ create table user_role (
  	enabled boolean
  );
  
+   create table lab (
+ 	lab_id number(10) primary key auto_increment,
+ 	name varchar(100),
+ 	address varchar(200),
+ 	contact varchar(25),
+ 	enabled boolean
+ );
  
  create table hpoc_hospital (
     hpoc_id number(10) primary key,
@@ -157,7 +164,9 @@ create table patient(
 	total_income number(10),
 	aadhar_no varchar(12),
 	preliminary_exam_doctor_id number(10) references DOCTOR(doctor_id),
-	preliminary_exam_hospital_id number(10) references hospital(hospital_id)
+	preliminary_exam_hospital_id number(10) references hospital(hospital_id),
+	hospital_cost_estimate number(10),
+	medical_cost_estimate number(10)
 );
 
 
