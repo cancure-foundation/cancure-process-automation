@@ -1,0 +1,124 @@
+<div class="content-header">
+    <h1>
+        Patient Hospital Visit
+    </h1>
+</div>
+<!-- Main content -->
+<div class="content patientRegHistory">
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info panel-body">
+            	<div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>PIDN
+	                        <req>*</req>
+	                    </label>
+	                    <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" />
+	                </div>
+	                <div class="col-md-12 col-xs-12 text-left" style="padding-bottom: 15px;">
+		                <input type="button" class="btn btn-success" ng-click="vm.searchUser();" value="Search">
+		            </div>
+	            </div>
+            </div>
+            
+            <div class="noResultText" ng-show="vm.noSearchResult">Sorry, no items match your query.</div>
+            
+            <div class="panel panel-info panel-body" ng-show="vm.patient">
+            	<div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>Name
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.patient.patientBean.name }}
+	                </div>
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>Gender
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.patient.patientBean.gender }}
+	                </div>
+	            </div>
+	            
+	            <div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>DOB
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.patient.patientBean.dob }}
+	                </div>
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>Address
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.patient.patientBean.address }}
+	                </div>
+	            </div>
+	            
+	            <div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>Contact No
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.patient.patientBean.contact }}
+	                </div>
+	            </div>
+	            
+	            <div class="col-xs-12">
+                   <span class="section-title"><b>Approved Amounts for the patient :</b></span>
+                   <div ng-hide="vm.patient.patientApprovals.length > 0" class="empty-text">No amount has been approved for the patient.</div>
+                   <table class="table table-bordered" ng-show="vm.patient.patientApprovals.length > 0">
+                       <thead>
+                           <tr>
+                               <th class="col-xs-3">Date</th>
+                               <th class="col-xs-2">Approved For</th>
+                               <th class="col-xs-3">Amount</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <tr ng-repeat="item in vm.patient.patientApprovals">
+                               <td class="col-xs-3">{{item.date}}</td>
+                               <td class="col-xs-2">{{item.approvedForAccountType.name}}</td>
+                               <td class="col-xs-3">{{item.amount}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+	            
+	           <div class="col-xs-12">
+                   <span class="section-title"><b>Payments to the Patient :</b></span>
+                   <div ng-hide="vm.patient.invoicesList.length > 0" class="empty-text">No payments have been made to the patient.</div>
+                   <table class="table table-bordered" ng-show="vm.patient.invoicesList.length > 0">
+                       <thead>
+                           <tr>
+                               <th class="col-xs-3">Date</th>
+                               <th class="col-xs-2">Account</th>
+                               <th class="col-xs-2">Partner</th>
+                               <th class="col-xs-3">Amount</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <tr ng-repeat="item in vm.patient.invoicesList">
+                               <td class="col-xs-3">{{item.date}}</td>
+                               <td class="col-xs-2">{{item.fromAccountTypeId.name}}</td>
+                               <td class="col-xs-3">{{item.fromAccountHolderName}}</td>
+                               <td class="col-xs-3">{{item.amount}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div> 
+	            
+            </div>
+            
+            Show approved amounts
+            
+            Upload bills by category
+            Enter medicine total cost
+            Enter lab total cost
+            Send to partners
+            or 
+            Send for topup
+            
+        </div>
+    </div>
+</div>

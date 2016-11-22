@@ -55,6 +55,16 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
     
+    $stateProvider.state('app.patientHospitalVisit', {
+        url: '/patientHospitalVisit',
+        templateUrl: 'app/modules/core/patientHospitalVisit/patientHospitalVisit.html',
+        controller: 'PatientHospitalVisitController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Patient Hospital Visit'
+        }
+    });
+    
     $stateProvider.state('app.patientRegNextAction', {
         url: '/patientRegNextAction/:prn',
         templateUrl: 'app/modules/core/patientRegNextAction/patientRegNextAction.html',
