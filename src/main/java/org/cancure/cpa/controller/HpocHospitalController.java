@@ -28,9 +28,6 @@ public class HpocHospitalController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private HospitalService hospitalService;
-
     @RequestMapping(value = "/link/hpoc/hospital", method = RequestMethod.POST)
     public HpocHospital linkHpocHospital(@RequestBody HpocHospitalBean hpocHospitalBean) {
 
@@ -51,17 +48,8 @@ public class HpocHospitalController {
     
     @RequestMapping("/listAll/hpoc/hospital")
     public Map<String, Object> listAllHpocHospital() {
-        Map<Integer, List<UserBean>> parentMap = new HashMap<>();
-        Map<String, Object> map = new HashMap<>();
-        Iterable<Hospital> list = hospitalService.listHospitals();
-        for (Hospital hospital : list) {
-            List<UserBean> userBeanList = new ArrayList<>();
-            userBeanList = hpocHospitalService.getHpocUsersFromHospital(hospital.getHospitalId());
-            parentMap.put(hospital.getHospitalId(), userBeanList);
-        }
-        map.put("Hospitals", list);
-        map.put("HospitalMappings", parentMap);
-        return map;
+        
+        return hpocHospitalService.listAllHpocHospital();
     }
 
 }

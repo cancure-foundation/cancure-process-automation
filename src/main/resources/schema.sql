@@ -117,6 +117,18 @@ create table user_role (
     unique (hpoc_id, hospital_id)
  );
 
+  create table ppoc_pharmacy (
+    ppoc_id number(10) primary key,
+    pharmacy_id number(10),
+    unique (ppoc_id, pharmacy_id)
+ );
+ 
+  create table lpoc_lab (
+    lpoc_id number(10) primary key,
+    lab_id number(10),
+    unique (lpoc_id, lab_id)
+ );
+ 
  create table doctor (
  	doctor_id number(10) primary key auto_increment,
  	name varchar(100),

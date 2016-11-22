@@ -9,6 +9,8 @@ import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.controller.beans.UserSuperBean;
 import org.cancure.cpa.persistence.entity.Doctor;
 import org.cancure.cpa.persistence.entity.HpocHospital;
+import org.cancure.cpa.persistence.entity.LpocLab;
+import org.cancure.cpa.persistence.entity.PpocPharmacy;
 import org.cancure.cpa.persistence.entity.Role;
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.RoleRepository;
@@ -40,6 +42,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     HpocHospitalService hpocHospitalService;
 
+    @Autowired
+    PpocPharmacyService ppocPharmacyService;
+    
+    @Autowired
+    LpocLabService lpocLabService;
+    
     @Transactional
     public UserSuperBean saveUser(UserSuperBean UserSuperBean) {
 
@@ -70,6 +78,18 @@ public class UserServiceImpl implements UserService {
             hpocHospital.setHospitalId(UserSuperBean.getHospitalId());
             hpocHospital.setHpocId(savedUser.getId());
             hpocHospitalService.saveHpocHospital(hpocHospital);
+        }
+        if (UserSuperBean.getPharmacyId() != null) {
+            PpocPharmacy ppocPharmacy = new PpocPharmacy();
+            ppocPharmacy.setPharmacyId(UserSuperBean.getPharmacyId());
+            ppocPharmacy.setPpocId(savedUser.getId());
+            ppocPharmacyService.savePpocPharmacy(ppocPharmacy);
+        }
+        if (UserSuperBean.getLabId() != null) {
+            LpocLab lpocLab = new LpocLab();
+            lpocLab.setLabId(UserSuperBean.getLabId());
+            lpocLab.setLpocId(savedUser.getId());
+            lpocLabService.saveLpocLab(lpocLab);
         }
         if (!password.equals("")) {
             passwordNotifier.notify(user, password, false);
