@@ -106,6 +106,13 @@ create table user_role (
  	enabled boolean
  );
  
+    create table lab (
+ 	lab_id int(10) primary key auto_increment,
+ 	name varchar(100),
+ 	address varchar(200),
+ 	contact varchar(25),
+ 	enabled boolean
+ );
 
   create table hpoc_hospital (
     hpoc_id int(10),
@@ -113,6 +120,18 @@ create table user_role (
     unique (hpoc_id, hospital_id)
  );
 
+   create table ppoc_pharmacy (
+    ppoc_id int(10) primary key,
+    pharmacy_id int(10),
+    unique (ppoc_id, pharmacy_id)
+ );
+ 
+  create table lpoc_lab (
+    lpoc_id int(10) primary key,
+    lab_id int(10),
+    unique (lpoc_id, lab_id)
+ );
+ 
   create table doctor (
  	doctor_id int(10) primary key auto_increment,
  	name varchar(100),
@@ -161,7 +180,9 @@ create table patient(
 	total_income int(10),
 	aadhar_no varchar(12),
 	preliminary_exam_doctor_id int(10) references doctor(doctor_id),
-	preliminary_exam_hospital_id int(10) references hospital(hospital_id)
+	preliminary_exam_hospital_id int(10) references hospital(hospital_id),
+	hospital_cost_estimate int(10),
+	medical_cost_estimate int(10)
 );
 
 create table support_organisations (
