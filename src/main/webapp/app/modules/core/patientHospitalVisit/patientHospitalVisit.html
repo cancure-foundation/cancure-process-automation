@@ -108,17 +108,43 @@
                    </table>
                </div> 
 	            
+	           <div class="col-xs-12">
+	           	   <div class="col-xs-12">
+                   		<span class="section-title"><b>Documents (Prescriptions) :</b></span>
+                   </div>
+                   <div class="col-md-4 col-xs-12 input-box">
+                        <label>Type
+                            <req>*</req>
+                        </label>
+                        <select class="form-control" data-ng-model="vm.formData.documentTypes" required>
+                            <option value="">Select Type</option>
+                            <option value="{{item}}" ng-repeat="item in vm.documentTypes">{{item}}</option>
+                        </select>
+                    </div>
+	               
+	               <div class="col-md-4 col-xs-12 input-box">
+                        <label>File
+                            <req>*</req>
+                        </label>
+                        <input type="file" />
+                    </div>
+                     
+               </div>
+	            
             </div>
-            
-            Show approved amounts
-            
-            Upload bills by category
-            Enter medicine total cost
-            Enter lab total cost
-            Send to partners
-            or 
-            Send for topup
-            
+      	
+      		<div class="panel panel-info panel-body" ng-show="vm.patient">
+      			<div class="col-xs-12">
+	                <button type="submit" class="btn btn-success pull-left" style="margin-right: 8px;">
+	                    Send to Secretary for Topup Approval
+	                </button>
+	                
+	                <button type="submit" class="btn btn-success pull-left" style="margin-right: 8px;">
+	                    Select Partners
+	                </button>
+	            </div>
+      		</div>
+      		
         </div>
     </div>
 </div>

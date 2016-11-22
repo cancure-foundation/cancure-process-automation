@@ -2,7 +2,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$scope', '$state',
                                                 function (Loader, $scope, $state, $stateParams, apiService, appSettings, $timeout, Flash) {
 
 	var vm = this;
-	
+	vm.documentTypes = ['Lab Test Prescription', 'Medicine Prescription'];
 	var init = function() {
 		vm.noSearchResult = false;
 	};
