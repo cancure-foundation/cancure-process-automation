@@ -2,10 +2,10 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="PatientHospitalVisit" name="Patient Hospital Visit" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="patientVisitInput" name="Patient Visit Input">
+    <userTask id="patientVisitInput" name="Patient Visit Input" activiti:candidateGroups="ROLE_HOSPITAL_POC">
       <documentation>Patient visits Doctor/Hospital. Doctor gives prescription for medicines and labs. Patient meets HPOC.  HPOC saves patient's visit details.</documentation>
     </userTask>
-    <userTask id="topupParmaApprovedAmount" name="Topup Pharma Approved Amount"></userTask>
+    <userTask id="topupParmaApprovedAmount" name="Topup Pharma Approved Amount" activiti:candidateGroups="ROLE_SECRETARY"></userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="patientVisitInput"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow2" sourceRef="patientVisitInput" targetRef="exclusivegateway1"></sequenceFlow>
@@ -14,7 +14,7 @@
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow5" sourceRef="topupParmaApprovedAmount" targetRef="exclusivegateway2"></sequenceFlow>
-    <userTask id="selectPharmacy" name="Select Pharmacy"></userTask>
+    <userTask id="selectPharmacy" name="Select Pharmacy" activiti:candidateGroups="ROLE_HOSPITAL_POC"></userTask>
     <sequenceFlow id="flow6" sourceRef="exclusivegateway2" targetRef="selectPharmacy">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${topupApproved =='TRUE'}]]></conditionExpression>
     </sequenceFlow>
