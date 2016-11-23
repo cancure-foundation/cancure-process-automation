@@ -7,21 +7,16 @@
 <!-- Main content -->
 <div class="content">
     <div class="panel panel-info panel-body" ng-show="settingsList.length > 0">
-        <form name="vm.settList" autocomplete="off">
-            <div class="row" ng-repeat="sett in settingsList | orderBy : 'id'">
-                <div class="input-box col-md-6 col-xs-8">
-                    <label>{{sett.displayName}}
-                        <req>*</req>
-                    </label>
-                    <input type="text" ng-model="sett.value" ng-value="sett.value" required placeholder="Enter {{sett.displayName}}" ng-disabled="!sett.enabled" />
-                </div>
-                <div class="col-md-6 col-xs-4" style="margin-top: 27px;">
-                    <input type="button" class="col-xs-6 btn btn-success" ng-hide="sett.enabled" ng-click="sett.enabled= true;" value="Edit" readonly style="max-width: 100px">
-                    <button type="submit" class="col-xs-6 btn btn-success" ng-show="sett.enabled" ng-click="vm.editSettings(sett);" value="Save" readonly style="max-width: 100px;margin-right: 8px;">
-                        Save
-                    </button>
-                    <input type="button" class="col-xs-6 btn btn-warning" ng-show="sett.enabled" ng-click="sett.enabled= false;" value="Cancel" readonly style="max-width: 100px">
-                </div>
+        <form class="row" name="vm.settList" autocomplete="off">
+            <div class="input-box col-md-6 col-sm-8 col-xs-12" ng-repeat="sett in settingsList | orderBy : 'id'">
+                <label>{{sett.displayName}}
+                    <req style="margin-right:8px;">*</req>
+                    <i class="fa fa-pencil" aria-hidden="true" ng-hide="sett.enabled" ng-click="sett.enabled= true;"></i>
+                    <i class="fa fa-floppy-o" aria-hidden="true" ng-show="sett.enabled" ng-click="vm.editSettings(sett);" style="color: #008d4c;margin-right:5px;"></i>
+                    <i class="fa fa-undo" aria-hidden="true" ng-show="sett.enabled" ng-click="sett.enabled= false;" style="color: #f39c12"></i>
+                </label>
+                <input type="text" ng-model="sett.value" ng-value="sett.value" required placeholder="Enter {{sett.displayName}}" ng-disabled="!sett.enabled" />
+
             </div>
         </form>
     </div>
