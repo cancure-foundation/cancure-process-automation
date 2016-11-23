@@ -116,6 +116,11 @@ insert into settings values (12, 'Background Check Reminder Frequency (Hours)', 
 insert into settings values (13, 'MB Doctor Reminder Frequency (Hours)', '24');
 insert into settings values (14, 'Sectretary Approval Reminder Frequency (Hours)', '24');
 
+insert into account_types values (1, 'Cancure');
+insert into account_types values (2, 'Patient');
+insert into account_types values (3, 'Pharmacy');
+insert into account_types values (4, 'Laboratory');
+insert into account_types values (5, 'Hospital');
 
 insert into ACT_GE_PROPERTY
 values ('schema.version', '5.20.0.1', 1);

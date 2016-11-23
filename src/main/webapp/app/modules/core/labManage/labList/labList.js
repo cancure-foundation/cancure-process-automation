@@ -1,7 +1,9 @@
-core.controller("labListController", ['$scope', '$state', 'Loader', 'apiService', 'appSettings', 
+core.controller("LabListController", ['$scope', '$state', 'Loader', 'apiService', 'appSettings', 
                                            function ($scope, $state, Loader, apiService, appSettings) {
 	var vm = this;
-
+	/**
+	 * 
+	 */
 	var init = function () {
 		Loader.create('Fetching Data. Please wait');
 		apiService.serviceRequest({
@@ -10,9 +12,11 @@ core.controller("labListController", ['$scope', '$state', 'Loader', 'apiService'
 		}, function (response) {
 			Loader.destroy();
 			$scope.labList = response;
-		})
+		});
 	};
-
+	/**
+	 * @id - string
+	 */
 	vm.editLab = function(id){
 		$scope.$parent.vm.currentNavItem  = "app.lab.labCreate";
 		$state.go('app.lab.labCreate', { labId: id });

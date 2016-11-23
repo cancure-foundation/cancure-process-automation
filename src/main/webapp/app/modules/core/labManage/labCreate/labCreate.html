@@ -11,17 +11,17 @@
     
 </script>
 <div class="content" style="padding-top:0px;">
-    <h4 ng-hide="vm.hospitalCreated">
-    	Fill the form to create/edit Hospital.
+    <h4 ng-hide="vm.labCreated">
+    	Fill the form to create/edit Lab.
     	<div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h4>
-    <h4 ng-show="vm.hospitalCreated">Hospital created with the following details.</h4>
-    <div ng-hide="vm.hospitalCreated" class="panel panel-info row">
+    <h4 ng-show="vm.labCreated">Lab created with the following details.</h4>
+    <div ng-hide="vm.labCreated" class="panel panel-info row">
         <div class="panel-body">
-            <form ng-submit="vm.createHospital();" name="vm.registerForm" autocomplete="off">
+            <form ng-submit="vm.createLab();" name="vm.registerForm" autocomplete="off">
                 <div class="col-md-4 col-xs-12 input-box">
-                    <label>Hospital Name <req>*</req></label>
-                    <input type="text" data-ng-model="vm.formData.name" required placeholder="Enter hospital name" />
+                    <label>Lab Name <req>*</req></label>
+                    <input type="text" data-ng-model="vm.formData.name" required placeholder="Enter lab name" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>Address <req>*</req></label>
@@ -33,14 +33,14 @@
                 </div>
                 <div class="col-xs-12 text-center" style="padding: 0px 15px;">
                     <button type="submit" class="btn btn-success" style="margin-right: 8px;">
-                        Save Hospital
+                        Save Lab
                     </button>
                     <input type="clear" class="btn btn-warning" ng-click="vm.formData = {};" value="Clear Form" ng-hide="vm.editMode" readonly>
                 </div>
             </form>
         </div>
     </div>
-    <div ng-show="vm.hospitalCreated" class="panel panel-info" style="padding:15px;">
+    <div ng-show="vm.labCreated" class="panel panel-info" style="padding:15px;">
         <div class="row">
             <div class="col-xs-offset-3 col-xs-6">
                 <table class="table table-bordered" style="margin-bottom: 0px;">
@@ -55,8 +55,8 @@
                 </table>
             </div>
             <div class="col-xs-12 text-center" style="padding-top: 15px;">
-                <button class="btn btn-success" ng-click="vm.formData = {};vm.hospitalCreated=false;">
-                    Register another Hospital
+                <button class="btn btn-success" ng-click="vm.formData = {};vm.labCreated=false;">
+                    Register another Lab
                 </button>
             </div>
         </div>
