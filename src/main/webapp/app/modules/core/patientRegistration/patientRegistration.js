@@ -135,7 +135,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 			if (response && response.length == 0){
 				vm.showForm = true;
 			} else {
-				vm.aadharExist = response[0].prn; 
+				vm.aadharExist = response[0].prn;  
 			}
 		},function (){			
 			Loader.destroy();
