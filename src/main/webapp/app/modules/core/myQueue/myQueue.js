@@ -11,6 +11,7 @@ core.controller("myQueueController", ['$scope', 'Loader', '$state', 'apiService'
 			Loader.destroy();
 		});
 	};
-
+	
 	init();	
+	
 }]);

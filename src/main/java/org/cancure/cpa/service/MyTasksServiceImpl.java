@@ -375,6 +375,10 @@ public class MyTasksServiceImpl implements MyTasksService {
 		if (pidn != null){
 			map.put("pidn", pidn.toString());
 		}
+		Object patientVisitId = processVars.get("patientVisitId");
+		if (patientVisitId != null){
+			map.put("patientVisitId", patientVisitId.toString());
+		}
 		
 		return map;
 	}
