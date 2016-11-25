@@ -16,6 +16,7 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
+import org.cancure.cpa.common.Constants;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.persistence.entity.Doctor;
@@ -60,15 +61,19 @@ public class MyTasksServiceImpl implements MyTasksService {
     private DoctorRepository doctorRepository;
 	
 	@Override
-	public List<Map<String, String>> getMyTasks(List<String> roles, Integer myUserId) {
+	public Map<String, List<Map<String, String>>> getMyTasks(List<String> roles, Integer myUserId) {
 
+		Map<String, List<Map<String, String>>> allProcessMap = new HashMap<>();
+		
 		List<Map<String, String>> list = new ArrayList<>();
 
 		if (roles == null || roles.isEmpty()) {
-			return list;
+			return allProcessMap;
 		}
 
-		List<Task> tasks = taskService.createTaskQuery().includeProcessVariables().orderByTaskCreateTime().asc()
+		List<Task> tasks = taskService.createTaskQuery()
+				.processDefinitionKey(Constants.PATIENT_REG_PROCESS_DEF_KEY)
+				.includeProcessVariables().orderByTaskCreateTime().asc()
 				.taskCandidateGroupIn(roles).list();
 
 		if (myUserId != null) {
@@ -76,7 +81,22 @@ public class MyTasksServiceImpl implements MyTasksService {
 		}
 		list = extractTaskAttributes(tasks);
 
-		return list;
+		allProcessMap.put("PATIENT_REG_PROCESS_DEF_KEY", list);
+		
+		List<Map<String, String>> hospitalVisitList = new ArrayList<>();
+		List<Task> hospitalVisitTasks = taskService.createTaskQuery()
+				.processDefinitionKey(Constants.PATIENT_HOSPITAL_VISIT_DEF_KEY)
+				.includeProcessVariables().orderByTaskCreateTime().asc()
+				.taskCandidateGroupIn(roles).list();
+
+		if (myUserId != null) {
+			hospitalVisitTasks = filterHospitalVisitTasksForRoles(roles, hospitalVisitTasks, myUserId);
+		}
+		
+		hospitalVisitList = extractTaskAttributes(hospitalVisitTasks);
+		
+		allProcessMap.put("PATIENT_HOSPITAL_VISIT_DEF_KEY", hospitalVisitList);
+		return allProcessMap;
 	}
 
 	private List<Task> filterTasksForRoles(List<String> roles, List<Task> tasks, Integer myUserId) {
@@ -95,6 +115,32 @@ public class MyTasksServiceImpl implements MyTasksService {
 					} else {
 						// If the task is not assigned to a specific hospital, show it to all.
 						filteredTasks.add(task);
+					}
+				} else {
+					filteredTasks.add(task);
+				}
+			}
+			
+			return filteredTasks;
+			
+		} else {
+			return tasks;
+		}
+	}
+	
+	private List<Task> filterHospitalVisitTasksForRoles(List<String> roles, List<Task> tasks, Integer myUserId) {
+		if (roles.contains("ROLE_HOSPITAL_POC")){
+			List<Task> filteredTasks = new ArrayList<>();
+			for (Task task: tasks){
+				if ("selectPharmacy".equals(task.getId())){
+					Map<String, Object> processVars = task.getProcessVariables();
+					Object hospitalId = processVars.get("hospitalId");
+					if (hospitalId != null){
+						HpocHospital hpocHosMapping = hpocHospitalService.getHospitalFromHpoc(myUserId);
+						// Show to a HPOC only if the Task is assigned to his hospital.
+						if (hpocHosMapping != null && hpocHosMapping.getHospitalId() == Integer.parseInt(hospitalId.toString())){
+							filteredTasks.add(task);
+						}
 					}
 				} else {
 					filteredTasks.add(task);
@@ -317,12 +363,17 @@ public class MyTasksServiceImpl implements MyTasksService {
 		Map<String, Object> processVars = t.getProcessVariables();
 		Object patientId = processVars.get("prn");
 		Object patientName = processVars.get("patientName");
+		Object pidn = processVars.get("pidn");
 		if (patientId != null) {
 			map.put("prn", patientId.toString());
 		}
 		
 		if (patientName != null){
 			map.put("patientName", patientName.toString());
+		}
+		
+		if (pidn != null){
+			map.put("pidn", pidn.toString());
 		}
 		
 		return map;

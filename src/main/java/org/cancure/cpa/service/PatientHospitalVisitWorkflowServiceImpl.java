@@ -18,7 +18,9 @@ import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
 import org.cancure.cpa.controller.beans.PatientVisitHistoryBean;
 import org.cancure.cpa.controller.beans.TopupStatusBean;
 import org.cancure.cpa.persistence.entity.AccountTypes;
+import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
+import org.cancure.cpa.persistence.entity.Patient;
 import org.cancure.cpa.persistence.entity.PatientApproval;
 import org.cancure.cpa.persistence.entity.PatientVisit;
 import org.cancure.cpa.persistence.entity.PatientVisitDocuments;
@@ -56,23 +58,36 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 	@Autowired
 	private PharmacyService pharmacyService;
 	
+	@Autowired
+    private HpocHospitalService hpocHospitalService;
+	
 	@Value("${spring.files.save.path}")
 	private String fileSavePath;
 
 	@Override
 	@Transactional
-	public String startWorkflow(PatientVisitBean patientVisitBean) throws IOException {
+	public String startWorkflow(PatientVisitBean patientVisitBean, Integer myUserId) throws IOException {
 
+		Integer pidn = patientVisitBean.getPidn();
+		List<PatientBean> patientInDbList = patientService.searchByPidn(pidn);
+		PatientBean patientInDb = patientInDbList.get(0);
+		
+		// Find the hospital of this HPOC.
+		HpocHospital hpocHosMapping = hpocHospitalService.getHospitalFromHpoc(myUserId);
+		Integer hospitalId = hpocHosMapping.getHospitalId();
+		
 		PatientVisit patientVisit = transformPatientBeanToEntity(patientVisitBean);
 
 		patientVisitRepository.save(patientVisit);
 
 		savePatientDocs(patientVisit, patientVisitBean);
 
-		Integer pidn = patientVisitBean.getPidn();
+		
 		Map<String, Object> variables = new HashMap<>();
 		variables.put("pidn", pidn);
+		variables.put("patientName", patientInDb.getName());
 		variables.put("patientVisitId", patientVisit.getId());
+		variables.put("hospitalId", hospitalId);
 
 		patientHospitalVisitService.startPatientHospitalVisitWorkflow(variables, pidn + "", patientVisit.getId());
 

@@ -26,7 +26,7 @@ public class PatientVisitControllerTest {
 	@Autowired
 	PatientVisitController controller;
 	
-	@Test
+	/*@Test
 	public void test() throws IOException {
 		PatientVisitBean bean = new PatientVisitBean();
 		bean.setPidn(1);
@@ -35,13 +35,13 @@ public class PatientVisitControllerTest {
 		bean.setTopupNeeded("TRUE");
 		String res = controller.startPatientHospitalVisit(bean);
 		System.out.println(res);
-	}
+	}*/
 	
 	@Test
 	public void testMyTasks() throws Exception {
 		
 		List<Task> tasks = taskService.createTaskQuery()
-				.processDefinitionKey(Constants.PATIENT_HOSPITAL_VISIT_DEF_KEY)
+				//.processDefinitionKey(Constants.PATIENT_HOSPITAL_VISIT_DEF_KEY)
 				.includeProcessVariables().orderByTaskCreateTime().asc()
 				.taskCandidateGroupIn(Arrays.asList("ROLE_SECRETARY", "ROLE_HOSPITAL_POC")).list();
 		
@@ -50,6 +50,7 @@ public class PatientVisitControllerTest {
 				System.out.println(t);
 			}
 		}
+		
 		
 	}
 

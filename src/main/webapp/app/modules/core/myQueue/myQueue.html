@@ -6,8 +6,12 @@
 <!-- Main content -->
 <div class="content">
     <div class="row">
+    
+    	<div class="col-md-12">
+    	Patient Registration Tasks
+    	</div>
         <div class="col-md-12">
-            <div class="panel panel-info" ng-show="tasks.length > 0">
+            <div class="panel panel-info" ng-show="tasks.PATIENT_REG_PROCESS_DEF_KEY.length > 0">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -19,7 +23,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="task in tasks">
+                        <tr ng-repeat="task in tasks.PATIENT_REG_PROCESS_DEF_KEY">
                             <td class="col-xs-1">{{task.prn}}</td>
                             <td class="col-xs-3">{{task.patientName}}</td>
                             <td class="col-xs-3">{{task.nextTask}}</td>
@@ -29,7 +33,38 @@
                     </tbody>
                 </table>
             </div>
-            <div class="warningText" ng-hide="tasks.length > 0"> You do not have any tasks.</div>
+            <div class="warningText" ng-hide="tasks.PATIENT_REG_PROCESS_DEF_KEY.length > 0"> You do not have any tasks.</div>
+        </div>
+    </div>
+    
+    <div class="row">
+    	<div class="col-md-12">
+    		Patient Hospital Visit Tasks
+    	</div>
+        <div class="col-md-12">
+            <div class="panel panel-info" ng-show="tasks.PATIENT_HOSPITAL_VISIT_DEF_KEY.length > 0">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-1">PIDN</th>
+                            <th class="col-xs-3">Patient Name</th>
+                            <th class="col-xs-3">Next Task</th>
+                            <th class="col-xs-3">Start Time</th>
+                            <th class="col-xs-2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="task in tasks.PATIENT_HOSPITAL_VISIT_DEF_KEY">
+                            <td class="col-xs-1">{{task.pidn}}</td>
+                            <td class="col-xs-3">{{task.patientName}}</td>
+                            <td class="col-xs-3">{{task.nextTask}}</td>
+                            <td class="col-xs-3">{{task.createTime}}</td>
+                            <th class="col-xs-2"><a ui-sref="app.patientRegHistory({ prn: task.prn })">View</a></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="warningText" ng-hide="tasks.PATIENT_HOSPITAL_VISIT_DEF_KEY.length > 0"> You do not have any tasks.</div>
         </div>
     </div>
 </div>

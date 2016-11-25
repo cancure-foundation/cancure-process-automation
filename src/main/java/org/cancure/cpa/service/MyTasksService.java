@@ -10,7 +10,7 @@ public interface MyTasksService {
 	 * @param role
 	 * @return
 	 */
-	List<Map<String, String>> getMyTasks(List<String> roles, Integer myUserId);
+	Map<String, List<Map<String, String>>> getMyTasks(List<String> roles, Integer myUserId);
 	
 	Map<String, String> getNextTask(String prn, String processKey);
 	

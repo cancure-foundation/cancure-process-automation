@@ -10,7 +10,7 @@ import org.cancure.cpa.controller.beans.TopupStatusBean;
 
 public interface PatientHospitalVisitWorkflowService {
 
-	String startWorkflow(PatientVisitBean patientHospitalVisitBean) throws IOException;
+	String startWorkflow(PatientVisitBean patientHospitalVisitBean, Integer userId) throws IOException;
 
 	String topUpApprovedAmount(TopupStatusBean topupBean);
 
