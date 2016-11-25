@@ -17,4 +17,6 @@ public interface PatientHospitalVisitWorkflowService {
 	String selectPartners(List<PatientVisitForwardsBean> forwardList) throws Exception;
 
 	PatientVisitHistoryBean selectPatient(String pidn);
+
+	PatientVisitHistoryBean searchByPatientVisitId(String patientVisitId);
 }

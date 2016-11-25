@@ -95,8 +95,8 @@
                
                <div class="col-xs-12">
                    <span class="section-title"><b>Hospital Visit Documents :</b></span>
-                   <div ng-hide="vm.patient.invoicesList.length > 0" class="empty-text">No Documents available.</div>
-                   <table class="table table-bordered" ng-show="vm.patient.invoicesList.length > 0">
+                   <div ng-hide="vm.patient.patientVisit.patientVisitDocumentsList > 0" class="empty-text">No Documents available.</div>
+                   <table class="table table-bordered" ng-show="vm.patient.patientVisit.patientVisitDocumentsList > 0">
                        <thead>
                            <tr>
                                <th class="col-xs-3">Document Type</th>
@@ -104,38 +104,41 @@
                            </tr>
                        </thead>
                        <tbody>
-                           <tr ng-repeat="item in vm.patient.invoicesList">
-                               <td class="col-xs-3">{{item.date}}</td>
-                               <td class="col-xs-2">{{item.fromAccountTypeId.name}}</td>
+                           <tr ng-repeat="item in vm.patient.patientVisit.patientVisitDocumentsList">
+                               <td class="col-xs-3">{{item.docType}}</td>
+                               <td class="col-xs-2">{{item.docId}}</td>
                            </tr>
                        </tbody>
                    </table>
                </div>
                
-               <div class="col-xs-12">
+               <div class="col-xs-12 col-md-4">
                     <div class="input-box">
                         <label>Additional Amount for Pharmacy
                             <req>*</req>
                         </label>
-                        <input type="text" data-ng-model="vm.formData.name" maxlength="10" required placeholder="Enter Amount"/>
+                        <input type="text" data-ng-model="vm.pharmacyAmount" maxlength="10" required placeholder="Enter Amount"/>
                     </div>
                     <div class="input-box">
                         <label>Additional Amount for Hospital
                             <req>*</req>
                         </label>
-                        <input type="text" data-ng-model="vm.formData.name" maxlength="10" required placeholder="Enter Amount"/>
+                        <input type="text" data-ng-model="vm.hospitalAmount" maxlength="10" required placeholder="Enter Amount"/>
                     </div>
+                    
+                    
                 </div> 
 	           
             </div>
       	
       		<div class="panel panel-info panel-body" ng-show="vm.patient">
       			<div class="col-xs-12">
-	                <button type="submit" class="btn btn-success pull-left" style="margin-right: 8px;">
+	      		
+	                <button type="submit" class="btn btn-success pull-left" ng-click="vm.doTopup(true);"  style="margin-right: 8px;">
 	                    Approve Additional Amount
 	                </button>
 	                
-	                <button type="submit" class="btn btn-success pull-left" style="margin-right: 8px;">
+	                <button type="submit" class="btn btn-success pull-left" ng-click="vm.doTopup(false);" style="margin-right: 8px;">
 	                    Reject Additional Amount
 	                </button>
 	            </div>

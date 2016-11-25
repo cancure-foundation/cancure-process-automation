@@ -4,14 +4,25 @@ import java.util.List;
 
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
 import org.cancure.cpa.persistence.entity.PatientApproval;
+import org.cancure.cpa.persistence.entity.PatientVisit;
 
 public class PatientVisitHistoryBean {
 
 	private PatientBean patientBean;
 	
+	private PatientVisit patientVisit;
+	
 	List<PatientApproval> patientApprovals;
 	
 	List<InvoicesEntity> invoicesList;
+
+	public PatientVisit getPatientVisit() {
+		return patientVisit;
+	}
+
+	public void setPatientVisit(PatientVisit patientVisit) {
+		this.patientVisit = patientVisit;
+	}
 
 	public PatientBean getPatientBean() {
 		return patientBean;

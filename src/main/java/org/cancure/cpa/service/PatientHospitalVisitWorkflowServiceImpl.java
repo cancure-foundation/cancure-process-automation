@@ -240,6 +240,17 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		return null;
 	}
 
+
+	@Override
+	public PatientVisitHistoryBean searchByPatientVisitId(String patientVisitId) {
+		PatientVisit patientVisitBean = patientVisitRepository.findOne(Integer.parseInt(patientVisitId));
+		Integer pidn = patientVisitBean.getPidn();
+		PatientVisitHistoryBean bean = selectPatient(pidn.toString());
+		bean.setPatientVisit(patientVisitBean);
+		return bean;
+	}
+
+	
 	private String getPartnerName(Integer fromAccountTypeId, Integer fromAccountHolderId) {
 		if (fromAccountTypeId == 3) { //Pharmacy
 			Pharmacy phar = pharmacyService.getPharmacy(fromAccountHolderId);
