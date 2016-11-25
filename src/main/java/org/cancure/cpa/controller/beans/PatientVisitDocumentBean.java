@@ -7,7 +7,7 @@ public class PatientVisitDocumentBean {
 	private Long docId;
 	private String docType;
 	private String docPath;
-	private Integer accountTypeId;
+	private Integer accountTypeId; // 3 for pharmacy 4 for Lab
 	private MultipartFile patientVisitFile;
 
 	public MultipartFile getPatientVisitFile() {

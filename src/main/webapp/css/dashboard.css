@@ -118,6 +118,7 @@ body {
 .fixed .right-side {
     margin-top: 50px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 @media (max-width: 767px) {
     .fixed .content-wrapper,
