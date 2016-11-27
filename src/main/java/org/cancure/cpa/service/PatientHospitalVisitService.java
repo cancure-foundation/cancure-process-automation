@@ -2,6 +2,7 @@ package org.cancure.cpa.service;
 
 import static org.cancure.cpa.common.Constants.PATIENT_HOSPITAL_VISIT_DEF_KEY;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.activiti.engine.RuntimeService;
@@ -57,7 +58,7 @@ public class PatientHospitalVisitService {
 
 	public String moveToNextTask(String pidn, Integer patientVisitId, Map<String, Object> activitiVars) {
 
-		String taskId = findTask(pidn + "_" + patientVisitId).getId();
+		String taskId = findTask(pidn + "_" + patientVisitId).get("id");
 		logger.info("Moving Task Id ..." + taskId);
 		// Complete current task
 		taskService.complete(taskId, activitiVars);
@@ -68,13 +69,22 @@ public class PatientHospitalVisitService {
 		logger.info("Closing task for PIDN ..." + pidn + " and patientVisitId " + patientVisitId);
 	}
 
-	private Task findTask(String pidnAndPatientVisitId) {
+	public Map<String, String> findTask(String pidnAndPatientVisitId) {
 		ProcessInstance procInsts = runtimeService.createProcessInstanceQuery()
 				.processDefinitionKey(PATIENT_HOSPITAL_VISIT_DEF_KEY).processInstanceBusinessKey(pidnAndPatientVisitId)
 				.singleResult();
 		Task taskData = taskService.createTaskQuery().processInstanceId(procInsts.getProcessInstanceId())
 				.singleResult();
-
-		return taskData;
+		//taskData.get
+		return extractOneTask(taskData);
 	}
+	
+	private Map<String, String> extractOneTask(Task t){
+		Map<String, String> map = new HashMap<>();
+		map.put("id", t.getId());
+		map.put("taskDefinitionKey", t.getTaskDefinitionKey());
+		map.put("name", t.getName());
+		return map;
+	}
+	
 }

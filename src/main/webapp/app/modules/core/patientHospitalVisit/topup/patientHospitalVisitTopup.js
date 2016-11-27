@@ -22,12 +22,67 @@ core.controller("PatientHospitalVisitTopupController", ['Loader', '$scope', '$st
 			} else {
 				vm.patient = response;
 				vm.noSearchResult = false;
+				if (vm.patient.task.taskDefinitionKey == 'selectPharmacy'){
+					selectPharmacies();
+				}
 			}
 		}, function (fail){
 			Flash.create('danger', fail.message, 'large-text');
 		});
 		
 	};
+	
+	selectPharmacies = function(){
+		apiService.serviceRequest({
+			URL: '/pharmacy/all',
+			method: 'GET',
+			hideErrMsg : true
+		}, function (response) {
+			Flash.dismiss();
+			if (response == null) {
+				vm.noSearchResult = true;
+			} else {
+				vm.pharmacyList = response;
+				vm.noSearchResult = false;
+			}
+		}, function (fail){
+			Flash.create('danger', fail.message, 'large-text');
+		});
+	};
+	
+	vm.submitPharmacy = function() {
+		if (!vm.pharmacyId) {
+			Flash.create('danger', 'Please select a Pharmacy', 'large-text');
+			return;
+		}
+		
+		var serverData = {};
+		var fwd = {};
+		fwd.pidn = vm.patient.patientBean.pidn;
+		fwd.patientVisitId = $stateParams.patientVisitId;
+		fwd.accountTypeId = 3; // Pharmacy
+		fwd.accountHolderId = vm.pharmacyId;
+		serverData.patientVisitForwards = [];
+		serverData.patientVisitForwards.push(fwd);
+		
+		apiService.serviceRequest({
+			URL: '/patientvisit/partners',
+			payLoad: serverData,
+			method: 'POST',
+			hideErrMsg : true
+		}, function (response) {
+			Flash.dismiss();
+			alert(response);
+			if (response == null) {
+				vm.noSearchResult = true;
+			} else {
+				vm.noSearchResult = false;
+			}
+			Flash.create('danger', 'All set', 'large-text');
+		}, function (fail){
+			Flash.create('danger', fail.message, 'large-text');
+		});
+	}
 	
 	vm.doTopup = function(approve){
 		alert(approve);

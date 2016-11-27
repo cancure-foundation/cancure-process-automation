@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import org.activiti.engine.task.Task;
 import org.cancure.cpa.controller.beans.PatientApprovalBean;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
@@ -20,7 +21,6 @@ import org.cancure.cpa.controller.beans.TopupStatusBean;
 import org.cancure.cpa.persistence.entity.AccountTypes;
 import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
-import org.cancure.cpa.persistence.entity.Patient;
 import org.cancure.cpa.persistence.entity.PatientApproval;
 import org.cancure.cpa.persistence.entity.PatientVisit;
 import org.cancure.cpa.persistence.entity.PatientVisitDocuments;
@@ -245,8 +245,12 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 	public PatientVisitHistoryBean searchByPatientVisitId(String patientVisitId) {
 		PatientVisit patientVisitBean = patientVisitRepository.findOne(Integer.parseInt(patientVisitId));
 		Integer pidn = patientVisitBean.getPidn();
+		
+		Map<String, String> task = patientHospitalVisitService.findTask(pidn + "_" + patientVisitBean.getId());
+		
 		PatientVisitHistoryBean bean = selectPatient(pidn.toString());
 		bean.setPatientVisit(patientVisitBean);
+		bean.setTask(task);
 		return bean;
 	}
 

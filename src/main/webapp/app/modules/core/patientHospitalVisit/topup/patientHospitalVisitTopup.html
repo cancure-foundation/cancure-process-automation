@@ -93,7 +93,7 @@
                    </table>
                </div>
                
-               <div class="col-xs-12">
+               <div class="col-xs-12" ng-show="vm.patient.task.taskDefinitionKey">
                    <span class="section-title"><b>Hospital Visit Documents :</b></span>
                    <div ng-hide="vm.patient.patientVisit.patientVisitDocumentsList > 0" class="empty-text">No Documents available.</div>
                    <table class="table table-bordered" ng-show="vm.patient.patientVisit.patientVisitDocumentsList > 0">
@@ -112,7 +112,7 @@
                    </table>
                </div>
                
-               <div class="col-xs-12 col-md-4">
+               <div class="col-xs-12 col-md-4" ng-show="vm.patient.task.taskDefinitionKey == 'topupParmaApprovedAmount'">
                     <div class="input-box">
                         <label>Additional Amount for Pharmacy
                             <req>*</req>
@@ -127,11 +127,33 @@
                     </div>
                     
                     
+                </div>
+                
+                <div class="col-xs-12 col-md-4" ng-show="vm.patient.task.taskDefinitionKey == 'selectPharmacy'">
+                    <div class="input-box">
+                        <label>Select Pharmacy
+                            <req>*</req>
+                        </label>
+                        <select class="form-control" data-ng-model="vm.pharmacyId" required>
+                            <option value="">Select Pharmacy</option>
+                            <option value="{{item.pharmacyId}}" ng-repeat="item in vm.pharmacyList">{{item.name}}</option>
+                        </select>
+                    </div>
+                    
                 </div> 
 	           
             </div>
       	
-      		<div class="panel panel-info panel-body" ng-show="vm.patient">
+      		<div class="panel panel-info panel-body" ng-show="vm.patient.task.taskDefinitionKey == 'selectPharmacy'">
+      			<div class="col-xs-12">
+	      		
+	                <button type="submit" class="btn btn-success pull-left" ng-click="vm.submitPharmacy();"  style="margin-right: 8px;">
+	                   Submit
+	                </button>
+	            </div>
+      		</div>
+      	
+      		<div class="panel panel-info panel-body" ng-show="vm.patient.task.taskDefinitionKey == 'topupParmaApprovedAmount'">
       			<div class="col-xs-12">
 	      		
 	                <button type="submit" class="btn btn-success pull-left" ng-click="vm.doTopup(true);"  style="margin-right: 8px;">
