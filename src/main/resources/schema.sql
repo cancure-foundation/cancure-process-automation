@@ -278,7 +278,8 @@ create table patient_visit_forwards (
 	patient_visit_id number(10) references patient_visit(id),
 	account_type_id number(10) references account_types(id),
 	account_holder_id number(10),
-	date timestamp
+	date timestamp,
+	status varchar(10)
 );
 
 create table patient_visit_documents (

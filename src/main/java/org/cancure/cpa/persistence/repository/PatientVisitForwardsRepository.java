@@ -7,5 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface PatientVisitForwardsRepository extends CrudRepository<PatientVisitForwards, Integer> {
 
-	public List<PatientVisitForwards> findByPidn(String pidn);
+	public List<PatientVisitForwards> findByAccountTypeIdAndAccountHolderIdAndStatus(Integer accountTypeId,
+			Integer accountHolderId, String pidn);
 }

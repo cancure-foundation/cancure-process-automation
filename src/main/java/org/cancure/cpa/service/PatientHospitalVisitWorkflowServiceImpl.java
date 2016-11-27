@@ -202,7 +202,8 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 				actType.setId(forward.getAccountTypeId());
 				fwd.setAccountTypeId(actType);
 				fwd.setPidn(forward.getPidn());
-
+				fwd.setStatus("open");
+				
 				patientVisitForwardsRepository.save(fwd);
 			}
 		} else {

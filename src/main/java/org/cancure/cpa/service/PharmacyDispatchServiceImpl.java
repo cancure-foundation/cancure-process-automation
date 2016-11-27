@@ -12,11 +12,12 @@ public class PharmacyDispatchServiceImpl {
 
 	@Autowired
 	private PatientVisitForwardsRepository forwardsRepository;
-	
-	public void searchPatient(String pidn) {
-		
-		List<PatientVisitForwards> forwards = forwardsRepository.findByPidn(pidn);
-		
+
+	public void searchForwards(Integer accountTypeId, Integer accountHolderId, String status) {
+
+		List<PatientVisitForwards> forwards = forwardsRepository
+				.findByAccountTypeIdAndAccountHolderIdAndStatus(accountTypeId, accountHolderId, status);
+
 	}
-	
+
 }

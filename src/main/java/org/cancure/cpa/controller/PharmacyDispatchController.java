@@ -40,6 +40,8 @@ public class PharmacyDispatchController {
 			UserBean user = userService.getUserByLogin(login);
 			Integer userId = user.getId();
 			
+			
+			
 			return null;
 		} else {
 			throw new RuntimeException("Not logged in");
