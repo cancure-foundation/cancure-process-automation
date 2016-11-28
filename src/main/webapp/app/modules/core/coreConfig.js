@@ -55,7 +55,6 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
     
-<<<<<<< HEAD
     $stateProvider.state('app.patientHospitalVisit', {
         url: '/patientHospitalVisit',
         templateUrl: 'app/modules/core/patientHospitalVisit/patientHospitalVisit.html',
@@ -75,9 +74,7 @@ core.config(["$stateProvider", function ($stateProvider) {
             pageTitle: 'Patient Hospital Visit Topup'
         }
     });
-    
-=======
->>>>>>> refs/remotes/origin/master
+
     $stateProvider.state('app.patientRegNextAction', {
         url: '/patientRegNextAction/:prn',
         templateUrl: 'app/modules/core/patientRegNextAction/patientRegNextAction.html',
