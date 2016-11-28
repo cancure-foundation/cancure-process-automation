@@ -2,15 +2,15 @@
     document.getElementById('dobpicker').max = new Date().toISOString().substring(0, 10);
     // function to validate contact number
     function validatephone(evt) {
-    	evt = (evt) ? evt : window.event;
+        evt = (evt) ? evt : window.event;
         var charCode = (evt.which) ? evt.which : evt.keyCode;
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
             return false;
         }
         return true;
-    }
-    
+    } 
 </script>
+
 <div class="patientRegistrationFamily">
     <form data-ng-submit="vm.submitForm();" name="vm.patientRegisterForm" autocomplete="off">
         <div class="content-header clearfix">
@@ -19,14 +19,33 @@
        		<div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     	</h1>
             <div class="pull-right">
-                <button type="submit" class="btn btn-success" style="margin-right: 8px;">
+                <button type="submit" class="btn btn-success" style="margin-right: 8px;" ng-show="vm.showForm">
                     Register
                 </button>
-                <input type="clear" class="btn btn-warning" ng-click="vm.initializeVars();" value="Clear Form" readonly>
+                <input type="clear" class="btn btn-warning" ng-click="vm.initializeVars();" value="Clear Form" readonly ng-show="vm.showForm">
+            </div>
+        </div>
+        <div class="row" style="padding: 15px;padding-bottom: 0px;">
+            <div class="col-xs-12 col-md-4">
+                <div class="input-box">
+                    <label>Aadhar Card Number
+                        <req>*</req>
+                    </label>
+                    <input type="text" id="patientReg-aadhar" data-ng-model="vm.formData.aadharNo" ng-disabled="vm.showForm" maxlength="12" placeholder="Enter card number" onkeypress="return validatephone(event);" />
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <div class="input-box" style="margin-top: 25px;">
+                    <input type="text" class="btn btn-warning" ng-click="vm.validateAadhar();" value="Validate Aadhar" readonly ng-hide="vm.showForm">
+                </div>
+            </div>
+            <div class="col-xs-12 warningText" style="margin-top: 0;text-align: left;">
+                <span style="color:red" ng-show="vm.aadharReqErr">Please enter a valid Aadhar Card number.</span>
+                <span ng-show="vm.aadharExist">Patient already registered with <b> <a ui-sref="app.patientRegHistory({ prn: vm.aadharExist })">PRN : {{vm.aadharExist}}</a></b></span>
             </div>
         </div>
         <!-- Main content -->
-        <div class="content">
+        <div class="content" ng-show="vm.showForm">
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-info">
@@ -40,7 +59,7 @@
                                         <label>Patient Name
                                             <req>*</req>
                                         </label>
-                                        <input type="text" data-ng-model="vm.formData.name" maxlength="100" required placeholder="Enter patient name" ng-disabled="vm.editMode"/>
+                                        <input type="text" data-ng-model="vm.formData.name" maxlength="100" required placeholder="Enter patient name" ng-disabled="vm.editMode" />
                                     </div>
                                     <div class="input-box">
                                         <label>Gender
@@ -67,7 +86,7 @@
                                         <label>Date of Birth
                                             <req>*</req>
                                         </label>
-                                        <input id="dobpicker" type="date" data-ng-model="vm.formData.dob" required placeholder="Enter patient dob" onkeydown="return false;" ng-disabled="vm.editMode"/>
+                                        <input id="dobpicker" type="date" data-ng-model="vm.formData.dob" required placeholder="Enter patient dob" onkeydown="return false;" ng-disabled="vm.editMode" />
                                     </div>
                                     <div class="input-box">
                                         <label>Blood Group
@@ -134,7 +153,7 @@
                                     <label>Assets Owned
                                         <req>*</req>
                                     </label>
-                                    <input type="text" data-ng-model="vm.formData.assetsOwned" maxlength="150" required placeholder="Enter patient assets" ng-disabled="vm.editMode"/>
+                                    <input type="text" data-ng-model="vm.formData.assetsOwned" maxlength="150" required placeholder="Enter patient assets" ng-disabled="vm.editMode" />
                                 </div>
                                 <div class="col-md-4 col-sm-12">
                                     <md-input-container class="md-icon-float md-block">
@@ -148,18 +167,18 @@
                                         <req>*</req>
                                     </label>
                                     <div class="input-group">
-                                    	<div class="input-group-addon">₹</div>
-                                        <input type="text" data-ng-model="vm.formData.patientIncome" maxlength="10" onkeypress="return validatephone(event);" ng-required="vm.formData.employmentStatus=='Employed' || vm.formData.solebreadwinner" placeholder="Enter patient income" ng-disabled="vm.editMode"/>
-                                    </div> 
+                                        <div class="input-group-addon">₹</div>
+                                        <input type="text" data-ng-model="vm.formData.patientIncome" maxlength="10" onkeypress="return validatephone(event);" ng-required="vm.formData.employmentStatus=='Employed' || vm.formData.solebreadwinner" placeholder="Enter patient income" ng-disabled="vm.editMode" />
+                                    </div>
                                 </div>
                             </div>
-                             <div class="row">
+                            <div class="row">
                                 <div class="col-md-4 col-sm-12 input-box">
                                     <label>Estimated Total Income</label>
                                     <div class="input-group">
-                                    	<div class="input-group-addon">₹</div>
+                                        <div class="input-group-addon">₹</div>
                                         <input type="text" data-ng-model="vm.formData.totalIncome" disabled />
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -238,7 +257,7 @@
                                 <input type="text" data-ng-model="vm.formData.diagnosis" maxlength="100" placeholder="Enter details" />
                             </div>
                             <div class="input-box col-sm-12 col-md-4">
-                            	<label>Doctor's comments</label>
+                                <label>Doctor's comments</label>
                                 <textarea rows="5" cols="5" data-ng-model="vm.formData.doctorComments" maxlength="500"></textarea>
                             </div>
                             <div class="col-sm-12 col-md-4 file-upload">
@@ -267,7 +286,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4 col-sm-12">
-                    <div class="panel panel-danger" style="height: 407px;">
+                    <div class="panel panel-danger" style="height: 316px;">
                         <div class="panel-heading">
                             Bystander Details
                         </div>
@@ -291,7 +310,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <div class="panel panel-danger" style="height: 407px;">
+                    <div class="panel panel-danger" style="height: 316px;">
                         <div class="panel-heading">
                             Other Details
                         </div>
@@ -318,13 +337,14 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-12 supportingDocs">
-                    <div class="panel panel-danger" style="height: 407px;">
+                    <div class="panel panel-danger" style="height: 316px;">
                         <div class="panel-heading">
                             Supporting Documents
                         </div>
                         <div class="panel-body">
                             <md-content class="autoScroll">
                                 <fieldset style="padding-bottom: 0px !important;">
+<<<<<<< HEAD
                                     <legend>Aadhar Card Details</legend>                                   
 	                                    <div class="input-box">
 	                                        <label>Card Number
@@ -338,6 +358,21 @@
 	                                        </label>
                                     		<input id="patientReg-ageProof" type="file" aria-label="ageProof" onchange="angular.element(this).scope().vm.formData.ageProofFile = this.files[0]" required/>
                                     	</div>
+=======
+                                    <legend>Aadhar Card Details</legend>
+                                    <!-- <div class="input-box">
+                                        <label>Card Number
+                                            <req>*</req>
+                                        </label>
+                                        <input type="text" data-ng-model="vm.formData.aadharNo" maxlength="12" placeholder="Enter name" required onkeypress="return validatephone(event);" />
+                                    </div> -->
+                                    <div class="input-box">
+                                        <label>Aadhar Photo
+                                            <req>*</req>
+                                        </label>
+                                        <input id="patientReg-ageProof" type="file" aria-label="ageProof" onchange="angular.element(this).scope().vm.formData.ageProofFile = this.files[0]" required/>
+                                    </div>
+>>>>>>> refs/remotes/origin/master
                                 </fieldset>
                                 <fieldset style="margin-bottom: 0px !important;">
                                     <legend>Income Proof Details</legend>
@@ -400,7 +435,9 @@
                         </div>
                         <div class="panel-body">
                             <div class="col-md-4 col-xs-12 input-box" style="padding: 0 15px 0 0;">
-                                <label>Select Hospital <req>*</req></label>
+                                <label>Select Hospital
+                                    <req>*</req>
+                                </label>
                                 <select class="form-control" data-ng-model="vm.formData.preliminaryExamHospitalId" ng-change="vm.onHospitalChange();" required>
                                     <option value="">Select Hospital</option>
                                     <option value="{{item.hospitalId}}" ng-repeat="item in vm.hospitalList" ng-selected="vm.formData.preliminaryExamHospitalId==item.hospitalId">{{item.name}}</option>

@@ -29,6 +29,9 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td class="text-center" colspan="2"><b>PRN : {{vm.patientDetails.prn}}</b> <b ng-show="vm.patientDetails.pidn"> | PIDN : {{vm.patientDetails.pidn}}</b></td>
+                                        </tr>
+                                        <tr>
                                             <td class="fieldName">Age</td>
                                             <td class="fieldValue">{{vm.patientDetails.age}}</td>
                                         </tr>
@@ -41,18 +44,37 @@
                                             <td class="fieldValue">{{vm.patientDetails.contact}}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2" style="text-align: center;">
+                                            <td colspan="3" class="text-center"><b>Patient Total Income :{{vm.patientDetails.totalIncome | currency:'₹'}}</b></td>
+                                        </tr>
+                                        <tr ng-show="vm.patientDetails.hospitalCostEstimate && vm.patientDetails.medicalCostEstimate">
+                                            <td colspan="1" class="text-center"><b>Estimated Costs</b></td>
+                                            <td colspan="3" class="text-center">
+                                                <b>
+                                            		Hospital : {{vm.patientDetails.hospitalCostEstimate | currency:'₹'}} 
+                                            		<br>
+                                            		Medicine : {{vm.patientDetails.medicalCostEstimate | currency:'₹'}} 
+                                            	</b
+                                            ></td>
+                                        </tr>
+                                        <tr ng-show="vm.abc">
+                                            <td  colspan="1"  class="text-center"><b>Approved Amount</b></td>
+                                            <td colspan="3" class="text-center">
+                                                <b>
+                                            		Hospital :  {{vm.patientDetails.hospitalCostEstimate | currency:'₹'}} 
+                                            		<br>
+                                            		Medicine : {{vm.patientDetails.medicalCostEstimate | currency:'₹'}} 
+                                            	</b
+                                            ></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="text-align: center;">
                                                 <span ng-click="vm.viewMorePtDetails()">
 					                                View More details 
 					                                <i ng-show="vm.isExpandedInfo" class="fa fa-plus-square" aria-hidden="true"></i>
 					                                <i ng-hide="vm.isExpandedInfo" class="fa fa-minus-square" aria-hidden="true"></i>
 					                            </span>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center"><b>Patient Total Income : ₹ {{vm.patientDetails.totalIncome}}</b></td>
-                                            <td class="text-center" colspan="2"><b>PRN : {{vm.patientDetails.prn}}</b> <b ng-show="vm.patientDetails.pidn"> | PIDN : {{vm.patientDetails.pidn}}</b></td>
-                                        </tr>
+                                        </tr>                                      
                                     </table>
                                 </div>
                             </div>
@@ -63,100 +85,101 @@
                                     <div class="col-xs-12 infoDiv">
                                         <span class="section-title col-xs-12">Basic Details</span>
                                         <div class="col-md-4 col-xs-6"><b>Date of Birth:&nbsp</b> &nbsp{{vm.patientDetails.dobString || "--"}} </div>
-                                        <div class="col-md-4 col-xs-6"><b>Blood Group:&nbsp</b> &nbsp{{vm.patientDetails.bloodGroup || "--"}} </div>
-                                        <div class="col-md-4 col-xs-6"><b>Marital Status : </b> &nbsp{{vm.patientDetails.maritalStatus || "--"}} </div>
-                                        <div class="col-md-4 col-xs-6"><b>Employment Status : </b> &nbsp{{vm.patientDetails.employmentStatus || "--"}} </div>
-                                        <div class="col-md-4 col-xs-6"><b>Type of Support : </b> &nbsp{{vm.patientDetails.typeOfSupport || "--"}} </div>
-                                        <div class="col-md-4 col-xs-6"><b>Sole Bread Winner : </b> &nbsp{{vm.patientDetails.solebreadwinner || "--"}} </div>
-                                        <div class="col-md-4 col-xs-6"><b>Assets Owned : </b> &nbsp{{vm.patientDetails.assetsOwned || "--"}} </div>
-                                    </div>
-
-                                    <!-- bystander details -->
-                                    <div class="col-xs-12 infoDiv">
-                                        <span class="section-title col-xs-12">Bystander Details</span>
-                                        <div class="col-md-4 col-xs-6"><b>Bystander Name :&nbsp</b> &nbsp{{vm.patientDetails.bystanderName || "--"}} </div>
-                                        <div class="col-md-4 col-xs-6"><b>Bystander Relation: </b> &nbsp{{vm.patientDetails.bystanderRelation || "--"}} </div>
-                                        <div class="col-md-4 col-xs-6"><b>Bystander Contact : </b> &nbsp{{vm.patientDetails.bystanderContact || "--"}} </div>
-                                    </div>
-
-                                    <!-- support family details -->
-                                    <div class="col-xs-12">
-                                        <span class="section-title">Family Details</span>
-                                        <div ng-hide="vm.patientFamily.length > 0" class="empty-text">No family members added.</div>
-                                        <table class="table table-bordered" ng-show="vm.patientFamily.length > 0">
-                                            <thead>
-                                                <tr>
-                                                    <th class="col-xs-3">Relation</th>
-                                                    <th class="col-xs-2">Age</th>
-                                                    <th class="col-xs-3">Status</th>
-                                                    <th class="col-xs-2">Income</th>
-                                                    <th class="col-xs-2">Other Income</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="item in vm.patientFamily">
-                                                    <td class="col-xs-3">{{item.relation}}</td>
-                                                    <td class="col-xs-2">{{item.age}}</td>
-                                                    <td class="col-xs-3">{{item.status}}</td>
-                                                    <td class="col-xs-2">{{item.income}}</td>
-                                                    <td class="col-xs-2">{{item.otherIncome}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <!-- support orgs -->
-                                    <div class="col-md-6 col-xs-12">
-                                        <span class="section-title">Support Organisation details</span>
-                                        <div ng-hide="vm.supportOrg.length > 0" class="empty-text">No support organisations added.</div>
-                                        <table class="table table-bordered" ng-show="vm.supportOrg.length > 0">
-                                            <thead>
-                                                <tr>
-                                                    <th class="col-md-4 col-xs-4">Name</th>
-                                                    <th class="col-md-2 col-xs-2">Amount Received</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="item in vm.supportOrg">
-                                                    <td class="col-md-4 col-xs-4">{{item.name}}</td>
-                                                    <td class="col-md-2 col-xs-2">{{item.amountRec}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <!-- other docs -->
-                                    <div class="col-md-8 col-xs-12">
-                                        <span class="section-title">Other documents</span>
-                                        <div ng-hide="vm.otherDouments.length > 0" class="empty-text">No additional documents uploaded.</div>
-                                        <table class="table table-bordered" ng-show="vm.otherDouments.length > 0">
-                                            <thead>
-                                                <tr>
-                                                    <th class="col-md-3 col-xs-4">Document Category</th>
-                                                    <th class="col-md-4 col-xs-4">Document Type</th>
-                                                    <th class="col-md-1 col-xs-4">Download</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="item in vm.otherDouments">
-                                                    <td class="col-md-3 col-xs-4">{{item.docCategory}}</td>
-                                                    <td class="col-md-4 col-xs-4">{{item.docType}}</td>
-                                                    <td class="col-md-1 col-xs-4"><a href="{{item.docSrc}}">view</a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </fieldset>
+                                <div class="col-md-4 col-xs-6"><b>Blood Group:&nbsp</b> &nbsp{{vm.patientDetails.bloodGroup || "--"}} </div>
+                                <div class="col-md-4 col-xs-6"><b>Marital Status : </b> &nbsp{{vm.patientDetails.maritalStatus || "--"}} </div>
+                                <div class="col-md-4 col-xs-6"><b>Employment Status : </b> &nbsp{{vm.patientDetails.employmentStatus || "--"}} </div>
+                                <div class="col-md-4 col-xs-6"><b>Type of Support : </b> &nbsp{{vm.patientDetails.typeOfSupport || "--"}} </div>
+                                <div class="col-md-4 col-xs-6"><b>Sole Bread Winner : </b> &nbsp{{vm.patientDetails.solebreadwinner || "--"}} </div>
+                                <div class="col-md-4 col-xs-6"><b>Assets Owned : </b> &nbsp{{vm.patientDetails.assetsOwned || "--"}} </div>
                             </div>
+
+                            <!-- bystander details -->
+                            <div class="col-xs-12 infoDiv">
+                                <span class="section-title col-xs-12">Bystander Details</span>
+                                <div class="col-md-4 col-xs-6"><b>Bystander Name :&nbsp</b> &nbsp{{vm.patientDetails.bystanderName || "--"}} </div>
+                                <div class="col-md-4 col-xs-6"><b>Bystander Relation: </b> &nbsp{{vm.patientDetails.bystanderRelation || "--"}} </div>
+                                <div class="col-md-4 col-xs-6"><b>Bystander Contact : </b> &nbsp{{vm.patientDetails.bystanderContact || "--"}} </div>
+                            </div>
+
+                            <!-- support family details -->
+                            <div class="col-xs-12">
+                                <span class="section-title">Family Details</span>
+                                <div ng-hide="vm.patientFamily.length > 0" class="empty-text">No family members added.</div>
+                                <table class="table table-bordered" ng-show="vm.patientFamily.length > 0">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-xs-3">Relation</th>
+                                            <th class="col-xs-2">Age</th>
+                                            <th class="col-xs-3">Status</th>
+                                            <th class="col-xs-2">Income</th>
+                                            <th class="col-xs-2">Other Income</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in vm.patientFamily">
+                                            <td class="col-xs-3">{{item.relation}}</td>
+                                            <td class="col-xs-2">{{item.age}}</td>
+                                            <td class="col-xs-3">{{item.status}}</td>
+                                            <td class="col-xs-2">{{item.income}}</td>
+                                            <td class="col-xs-2">{{item.otherIncome}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- support orgs -->
+                            <div class="col-md-6 col-xs-12">
+                                <span class="section-title">Support Organisation details</span>
+                                <div ng-hide="vm.supportOrg.length > 0" class="empty-text">No support organisations added.</div>
+                                <table class="table table-bordered" ng-show="vm.supportOrg.length > 0">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-4 col-xs-4">Name</th>
+                                            <th class="col-md-2 col-xs-2">Amount Received</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in vm.supportOrg">
+                                            <td class="col-md-4 col-xs-4">{{item.name}}</td>
+                                            <td class="col-md-2 col-xs-2">{{item.amountRec}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- other docs -->
+                            <div class="col-md-8 col-xs-12">
+                                <span class="section-title">Other documents</span>
+                                <div ng-hide="vm.otherDouments.length > 0" class="empty-text">No additional documents uploaded.</div>
+                                <table class="table table-bordered" ng-show="vm.otherDouments.length > 0">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-3 col-xs-4">Document Category</th>
+                                            <th class="col-md-4 col-xs-4">Document Type</th>
+                                            <th class="col-md-1 col-xs-4">Download</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in vm.otherDouments">
+                                            <td class="col-md-3 col-xs-4">{{item.docCategory}}</td>
+                                            <td class="col-md-4 col-xs-4">{{item.docType}}</td>
+                                            <td class="col-md-1 col-xs-4"><a href="{{item.docSrc}}">view</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </fieldset>
                         </div>
                     </div>
-                    <li class="time-label" ng-if="vm.regDetails">
-                        <span ng-class="(vm.regDetails.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
+        </div>
+        <li class="time-label" ng-if="vm.regDetails">
+            <span ng-class="(vm.regDetails.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
                         	{{vm.regDetails.createTime}}
                     	</span>
-                    </li>
-                </li>
+        </li>
+        </li>
 
+<<<<<<< HEAD
                 <li ng-repeat="task in vm.tasks" class="otherTasks">
                     <div class="timeline-item">
                         <div class="timeline-header">
@@ -210,40 +233,95 @@
                                     </table>
                                 </div>
                             </div>
+=======
+        <li ng-repeat="task in vm.tasks" class="otherTasks">
+            <div class="timeline-item">
+                <div class="timeline-header">
+                    <div class="title">{{task.nextTask}}</div>
+                    <div class="sub-title">{{task.description}}</div>
+                </div>
+                <div class="timeline-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div ng-hide="task.investigation" class="empty-text">No Investigation Comments available.</div>
+                            <table class="table table-bordered" ng-show="task.investigation">
+                                <thead>
+                                    <tr>
+                                        <th class="col-xs-3">Investigator Name</th>
+                                        <th class="col-xs-2">Investigator Type</th>
+                                        <th class="col-xs-2">Investigation Date</th>
+                                        <th class="col-xs-3">Comments</th>
+                                        <th class="col-xs-2">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="col-xs-3">{{task.investigation.investigatorName}}</td>
+                                        <td class="col-xs-2">{{task.investigation.investigatorType}}</td>
+                                        <td class="col-xs-2">{{task.investigation.investigationDate}}</td>
+                                        <td class="col-xs-3" style="word-break: break-all; white-space: pre-line;">{{task.investigation.comments || "Not Available"}}</td>
+                                        <td class="col-xs-2">{{task.investigation.status || "Not Applicable"}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+>>>>>>> refs/remotes/origin/master
                         </div>
                     </div>
-                    <div class="time-label">
-                        <span class="bg-green-gradient">
+                    <div class="row">
+                        <div class="col-md-8 col-xs-12">
+                            <div ng-hide="task.documents.length > 0" class="empty-text">No additional documents uploaded.</div>
+                            <table class="table table-bordered" ng-show="task.documents.length > 0">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-3 col-xs-4">Document Category</th>
+                                        <th class="col-md-4 col-xs-4">Document Type</th>
+                                        <th class="col-md-1 col-xs-4">Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in task.documents">
+                                        <td class="col-md-3 col-xs-4">{{item.docCategory}}</td>
+                                        <td class="col-md-4 col-xs-4">{{item.docType}}</td>
+                                        <td class="col-md-1 col-xs-4"><a href="files/{{item.docId}}">view</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="time-label">
+                <span class="bg-green-gradient">
                         	{{task.endTime}}
                     	</span>
-                    </div>
-                </li>
+            </div>
+        </li>
 
-                <li>
-                    <i class="fa fa-clock-o bg-gray"></i>
-                </li>
-                <li ng-if="vm.nextTask">
-                    <div class="timeline-item">
-                        <div class="timeline-body">
-                            <div class="text-center nextTask" ng-if="vm.nextTask.name && !vm.patientReject">
-                                <div class="title"> Next Step : <b>{{vm.nextTask.name}} </b></div>
-                                <div class="sub-title"> ({{vm.nextTask.description}}) </div>
-                                <span class="goto" ng-click="vm.nextAction()" ng-show="vm.nextAction(true)"> GO </span>
-                            </div>
-                            <div class="text-center nextTask" ng-if="vm.patientReject">
-                                Application has been rejected.
-                            </div>
-                            <div class="text-center nextTask" ng-if="vm.patientDetails.pidn">
-                                <span class="goto"> 
+        <li>
+            <i class="fa fa-clock-o bg-gray"></i>
+        </li>
+        <li ng-if="vm.nextTask">
+            <div class="timeline-item">
+                <div class="timeline-body">
+                    <div class="text-center nextTask" ng-if="vm.nextTask.name && !vm.patientReject">
+                        <div class="title"> Next Step : <b>{{vm.nextTask.name}} </b></div>
+                        <div class="sub-title"> ({{vm.nextTask.description}}) </div>
+                        <span class="goto" ng-click="vm.nextAction()" ng-show="vm.nextAction(true)"> GO </span>
+                    </div>
+                    <div class="text-center nextTask" ng-if="vm.patientReject">
+                        Application has been rejected.
+                    </div>
+                    <div class="text-center nextTask" ng-if="vm.patientDetails.pidn">
+                        <span class="goto"> 
                                 	<a href="files/idcard/{{vm.patientDetails.prn}}" style="color:white">Download ID Card</a>  
                                 	<i class="fa fa-arrow-circle-down" aria-hidden="true"></i>                                	
                                 </span>
-                            </div>
-                        </div>
-
                     </div>
-                </li>
-            </ul>
-        </div>
+                </div>
+
+            </div>
+        </li>
+        </ul>
     </div>
+</div>
 </div>

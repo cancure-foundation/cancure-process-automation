@@ -21,7 +21,6 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 			if (response.tasks[0]) {
 				vm.regDetails = response.tasks[0];
 				vm.patientDetails = vm.regDetails.patient;
-				vm.patientDetails.totalIncome = vm.patientDetails.totalIncome.toLocaleString();
 				vm.regDocument = vm.patientDetails.document;
 				vm.patientFamily = [];
 				vm.supportOrg = [];
