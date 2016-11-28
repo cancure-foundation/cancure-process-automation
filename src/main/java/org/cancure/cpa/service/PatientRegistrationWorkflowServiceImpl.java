@@ -98,7 +98,6 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
 	            patientDocument.setTaskId(taskId);
 	        }
         }
-        patientService.updateCostEstimate(patientInvestigationBean.getHospitalCostEstimate(), patientInvestigationBean.getMedicalCostEstimate(), Integer.parseInt(patientInvestigationBean.getPrn()));
         patientInvestigationService.savePatientExamination(patientInvestigationBean, patientDocumentBean);
 
     }
