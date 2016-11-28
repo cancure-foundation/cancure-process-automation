@@ -106,13 +106,6 @@ create table user_role (
  	enabled boolean
  );
  
-    create table lab (
- 	lab_id int(10) primary key auto_increment,
- 	name varchar(100),
- 	address varchar(200),
- 	contact varchar(25),
- 	enabled boolean
- );
 
   create table hpoc_hospital (
     hpoc_id int(10),
@@ -120,18 +113,6 @@ create table user_role (
     unique (hpoc_id, hospital_id)
  );
 
-   create table ppoc_pharmacy (
-    ppoc_id int(10) primary key,
-    pharmacy_id int(10),
-    unique (ppoc_id, pharmacy_id)
- );
- 
-  create table lpoc_lab (
-    lpoc_id int(10) primary key,
-    lab_id int(10),
-    unique (lpoc_id, lab_id)
- );
- 
   create table doctor (
  	doctor_id int(10) primary key auto_increment,
  	name varchar(100),
@@ -180,9 +161,7 @@ create table patient(
 	total_income int(10),
 	aadhar_no varchar(12),
 	preliminary_exam_doctor_id int(10) references doctor(doctor_id),
-	preliminary_exam_hospital_id int(10) references hospital(hospital_id),
-	hospital_cost_estimate int(10),
-	medical_cost_estimate int(10)
+	preliminary_exam_hospital_id int(10) references hospital(hospital_id)
 );
 
 create table support_organisations (
@@ -251,7 +230,7 @@ create table account_types (
 
 create table journal(
 	id int(10) primary key auto_increment,
-	date timestamp,
+	date date,
 	from_account_type_id int(10) references account_types(id),
 	from_account_holder_id int(10), 
 	to_account_type_id int(10) references account_types(id),
@@ -259,9 +238,18 @@ create table journal(
 	amount decimal(10,2)
 );
 
+create table approvals (
+	id int(10) primary key auto_increment,
+	date date,
+	pidn int(10) references pidn_generator(pidn),
+	amount decimal(10,2),
+	approved_for_account_type int(10) references account_types(id),
+	expiry_date date
+);
+
 create table invoices (
 	id int(10) primary key auto_increment,
-	date timestamp,
+	date date,
 	pidn int(10) references pidn_generator(pidn),
 	from_account_type_id int(10) references account_types(id),
 	from_account_holder_id int(10), 
@@ -269,11 +257,12 @@ create table invoices (
 	to_account_holder_id int(10),
 	amount decimal(10,2),
 	status varchar(10),
-	closed_date timestamp,
+	closed_date date,
 	balance_amount int(10),
-	partner_bill_no int(10),
-	partner_bill_amount decimal(10,2)
+	bill_no int(10),
+	bill_amount decimal(10,2)
 ); 
+<<<<<<< HEAD
 
 create table patient_visit (
 	id int(10) primary key auto_increment,
@@ -312,6 +301,9 @@ create table patient_visit_documents (
 	doc_path varchar(250)
 );
 
+=======
+ 
+>>>>>>> refs/remotes/origin/master
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),

@@ -168,12 +168,6 @@ public class PatientServiceImpl implements PatientService {
             patientBeanList.add(patientBean);
         }
         return patientBeanList;
-    }
-
-    @Override
-    public int updateCostEstimate(Integer hospitalCostEstimate, Integer medicalCostEstimate, Integer prn) {
-
-        return patientRepo.updateCost(hospitalCostEstimate, medicalCostEstimate, prn);
     }    
 	
 }

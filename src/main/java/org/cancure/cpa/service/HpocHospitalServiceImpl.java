@@ -1,13 +1,10 @@
 package org.cancure.cpa.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.cancure.cpa.controller.beans.HpocHospitalBean;
 import org.cancure.cpa.controller.beans.UserBean;
-import org.cancure.cpa.persistence.entity.Hospital;
 import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.persistence.repository.HpocHospitalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +18,6 @@ public class HpocHospitalServiceImpl implements HpocHospitalService {
 	
     @Autowired
     private HpocHospitalRepository hpocHospitalRepo;
-    
-    @Autowired
-    private HospitalService hospitalService;
     
     @Override
     public HpocHospital saveHpocHospital(HpocHospital hpocHospital) {
@@ -90,21 +84,6 @@ public class HpocHospitalServiceImpl implements HpocHospitalService {
         }
         return hpocHospital;
         }*/return null;
-    }
-
-    @Override
-    public Map<String, Object> listAllHpocHospital() {
-        Map<Integer, List<UserBean>> parentMap = new HashMap<>();
-        Map<String, Object> map = new HashMap<>();
-        Iterable<Hospital> list = hospitalService.listHospitals();
-        for (Hospital hospital : list) {
-            List<UserBean> userBeanList = new ArrayList<>();
-            userBeanList = getHpocUsersFromHospital(hospital.getHospitalId());
-            parentMap.put(hospital.getHospitalId(), userBeanList);
-        }
-        map.put("Hospitals", list);
-        map.put("HospitalMappings", parentMap);
-        return map;
     }
 
 }
