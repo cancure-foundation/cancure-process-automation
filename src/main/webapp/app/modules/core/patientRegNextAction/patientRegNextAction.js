@@ -14,7 +14,7 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 	 *  /patientregistration/Patientidcard/ ROLE_PROGRAM_COORDINATOR
 	 */
 	var init = function() {
-		Loader.create('Fetching Data. Please wait');
+		Loader.create('Fetching Data... Please wait..');
 		apiService.serviceRequest({
 			URL: 'tasks/' + $stateParams.prn
 		}, function (response) {
@@ -43,6 +43,10 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 				if ($scope.nextTaskObject.nextTask == 'Preliminary Examination') {
 					$scope.uploadNeeded = true;
 					vm.isPrelimEx = true;
+				}
+				if ($scope.nextTaskObject.nextTask == 'MB Doctor Approval') {					
+					vm.isMBDoc = true;
+					vm.formData.people = response[0].doctorId.toString();
 				}
 			});
 
@@ -117,11 +121,7 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 		fd.append(prefix + "prn", $scope.prn);
 		fd.append(prefix + "investigatorId", vm.formData.people);
 		fd.append(prefix + "comments", vm.formData.comments);
-		// checks if the step needs estimate costs to be captured
-		if (vm.formData.medicalCostEstimate && vm.formData.hospitalCostEstimate){
-			fd.append(prefix + "medicalCostEstimate", vm.formData.medicalCostEstimate);
-			fd.append(prefix + "hospitalCostEstimate", vm.formData.hospitalCostEstimate);
-		}
+
 
 		if (vm.patientFile && vm.patientFile.length > 0) {
 			for (var i = 0; i < vm.patientFile.length; i++){

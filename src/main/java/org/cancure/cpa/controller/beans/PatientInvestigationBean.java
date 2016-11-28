@@ -12,8 +12,6 @@ public class PatientInvestigationBean {
     private String status;
     private String comments;
     private String taskId;
-    private int hospitalCostEstimate;
-    private int medicalCostEstimate;
 
     public String getInvestigatorType() {
         return investigatorType;
@@ -70,22 +68,5 @@ public class PatientInvestigationBean {
     public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
-
-    public int getHospitalCostEstimate() {
-        return hospitalCostEstimate;
-    }
-
-    public void setHospitalCostEstimate(int hospitalCostEstimate) {
-        this.hospitalCostEstimate = hospitalCostEstimate;
-    }
-
-    public int getMedicalCostEstimate() {
-        return medicalCostEstimate;
-    }
-
-    public void setMedicalCostEstimate(int medicalCostEstimate) {
-        this.medicalCostEstimate = medicalCostEstimate;
-    }
-    
 
 }

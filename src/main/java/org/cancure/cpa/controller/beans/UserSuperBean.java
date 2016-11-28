@@ -27,10 +27,6 @@ public class UserSuperBean {
 	private Doctor doctor;
 	
 	private Integer hospitalId;
-	
-	private Integer pharmacyId;
-	
-	private Integer labId;
 
 	public Set<Role> getRoles() {
 		return roles;
@@ -110,22 +106,6 @@ public class UserSuperBean {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Integer getPharmacyId() {
-        return pharmacyId;
-    }
-
-    public void setPharmacyId(Integer pharmacyId) {
-        this.pharmacyId = pharmacyId;
-    }
-
-    public Integer getLabId() {
-        return labId;
-    }
-
-    public void setLabId(Integer labId) {
-        this.labId = labId;
     }
 
     

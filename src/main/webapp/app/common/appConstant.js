@@ -125,19 +125,13 @@ app.constant('appSettings', {
 		icon: "gears",
 		state: "settingsList",
 		pageId : 8
-	},
-	{
-		title: "Patient Hospital Visit",
-		icon: "gears",
-		state: "patientHospitalVisit",
-		pageId : 9
 	}],
 	
 	pageAccess : {
 		ROLE_GUEST : [0, 7],
 		ROLE_SECRETARY : [0, 7],
 		ROLE_EXECUTIVE_COMMITTEE : [0, 7],
-		ROLE_ADMIN : [0, 1, 3, 4, 5, 6, 7, 8, 9],
+		ROLE_ADMIN : [0, 1, 3, 4, 5, 6, 7, 8],
 		ROLE_HOSPITAL_POC : [0, 2, 7],
 		ROLE_DOCTOR : [0, 7],
 		ROLE_PROGRAM_COORDINATOR : [0, 2, 7]
