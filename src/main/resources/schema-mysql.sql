@@ -262,7 +262,48 @@ create table invoices (
 	bill_no int(10),
 	bill_amount decimal(10,2)
 ); 
+<<<<<<< HEAD
+
+create table patient_visit (
+	id int(10) primary key auto_increment,
+	pidn int(10) references pidn_generator(pidn),
+	date timestamp,
+	account_type_id int(10) references account_types(id),
+	account_holder_id int(10),
+	task_id varchar(10)
+);
+
+create table approvals (
+	id int(10) primary key auto_increment,
+	date timestamp,
+	pidn int(10) references pidn_generator(pidn),
+	amount decimal(10,2),
+	approved_for_account_type_id int(10) references account_types(id),
+	patient_visit_id int(10),
+	expiry_date date
+);
+
+create table patient_visit_forwards (
+	id int(10) primary key auto_increment,
+	pidn int(10) references pidn_generator(pidn),
+	patient_visit_id int(10) references patient_visit(id),
+	account_type_id int(10) references account_types(id),
+	account_holder_id int(10),
+	date timestamp,
+	status varchar(10)
+);
+
+create table patient_visit_documents (
+	doc_id int(10) primary key auto_increment,
+	patient_visit_id int(10) references patient_visit(id),
+	account_type_id int(10) references account_types(id),
+	doc_type varchar(100),
+	doc_path varchar(250)
+);
+
+=======
  
+>>>>>>> refs/remotes/origin/master
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),

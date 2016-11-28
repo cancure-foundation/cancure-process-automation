@@ -261,6 +261,47 @@ create table patient_investigation (
 	partner_bill_amount decimal(10,2)
  );
  
+<<<<<<< HEAD
+ create table patient_visit (
+	id number(10) primary key auto_increment,
+	pidn number(10) references pidn_generator(pidn),
+	date timestamp,
+	account_type_id number(10) references account_types(id),
+	account_holder_id number(10),
+	task_id varchar(10),
+	status varchar(10)
+ );
+
+ create table approvals (
+	id number(10) primary key auto_increment,
+	date timestamp,
+	pidn number(10) references pidn_generator(pidn),
+	amount decimal(10,2),
+	approved_for_account_type_id int(10) references account_types(id),
+	patient_visit_id number(10),
+	expiry_date date
+ );
+ 
+create table patient_visit_forwards (
+	id number(10) primary key auto_increment,
+	pidn number(10) references pidn_generator(pidn),
+	patient_visit_id number(10) references patient_visit(id),
+	account_type_id number(10) references account_types(id),
+	account_holder_id number(10),
+	date timestamp,
+	status varchar(10)
+);
+
+create table patient_visit_documents (
+	doc_id number(10) primary key auto_increment,
+	patient_visit_id number(10) references patient_visit(id),
+	account_type_id number(10) references account_types(id),
+	doc_type varchar(100),
+	doc_path varchar(250)
+ );
+
+=======
+>>>>>>> refs/remotes/origin/master
  create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),
