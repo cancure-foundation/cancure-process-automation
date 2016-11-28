@@ -3,7 +3,7 @@
         Patient Registration Workflow - {{nextTaskObject.nextTask}}
         <div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h1>
-</section>
+</section> 
 <!-- Main content -->
 <section class="content">
     <div class="row">
@@ -43,14 +43,14 @@
                                 <label>Estimated Medicine Cost  <req>*</req> </label>
                                 <div class="input-group">
                                 	<div class="input-group-addon">₹</div>
-                                    <input type="text" maxlength="10"/>
+                                    <input type="text" maxlength="10" data-ng-model="vm.formData.medicalCostEstimate" />
                                 </div>
                             </div>
                             <div class="input-box col-md-6 col-xs-12" ng-if="vm.isPrelimEx">
                                 <label>Estimated Hospital Cost  <req>*</req></label>
                                 <div class="input-group">
                                 	<div class="input-group-addon">₹</div>
-                                    <input type="text" maxlength="10"/>
+                                    <input type="text" maxlength="10" data-ng-model="vm.formData.hospitalCostEstimate" />
                                 </div> 
                             </div>
                             <div class="input-box col-xs-12" ng-show="vm.patientFile.length > 0 && vm.patientFileNames.length > 0" multiple="multiple">

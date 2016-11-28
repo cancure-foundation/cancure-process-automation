@@ -21,4 +21,8 @@ public interface PatientRepository extends CrudRepository<Patient, Integer> {
     public List<Patient>  findByAadharNo(String aadharNo);
     
     public List<Patient>  findByPidn(Integer pidn);
+    
+    @Modifying
+    @Query("update Patient u set u.hospitalCostEstimate = ?1, u.medicalCostEstimate = ?2 where u.prn = ?3")
+    public int updateCost(Integer hospitalCostEstimate, Integer medicalCostEstimate, Integer prn);
 }

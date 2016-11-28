@@ -1,6 +1,7 @@
 package org.cancure.cpa.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.cancure.cpa.controller.beans.HpocHospitalBean;
 import org.cancure.cpa.controller.beans.UserBean;
@@ -17,4 +18,6 @@ public interface HpocHospitalService {
     void deleteHpocHospital(Integer hospitalId);
     
     HpocHospital hpocHospitalMapping(HpocHospitalBean hpocHospitalBean);
+    
+    public Map<String, Object> listAllHpocHospital();
 }
