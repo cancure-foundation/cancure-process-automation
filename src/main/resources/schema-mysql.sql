@@ -106,11 +106,30 @@ create table user_role (
  	enabled boolean
  );
  
-
+ create table lab (
+ 	lab_id int(10) primary key auto_increment,
+ 	name varchar(100),
+ 	address varchar(200),
+ 	contact varchar(25),
+ 	enabled boolean
+ );
+ 
   create table hpoc_hospital (
     hpoc_id int(10),
     hospital_id int(10),
     unique (hpoc_id, hospital_id)
+ );
+ 
+ create table ppoc_pharmacy (
+    ppoc_id int(10) primary key,
+    pharmacy_id int(10),
+    unique (ppoc_id, pharmacy_id)
+ );
+ 
+ create table lpoc_lab (
+    lpoc_id int(10) primary key,
+    lab_id int(10),
+    unique (lpoc_id, lab_id)
  );
 
   create table doctor (
@@ -262,7 +281,6 @@ create table invoices (
 	bill_no int(10),
 	bill_amount decimal(10,2)
 ); 
-<<<<<<< HEAD
 
 create table patient_visit (
 	id int(10) primary key auto_increment,
@@ -301,9 +319,6 @@ create table patient_visit_documents (
 	doc_path varchar(250)
 );
 
-=======
- 
->>>>>>> refs/remotes/origin/master
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),
