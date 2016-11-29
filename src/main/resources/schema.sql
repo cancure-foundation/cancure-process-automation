@@ -261,8 +261,7 @@ create table patient_investigation (
 	partner_bill_amount decimal(10,2)
  );
  
-<<<<<<< HEAD
- create table patient_visit (
+create table patient_visit (
 	id number(10) primary key auto_increment,
 	pidn number(10) references pidn_generator(pidn),
 	date timestamp,
@@ -300,9 +299,8 @@ create table patient_visit_documents (
 	doc_path varchar(250)
  );
 
-=======
->>>>>>> refs/remotes/origin/master
- create table ACT_GE_PROPERTY (
+
+create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),
     REV_ integer,
