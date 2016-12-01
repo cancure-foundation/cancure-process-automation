@@ -18,3 +18,8 @@ insert into user_role values (5, 5);
 
 insert into pharmacy values(1, 'Soorya Pharma', 'Kochi', '234324', true);
 
+insert into user values (6,'PPOC','ppoc','ppoc@cancure.in.net','$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true, false);
+insert into user_role values (6, 8);
+insert into ppoc_pharmacy values (6, 1);
+
+--insert into APPROVALS values (1, '2016-01-01 12:12:12', 2, 20000, 3, 1, null);

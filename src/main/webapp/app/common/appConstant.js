@@ -131,6 +131,12 @@ app.constant('appSettings', {
 		icon: "gears",
 		state: "patientHospitalVisit",
 		pageId : 9
+	},
+	{
+		title: "Pharmacy Dispatch",
+		icon: "gears",
+		state: "pharmacyDispatch",
+		pageId : 10
 	}],
 	
 	pageAccess : {
@@ -140,7 +146,8 @@ app.constant('appSettings', {
 		ROLE_ADMIN : [0, 1, 3, 4, 5, 6, 7, 8],
 		ROLE_HOSPITAL_POC : [0, 2, 7, 9],
 		ROLE_DOCTOR : [0, 7],
-		ROLE_PROGRAM_COORDINATOR : [0, 2, 7]
+		ROLE_PROGRAM_COORDINATOR : [0, 2, 7, 10],
+		ROLE_PHARMACY : [10, 7]
 	},
 	
 	rolesList : [] // stores all role names (authority)

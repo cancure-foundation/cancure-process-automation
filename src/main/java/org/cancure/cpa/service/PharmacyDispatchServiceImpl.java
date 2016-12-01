@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PharmacyDispatchServiceImpl {
+public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 
 	@Autowired
 	private InvoicesRepository invoicesRepository;
@@ -50,11 +50,15 @@ public class PharmacyDispatchServiceImpl {
 	@Autowired
 	private ApprovalRepository approvalRepository;
 
+	@Override
 	public List<PatientVisitForwardsBean> searchForwards(Integer accountTypeId, Integer accountHolderId,
 			String status) {
 
+		AccountTypes approvedForAccountType = new AccountTypes();
+		approvedForAccountType.setId(accountTypeId);
+		
 		List<PatientVisitForwards> forwards = forwardsRepository
-				.findByAccountTypeIdAndAccountHolderIdAndStatus(accountTypeId, accountHolderId, status);
+				.findByAccountTypeIdAndAccountHolderIdAndStatus(approvedForAccountType, accountHolderId, status);
 
 		List<PatientVisitForwardsBean> forwardsList = new ArrayList<>();
 
@@ -76,7 +80,8 @@ public class PharmacyDispatchServiceImpl {
 		return forwardsList;
 	}
 
-	public PharmacyDispatchHistoryBean searchForward(Integer patientVisitId, Integer myUserId) throws Exception {
+	@Override
+	public PharmacyDispatchHistoryBean searchPharmacyDispatchHistory(Integer patientVisitId, Integer myUserId) throws Exception {
 
 		PharmacyDispatchHistoryBean historyBean = new PharmacyDispatchHistoryBean();
 		
@@ -101,9 +106,12 @@ public class PharmacyDispatchServiceImpl {
 
 		PatientVisit patientVisit = patientVisitRepository.findOne(patientVisitId);
 		if (patientVisit != null) {
+			AccountTypes approvedForAccountType = new AccountTypes();
+			approvedForAccountType.setId(accountTypeId);
+			
 			PatientVisitBean patientVisitBean = transformPatientEntityToBean(patientVisit, accountTypeId);
 			List<PatientVisitForwards> forwards = patientVisitForwardsRepository
-					.findByAccountTypeIdAndAccountHolderIdAndPatientVisitId(accountTypeId, accountHolderId,
+					.findByAccountTypeIdAndAccountHolderIdAndPatientVisitId(approvedForAccountType, accountHolderId,
 							patientVisitBean.getId().intValue());
 			
 			if (forwards != null && forwards.size() == 1) {
@@ -114,10 +122,14 @@ public class PharmacyDispatchServiceImpl {
 				return historyBean;
 			}
 			
+			List<PatientBean> patient = patientService.searchByPidn(patientVisit.getPidn());
+			if (patient != null && patient.size() == 1) {
+				historyBean.setPatient(patient.get(0));
+			}
+			
 			// Now find pending amount and past approvals
 			
-			AccountTypes approvedForAccountType = new AccountTypes();
-			approvedForAccountType.setId(accountTypeId);
+			
 			List<PatientApproval> patientApprovals = approvalRepository.findByPidnAndApprovedForAccountType(patientVisitBean.getPidn(), approvedForAccountType);
 			if (patientApprovals != null && !patientApprovals.isEmpty()) {
 				Double totalApprovals = 0d;
@@ -148,6 +160,7 @@ public class PharmacyDispatchServiceImpl {
 	private PatientVisitBean transformPatientEntityToBean(PatientVisit patientVisit, Integer accountTypeId) {
 		
 		PatientVisitBean patientVisitBean = new PatientVisitBean();
+		patientVisitBean.setId(patientVisit.getId().longValue());
 		patientVisitBean.setDate(patientVisit.getDate());
 		patientVisitBean.setPidn(patientVisit.getPidn());
 		patientVisitBean.setAccountTypeId(patientVisit.getAccountTypes().getId().toString());

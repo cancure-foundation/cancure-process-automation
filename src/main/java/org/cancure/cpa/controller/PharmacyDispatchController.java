@@ -1,19 +1,17 @@
 package org.cancure.cpa.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.cancure.cpa.controller.beans.PatientVisitBean;
+import org.cancure.cpa.controller.beans.PharmacyDispatchHistoryBean;
 import org.cancure.cpa.controller.beans.UserBean;
-import org.cancure.cpa.service.PatientService;
+import org.cancure.cpa.service.PharmacyDispatchService;
 import org.cancure.cpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,13 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class PharmacyDispatchController {
 
 	@Autowired
-	private PatientService patientService;
+	private PharmacyDispatchService pharmacyDispatchService;
 	
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value = "/pharmacydispatch/{pidn}", method = RequestMethod.GET)
-	public String searchPatient(@PathVariable("pidn") String pidn, OAuth2Authentication auth) throws IOException {
+	@RequestMapping(value = "/pharmacydispatch/{patientVisitId}", method = RequestMethod.GET)
+	public PharmacyDispatchHistoryBean searchPatient(@PathVariable("patientVisitId") String patientVisitId, OAuth2Authentication auth) throws Exception {
 	
 		if (auth != null) {
 			List<String> roles = new ArrayList<>();
@@ -40,9 +38,8 @@ public class PharmacyDispatchController {
 			UserBean user = userService.getUserByLogin(login);
 			Integer userId = user.getId();
 			
+			return pharmacyDispatchService.searchPharmacyDispatchHistory(Integer.parseInt(patientVisitId), userId);
 			
-			
-			return null;
 		} else {
 			throw new RuntimeException("Not logged in");
 		}
