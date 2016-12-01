@@ -14,7 +14,7 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 	 *  /patientregistration/Patientidcard/ ROLE_PROGRAM_COORDINATOR
 	 */
 	var init = function() {
-		Loader.create('Fetching Data. Please wait');
+		Loader.create('Fetching Data... Please wait..');
 		apiService.serviceRequest({
 			URL: 'tasks/' + $stateParams.prn
 		}, function (response) {
@@ -43,6 +43,10 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 				if ($scope.nextTaskObject.nextTask == 'Preliminary Examination') {
 					$scope.uploadNeeded = true;
 					vm.isPrelimEx = true;
+				}
+				if ($scope.nextTaskObject.nextTask == 'MB Doctor Approval') {					
+					vm.isMBDoc = true;
+					vm.formData.people = response[0].doctorId.toString();
 				}
 			});
 

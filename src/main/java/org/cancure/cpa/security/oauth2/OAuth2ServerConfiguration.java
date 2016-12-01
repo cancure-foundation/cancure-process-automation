@@ -137,6 +137,10 @@ public class OAuth2ServerConfiguration {
 					.antMatchers("/patientregistration/preliminaryexaminationclarification/save").hasAnyRole("HOSPITAL_POC", "DOCTOR")
 					.antMatchers("/patientregistration/executiveboardrecommendation/**").hasRole("EXECUTIVE_COMMITTEE")
 					.antMatchers("/patientregistration/patientidcard/**").hasRole("PROGRAM_COORDINATOR")
+
+					.antMatchers("/patientvisit/topup").hasAnyRole("SECRETARY")
+					.antMatchers("/patientvisit/partners").hasAnyRole("HOSPITAL_POC")
+					.antMatchers("/patientvisit").hasAnyRole("HOSPITAL_POC")
 					
 					.and().logout().logoutSuccessHandler(customLogoutSuccessHandler)
 					.permitAll();

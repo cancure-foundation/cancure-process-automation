@@ -106,11 +106,30 @@ create table user_role (
  	enabled boolean
  );
  
-
+ create table lab (
+ 	lab_id int(10) primary key auto_increment,
+ 	name varchar(100),
+ 	address varchar(200),
+ 	contact varchar(25),
+ 	enabled boolean
+ );
+ 
   create table hpoc_hospital (
     hpoc_id int(10),
     hospital_id int(10),
     unique (hpoc_id, hospital_id)
+ );
+ 
+ create table ppoc_pharmacy (
+    ppoc_id int(10) primary key,
+    pharmacy_id int(10),
+    unique (ppoc_id, pharmacy_id)
+ );
+ 
+ create table lpoc_lab (
+    lpoc_id int(10) primary key,
+    lab_id int(10),
+    unique (lpoc_id, lab_id)
  );
 
   create table doctor (
@@ -262,7 +281,44 @@ create table invoices (
 	bill_no int(10),
 	bill_amount decimal(10,2)
 ); 
- 
+
+create table patient_visit (
+	id int(10) primary key auto_increment,
+	pidn int(10) references pidn_generator(pidn),
+	date timestamp,
+	account_type_id int(10) references account_types(id),
+	account_holder_id int(10),
+	task_id varchar(10)
+);
+
+create table approvals (
+	id int(10) primary key auto_increment,
+	date timestamp,
+	pidn int(10) references pidn_generator(pidn),
+	amount decimal(10,2),
+	approved_for_account_type_id int(10) references account_types(id),
+	patient_visit_id int(10),
+	expiry_date date
+);
+
+create table patient_visit_forwards (
+	id int(10) primary key auto_increment,
+	pidn int(10) references pidn_generator(pidn),
+	patient_visit_id int(10) references patient_visit(id),
+	account_type_id int(10) references account_types(id),
+	account_holder_id int(10),
+	date timestamp,
+	status varchar(10)
+);
+
+create table patient_visit_documents (
+	doc_id int(10) primary key auto_increment,
+	patient_visit_id int(10) references patient_visit(id),
+	account_type_id int(10) references account_types(id),
+	doc_type varchar(100),
+	doc_path varchar(250)
+);
+
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),

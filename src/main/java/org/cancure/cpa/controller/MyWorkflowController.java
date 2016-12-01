@@ -3,6 +3,7 @@ package org.cancure.cpa.controller;
 import static org.cancure.cpa.common.Constants.PATIENT_REG_PROCESS_DEF_KEY;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class MyWorkflowController {
     private UserService userService;
 
 	@RequestMapping("/tasks/my")
-	public List<Map<String, String>> getPendingTasks(OAuth2Authentication auth) {
+	public Map<String, List<Map<String, String>>> getPendingTasks(OAuth2Authentication auth) {
 		if (auth != null) {
 			List<String> roles = new ArrayList<>();
 			for (GrantedAuthority a : auth.getAuthorities()){
@@ -44,7 +45,7 @@ public class MyWorkflowController {
 	}
 	
 	@RequestMapping("/tasks/role/{role}")
-	public List<Map<String, String>> getPendingTasks(@PathVariable("role") String roles){
+	public Map<String, List<Map<String, String>>> getPendingTasks(@PathVariable("role") String roles){
 		if (roles != null) {
 			String[] roleArray = roles.split("__");
 			List<String> rolesList = new ArrayList<>();
@@ -57,7 +58,7 @@ public class MyWorkflowController {
 			return myTasksService.getMyTasks(rolesList, null);
 		}
 		
-		return new ArrayList<>();
+		return new HashMap<>();
 	}
 	
 	@RequestMapping("/tasks/{prn}")

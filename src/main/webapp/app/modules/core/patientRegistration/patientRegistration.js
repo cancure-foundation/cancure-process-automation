@@ -99,6 +99,9 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 		vm.formData.diagnosisFiles = [];
 		vm.formData.diagnosisFilesNames = [];
 		vm.editFiles = {};
+		vm.showForm = false;
+		vm.aadharReqErr = false;
+		vm.aadharExist = undefined;
 		vm.editFiles.diagFiles = [];
 		vm.editFiles.incomeProof = {};
 		vm.editFiles.ageProof = {};
@@ -109,6 +112,35 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 
 	// init function, execution starts here
 	init();
+	/**
+	 * 
+	 */
+	vm.validateAadhar = function (){		
+		if (!vm.formData.aadharNo) {		
+			document.getElementById("patientReg-aadhar").focus();
+			vm.aadharReqErr = true;
+			return
+		} else if (vm.formData.aadharNo.length < 12){
+			document.getElementById("patientReg-aadhar").focus();
+			vm.aadharReqErr = true;
+			return
+		}
+		vm.aadharReqErr = false;
+		Loader.create('Validating Aadhar Card.. Please wait...');
+		apiService.serviceRequest({
+			URL: 'patient/search/aadharNo/'  +  vm.formData.aadharNo.toString(),
+			hideErrMsg : true
+		}, function (response) {			
+			Loader.destroy();
+			if (response && response.length == 0){
+				vm.showForm = true;
+			} else {
+				vm.aadharExist = response[0].prn; 
+			}
+		},function (){			
+			Loader.destroy();
+		});
+	};
 	/**
 	 *  function to calculate total income of the patient
 	 */
