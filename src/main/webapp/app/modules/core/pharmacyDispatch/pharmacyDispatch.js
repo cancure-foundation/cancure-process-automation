@@ -20,6 +20,12 @@ core.controller("PharmacyDispatchController", ['Loader', '$scope', '$state', '$s
 			Flash.create('danger', fail.message, 'large-text');
 		});
 	};
+	
+	vm.saveInvoice = function() {
+		
+		// Call 
+		
+	};
 		
 	init();
 

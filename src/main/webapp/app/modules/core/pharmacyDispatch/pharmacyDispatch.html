@@ -127,7 +127,43 @@
                    </table>
                </div>
 	            
+	           <div class="col-xs-12 col-md-4" >
+	                <div class="input-box">
+	                    <label>Total Amount :
+	                        <req>*</req>
+	                    </label>
+	                    <input type="text" data-ng-model="vm.totalAmount" maxlength="10" required placeholder="Enter Amount"/>
+	                </div>
+	            </div>
+	            
+	            <div class="col-xs-12 col-md-4">
+	                <div class="input-box">
+	                    <label>Pharmacy's bill number :
+	                        <req>*</req>
+	                    </label>
+	                    <input type="text" data-ng-model="vm.partnerBillNumber" maxlength="50" required placeholder="Enter Bill No"/>
+	                </div>
+	                <div class="input-box">
+	                    <label>Pharmacy's bill amount :
+	                        <req>*</req>
+	                    </label>
+	                    <input type="text" data-ng-model="vm.partnerBillAmount" maxlength="50" required placeholder="Enter Bill Amount"/>
+	                </div>
+	            </div>
+	            
+	            <div class="col-xs-12 col-md-4" >
+	                <div class="input-box">
+	                    <label>Comments :
+	                        <req>*</req>
+	                    </label>
+	                    <textarea data-ng-model="vm.comments" required rows="4" maxlength="200"> </textarea>
+	                </div>
+	            </div>
+	            
             </div>
+      	
+      	
+      		
       	
       		<div class="panel panel-info panel-body">
       			<div class="col-xs-12">

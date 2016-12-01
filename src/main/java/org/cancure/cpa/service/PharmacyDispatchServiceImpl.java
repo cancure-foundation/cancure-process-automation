@@ -3,11 +3,14 @@ package org.cancure.cpa.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
 import org.cancure.cpa.controller.beans.PharmacyDispatchHistoryBean;
+import org.cancure.cpa.controller.beans.PharmacyInvoiceBean;
 import org.cancure.cpa.persistence.entity.AccountTypes;
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
 import org.cancure.cpa.persistence.entity.LpocLab;
@@ -96,7 +99,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 			accountHolderId = pharmacy.getPharmacyId();
 		} else {
 			LpocLab lab = lpocLabService.getLabFromLpoc(myUserId);
-			accountTypeId = 4; // Pharmacy
+			accountTypeId = 4; // Lab
 			accountHolderId = lab.getLabId();
 		}
 
@@ -187,4 +190,49 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		return patientVisitBean;
 	}
 
+	@Transactional
+	public Integer saveInvoice(PharmacyInvoiceBean bean, Integer myUserId) throws Exception {
+		
+		// What type of user is this? PPOC or HPOC or LPOC?
+		Integer accountTypeId;
+		Integer accountHolderId;
+				
+		PpocPharmacy pharmacy = ppocPharmacyService.getPharmacyFromPpoc(myUserId);
+		if (pharmacy != null) {
+			// The user is a PPOC
+			accountTypeId = 3; // Pharmacy
+			accountHolderId = pharmacy.getPharmacyId();
+		} else {
+			LpocLab lab = lpocLabService.getLabFromLpoc(myUserId);
+			accountTypeId = 4; // Lab
+			accountHolderId = lab.getLabId();
+		}
+
+		if (accountTypeId == null || accountHolderId == null) {
+			throw new Exception("User " + myUserId + " is not a Pharma POC or Lab POC");
+		}
+		
+		InvoicesEntity entity = new InvoicesEntity();
+		entity.setAmount(bean.getAmount());
+		entity.setBalanceAmount(bean.getAmount());
+		entity.setPartnerBillAmount(bean.getPartnerBillAmount());
+		entity.setPartnerBillNo(bean.getPartnerBillNo());
+		entity.setComments(bean.getComments());
+		entity.setPidn(bean.getPidn());
+		entity.setStatus("open");
+		
+		entity.setToAccountHolderId(1); // To cancure
+		AccountTypes toAccountType = new AccountTypes();
+		toAccountType.setId(1);
+		entity.setToAccountTypeId(toAccountType);
+		
+		entity.setFromAccountHolderId(accountHolderId);
+		AccountTypes approvedForAccountType = new AccountTypes();
+		approvedForAccountType.setId(accountTypeId);
+		entity.setFromAccountTypeId(approvedForAccountType);
+		
+		entity = invoicesRepository.save(entity);
+		
+		return entity.getId();
+	}
 }
