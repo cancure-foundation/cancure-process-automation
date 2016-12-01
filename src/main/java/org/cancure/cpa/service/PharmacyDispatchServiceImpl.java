@@ -7,6 +7,7 @@ import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
+import org.cancure.cpa.controller.beans.PharmacyDispatchHistoryBean;
 import org.cancure.cpa.persistence.entity.AccountTypes;
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
 import org.cancure.cpa.persistence.entity.LpocLab;
@@ -75,8 +76,10 @@ public class PharmacyDispatchServiceImpl {
 		return forwardsList;
 	}
 
-	public void searchForward(Integer patientVisitId, Integer myUserId) throws Exception {
+	public PharmacyDispatchHistoryBean searchForward(Integer patientVisitId, Integer myUserId) throws Exception {
 
+		PharmacyDispatchHistoryBean historyBean = new PharmacyDispatchHistoryBean();
+		
 		// What type of user is this? PPOC or HPOC or LPOC?
 		Integer accountTypeId;
 		Integer accountHolderId;
@@ -103,7 +106,13 @@ public class PharmacyDispatchServiceImpl {
 					.findByAccountTypeIdAndAccountHolderIdAndPatientVisitId(accountTypeId, accountHolderId,
 							patientVisitBean.getId().intValue());
 			
-			// Set to master bean
+			if (forwards != null && forwards.size() == 1) {
+				historyBean.setPatientVisitForwards(forwards.get(0));
+				historyBean.setPatientVisitBean(patientVisitBean);
+			} else {
+				// No forwards to this Partner. Just return.
+				return historyBean;
+			}
 			
 			// Now find pending amount and past approvals
 			
@@ -112,6 +121,7 @@ public class PharmacyDispatchServiceImpl {
 			List<PatientApproval> patientApprovals = approvalRepository.findByPidnAndApprovedForAccountType(patientVisitBean.getPidn(), approvedForAccountType);
 			if (patientApprovals != null && !patientApprovals.isEmpty()) {
 				Double totalApprovals = 0d;
+				historyBean.setPatientApprovals(patientApprovals);
 				for (PatientApproval pa : patientApprovals) {
 					totalApprovals += pa.getAmount();
 				}
@@ -119,18 +129,19 @@ public class PharmacyDispatchServiceImpl {
 				Double totalInvoices = 0d;
 				List<InvoicesEntity> invoicesList = invoicesRepository.findByPidnAndFromAccountTypeId(patientVisitBean.getPidn(), approvedForAccountType);
 				if (invoicesList != null && !invoicesList.isEmpty()){
+					historyBean.setInvoicesList(invoicesList);
 					for (InvoicesEntity entity : invoicesList){
 						totalInvoices += entity.getAmount();
-						
 					}
 					
 				}
 				
 				Double balance = totalApprovals - totalInvoices;
+				historyBean.setBalance(balance);
 			}
-			
-			
 		}
+		
+		return historyBean;
 	}
 	
 	// Transform and filter by account Type Id
