@@ -180,7 +180,9 @@ create table patient(
 	total_income int(10),
 	aadhar_no varchar(12),
 	preliminary_exam_doctor_id int(10) references doctor(doctor_id),
-	preliminary_exam_hospital_id int(10) references hospital(hospital_id)
+	preliminary_exam_hospital_id int(10) references hospital(hospital_id),
+	hospital_cost_estimate int(10),
+	medical_cost_estimate int(10)
 );
 
 create table support_organisations (
