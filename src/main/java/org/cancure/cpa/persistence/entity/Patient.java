@@ -118,6 +118,12 @@ public class Patient {
     @Column(name="preliminary_exam_hospital_id")
     private Integer preliminaryExamHospitalId;
     
+    @Column(name="hospital_cost_estimate")
+    private Integer hospitalCostEstimate;
+    
+    @Column(name="medical_cost_estimate")
+    private Integer medicalCostEstimate;
+    
     @OneToMany(mappedBy="familyPatient")
     private List<PatientFamily> patientFamily=new ArrayList<PatientFamily>();
     
@@ -378,6 +384,23 @@ public class Patient {
     public void setAadharNo(String aadharNo) {
         this.aadharNo = aadharNo;
     }
+
+    public Integer getHospitalCostEstimate() {
+        return hospitalCostEstimate;
+    }
+
+    public void setHospitalCostEstimate(Integer hospitalCostEstimate) {
+        this.hospitalCostEstimate = hospitalCostEstimate;
+    }
+
+    public Integer getMedicalCostEstimate() {
+        return medicalCostEstimate;
+    }
+
+    public void setMedicalCostEstimate(Integer medicalCostEstimate) {
+        this.medicalCostEstimate = medicalCostEstimate;
+    }
+    
     
 
  /*   public List<PatientDocument> getDocument() {

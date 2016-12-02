@@ -23,5 +23,7 @@ public interface PatientService {
     List<PatientBean> searchByAadhar(String aadharNo);
     
     List<PatientBean> searchByPidn(Integer pidn);
+    
+    void updateCostEstimate(Integer hospitalCostEstimate, Integer medicalCostEstimate, Integer prn);
 	
 }
