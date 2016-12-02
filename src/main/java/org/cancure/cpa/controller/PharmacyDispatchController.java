@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
 import org.cancure.cpa.controller.beans.PharmacyDispatchHistoryBean;
 import org.cancure.cpa.controller.beans.PharmacyInvoiceBean;
 import org.cancure.cpa.controller.beans.UserBean;
@@ -27,7 +28,7 @@ public class PharmacyDispatchController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/pharmacydispatch/{patientVisitId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/pharmacyforwards/{patientVisitId}", method = RequestMethod.GET)
 	public PharmacyDispatchHistoryBean searchPatient(@PathVariable("patientVisitId") String patientVisitId,
 			OAuth2Authentication auth) throws Exception {
 
@@ -48,8 +49,30 @@ public class PharmacyDispatchController {
 		}
 	}
 
+	@RequestMapping(value = "/pharmacydispatch/{pidn}", method = RequestMethod.GET)
+	public List<PatientVisitForwardsBean> searchPatientForward(@PathVariable("pidn") String pidn, OAuth2Authentication auth)
+			throws Exception {
+
+		if (auth != null) {
+			List<String> roles = new ArrayList<>();
+			for (GrantedAuthority a : auth.getAuthorities()) {
+				roles.add(a.getAuthority());
+			}
+
+			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
+			UserBean user = userService.getUserByLogin(login);
+			Integer userId = user.getId();
+
+			return pharmacyDispatchService.searchForwardsByPidn(Integer.parseInt(pidn), userId);
+
+		} else {
+			throw new RuntimeException("Not logged in");
+		}
+	}
+
 	@RequestMapping(value = "/pharmacydispatch", method = RequestMethod.POST)
-	public String saveInvoice(@RequestBody PharmacyInvoiceBean pharmacyInvoiceBean, OAuth2Authentication auth) throws Exception {
+	public String saveInvoice(@RequestBody PharmacyInvoiceBean pharmacyInvoiceBean, OAuth2Authentication auth)
+			throws Exception {
 
 		if (auth != null) {
 			List<String> roles = new ArrayList<>();

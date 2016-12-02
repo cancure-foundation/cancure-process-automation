@@ -11,6 +11,9 @@ public interface PatientVisitForwardsRepository extends CrudRepository<PatientVi
 	public List<PatientVisitForwards> findByAccountTypeIdAndAccountHolderIdAndStatus(AccountTypes accountType,
 			Integer accountHolderId, String status);
 	
+	public List<PatientVisitForwards> findByAccountTypeIdAndAccountHolderIdAndPidn(AccountTypes accountType,
+			Integer accountHolderId, Integer pidn);
+	
 	public List<PatientVisitForwards> findByAccountTypeIdAndAccountHolderIdAndPatientVisitId(AccountTypes accountType,
 			Integer accountHolderId, Integer patientVisitId);
 }

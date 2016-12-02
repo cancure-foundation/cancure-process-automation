@@ -13,4 +13,6 @@ public interface PharmacyDispatchService {
 	public PharmacyDispatchHistoryBean searchPharmacyDispatchHistory(Integer patientVisitId, Integer myUserId) throws Exception;
 	
 	public Integer saveInvoice(PharmacyInvoiceBean bean, Integer myUserId) throws Exception;
+
+	public List<PatientVisitForwardsBean> searchForwardsByPidn(Integer pidn, Integer myUserId) throws Exception;
 }

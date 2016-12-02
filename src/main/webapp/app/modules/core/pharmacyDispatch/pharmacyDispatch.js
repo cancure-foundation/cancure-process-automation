@@ -5,7 +5,7 @@ core.controller("PharmacyDispatchController", ['Loader', '$scope', '$state', '$s
 	var init = function() {
 		// making the server call
 		apiService.serviceRequest({
-			URL: '/pharmacydispatch/' + $stateParams.patientVisitId,
+			URL: '/pharmacyforwards/' + $stateParams.patientVisitId,
 			method: 'GET',
 			hideErrMsg : true
 		}, function (response) {

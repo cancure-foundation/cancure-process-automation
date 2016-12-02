@@ -1,14 +1,10 @@
-core.controller("PatientHospitalVisitController", ['Loader', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', '$timeout', 'Flash',
+core.controller("PharmacyForwardsController", ['Loader', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', '$timeout', 'Flash',
                                                 function (Loader, $scope, $state, $stateParams, apiService, appSettings, $timeout, Flash) {
 
 	var vm = this;
-	vm.documentTypes = ['Lab Test Prescription', 'Medicine Prescription'];
-	var init = function() {
-		vm.noSearchResult = false;
-	};
 	
-	vm.searchUser = function(){
-		vm.patient = null;
+	vm.searchUser = function() {
+		vm.forwards = null;
 		if (!vm.pidn){
 			alert('Please enter a PIDN');
 			return;
@@ -18,7 +14,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$scope', '$state',
 		
 		// making the server call
 		apiService.serviceRequest({
-			URL: '/patientvisit/patient/' + vm.pidn,
+			URL: '/pharmacydispatch/' + vm.pidn,
 			method: 'GET',
 			hideErrMsg : true
 		}, function (response) {
@@ -26,15 +22,13 @@ core.controller("PatientHospitalVisitController", ['Loader', '$scope', '$state',
 			if (response == null) {
 				vm.noSearchResult = true;
 			} else {
-				vm.patient = response;
+				vm.forwards = response;
 				vm.noSearchResult = false;
 			}
 		}, function (fail){
 			Flash.create('danger', fail.message, 'large-text');
 		});
-		
 	};
 	
-	init();
-
+	
 }]);

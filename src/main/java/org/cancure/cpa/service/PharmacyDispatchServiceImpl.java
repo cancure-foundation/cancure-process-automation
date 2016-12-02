@@ -53,6 +53,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 	@Autowired
 	private ApprovalRepository approvalRepository;
 
+	// This is a fishing expedition. May not be a good idea.
 	@Override
 	public List<PatientVisitForwardsBean> searchForwards(Integer accountTypeId, Integer accountHolderId,
 			String status) {
@@ -82,6 +83,57 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 
 		return forwardsList;
 	}
+	
+	@Override
+	public List<PatientVisitForwardsBean> searchForwardsByPidn(Integer pidn, Integer myUserId) throws Exception {
+
+		// What type of user is this? PPOC or HPOC or LPOC?
+		Integer accountTypeId;
+		Integer accountHolderId;
+
+		PpocPharmacy pharmacy = ppocPharmacyService.getPharmacyFromPpoc(myUserId);
+		if (pharmacy != null) {
+			// The user is a PPOC
+			accountTypeId = 3; // Pharmacy
+			accountHolderId = pharmacy.getPharmacyId();
+		} else {
+			LpocLab lab = lpocLabService.getLabFromLpoc(myUserId);
+			accountTypeId = 4; // Lab
+			accountHolderId = lab.getLabId();
+		}
+
+		if (accountTypeId == null || accountHolderId == null) {
+			throw new Exception("User " + myUserId + " is not a Pharma POC or Lab POC");
+		}
+				
+		AccountTypes approvedForAccountType = new AccountTypes();
+		approvedForAccountType.setId(accountTypeId);
+		
+		List<PatientVisitForwards> forwards = forwardsRepository
+				.findByAccountTypeIdAndAccountHolderIdAndPidn(approvedForAccountType, accountHolderId, pidn);
+
+		List<PatientVisitForwardsBean> forwardsList = new ArrayList<>();
+
+		if (forwards != null && !forwards.isEmpty()) {
+			// All are same patient
+			List<PatientBean> patient = patientService.searchByPidn(pidn);
+			
+			for (PatientVisitForwards fwd : forwards) {
+				
+				PatientVisitForwardsBean bean = new PatientVisitForwardsBean();
+				bean.setDate(fwd.getDate());
+				bean.setPidn(fwd.getPidn());
+				bean.setPatient(patient.get(0));
+				bean.setPatientVisitId(fwd.getPatientVisitId());
+
+				forwardsList.add(bean);
+				
+			}
+		}
+
+		return forwardsList;
+	}
+	
 
 	@Override
 	public PharmacyDispatchHistoryBean searchPharmacyDispatchHistory(Integer patientVisitId, Integer myUserId) throws Exception {

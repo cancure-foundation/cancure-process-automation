@@ -133,9 +133,9 @@ app.constant('appSettings', {
 		pageId : 9
 	},
 	{
-		title: "Pharmacy Dispatch",
+		title: "Pharmacy Forwards",
 		icon: "gears",
-		state: "pharmacyDispatch",
+		state: "pharmacyForwards",
 		pageId : 10
 	}],
 	
