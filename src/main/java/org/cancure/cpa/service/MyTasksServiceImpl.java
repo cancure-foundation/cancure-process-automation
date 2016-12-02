@@ -362,6 +362,10 @@ public class MyTasksServiceImpl implements MyTasksService {
 		map.put("nextTask", t.getName());
 		Map<String, Object> processVars = t.getProcessVariables();
 		Object patientId = processVars.get("prn");
+		if(!t.getName().equals("Preliminary Examination")){
+			map.put("hospitalCostEstimate", patientService.get((Integer)patientId).getHospitalCostEstimate().toString());
+			map.put("medicalCostEstimate", patientService.get((Integer)patientId).getMedicalCostEstimate().toString());									
+		}
 		Object patientName = processVars.get("patientName");
 		Object pidn = processVars.get("pidn");
 		if (patientId != null) {
