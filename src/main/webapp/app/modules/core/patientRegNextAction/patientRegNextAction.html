@@ -3,7 +3,7 @@
         Patient Registration Workflow - {{nextTaskObject.nextTask}}
         <div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h1>
-</section> 
+</section>
 <!-- Main content -->
 <section class="content">
     <div class="row">
@@ -30,7 +30,7 @@
                                 <label>{{nextTaskObject.nextTask}} By
                                     <req>*</req>
                                 </label>
-                                <select class="form-control" data-ng-model="vm.formData.people" required ng-disabled="vm.isMBDoc">
+                                <select class="form-control" data-ng-model="vm.formData.people" required>
                                     <option value="">Select a Doctor</option>
                                     <option value="{{doc.doctorId}}" ng-repeat="doc in doctorList">{{doc.name}}</option>
                                 </select>
@@ -43,14 +43,14 @@
                                 <label>Estimated Medicine Cost  <req>*</req> </label>
                                 <div class="input-group">
                                 	<div class="input-group-addon">₹</div>
-                                    <input type="text" maxlength="10"/>
+                                    <input type="text" maxlength="10" data-ng-model="vm.formData.medicalCostEstimate" />
                                 </div>
                             </div>
                             <div class="input-box col-md-6 col-xs-12" ng-if="vm.isPrelimEx">
                                 <label>Estimated Hospital Cost  <req>*</req></label>
                                 <div class="input-group">
                                 	<div class="input-group-addon">₹</div>
-                                    <input type="text" maxlength="10"/>
+                                    <input type="text" maxlength="10" data-ng-model="vm.formData.hospitalCostEstimate" />
                                 </div> 
                             </div>
                             <div class="input-box col-xs-12" ng-show="vm.patientFile.length > 0 && vm.patientFileNames.length > 0" multiple="multiple">
@@ -72,15 +72,14 @@
                                 <label>Enter Comments
                                     <req>*</req>
                                 </label>
-                                <textarea data-ng-model="vm.formData.comments" required rows="4" maxlength="750"> </textarea>
+                                <textarea data-ng-model="vm.formData.comments" required rows="4" maxlength="500"> </textarea>
                             </div>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-success" style="margin-right: 8px;">
                                 Submit
                             </button>
-                            <!-- <input type="clear" class="btn btn-warning" ng-click="vm.clearForm();" value="Clear Form" readonly> -->
-                            <input class="btn btn-warning" onclick="history.back()" value="Back" readonly>
+                            <input type="clear" class="btn btn-warning" ng-click="vm.clearForm();" value="Clear Form" readonly>
                         </div>
                     </form>
                 </div>
