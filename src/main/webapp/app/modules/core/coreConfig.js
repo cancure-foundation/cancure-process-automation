@@ -168,6 +168,35 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
     
+    $stateProvider.state('app.lab', {
+        url: '/lab',
+        templateUrl: 'app/modules/core/labManage/labManage.html',
+        controller: 'LabManageController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Labs'
+        }
+    });
+    
+    $stateProvider.state('app.lab.labCreate', {
+        url: '/labcreate/:labId',
+        templateUrl: 'app/modules/core/labManage/labCreate/labCreate.html',
+        controller: 'LabCreateController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Labs'
+        }
+    });
+    $stateProvider.state('app.lab.labList', {
+        url: '/labList',
+        templateUrl: 'app/modules/core/labManage/labList/labList.html',
+        controller: 'LabListController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Labs'
+        }
+    });
+    
     $stateProvider.state('app.settingsList', {
         url: '/settingsList',
         templateUrl: 'app/modules/core/settingsManage/settingsList.html',

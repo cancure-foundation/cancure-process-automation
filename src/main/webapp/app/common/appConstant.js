@@ -20,6 +20,7 @@ app.constant('appSettings', {
 		hpocMapping : 'link/hpoc/hospital', // to map hpoc with hospital
 		hospitalHpoc : 'listAll/hpoc/hospital', //list all hospital and hpoc
 		hpocDoctors : 'doctor/hpoclist', // to get all doctors under that HPOC
+		labList : 'lab/list', // to fetch lab list
 		myQueue : 'tasks/my', // to fetch tasks in myQueue
 		resetPassword : 'user/resetpassword', // to reset password
 		forgotPassword : 'user/forgotpassword', // to reset password on forgot password scenario
@@ -109,9 +110,9 @@ app.constant('appSettings', {
 	},
 
 	{
-		title: "Lab",
+		title: "Labs",
 		icon: "flask",
-		state: "",
+		state: "lab.labList",
 		pageId : 6
 	},
 	{
