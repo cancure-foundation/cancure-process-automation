@@ -33,7 +33,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 @Component
 public class IDCardGenerator {
 
-    @Autowired
+    //@Autowired
     private ServletContext servletContext;
     
 	@Autowired

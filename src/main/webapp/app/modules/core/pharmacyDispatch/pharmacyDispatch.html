@@ -1,0 +1,182 @@
+<div class="content-header">
+    <h1>
+        Pharmacy Medicine Dispatch
+    </h1>
+</div>
+<!-- Main content -->
+<div class="content patientRegHistory">
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12">
+                        
+            <div class="noResultText" ng-hide="vm.pharmacyDispatchHistory.patient">Sorry, no items match your query.</div>
+            
+            <div class="panel panel-info panel-body" ng-show="vm.pharmacyDispatchHistory.patient">
+            	<div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>PIDN
+	                    </label>
+	                    {{ vm.pharmacyDispatchHistory.patient.pidn }}
+	                </div>
+	            </div>
+            	<div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>Name
+	                    </label>
+	                    {{ vm.pharmacyDispatchHistory.patient.name }}
+	                </div>
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>Gender
+	                    </label>
+	                    {{ vm.pharmacyDispatchHistory.patient.gender }}
+	                </div>
+	            </div>
+	            
+	            <div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>DOB
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.pharmacyDispatchHistory.patient.dob }}
+	                </div>
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>Address
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.pharmacyDispatchHistory.patient.address }}
+	                </div>
+	            </div>
+	            
+	            <div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>Contact No
+	                        <req>*</req>
+	                    </label>
+	                    {{ vm.pharmacyDispatchHistory.patient.contact }}
+	                </div>
+	            </div>
+	            
+	            <div class="col-xs-12">
+                   <span class="section-title"><b>Approved Amounts for the patient :</b></span>
+                   <div ng-hide="vm.pharmacyDispatchHistory.patientApprovals.length > 0" class="empty-text">No amount has been approved for the patient.</div>
+                   <table class="table table-bordered" ng-show="vm.pharmacyDispatchHistory.patientApprovals.length > 0">
+                       <thead>
+                           <tr>
+                               <th class="col-xs-3">Date</th>
+                               <th class="col-xs-2">Approved For</th>
+                               <th class="col-xs-3">Amount</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <tr ng-repeat="item in vm.pharmacyDispatchHistory.patientApprovals">
+                               <td class="col-xs-3">{{item.date}}</td>
+                               <td class="col-xs-2">{{item.approvedForAccountTypeName}}</td>
+                               <td class="col-xs-3">{{item.amount}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+	            
+	           <div class="col-xs-12">
+                   <span class="section-title"><b>Payments to the Patient :</b></span>
+                   <div ng-hide="vm.pharmacyDispatchHistory.invoicesList.length > 0" class="empty-text">No payments have been made to the patient.</div>
+                   <table class="table table-bordered" ng-show="vm.pharmacyDispatchHistory.invoicesList.length > 0">
+                       <thead>
+                           <tr>
+                               <th class="col-xs-3">Date</th>
+                               <th class="col-xs-2">Account</th>
+                               <th class="col-xs-2">Partner</th>
+                               <th class="col-xs-3">Amount</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <tr ng-repeat="item in vm.pharmacyDispatchHistory.invoicesList">
+                               <td class="col-xs-3">{{item.date}}</td>
+                               <td class="col-xs-2">{{item.fromAccountTypeId.name}}</td>
+                               <td class="col-xs-3">{{item.fromAccountHolderName}}</td>
+                               <td class="col-xs-3">{{item.amount}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+               
+               <div class="col-xs-12">
+                   <span class="section-title"><b>Balance Amount : </b></span>
+                   <div class="empty-text">{{ vm.pharmacyDispatchHistory.balance }}</div>
+                   
+               </div>  
+	            
+	           <div class="col-xs-12">
+                   <span class="section-title"><b>Documents (Prescriptions) :</b></span>
+                   <div ng-hide="vm.pharmacyDispatchHistory.patientVisitBean.patientHospitalVisitDocumentBeanList.length > 0" class="empty-text">No documents.</div>
+                   <table class="table table-bordered" ng-show="vm.pharmacyDispatchHistory.patientVisitBean.patientHospitalVisitDocumentBeanList.length > 0">
+                       <thead>
+                           <tr>
+                               <th class="col-xs-3">Document Type</th>
+                               <th class="col-xs-2">Doc Path</th>
+                               <th class="col-xs-2">View</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <tr ng-repeat="item in vm.pharmacyDispatchHistory.patientVisitBean.patientHospitalVisitDocumentBeanList">
+                               <td class="col-xs-3">{{item.docType}}</td>
+                               <td class="col-xs-2">{{item.docPath}}</td>
+                               <td class="col-xs-3">{{item.docId}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+	            
+	           <div class="col-xs-12 col-md-4" >
+	                <div class="input-box">
+	                    <label>Total Amount :
+	                        <req>*</req>
+	                    </label>
+	                    <input type="text" data-ng-model="vm.totalAmount" maxlength="10" required placeholder="Enter Amount"/>
+	                </div>
+	            </div>
+	            
+	            <div class="col-xs-12 col-md-4">
+	                <div class="input-box">
+	                    <label>Pharmacy's bill number :
+	                        <req>*</req>
+	                    </label>
+	                    <input type="text" data-ng-model="vm.partnerBillNumber" maxlength="50" required placeholder="Enter Bill No"/>
+	                </div>
+	                <div class="input-box">
+	                    <label>Pharmacy's bill amount :
+	                        <req>*</req>
+	                    </label>
+	                    <input type="text" data-ng-model="vm.partnerBillAmount" maxlength="50" required placeholder="Enter Bill Amount"/>
+	                </div>
+	            </div>
+	            
+	            <div class="col-xs-12 col-md-4" >
+	                <div class="input-box">
+	                    <label>Comments :
+	                        <req>*</req>
+	                    </label>
+	                    <textarea data-ng-model="vm.comments" required rows="4" maxlength="200"> </textarea>
+	                </div>
+	            </div>
+	            
+            </div>
+      	
+      	
+      		
+      	
+      		<div class="panel panel-info panel-body">
+      			<div class="col-xs-12">
+	                <button type="submit" class="btn btn-success pull-left" style="margin-right: 8px;">
+	                    Submit
+	                </button>
+	                
+	                <button type="submit" class="btn btn-success pull-left" style="margin-right: 8px;">
+	                    Cancel
+	                </button>
+	            </div>
+      		</div>
+      		
+        </div>
+    </div>
+</div>

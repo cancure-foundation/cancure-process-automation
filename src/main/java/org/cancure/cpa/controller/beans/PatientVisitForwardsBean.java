@@ -6,10 +6,25 @@ public class PatientVisitForwardsBean {
 
 	private Integer id;
 	private Integer pidn;
+	private PatientBean patient;
 	private Integer patientVisitId;
 	private Integer accountTypeId;
+	private String accountTypeName;
 	private Integer accountHolderId;
 	private Timestamp date;
+	
+	public String getAccountTypeName() {
+		return accountTypeName;
+	}
+	public void setAccountTypeName(String accountTypeName) {
+		this.accountTypeName = accountTypeName;
+	}
+	public PatientBean getPatient() {
+		return patient;
+	}
+	public void setPatient(PatientBean patient) {
+		this.patient = patient;
+	}
 	public Integer getId() {
 		return id;
 	}

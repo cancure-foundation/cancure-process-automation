@@ -74,6 +74,26 @@ core.config(["$stateProvider", function ($stateProvider) {
             pageTitle: 'Patient Hospital Visit Topup'
         }
     });
+    
+    $stateProvider.state('app.pharmacyForwards', {
+        url: '/pharmacyForwards/:pidn',
+        templateUrl: 'app/modules/core/pharmacyDispatch/forwards/pharmacyForwards.html',
+        controller: 'PharmacyForwardsController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Pharmacy Forwards'
+        }
+    });
+    
+    $stateProvider.state('app.pharmacyDispatch', {
+        url: '/pharmacyDispatch/:patientVisitId',
+        templateUrl: 'app/modules/core/pharmacyDispatch/pharmacyDispatch.html',
+        controller: 'PharmacyDispatchController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Pharmacy Dispatch'
+        }
+    });
 
     $stateProvider.state('app.patientRegNextAction', {
         url: '/patientRegNextAction/:prn',

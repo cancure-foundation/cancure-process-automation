@@ -4,13 +4,18 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="invoices")
@@ -24,7 +29,8 @@ public class InvoicesEntity {
 	
 	private Integer pidn;
 	
-	@ManyToOne
+	@OneToOne (fetch = FetchType.EAGER)
+	//@Fetch(FetchMode.JOIN)
 	@JoinColumn(name="from_account_type_id")
 	private AccountTypes fromAccountTypeId;
 	
@@ -34,7 +40,7 @@ public class InvoicesEntity {
 	@Transient
 	private String fromAccountHolderName;
 	
-	@ManyToOne
+	@OneToOne (fetch = FetchType.EAGER)
 	@JoinColumn(name="to_account_type_id")
 	private AccountTypes toAccountTypeId;
 	
@@ -52,10 +58,20 @@ public class InvoicesEntity {
 	private Double balanceAmount;
 	
 	@Column(name="partner_bill_no")
-	private String billNo;
+	private String partnerBillNo;
 	
 	@Column(name="partner_bill_amount")
-	private Double billAmount;
+	private Double partnerBillAmount;
+	
+	private String comments;
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
 
 	public String getFromAccountHolderName() {
 		return fromAccountHolderName;
@@ -153,19 +169,20 @@ public class InvoicesEntity {
 		this.balanceAmount = balanceAmount;
 	}
 
-	public String getBillNo() {
-		return billNo;
+	public String getPartnerBillNo() {
+		return partnerBillNo;
 	}
 
-	public void setBillNo(String billNo) {
-		this.billNo = billNo;
+	public void setPartnerBillNo(String partnerBillNo) {
+		this.partnerBillNo = partnerBillNo;
 	}
 
-	public Double getBillAmount() {
-		return billAmount;
+	public Double getPartnerBillAmount() {
+		return partnerBillAmount;
 	}
 
-	public void setBillAmount(Double billAmount) {
-		this.billAmount = billAmount;
-	}	
+	public void setPartnerBillAmount(Double partnerBillAmount) {
+		this.partnerBillAmount = partnerBillAmount;
+	}
+
 }

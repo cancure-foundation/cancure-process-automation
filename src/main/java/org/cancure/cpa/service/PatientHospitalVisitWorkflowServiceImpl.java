@@ -75,6 +75,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		// Find the hospital of this HPOC.
 		HpocHospital hpocHosMapping = hpocHospitalService.getHospitalFromHpoc(myUserId);
 		Integer hospitalId = hpocHosMapping.getHospitalId();
+		patientVisitBean.setAccountHolderId(hospitalId + "");
 		
 		PatientVisit patientVisit = transformPatientBeanToEntity(patientVisitBean);
 
@@ -130,7 +131,10 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		PatientVisit patientVisit = new PatientVisit();
 		patientVisit.setDate(new Timestamp(System.currentTimeMillis()));
 		patientVisit.setPidn(patientVisitBean.getPidn());
-		patientVisit.setAccountTypes(new AccountTypes(5, "Hospital"));
+		AccountTypes at = new AccountTypes();
+		at.setId(5);
+		at.setName("Hospital");
+		patientVisit.setAccountTypes(at);
 		patientVisit.setAccountHolderId(Integer.parseInt(patientVisitBean.getAccountHolderId()));
 
 		if (patientVisitBean.getPatientHospitalVisitDocumentBeanList() != null) {
@@ -168,9 +172,9 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 					approval.setDate(new Timestamp(System.currentTimeMillis()));
 					approval.setPatientVisitId(patientVisitId);
 					approval.setPidn(pidn);
-					AccountTypes approvedForAccountType = new AccountTypes();
-					approvedForAccountType.setId(b.getApprovedForAccountTypeId());
-					approval.setApprovedForAccountType(approvedForAccountType);
+					AccountTypes at = new AccountTypes();
+					at.setId(b.getApprovedForAccountTypeId());
+					approval.setApprovedForAccountType(at);
 
 					approvalRepository.save(approval);
 				}
@@ -214,6 +218,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 	}
 
 	@Override
+	@Transactional
 	public PatientVisitHistoryBean selectPatient(String pidnString) {
 		Integer pidn = Integer.parseInt(pidnString);
 		List<PatientBean> list = new ArrayList<PatientBean>();
@@ -226,6 +231,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 			List<PatientApproval> patientApprovals = approvalRepository.findByPidn(pidn);
 			if (patientApprovals != null && !patientApprovals.isEmpty()) {
 				historyBean.setPatientApprovals(patientApprovals);
+				
 				List<InvoicesEntity> invoicesList = invoicesRepository.findByPidn(pidn);
 				if (invoicesList != null && !invoicesList.isEmpty()){
 					for (InvoicesEntity entity : invoicesList){
@@ -243,19 +249,49 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 
 
 	@Override
+	@Transactional
 	public PatientVisitHistoryBean searchByPatientVisitId(String patientVisitId) {
-		PatientVisit patientVisitBean = patientVisitRepository.findOne(Integer.parseInt(patientVisitId));
-		Integer pidn = patientVisitBean.getPidn();
+		PatientVisit patientVisitEntity = patientVisitRepository.findOne(Integer.parseInt(patientVisitId));
+		Integer pidn = patientVisitEntity.getPidn();
 		
-		Map<String, String> task = patientHospitalVisitService.findTask(pidn + "_" + patientVisitBean.getId());
-		
+		Map<String, String> task = patientHospitalVisitService.findTask(pidn + "_" + patientVisitEntity.getId());
+		PatientVisitBean patVisitBean = transformPatientVisitEntityToBean(patientVisitEntity);
 		PatientVisitHistoryBean bean = selectPatient(pidn.toString());
-		bean.setPatientVisit(patientVisitBean);
+		bean.setPatientVisit(patVisitBean);
 		bean.setTask(task);
 		return bean;
 	}
 
 	
+	private PatientVisitBean transformPatientVisitEntityToBean(PatientVisit entity) {
+		PatientVisitBean bean = new PatientVisitBean();
+		bean.setAccountHolderId(entity.getAccountHolderId().toString());
+		bean.setAccountTypeId(entity.getAccountTypes().getId().toString());
+		bean.setDate(entity.getDate());
+		bean.setId(entity.getId().longValue());
+		
+		List<PatientVisitDocuments> docList = entity.getPatientVisitDocumentsList();
+		if (docList != null && !docList.isEmpty()) {
+			List<PatientVisitDocumentBean> docBeanList = new ArrayList<>();
+			for (PatientVisitDocuments doc : docList) {
+				PatientVisitDocumentBean docBean = new PatientVisitDocumentBean();
+				docBean.setAccountTypeId(doc.getAccountTypes().getId());
+				docBean.setDocId(doc.getDocId().longValue());
+				docBean.setDocPath(doc.getDocPath());
+				docBean.setDocType(doc.getDocType());
+				
+				docBeanList.add(docBean);
+			}
+			
+			bean.setPatientHospitalVisitDocumentBeanList(docBeanList);
+		}
+		
+		
+		bean.setPidn(entity.getPidn());
+		bean.setTaskId(entity.getTaskId());
+		return bean;
+	}
+
 	private String getPartnerName(Integer fromAccountTypeId, Integer fromAccountHolderId) {
 		if (fromAccountTypeId == 3) { //Pharmacy
 			Pharmacy phar = pharmacyService.getPharmacy(fromAccountHolderId);

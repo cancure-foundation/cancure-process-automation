@@ -1,0 +1,99 @@
+<div class="content-header">
+    <h1>
+        Pharmacy Medicine Dispatch
+    </h1>
+</div>
+<!-- Main content -->
+<div class="content patientRegHistory">
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12">
+            
+            <div class="panel panel-info panel-body">
+            	<div class="panel-body" style="padding-bottom: 0px;">
+	                <div class="col-md-4 col-xs-12 input-box">
+	                    <label>PIDN
+	                        <req>*</req>
+	                    </label>
+	                    <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" />
+	                </div>
+	                <div class="col-md-12 col-xs-12 text-left" style="padding-bottom: 15px;">
+		                <input type="button" class="btn btn-success" ng-click="vm.searchUser();" value="Search">
+		            </div>
+	            </div>
+            </div>
+            
+            <div class="noResultText" ng-show="vm.noSearchResult">Sorry, no items match your query.</div>
+            
+            <div class="panel panel-info panel-body" ng-hide="vm.noSearchResult">
+            	
+            	<div class="col-xs-12">
+	            	
+	            	<div class="panel panel-info panel-body" ng-show="vm.forwards.length > 0">
+		            	<div class="panel-body" style="padding-bottom: 0px;">
+			                <div class="col-md-4 col-xs-12 input-box">
+			                    <label>PIDN
+			                    </label>
+			                    {{ vm.forwards[0].patient.pidn }}
+			                </div>
+			            </div>
+		            	<div class="panel-body" style="padding-bottom: 0px;">
+			                <div class="col-md-4 col-xs-12 input-box">
+			                    <label>Name
+			                    </label>
+			                    {{ vm.forwards[0].patient.name }}
+			                </div>
+			                <div class="col-md-4 col-xs-12 input-box">
+			                    <label>Address
+			                    </label>
+			                    {{ vm.forwards[0].patient.address }}
+			                </div>
+			            </div>
+			            <div class="panel-body" style="padding-bottom: 0px;">
+			                <div class="col-md-4 col-xs-12 input-box">
+			                    <label>Phone
+			                    </label>
+			                    {{ vm.forwards[0].patient.contact }}
+			                </div>
+			                <div class="col-md-4 col-xs-12 input-box">
+			                    <label>Gender
+			                    </label>
+			                    {{ vm.forwards[0].patient.gender }}
+			                </div>
+			            </div>
+			            <div class="panel-body" style="padding-bottom: 0px;">
+			                <div class="col-md-4 col-xs-12 input-box">
+			                    <label>Age
+			                    </label>
+			                    {{ vm.forwards[0].patient.age }}
+			                </div>
+			                <div class="col-md-4 col-xs-12 input-box">
+			                    <label>Blood Group
+			                    </label>
+			                    {{ vm.forwards[0].patient.bloodGroup }}
+			                </div>
+			            </div>
+	            	</div>
+	            
+	            
+                   <table class="table table-bordered" ng-show="vm.forwards.length > 0">
+                       <thead>
+                           <tr>
+                               <th class="col-xs-3">Date</th>
+                               <th class="col-xs-2">Patient</th>
+                               <th class="col-xs-3">View</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <tr ng-repeat="item in vm.forwards">
+                               <td class="col-xs-3">{{item.date}}</td>
+                               <td class="col-xs-2">{{item.patient.name}}</td>
+                               <td class="col-xs-3"><a ui-sref="app.pharmacyDispatch({ patientVisitId: item.patientVisitId })">View</a></td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+	            		
+        </div>
+    </div>
+</div>

@@ -8,6 +8,7 @@
     <!-- row -->
     <div class="row">
         <div class="col-md-12">
+            
             <div class="panel panel-info panel-body">
             	<div class="panel-body" style="padding-bottom: 0px;">
 	                <div class="col-md-4 col-xs-12 input-box">
@@ -23,6 +24,7 @@
             </div>
             
             <div class="noResultText" ng-show="vm.noSearchResult">Sorry, no items match your query.</div>
+            
             
             <div class="panel panel-info panel-body" ng-show="vm.patient">
             	<div class="panel-body" style="padding-bottom: 0px;">
@@ -85,6 +87,8 @@
                    </table>
                </div>
 	            
+	           <form name="vm.hospitalVisitForm" ng-submit="vm.submitTask();" class="clearfix" autocomplete="off">
+	            
 	           <div class="col-xs-12">
                    <span class="section-title"><b>Payments to the Patient :</b></span>
                    <div ng-hide="vm.patient.invoicesList.length > 0" class="empty-text">No payments have been made to the patient.</div>
@@ -108,6 +112,18 @@
                    </table>
                </div> 
 	            
+	           <div class="input-box col-md-6 col-xs-12">
+                   <label>Documents (Prescriptions) :</label>
+                   <input id="patientNextTask-file" type="file" multiple="multiple" onchange="angular.element(this).scope().vm.FilesSelection(this)" aria-label="patientFile">
+               </div>
+                
+	           <div class="input-box col-xs-12" ng-show="vm.patientFile.length > 0 && vm.patientFileNames.length > 0" multiple="multiple">
+                   <label>Selected Files :</label>
+                   <span ng-repeat="item in vm.patientFileNames">
+                  			{{item}} {{$last ? '' :  ', '}}
+                  		</span>
+               </div>
+                             
 	           <div class="col-xs-12">
 	           	   <div class="col-xs-12">
                    		<span class="section-title"><b>Documents (Prescriptions) :</b></span>
@@ -135,11 +151,11 @@
       	
       		<div class="panel panel-info panel-body" ng-show="vm.patient">
       			<div class="col-xs-12">
-	                <button type="submit" class="btn btn-success pull-left" style="margin-right: 8px;">
+	                <button class="btn btn-success pull-left" ng-click="vm.sendToSecretary();" style="margin-right: 8px;">
 	                    Send to Secretary for Topup Approval
 	                </button>
 	                
-	                <button type="submit" class="btn btn-success pull-left" style="margin-right: 8px;">
+	                <button class="btn btn-success pull-left" ng-click="vm.selectPartners();" style="margin-right: 8px;">
 	                    Select Partners
 	                </button>
 	            </div>

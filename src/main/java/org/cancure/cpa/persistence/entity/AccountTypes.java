@@ -17,13 +17,12 @@ public class AccountTypes {
 	private String name;
 	
 	public AccountTypes(){
-		
 	}
 	
-	public AccountTypes(Integer id, String name) {
+	/*public AccountTypes(Integer id, String name) {
 		this.id = id;
 		this.name = name;
-	}
+	}*/
 
 	public Integer getId() {
 		return id;

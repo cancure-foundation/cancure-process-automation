@@ -280,8 +280,9 @@ create table invoices (
 	status varchar(10),
 	closed_date date,
 	balance_amount int(10),
-	bill_no int(10),
-	bill_amount decimal(10,2)
+	partner_bill_no varchar(50),
+	partner_bill_amount decimal(10,2),
+	comments varchar(200)
 ); 
 
 create table patient_visit (
