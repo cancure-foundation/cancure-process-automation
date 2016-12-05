@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.cancure.cpa.controller.beans.PatientApprovalBean;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
@@ -136,6 +137,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 	
 
 	@Override
+	@Transactional
 	public PharmacyDispatchHistoryBean searchPharmacyDispatchHistory(Integer patientVisitId, Integer myUserId) throws Exception {
 
 		PharmacyDispatchHistoryBean historyBean = new PharmacyDispatchHistoryBean();
@@ -170,7 +172,19 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 							patientVisitBean.getId().intValue());
 			
 			if (forwards != null && forwards.size() == 1) {
-				historyBean.setPatientVisitForwards(forwards.get(0));
+				
+				PatientVisitForwards fwdEntity = forwards.get(0);
+				
+				PatientVisitForwardsBean fwdBean = new PatientVisitForwardsBean();
+				fwdBean.setAccountHolderId(fwdEntity.getAccountHolderId());
+				fwdBean.setAccountTypeId(fwdEntity.getAccountTypeId().getId());
+				fwdBean.setAccountTypeName(fwdEntity.getAccountTypeId().getName());
+				fwdBean.setDate(fwdEntity.getDate());
+				fwdBean.setId(fwdEntity.getId());
+				fwdBean.setPidn(fwdEntity.getPidn());
+				fwdBean.setPatientVisitId(fwdEntity.getPatientVisitId());
+				
+				historyBean.setPatientVisitForwards(fwdBean);
 				historyBean.setPatientVisitBean(patientVisitBean);
 			} else {
 				// No forwards to this Partner. Just return.
@@ -188,10 +202,27 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 			List<PatientApproval> patientApprovals = approvalRepository.findByPidnAndApprovedForAccountType(patientVisitBean.getPidn(), approvedForAccountType);
 			if (patientApprovals != null && !patientApprovals.isEmpty()) {
 				Double totalApprovals = 0d;
-				historyBean.setPatientApprovals(patientApprovals);
+				List<PatientApprovalBean> paBeanList = new ArrayList<>();
+				
 				for (PatientApproval pa : patientApprovals) {
+					
+					PatientApprovalBean paBean = new PatientApprovalBean();
+					paBean.setAmount(pa.getAmount());
+					paBean.setApprovedForAccountTypeId(pa.getApprovedForAccountType().getId());
+					paBean.setApprovedForAccountTypeName(pa.getApprovedForAccountType().getName());
+					paBean.setDate(pa.getDate());
+					paBean.setExpiryDate(pa.getExpiryDate());
+					paBean.setId(pa.getId());
+					paBean.setPatientVisitId(pa.getPatientVisitId());
+					paBean.setPidn(pa.getPidn().toString());
+					//paBean.setStatus(pa.get);
+					
+					paBeanList.add(paBean);
+					
 					totalApprovals += pa.getAmount();
 				}
+				
+				historyBean.setPatientApprovals(paBeanList);
 				
 				Double totalInvoices = 0d;
 				List<InvoicesEntity> invoicesList = invoicesRepository.findByPidnAndFromAccountTypeId(patientVisitBean.getPidn(), approvedForAccountType);

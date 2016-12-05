@@ -4,13 +4,18 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="invoices")
@@ -24,7 +29,8 @@ public class InvoicesEntity {
 	
 	private Integer pidn;
 	
-	@ManyToOne
+	@OneToOne (fetch = FetchType.EAGER)
+	//@Fetch(FetchMode.JOIN)
 	@JoinColumn(name="from_account_type_id")
 	private AccountTypes fromAccountTypeId;
 	
@@ -34,7 +40,7 @@ public class InvoicesEntity {
 	@Transient
 	private String fromAccountHolderName;
 	
-	@ManyToOne
+	@OneToOne (fetch = FetchType.EAGER)
 	@JoinColumn(name="to_account_type_id")
 	private AccountTypes toAccountTypeId;
 	

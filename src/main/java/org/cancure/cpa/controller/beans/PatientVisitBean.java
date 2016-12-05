@@ -1,18 +1,19 @@
 package org.cancure.cpa.controller.beans;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class PatientVisitBean {
 
 	private Long id;
 	private Integer pidn;
-	private Date date;
+	private Timestamp date;
 	private String accountTypeId;
 	private String accountHolderId;
 	private String taskId;
 	private String status;
 	private String topupNeeded;
+	private List<PatientVisitDocumentBean> patientHospitalVisitDocumentBeanList;
 	
 	public String getTopupNeeded() {
 		return topupNeeded;
@@ -20,7 +21,6 @@ public class PatientVisitBean {
 	public void setTopupNeeded(String topupNeeded) {
 		this.topupNeeded = topupNeeded;
 	}
-	private List<PatientVisitDocumentBean> patientHospitalVisitDocumentBeanList;
 	
 	public List<PatientVisitDocumentBean> getPatientHospitalVisitDocumentBeanList() {
 		return patientHospitalVisitDocumentBeanList;
@@ -42,10 +42,10 @@ public class PatientVisitBean {
 	public void setPidn(Integer pidn) {
 		this.pidn = pidn;
 	}
-	public Date getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 	public String getAccountTypeId() {

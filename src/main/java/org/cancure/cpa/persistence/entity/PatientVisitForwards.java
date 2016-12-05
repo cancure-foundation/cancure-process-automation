@@ -4,11 +4,12 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,7 +26,7 @@ public class PatientVisitForwards {
 	@Column(name="patient_visit_id", nullable = false)
 	private Integer patientVisitId;
 	
-	@ManyToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="account_type_id")
 	private AccountTypes accountTypeId;
 	

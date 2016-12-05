@@ -10,10 +10,17 @@ public class PatientApprovalBean {
 	private String pidn;
 	private Double amount;
 	private Integer approvedForAccountTypeId;
+	private String approvedForAccountTypeName;
 	private Date expiryDate;
 	private Integer patientVisitId;
 	private String status;
 	
+	public String getApprovedForAccountTypeName() {
+		return approvedForAccountTypeName;
+	}
+	public void setApprovedForAccountTypeName(String approvedForAccountTypeName) {
+		this.approvedForAccountTypeName = approvedForAccountTypeName;
+	}
 	public String getStatus() {
 		return status;
 	}

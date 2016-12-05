@@ -9,8 +9,8 @@ import org.cancure.cpa.persistence.entity.PatientVisitForwards;
 public class PharmacyDispatchHistoryBean {
 
 	private PatientVisitBean patientVisitBean;
-	private PatientVisitForwards patientVisitForwards;
-	private List<PatientApproval> patientApprovals;
+	private PatientVisitForwardsBean patientVisitForwards;
+	private List<PatientApprovalBean> patientApprovals;
 	private List<InvoicesEntity> invoicesList;
 	private PatientBean patient;
 	private Double balance;
@@ -20,10 +20,10 @@ public class PharmacyDispatchHistoryBean {
 	public void setPatient(PatientBean patient) {
 		this.patient = patient;
 	}
-	public PatientVisitForwards getPatientVisitForwards() {
+	public PatientVisitForwardsBean getPatientVisitForwards() {
 		return patientVisitForwards;
 	}
-	public void setPatientVisitForwards(PatientVisitForwards patientVisitForwards) {
+	public void setPatientVisitForwards(PatientVisitForwardsBean patientVisitForwards) {
 		this.patientVisitForwards = patientVisitForwards;
 	}
 	public PatientVisitBean getPatientVisitBean() {
@@ -32,10 +32,10 @@ public class PharmacyDispatchHistoryBean {
 	public void setPatientVisitBean(PatientVisitBean patientVisitBean) {
 		this.patientVisitBean = patientVisitBean;
 	}
-	public List<PatientApproval> getPatientApprovals() {
+	public List<PatientApprovalBean> getPatientApprovals() {
 		return patientApprovals;
 	}
-	public void setPatientApprovals(List<PatientApproval> patientApprovals) {
+	public void setPatientApprovals(List<PatientApprovalBean> patientApprovals) {
 		this.patientApprovals = patientApprovals;
 	}
 	public List<InvoicesEntity> getInvoicesList() {

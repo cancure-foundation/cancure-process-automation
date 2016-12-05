@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.cancure.cpa.controller.beans.PatientInvestigationBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsMasterBean;
 import org.cancure.cpa.controller.beans.PatientVisitHistoryBean;
@@ -36,7 +37,7 @@ public class PatientVisitController {
 	private PatientHospitalVisitWorkflowService service;
 
 	@RequestMapping(value = "/patientvisit", method = RequestMethod.POST)
-	public String startPatientHospitalVisit(@RequestBody PatientVisitBean patientHospitalVisitBean, OAuth2Authentication auth) throws IOException {
+	public String startPatientHospitalVisit(PatientVisitBean patientHospitalVisitBean, OAuth2Authentication auth) throws IOException {
 		if (auth != null) {
 			List<String> roles = new ArrayList<>();
 			for (GrantedAuthority a : auth.getAuthorities()){

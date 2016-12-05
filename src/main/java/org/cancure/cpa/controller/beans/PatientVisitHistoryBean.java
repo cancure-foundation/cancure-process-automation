@@ -3,10 +3,8 @@ package org.cancure.cpa.controller.beans;
 import java.util.List;
 import java.util.Map;
 
-import org.activiti.engine.task.Task;
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
 import org.cancure.cpa.persistence.entity.PatientApproval;
-import org.cancure.cpa.persistence.entity.PatientVisit;
 
 public class PatientVisitHistoryBean {
 
@@ -14,7 +12,7 @@ public class PatientVisitHistoryBean {
 	
 	private PatientBean patientBean;
 	
-	private PatientVisit patientVisit;
+	private PatientVisitBean patientVisit;
 	
 	List<PatientApproval> patientApprovals;
 	
@@ -28,11 +26,11 @@ public class PatientVisitHistoryBean {
 		this.task = task;
 	}
 
-	public PatientVisit getPatientVisit() {
+	public PatientVisitBean getPatientVisit() {
 		return patientVisit;
 	}
 
-	public void setPatientVisit(PatientVisit patientVisit) {
+	public void setPatientVisit(PatientVisitBean patientVisit) {
 		this.patientVisit = patientVisit;
 	}
 
