@@ -14,6 +14,8 @@ public class PatientInvestigationBean {
     private String taskId;
     private Integer hospitalCostEstimate;
     private Integer medicalCostEstimate;
+    private Integer hospitalCostApproved;
+    private Integer medicalCostApproved;
 
     public String getInvestigatorType() {
         return investigatorType;
@@ -85,6 +87,22 @@ public class PatientInvestigationBean {
 
     public void setMedicalCostEstimate(Integer medicalCostEstimate) {
         this.medicalCostEstimate = medicalCostEstimate;
+    }
+
+    public Integer getHospitalCostApproved() {
+        return hospitalCostApproved;
+    }
+
+    public void setHospitalCostApproved(Integer hospitalCostApproved) {
+        this.hospitalCostApproved = hospitalCostApproved;
+    }
+
+    public Integer getMedicalCostApproved() {
+        return medicalCostApproved;
+    }
+
+    public void setMedicalCostApproved(Integer medicalCostApproved) {
+        this.medicalCostApproved = medicalCostApproved;
     }
 
 }

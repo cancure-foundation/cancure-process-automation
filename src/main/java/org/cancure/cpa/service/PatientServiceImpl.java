@@ -176,4 +176,9 @@ public class PatientServiceImpl implements PatientService {
         
     }    
 	
+    @Override
+    public void updateCostApproved(Integer hospitalCostApproved, Integer medicalCostApproved, Integer prn) {
+        patientRepo.updateCostApproved(hospitalCostApproved, medicalCostApproved, prn);
+        
+    }
 }

@@ -178,7 +178,9 @@ create table patient(
 	preliminary_exam_doctor_id number(10) references DOCTOR(doctor_id),
 	preliminary_exam_hospital_id number(10) references hospital(hospital_id),
 	hospital_cost_estimate number(10),
-	medical_cost_estimate number(10)
+	medical_cost_estimate number(10),
+	hospital_cost_approved number(10),
+	medical_cost_approved number(10)
 );
 
 
