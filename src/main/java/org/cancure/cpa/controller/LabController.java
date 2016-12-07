@@ -5,6 +5,7 @@ import org.cancure.cpa.persistence.entity.Lab;
 import org.cancure.cpa.service.LabService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ public class LabController {
     private LabService labService;
     
     @RequestMapping(value="/lab/save", method=RequestMethod.POST)
-    public String save(Lab lab) {
+    public Lab save(@RequestBody Lab lab) {
         return labService.save(lab);
     }
     

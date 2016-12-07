@@ -226,5 +226,34 @@ core.config(["$stateProvider", function ($stateProvider) {
             pageTitle: 'Settings'
         }
     });
+    $stateProvider.state('app.pharmacy.pharmacyCreate', {
+        url: '/pharmacyCreate/:pharmacyId',
+        templateUrl: 'app/modules/core/pharmacyManage/pharmacyCreate/pharmacyCreate.html',
+        controller: 'PharmacyCreateController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Hospitals'
+        }
+    });
+    
+    $stateProvider.state('app.pharmacy.pharmacyList', {
+        url: '/pharmacyList',
+        templateUrl: 'app/modules/core/pharmacyManage/pharmacyList/pharmacyList.html',
+        controller: 'PharmacyListController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Hospitals'
+        }
+    });
+    
+    $stateProvider.state('app.pharmacy', {
+        url: '/pharmacy',
+        templateUrl: 'app/modules/core/pharmacyManage/pharmacyManage.html',
+        controller: 'PharmacyManageController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Hospitals'
+        }
+    });
     
 }]);

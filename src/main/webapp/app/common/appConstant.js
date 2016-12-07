@@ -17,6 +17,7 @@ app.constant('appSettings', {
 		doctorList : 'doctor/list', // to fetch doctor list
 		hospitalList : 'hospital/list', // to fetch hospital list
 		hpocList : 'user/hpoc', // to fetch hpoc list
+		pharamcyList : 'pharmacy/all', // to fetch hospital list
 		hpocMapping : 'link/hpoc/hospital', // to map hpoc with hospital
 		hospitalHpoc : 'listAll/hpoc/hospital', //list all hospital and hpoc
 		hpocDoctors : 'doctor/hpoclist', // to get all doctors under that HPOC
@@ -105,7 +106,7 @@ app.constant('appSettings', {
 	{
 		title: "Pharmacy",
 		icon: "medkit",
-		state: "",
+		state: "pharmacy.pharmacyList",
 		pageId : 5
 	},
 

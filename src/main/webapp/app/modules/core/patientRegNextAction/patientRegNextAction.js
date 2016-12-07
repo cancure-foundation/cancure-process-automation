@@ -14,15 +14,15 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 	 *  /patientregistration/Patientidcard/ ROLE_PROGRAM_COORDINATOR
 	 */
 	var init = function() {
-		Loader.create('Fetching Data. Please wait');
+		Loader.create('Fetching Data... Please wait..');
 		apiService.serviceRequest({
 			URL: 'tasks/' + $stateParams.prn
 		}, function (response) {
 			$scope.prn = $stateParams.prn;
 			$scope.nextTaskObject = response;
 			setupPeople(function (data){
-				if (data)
-					$scope.doctorList = data;
+				if (data) 
+					$scope.doctorList = data;				
 				Loader.destroy();
 			});
 		});
@@ -44,6 +44,10 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 					$scope.uploadNeeded = true;
 					vm.isPrelimEx = true;
 				}
+				if ($scope.nextTaskObject.nextTask == 'MB Doctor Approval') {					
+					vm.isMBDoc = true;
+					vm.formData.people = response[0].doctorId.toString();
+				}
 			});
 
 		} else if ($scope.nextTaskObject.nextTask == 'Background Check') {
@@ -53,6 +57,16 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 			vm.statuses = [{'id': 'Approved', 'name' : 'Approve'}, {'id': 'Recommend', 'name' : 'Forward to EC'},
 			               {'id': 'Reject', 'name' : 'Reject'}, {'id': 'SendBackToPC', 'name' : 'Need background check clarification'},
 			               {'id': 'prelimExamClarificationReqd', 'name' : 'Need preliminary exam clarification'}];
+			
+			vm.isSecrtry = true; // flag to indicate i
+			
+			// watch secretary entered cost medical cost to see if it exceeds estimates
+			$scope.$watch('vm.formData.medicalCostApproved', function (newValue, oldValue, scope) {
+				vm.costValidator();
+			});
+			$scope.$watch('vm.formData.hospitalCostApproved', function (newValue, oldValue, scope) {
+				vm.costValidator();
+			});
 			callback(null);
 		} else if ($scope.nextTaskObject.nextTask == 'EC Approval') {
 			vm.statuses = [{'id': 'accept/save/Approve', 'name' : 'Approve'}, {'id': 'reject/save/Reject', 'name' : 'Reject'}];
@@ -117,12 +131,19 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 		fd.append(prefix + "prn", $scope.prn);
 		fd.append(prefix + "investigatorId", vm.formData.people);
 		fd.append(prefix + "comments", vm.formData.comments);
+		
 		// checks if the step needs estimate costs to be captured
 		if (vm.formData.medicalCostEstimate && vm.formData.hospitalCostEstimate){
 			fd.append(prefix + "medicalCostEstimate", vm.formData.medicalCostEstimate);
 			fd.append(prefix + "hospitalCostEstimate", vm.formData.hospitalCostEstimate);
 		}
 
+		// checks if the step needs approved costs to be captured
+		if (vm.formData.medicalCostApproved && vm.formData.hospitalCostApproved){
+			fd.append(prefix + "medicalCostApproved", vm.formData.medicalCostApproved);
+			fd.append(prefix + "hospitalCostApproved", vm.formData.hospitalCostApproved);
+		}
+		
 		if (vm.patientFile && vm.patientFile.length > 0) {
 			for (var i = 0; i < vm.patientFile.length; i++){
 				fd.append("patientDocumentBean["+ i +"].prn", $scope.prn); 
@@ -150,7 +171,21 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 
 		});
 	};
-
+	
+	vm.costValidator = function (){
+		var errFlag;
+		if (parseInt(vm.formData.medicalCostApproved) > parseInt($scope.nextTaskObject.medicalCostEstimate)){
+			errFlag = true;
+			document.getElementById("medicalCostApproved").value="";
+		} else if (parseInt(vm.formData.hospitalCostApproved) > parseInt($scope.nextTaskObject.hospitalCostEstimate)){
+			errFlag = true;
+			document.getElementById("hospitalCostApproved").value="";
+		}
+		if (errFlag) 
+			vm.costErr = "Approved cost should not be greater than Estimated Cost.";			
+		else
+			vm.costErr = null;
+	}
 	init();
 
 }]);
