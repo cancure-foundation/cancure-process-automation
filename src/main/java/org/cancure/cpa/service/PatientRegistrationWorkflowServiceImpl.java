@@ -128,6 +128,7 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
         actVars.put("secApproval", status);
         String taskId=patientRegistrationService.movePatientRegn(String.valueOf(patientInvestigationBean.getPrn()), actVars);
         patientInvestigationBean.setTaskId(taskId);
+        patientService.updateCostApproved(patientInvestigationBean.getHospitalCostApproved(),patientInvestigationBean.getMedicalCostApproved(), Integer.parseInt(patientInvestigationBean.getPrn()));
         patientInvestigationService.savePatientInvestigation(patientInvestigationBean,status);
     }
     

@@ -124,6 +124,12 @@ public class Patient {
     @Column(name="medical_cost_estimate")
     private Integer medicalCostEstimate;
     
+    @Column(name="hospital_cost_approved")
+    private Integer hospitalCostApproved;
+    
+    @Column(name="medical_cost_approved")
+    private Integer medicalCostApproved;
+    
     @OneToMany(mappedBy="familyPatient")
     private List<PatientFamily> patientFamily=new ArrayList<PatientFamily>();
     
@@ -399,6 +405,22 @@ public class Patient {
 
     public void setMedicalCostEstimate(Integer medicalCostEstimate) {
         this.medicalCostEstimate = medicalCostEstimate;
+    }
+
+    public Integer getHospitalCostApproved() {
+        return hospitalCostApproved;
+    }
+
+    public void setHospitalCostApproved(Integer hospitalCostApproved) {
+        this.hospitalCostApproved = hospitalCostApproved;
+    }
+
+    public Integer getMedicalCostApproved() {
+        return medicalCostApproved;
+    }
+
+    public void setMedicalCostApproved(Integer medicalCostApproved) {
+        this.medicalCostApproved = medicalCostApproved;
     }
     
     

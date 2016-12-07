@@ -43,6 +43,8 @@ public class PatientBean {
     private Integer preliminaryExamHospitalId;
     private Integer hospitalCostEstimate;
     private Integer medicalCostEstimate;
+    private Integer hospitalCostApproved;
+    private Integer medicalCostApproved;
     private List<PatientFamilyBean> patientFamily=new ArrayList<PatientFamilyBean>();
     private List<SupportOrganisationBean> organisation=new ArrayList<SupportOrganisationBean>();
     private List<PatientDocumentBean> document=new ArrayList<PatientDocumentBean>();
@@ -283,6 +285,18 @@ public class PatientBean {
     }
     public void setMedicalCostEstimate(Integer medicalCostEstimate) {
         this.medicalCostEstimate = medicalCostEstimate;
+    }
+    public Integer getHospitalCostApproved() {
+        return hospitalCostApproved;
+    }
+    public void setHospitalCostApproved(Integer hospitalCostApproved) {
+        this.hospitalCostApproved = hospitalCostApproved;
+    }
+    public Integer getMedicalCostApproved() {
+        return medicalCostApproved;
+    }
+    public void setMedicalCostApproved(Integer medicalCostApproved) {
+        this.medicalCostApproved = medicalCostApproved;
     } 
     
 }
