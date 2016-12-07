@@ -56,13 +56,13 @@
                                             	</b
                                             ></td>
                                         </tr>
-                                        <tr ng-show="vm.abc">
+                                        <tr ng-show="vm.patientDetails.hospitalCostApproved && vm.patientDetails.medicalCostApproved">
                                             <td  colspan="1"  class="text-center"><b>Approved Amount</b></td>
                                             <td colspan="3" class="text-center">
                                                 <b>
-                                            		Hospital :  {{vm.patientDetails.hospitalCostEstimate | currency:'₹'}} 
+                                            		Hospital :  {{vm.patientDetails.hospitalCostApproved | currency:'₹'}} 
                                             		<br>
-                                            		Medicine : {{vm.patientDetails.medicalCostEstimate | currency:'₹'}} 
+                                            		Medicine : {{vm.patientDetails.medicalCostApproved | currency:'₹'}} 
                                             	</b
                                             ></td>
                                         </tr>

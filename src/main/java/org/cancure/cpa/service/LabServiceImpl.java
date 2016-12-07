@@ -15,9 +15,8 @@ public class LabServiceImpl implements LabService{
     
     @Transactional
     @Override
-    public String save(Lab lab) {
-        labRepo.save(lab);
-        return "Success";
+    public Lab save(Lab lab) {
+    	return labRepo.save(lab);
     }
     
     @Override
