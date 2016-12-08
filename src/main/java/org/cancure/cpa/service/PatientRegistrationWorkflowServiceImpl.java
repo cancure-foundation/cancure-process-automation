@@ -160,7 +160,6 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     	patientService.updatePidn(pidnGen.getPidn(), prn);
     	
         iDCardGenerator.generateCard(prn);
-        patientRegistrationService.movePatientRegn(String.valueOf(prn), null);
         
     }
 

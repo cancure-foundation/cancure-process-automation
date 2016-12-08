@@ -50,28 +50,36 @@ public class PatientController {
 	        bean.setDocument(documentBean);
 	        Map<String, String> map=mytaskService.getNextTask(value, PATIENT_REG_PROCESS_DEF_KEY);
 	        String nextTask=map.get("nextTask");
+	        String nextTaskKey = map.get("nextTaskKey");
 	        bean.setNextTask(nextTask);
+	        bean.setNextTaskKey(nextTaskKey);
 	        list.add(bean); 
 		}else if(key.equals("name")){
 		    list = patientService.searchByName(value);
 	        for(PatientBean patienBean:list){
 	            Map<String, String> map=mytaskService.getNextTask(patienBean.getPrn().toString(), PATIENT_REG_PROCESS_DEF_KEY);
 	            String nextTask=map.get("nextTask");
+	            String nextTaskKey = map.get("nextTaskKey");
 	            patienBean.setNextTask(nextTask); 
+	            patienBean.setNextTaskKey(nextTaskKey);
 	        }
 		}else if(key.equals("pidn")){
 		    list = patientService.searchByPidn(Integer.parseInt(value));
 		    for(PatientBean patienBean:list){
                 Map<String, String> map=mytaskService.getNextTask(patienBean.getPrn().toString(), PATIENT_REG_PROCESS_DEF_KEY);
                 String nextTask=map.get("nextTask");
+                String nextTaskKey = map.get("nextTaskKey");
                 patienBean.setNextTask(nextTask);
+                patienBean.setNextTaskKey(nextTaskKey);
 		    }
 		}else{
 		    list = patientService.searchByAadhar(value); 
 	          for(PatientBean patienBean:list){
 	                Map<String, String> map=mytaskService.getNextTask(patienBean.getPrn().toString(), PATIENT_REG_PROCESS_DEF_KEY);
 	                String nextTask=map.get("nextTask");
+	                String nextTaskKey = map.get("nextTaskKey");
 	                patienBean.setNextTask(nextTask);
+	                patienBean.setNextTaskKey(nextTaskKey);
 	          }
 		}	    	    
 	    return list;

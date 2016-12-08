@@ -2,166 +2,167 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="patientRegn" name="Patient Registration" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="usertask1" name="Patient Registration" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR,ROLE_HOSPITAL_POC">
+    <userTask id="patientRegistration" name="Patient Registration" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR,ROLE_HOSPITAL_POC">
       <documentation>Patient registers with Cancure providing personal details, family details, ID proofs
     		, income proofs etc.</documentation>
     </userTask>
-    <userTask id="usertask2" name="Preliminary Examination" activiti:candidateGroups="ROLE_HOSPITAL_POC,ROLE_DOCTOR" activiti:dueDate="${patientRegistrationService.maxPreliminaryExaminationTime}">
+    <userTask id="preliminaryExamination" name="Preliminary Examination" activiti:candidateGroups="ROLE_HOSPITAL_POC,ROLE_DOCTOR" activiti:dueDate="${patientRegistrationService.maxPreliminaryExaminationTime}">
       <documentation>Doctor conducts preliminary examination and provides reports. 
     		HPOC estimates the treatment costs.</documentation>
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <userTask id="usertask3" name="Background Check" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR" activiti:dueDate="${patientRegistrationService.maxBgCheckTime}">
+    <userTask id="backgroundCheck" name="Background Check" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR" activiti:dueDate="${patientRegistrationService.maxBgCheckTime}">
       <documentation>PC performs background check on the patient.</documentation>
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow1" sourceRef="usertask3" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow1" sourceRef="backgroundCheck" targetRef="exclusivegateway1"></sequenceFlow>
     <sequenceFlow id="flow2" sourceRef="exclusivegateway1" targetRef="servicetask2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bgCheck=='FAIL'}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow3" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
-    <sequenceFlow id="flow4" sourceRef="usertask2" targetRef="usertask3"></sequenceFlow>
-    <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask4" name="MB Doctor Approval" activiti:candidateGroups="ROLE_DOCTOR" activiti:dueDate="${patientRegistrationService.maxMBDoctorApprovalTime}">
+    <sequenceFlow id="flow3" sourceRef="patientRegistration" targetRef="preliminaryExamination"></sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="preliminaryExamination" targetRef="backgroundCheck"></sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="patientRegistration"></sequenceFlow>
+    <userTask id="mbDoctorApproval" name="MB Doctor Approval" activiti:candidateGroups="ROLE_DOCTOR" activiti:dueDate="${patientRegistrationService.maxMBDoctorApprovalTime}">
       <documentation>MB Doctors verifies the cost estimations and provides their input.</documentation>
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="usertask4">
+    <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="mbDoctorApproval">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bgCheck=='PASS'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask5" name="Secretary Approval" activiti:candidateGroups="ROLE_SECRETARY" activiti:dueDate="${patientRegistrationService.maxSecretaryApprovalTime}">
+    <userTask id="secretaryApproval" name="Secretary Approval" activiti:candidateGroups="ROLE_SECRETARY" activiti:dueDate="${patientRegistrationService.maxSecretaryApprovalTime}">
       <documentation>Secretary verifies the patient's details.</documentation>
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow8" sourceRef="usertask5" targetRef="exclusivegateway2"></sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="secretaryApproval" targetRef="exclusivegateway2"></sequenceFlow>
     <endEvent id="endevent2" name="End"></endEvent>
     <sequenceFlow id="flow9" sourceRef="exclusivegateway2" targetRef="servicetask2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Reject'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask6" name="EC Approval" activiti:candidateGroups="ROLE_EXECUTIVE_COMMITTEE" activiti:dueDate="${patientRegistrationService.maxEcApprovalTime}">
+    <userTask id="ecApproval" name="EC Approval" activiti:candidateGroups="ROLE_EXECUTIVE_COMMITTEE" activiti:dueDate="${patientRegistrationService.maxEcApprovalTime}">
       <documentation>Executive Committee verifies the patient's details and approves or rejects Cancure help.</documentation>
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <sequenceFlow id="flow11" sourceRef="exclusivegateway2" targetRef="usertask6">
+    <sequenceFlow id="flow11" sourceRef="exclusivegateway2" targetRef="ecApproval">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Recommend'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="usertask7" name="Patient ID Card Generation" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR" >
-      <documentation>Cancure approves patient's registration and patient's ID card is generated.
-    		Partners are notified.</documentation>
-      <extensionElements>
-        <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
-      </extensionElements>
-    </userTask>
-    <sequenceFlow id="flow12" sourceRef="exclusivegateway2" targetRef="usertask7">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Approved'}]]></conditionExpression>
-    </sequenceFlow>
-    <serviceTask id="servicetask1" name="UpdatePartners" activiti:expression="#{patientRegistrationService.updatePartners(prn)}" activiti:resultVariableName="completion"></serviceTask>
-    <sequenceFlow id="flow17" sourceRef="usertask7" targetRef="servicetask1"></sequenceFlow>
-    <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="usertask3" cancelActivity="true">
+    <serviceTask id="updatePartners" name="UpdatePartners" activiti:expression="#{patientRegistrationService.updatePartners(prn)}" activiti:resultVariableName="completion"></serviceTask>
+    <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="backgroundCheck" cancelActivity="true">
       <timerEventDefinition>
         <timeDuration>${patientRegistrationService.maxBgCheckTime}</timeDuration>
       </timerEventDefinition>
     </boundaryEvent>
     <serviceTask id="servicetask2" name="ClosureTasks" activiti:expression="#{patientRegistrationService.performClosureTasks(prn)}"></serviceTask>
     <exclusiveGateway id="exclusivegateway5" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow23" sourceRef="exclusivegateway5" targetRef="usertask5">
+    <sequenceFlow id="flow23" sourceRef="exclusivegateway5" targetRef="secretaryApproval">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${mbApproved == "Approved"}]]></conditionExpression>
     </sequenceFlow>
-    <serviceTask id="servicetask4" name="ECApprovalCountCheck" activiti:expression="#{execution.setVariable(&quot;ecApproved&quot;,patientRegistrationService.ecApprovalCountCheck(prn))}"></serviceTask>
-    <sequenceFlow id="flow25" sourceRef="usertask6" targetRef="servicetask4"></sequenceFlow>
+    <serviceTask id="ecApprovalCountCheck" name="ECApprovalCountCheck" activiti:expression="#{execution.setVariable(&quot;ecApproved&quot;,patientRegistrationService.ecApprovalCountCheck(prn))}"></serviceTask>
+    <sequenceFlow id="flow25" sourceRef="ecApproval" targetRef="ecApprovalCountCheck"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway6" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow28" sourceRef="exclusivegateway6" targetRef="servicetask2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ecApproved == 'Rejected'}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow29" sourceRef="exclusivegateway6" targetRef="usertask7">
+    <sequenceFlow id="flow29" sourceRef="exclusivegateway6" targetRef="confirmApprovedAmounts">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ecApproved == 'Approved'}]]></conditionExpression>
     </sequenceFlow>
     <serviceTask id="servicetask5" name="MB Approval Count Check" activiti:expression="#{execution.setVariable(&quot;mbApproved&quot;,patientRegistrationService.approvalCountCheck(prn))}"></serviceTask>
-    <sequenceFlow id="flow31" sourceRef="usertask4" targetRef="servicetask5"></sequenceFlow>
+    <sequenceFlow id="flow31" sourceRef="mbDoctorApproval" targetRef="servicetask5"></sequenceFlow>
     <sequenceFlow id="flow32" sourceRef="servicetask5" targetRef="exclusivegateway5"></sequenceFlow>
-    <sequenceFlow id="flow33" sourceRef="exclusivegateway5" targetRef="usertask4">
+    <sequenceFlow id="flow33" sourceRef="exclusivegateway5" targetRef="mbDoctorApproval">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${mbApproved != "Approved"}]]></conditionExpression>
     </sequenceFlow>
     <endEvent id="endevent4" name="End"></endEvent>
-    <sequenceFlow id="flow34" sourceRef="servicetask1" targetRef="endevent4"></sequenceFlow>
-    <sequenceFlow id="flow35" sourceRef="servicetask4" targetRef="exclusivegateway6"></sequenceFlow>
-    <sequenceFlow id="flow36" sourceRef="exclusivegateway6" targetRef="usertask6">
+    <sequenceFlow id="flow34" sourceRef="updatePartners" targetRef="endevent4"></sequenceFlow>
+    <sequenceFlow id="flow35" sourceRef="ecApprovalCountCheck" targetRef="exclusivegateway6"></sequenceFlow>
+    <sequenceFlow id="flow36" sourceRef="exclusivegateway6" targetRef="ecApproval">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${ecApproved == 'NotApproved'}]]></conditionExpression>
     </sequenceFlow>
-    <boundaryEvent id="boundarytimer2" name="Timer" attachedToRef="usertask6" cancelActivity="true">
+    <boundaryEvent id="boundarytimer2" name="Timer" attachedToRef="ecApproval" cancelActivity="true">
       <timerEventDefinition>
         <timeDuration>${patientRegistrationService.maxEcApprovalTime}</timeDuration>
       </timerEventDefinition>
     </boundaryEvent>
     <sequenceFlow id="flow38" sourceRef="boundarytimer2" targetRef="servicetask2"></sequenceFlow>
-    <userTask id="usertask8" name="Background Clarification" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
-      <documentation>Secretary requests for more details about the patient's background.</documentation>	
+    <userTask id="backgroundClarification" name="Background Clarification" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
+      <documentation>Secretary requests for more details about the patient's background.</documentation>
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <sequenceFlow id="flow39" sourceRef="exclusivegateway2" targetRef="usertask8">
+    <sequenceFlow id="flow39" sourceRef="exclusivegateway2" targetRef="backgroundClarification">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='SendBackToPC'}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow40" sourceRef="usertask8" targetRef="usertask5"></sequenceFlow>
+    <sequenceFlow id="flow40" sourceRef="backgroundClarification" targetRef="secretaryApproval"></sequenceFlow>
     <sequenceFlow id="flow41" sourceRef="servicetask2" targetRef="endevent2"></sequenceFlow>
     <sequenceFlow id="flow42" sourceRef="boundarytimer1" targetRef="servicetask2"></sequenceFlow>
-    <userTask id="usertask9" name="Preliminary Examination Clarification" activiti:candidateGroups="ROLE_HOSPITAL_POC,ROLE_DOCTOR">
+    <userTask id="preliminaryExaminationClarification" name="Preliminary Examination Clarification" activiti:candidateGroups="ROLE_HOSPITAL_POC,ROLE_DOCTOR">
       <documentation>Preliminary examination to be revisited by the Hospital POC</documentation>
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <sequenceFlow id="flow43" sourceRef="exclusivegateway2" targetRef="usertask9">
+    <sequenceFlow id="flow43" sourceRef="exclusivegateway2" targetRef="preliminaryExaminationClarification">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='prelimExamClarificationReqd'}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow44" sourceRef="servicetask6" targetRef="usertask4"></sequenceFlow>
+    <sequenceFlow id="flow44" sourceRef="servicetask6" targetRef="mbDoctorApproval"></sequenceFlow>
     <serviceTask id="servicetask6" name="Reset Doctor Approval variables" activiti:expression="#{execution.setVariable(&quot;docListCleared&quot;,patientRegistrationService.resetDocApprovalData(prn))}"></serviceTask>
-    <sequenceFlow id="flow45" sourceRef="usertask9" targetRef="servicetask6"></sequenceFlow>
-    <serviceTask id="servicetask7" name="Reminders" activiti:expression="#{patientRegistrationService.reminderTask(prn)}"></serviceTask>
-    <boundaryEvent id="boundarytimer3" name="Timer" attachedToRef="usertask3" cancelActivity="false">
+    <sequenceFlow id="flow45" sourceRef="preliminaryExaminationClarification" targetRef="servicetask6"></sequenceFlow>
+    <serviceTask id="reminders" name="Reminders" activiti:expression="#{patientRegistrationService.reminderTask(prn)}"></serviceTask>
+    <boundaryEvent id="boundarytimer3" name="Timer" attachedToRef="backgroundCheck" cancelActivity="false">
       <timerEventDefinition>
         <timeCycle>${patientRegistrationService.bgCheckTimeCycle}</timeCycle>
       </timerEventDefinition>
     </boundaryEvent>
-    <sequenceFlow id="flow46" sourceRef="boundarytimer3" targetRef="servicetask7"></sequenceFlow>
-    <boundaryEvent id="boundarytimer4" name="Timer" attachedToRef="usertask4" cancelActivity="false">
+    <sequenceFlow id="flow46" sourceRef="boundarytimer3" targetRef="reminders"></sequenceFlow>
+    <boundaryEvent id="boundarytimer4" name="Timer" attachedToRef="mbDoctorApproval" cancelActivity="false">
       <timerEventDefinition>
         <timeCycle>${patientRegistrationService.mbDoctorApprovalTimeCycle}</timeCycle>
       </timerEventDefinition>
     </boundaryEvent>
-    <sequenceFlow id="flow47" sourceRef="boundarytimer4" targetRef="servicetask7"></sequenceFlow>
-    <boundaryEvent id="boundarytimer5" name="Timer" attachedToRef="usertask5" cancelActivity="false">
+    <sequenceFlow id="flow47" sourceRef="boundarytimer4" targetRef="reminders"></sequenceFlow>
+    <boundaryEvent id="boundarytimer5" name="Timer" attachedToRef="secretaryApproval" cancelActivity="false">
       <timerEventDefinition>
         <timeCycle>${patientRegistrationService.secretaryApprovalTimeCycle}</timeCycle>
       </timerEventDefinition>
     </boundaryEvent>
-    <sequenceFlow id="flow48" sourceRef="boundarytimer5" targetRef="servicetask7"></sequenceFlow>
+    <sequenceFlow id="flow48" sourceRef="boundarytimer5" targetRef="reminders"></sequenceFlow>
+    <userTask id="confirmApprovedAmounts" name="Confirm Approved Amounts" activiti:candidateGroups="ROLE_SECRETARY">
+      <documentation>Secretary confirms the final amount approved by Cancure for the patient's Hospital and Medicine expenses</documentation>
+      <extensionElements>
+        <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <serviceTask id="patientIdCardGeneration" name="Patient ID Card Generation" activiti:expression="#{patientRegistrationService.idCardGeneration(prn)}">
+      <documentation>Cancure approves patient's registration and patient's ID card is generated.
+    		Partners are notified.</documentation>
+    </serviceTask>
+    <sequenceFlow id="flow49" sourceRef="confirmApprovedAmounts" targetRef="patientIdCardGeneration"></sequenceFlow>
+    <sequenceFlow id="flow50" sourceRef="patientIdCardGeneration" targetRef="updatePartners"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_patientRegn">
     <bpmndi:BPMNPlane bpmnElement="patientRegn" id="BPMNPlane_patientRegn">
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="20.0" y="70.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+      <bpmndi:BPMNShape bpmnElement="patientRegistration" id="BPMNShape_patientRegistration">
         <omgdc:Bounds height="55.0" width="105.0" x="110.0" y="60.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+      <bpmndi:BPMNShape bpmnElement="preliminaryExamination" id="BPMNShape_preliminaryExamination">
         <omgdc:Bounds height="55.0" width="105.0" x="288.0" y="60.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
+      <bpmndi:BPMNShape bpmnElement="backgroundCheck" id="BPMNShape_backgroundCheck">
         <omgdc:Bounds height="55.0" width="105.0" x="705.0" y="60.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
@@ -173,13 +174,13 @@
       <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
         <omgdc:Bounds height="40.0" width="40.0" x="737.0" y="147.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask4" id="BPMNShape_usertask4">
+      <bpmndi:BPMNShape bpmnElement="mbDoctorApproval" id="BPMNShape_mbDoctorApproval">
         <omgdc:Bounds height="55.0" width="105.0" x="705.0" y="270.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundarytimer4" id="BPMNShape_boundarytimer4">
         <omgdc:Bounds height="30.0" width="30.0" x="790.0" y="260.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask5" id="BPMNShape_usertask5">
+      <bpmndi:BPMNShape bpmnElement="secretaryApproval" id="BPMNShape_secretaryApproval">
         <omgdc:Bounds height="55.0" width="105.0" x="490.0" y="270.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundarytimer5" id="BPMNShape_boundarytimer5">
@@ -191,16 +192,13 @@
       <bpmndi:BPMNShape bpmnElement="endevent2" id="BPMNShape_endevent2">
         <omgdc:Bounds height="35.0" width="35.0" x="260.0" y="217.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask6" id="BPMNShape_usertask6">
+      <bpmndi:BPMNShape bpmnElement="ecApproval" id="BPMNShape_ecApproval">
         <omgdc:Bounds height="55.0" width="105.0" x="110.0" y="197.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundarytimer2" id="BPMNShape_boundarytimer2">
         <omgdc:Bounds height="30.0" width="30.0" x="192.0" y="182.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask7" id="BPMNShape_usertask7">
-        <omgdc:Bounds height="55.0" width="127.0" x="351.0" y="460.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
+      <bpmndi:BPMNShape bpmnElement="updatePartners" id="BPMNShape_updatePartners">
         <omgdc:Bounds height="55.0" width="105.0" x="600.0" y="460.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask2" id="BPMNShape_servicetask2">
@@ -209,7 +207,7 @@
       <bpmndi:BPMNShape bpmnElement="exclusivegateway5" id="BPMNShape_exclusivegateway5">
         <omgdc:Bounds height="40.0" width="40.0" x="632.0" y="277.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="servicetask4" id="BPMNShape_servicetask4">
+      <bpmndi:BPMNShape bpmnElement="ecApprovalCountCheck" id="BPMNShape_ecApprovalCountCheck">
         <omgdc:Bounds height="55.0" width="105.0" x="110.0" y="287.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway6" id="BPMNShape_exclusivegateway6">
@@ -221,17 +219,23 @@
       <bpmndi:BPMNShape bpmnElement="endevent4" id="BPMNShape_endevent4">
         <omgdc:Bounds height="35.0" width="35.0" x="740.0" y="470.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask8" id="BPMNShape_usertask8">
+      <bpmndi:BPMNShape bpmnElement="backgroundClarification" id="BPMNShape_backgroundClarification">
         <omgdc:Bounds height="58.0" width="105.0" x="490.0" y="378.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask9" id="BPMNShape_usertask9">
+      <bpmndi:BPMNShape bpmnElement="preliminaryExaminationClarification" id="BPMNShape_preliminaryExaminationClarification">
         <omgdc:Bounds height="70.0" width="105.0" x="490.0" y="182.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask6" id="BPMNShape_servicetask6">
         <omgdc:Bounds height="55.0" width="105.0" x="640.0" y="190.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="servicetask7" id="BPMNShape_servicetask7">
+      <bpmndi:BPMNShape bpmnElement="reminders" id="BPMNShape_reminders">
         <omgdc:Bounds height="55.0" width="105.0" x="870.0" y="160.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="confirmApprovedAmounts" id="BPMNShape_confirmApprovedAmounts">
+        <omgdc:Bounds height="55.0" width="105.0" x="192.0" y="460.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="patientIdCardGeneration" id="BPMNShape_patientIdCardGeneration">
+        <omgdc:Bounds height="55.0" width="127.0" x="351.0" y="460.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="757.0" y="115.0"></omgdi:waypoint>
@@ -271,14 +275,6 @@
         <omgdi:waypoint x="271.0" y="296.0"></omgdi:waypoint>
         <omgdi:waypoint x="162.0" y="252.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
-        <omgdi:waypoint x="414.0" y="317.0"></omgdi:waypoint>
-        <omgdi:waypoint x="414.0" y="460.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
-        <omgdi:waypoint x="478.0" y="487.0"></omgdi:waypoint>
-        <omgdi:waypoint x="600.0" y="487.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23">
         <omgdi:waypoint x="632.0" y="297.0"></omgdi:waypoint>
         <omgdi:waypoint x="595.0" y="297.0"></omgdi:waypoint>
@@ -295,7 +291,7 @@
       <bpmndi:BPMNEdge bpmnElement="flow29" id="BPMNEdge_flow29">
         <omgdi:waypoint x="162.0" y="409.0"></omgdi:waypoint>
         <omgdi:waypoint x="162.0" y="487.0"></omgdi:waypoint>
-        <omgdi:waypoint x="351.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="192.0" y="487.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow31" id="BPMNEdge_flow31">
         <omgdi:waypoint x="757.0" y="325.0"></omgdi:waypoint>
@@ -374,6 +370,14 @@
         <omgdi:waypoint x="612.0" y="275.0"></omgdi:waypoint>
         <omgdi:waypoint x="743.0" y="256.0"></omgdi:waypoint>
         <omgdi:waypoint x="922.0" y="215.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow49" id="BPMNEdge_flow49">
+        <omgdi:waypoint x="297.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="351.0" y="487.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow50" id="BPMNEdge_flow50">
+        <omgdi:waypoint x="478.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="600.0" y="487.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

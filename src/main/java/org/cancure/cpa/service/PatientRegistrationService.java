@@ -7,12 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
+import org.cancure.cpa.persistence.entity.PidnGenerator;
 import org.cancure.cpa.persistence.entity.Settings;
 import org.cancure.cpa.persistence.repository.SettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,9 @@ public class PatientRegistrationService {
 
 	@Autowired
 	private SettingsRepository settingsRepository;
+	
+	@Autowired
+    private PatientRegistrationWorkflowService patientRegistrationWorkflowService;
 	
 	@Autowired
 	private TaskService taskService;
@@ -347,6 +353,14 @@ public class PatientRegistrationService {
 		}
 
 		return approvalStatus;
+	}
+	
+	@Transactional
+	public String idCardGeneration(String prn) throws Exception {
+		
+		patientRegistrationWorkflowService.patientIDCard(Integer.parseInt(prn));
+		movePatientRegn(prn, null);
+        return "success";
 	}
 
 	public String updatePartners(String patientId) {
