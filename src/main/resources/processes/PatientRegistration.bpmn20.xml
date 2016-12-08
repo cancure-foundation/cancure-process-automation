@@ -150,6 +150,15 @@
     </serviceTask>
     <sequenceFlow id="flow49" sourceRef="confirmApprovedAmounts" targetRef="patientIdCardGeneration"></sequenceFlow>
     <sequenceFlow id="flow50" sourceRef="patientIdCardGeneration" targetRef="updatePartners"></sequenceFlow>
+    <sequenceFlow id="flow51" sourceRef="exclusivegateway2" targetRef="patientIdCardGeneration">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Approved'}]]></conditionExpression>
+    </sequenceFlow>
+    <boundaryEvent id="boundarytimer6" name="Timer" attachedToRef="confirmApprovedAmounts" cancelActivity="true">
+      <timerEventDefinition>
+        <timeDuration>${patientRegistrationService.maxEcApprovalTime}</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow52" sourceRef="boundarytimer6" targetRef="servicetask2"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_patientRegn">
     <bpmndi:BPMNPlane bpmnElement="patientRegn" id="BPMNPlane_patientRegn">
@@ -233,6 +242,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="confirmApprovedAmounts" id="BPMNShape_confirmApprovedAmounts">
         <omgdc:Bounds height="55.0" width="105.0" x="192.0" y="460.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer6" id="BPMNShape_boundarytimer6">
+        <omgdc:Bounds height="30.0" width="30.0" x="260.0" y="450.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="patientIdCardGeneration" id="BPMNShape_patientIdCardGeneration">
         <omgdc:Bounds height="55.0" width="127.0" x="351.0" y="460.0"></omgdc:Bounds>
@@ -378,6 +390,15 @@
       <bpmndi:BPMNEdge bpmnElement="flow50" id="BPMNEdge_flow50">
         <omgdi:waypoint x="478.0" y="487.0"></omgdi:waypoint>
         <omgdi:waypoint x="600.0" y="487.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow51" id="BPMNEdge_flow51">
+        <omgdi:waypoint x="414.0" y="317.0"></omgdi:waypoint>
+        <omgdi:waypoint x="414.0" y="460.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow52" id="BPMNEdge_flow52">
+        <omgdi:waypoint x="290.0" y="465.0"></omgdi:waypoint>
+        <omgdi:waypoint x="340.0" y="464.0"></omgdi:waypoint>
+        <omgdi:waypoint x="340.0" y="195.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

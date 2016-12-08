@@ -2,16 +2,20 @@ package org.cancure.cpa.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientFamilyBean;
 import org.cancure.cpa.controller.beans.SupportOrganisationBean;
+import org.cancure.cpa.persistence.entity.AccountTypes;
 import org.cancure.cpa.persistence.entity.Patient;
+import org.cancure.cpa.persistence.entity.PatientApproval;
 import org.cancure.cpa.persistence.entity.PatientDocument;
 import org.cancure.cpa.persistence.entity.PatientFamily;
 import org.cancure.cpa.persistence.entity.SupportOrganisation;
+import org.cancure.cpa.persistence.repository.ApprovalRepository;
 import org.cancure.cpa.persistence.repository.PatientDocumentRepository;
 import org.cancure.cpa.persistence.repository.PatientFamilyRepository;
 import org.cancure.cpa.persistence.repository.PatientRepository;
@@ -36,6 +40,9 @@ public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private PatientFamilyRepository patientFamilyRepo;
+    
+    @Autowired
+    private ApprovalRepository approvalRepository;
 
     @Value("${spring.files.save.path}")
     private String fileSavePath;
@@ -181,4 +188,34 @@ public class PatientServiceImpl implements PatientService {
         patientRepo.updateCostApproved(hospitalCostApproved, medicalCostApproved, prn);
         
     }
+
+	@Override
+	public void saveApprovedAmounts(Integer pidn, Integer prn) {
+		PatientBean patient = get(prn);
+		Integer hospitalCost = patient.getHospitalCostApproved();
+		Integer medicineCost = patient.getMedicalCostApproved();
+		
+		if (hospitalCost != null && hospitalCost > 0) {
+			PatientApproval entity = new PatientApproval();
+			entity.setPidn(pidn);
+			AccountTypes at = new AccountTypes();
+			at.setId(5); // Hospital
+			entity.setApprovedForAccountType(at); // Hospital
+			entity.setDate(new Timestamp(System.currentTimeMillis()));
+			entity.setAmount(hospitalCost.doubleValue());
+			approvalRepository.save(entity);
+		}
+	
+		if (medicineCost != null && medicineCost > 0) {
+			PatientApproval entity = new PatientApproval();
+			entity.setPidn(pidn);
+			AccountTypes at = new AccountTypes();
+			at.setId(3); // Pharmacy
+			entity.setApprovedForAccountType(at); // Pharmacy
+			entity.setDate(new Timestamp(System.currentTimeMillis()));
+			entity.setAmount(medicineCost.doubleValue());
+			approvalRepository.save(entity);
+		}
+		
+	}
 }

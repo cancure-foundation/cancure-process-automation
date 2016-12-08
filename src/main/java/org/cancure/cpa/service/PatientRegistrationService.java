@@ -355,12 +355,10 @@ public class PatientRegistrationService {
 		return approvalStatus;
 	}
 	
-	@Transactional
 	public String idCardGeneration(String prn) throws Exception {
 		
 		patientRegistrationWorkflowService.patientIDCard(Integer.parseInt(prn));
-		movePatientRegn(prn, null);
-        return "success";
+		return "success";
 	}
 
 	public String updatePartners(String patientId) {

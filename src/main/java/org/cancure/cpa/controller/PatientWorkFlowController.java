@@ -163,4 +163,9 @@ public class PatientWorkFlowController {
         return "{\"status\" : \"SUCCESS\"}";
    }*/
     
+   @RequestMapping(value= "/patientregistration/confirmamount", method=RequestMethod.POST)
+   public String confirmApprovedAmount(PatientInvestigationBean patientInvestigationBean) throws Exception {
+        patientRegistrationWorkflowService.confirmApprovedAmount(patientInvestigationBean);
+        return "{\"status\" : \"SUCCESS\"}";
+   }
 }

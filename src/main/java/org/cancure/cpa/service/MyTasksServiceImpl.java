@@ -374,15 +374,22 @@ public class MyTasksServiceImpl implements MyTasksService {
 		Map<String, Object> processVars = t.getProcessVariables();
 		Object patientId = processVars.get("prn");
 		String taskKey = t.getTaskDefinitionKey();
+		
+		PatientBean patientBean = null;
+		
 		//if(!t.getName().equals("Preliminary Examination")){
-		if (!taskKey.equals("preliminaryExamination")) {	
-			map.put("hospitalCostEstimate", patientService.get((Integer)patientId).getHospitalCostEstimate().toString());
-			map.put("medicalCostEstimate", patientService.get((Integer)patientId).getMedicalCostEstimate().toString());									
+		if (!taskKey.equals("preliminaryExamination")) {
+			patientBean = patientService.get((Integer)patientId);
+			map.put("hospitalCostEstimate", valueOf(patientBean.getHospitalCostEstimate()));
+			map.put("medicalCostEstimate", valueOf(patientBean.getMedicalCostEstimate()));									
 		}
 		//if(t.getName().equals("Secretary Approval") || t.getName().equals("EC Approval")){
 		if (taskKey.equals("secretaryApproval") || taskKey.equals("ecApproval")) {
-		    map.put("hospitalCostApproved", patientService.get((Integer)patientId).getHospitalCostApproved().toString());
-            map.put("medicalCostApproved", patientService.get((Integer)patientId).getMedicalCostApproved().toString());
+			if (patientBean == null) {
+				patientBean = patientService.get((Integer)patientId);
+			}
+		    map.put("hospitalCostApproved", valueOf(patientBean.getHospitalCostApproved()));
+            map.put("medicalCostApproved", valueOf(patientBean.getMedicalCostApproved()));
 		}
 		Object patientName = processVars.get("patientName");
 		Object pidn = processVars.get("pidn");
@@ -405,7 +412,15 @@ public class MyTasksServiceImpl implements MyTasksService {
 		return map;
 	}
 
-    public Map<String, String> getNextTask(String patientId, String processKey) {
+    private String valueOf(Integer hospitalCostEstimate) {
+		if (hospitalCostEstimate == null) {
+			return "0";
+		} else {
+			return hospitalCostEstimate.toString();
+		}
+	}
+
+	public Map<String, String> getNextTask(String patientId, String processKey) {
         ProcessInstance procInsts = runtimeService.createProcessInstanceQuery().processDefinitionKey(processKey)
                 .processInstanceBusinessKey(patientId).singleResult();
 
