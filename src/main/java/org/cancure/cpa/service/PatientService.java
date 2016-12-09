@@ -27,4 +27,6 @@ public interface PatientService {
     void updateCostEstimate(Integer hospitalCostEstimate, Integer medicalCostEstimate, Integer prn);
 	
     void updateCostApproved(Integer hospitalCostApproved, Integer medicalCostApproved, Integer prn);
+
+	void saveApprovedAmounts(Integer pidn, Integer prn);
 }

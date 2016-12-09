@@ -1,5 +1,5 @@
 insert into hospital values (1, 'Lissie', 'Kaloor', '234234', true);
-insert into hospital values (1, 'EMC', 'Palarivattom', '464325646',true);
+insert into hospital values (2, 'EMC', 'Palarivattom', '464325646',true);
 
 insert into user values (2,'HPOC','lissiehpoc','lissie@cancure.in.net','$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true, false);
 insert into hpoc_hospital values (2, 1);

@@ -13,6 +13,7 @@ import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientInvestigationBean;
 import org.cancure.cpa.controller.beans.UserBean;
+import org.cancure.cpa.persistence.entity.PatientApproval;
 import org.cancure.cpa.persistence.entity.PidnGenerator;
 import org.cancure.cpa.persistence.repository.PidnGeneratorRepository;
 import org.cancure.cpa.util.IDCardGenerator;
@@ -149,18 +150,18 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     }
 
     @Override
-    @Transactional
     public void patientIDCard(Integer prn) throws Exception {
         // Generate PIDN
-        // To do
-    	PidnGenerator pidnGen = new PidnGenerator();
+        PidnGenerator pidnGen = new PidnGenerator();
     	pidnGen.setPrn(prn);
     	pidnGeneratorRepository.save(pidnGen);
     	
     	patientService.updatePidn(pidnGen.getPidn(), prn);
     	
+    	// Save approved amounts.
+    	patientService.saveApprovedAmounts(pidnGen.getPidn(), prn);
+    	
         iDCardGenerator.generateCard(prn);
-        patientRegistrationService.movePatientRegn(String.valueOf(prn), null);
         
     }
 
@@ -178,5 +179,15 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
         patientInvestigationBean.setTaskId(taskId);
         patientInvestigationService.savePatientInvestigation(patientInvestigationBean, null);
     }
+
+	@Override
+	public void confirmApprovedAmount(PatientInvestigationBean patientInvestigationBean) {
+		// Update the final approved cost.
+		patientService.updateCostApproved(patientInvestigationBean.getHospitalCostApproved(),
+				patientInvestigationBean.getMedicalCostApproved(), Integer.parseInt(patientInvestigationBean.getPrn()));
+		String taskId = patientRegistrationService.movePatientRegn(String.valueOf(patientInvestigationBean.getPrn()),
+				null);
+
+	}
 
 }

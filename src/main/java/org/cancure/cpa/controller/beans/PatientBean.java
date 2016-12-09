@@ -37,6 +37,7 @@ public class PatientBean {
     private String typeOfSupport ;
     private String taskId;
     private String nextTask;
+    private String nextTaskKey;
     private Long totalIncome;
     private String aadharNo;
     private Integer preliminaryExamDoctorId;
@@ -68,7 +69,13 @@ public class PatientBean {
     public void setName(String name) {
         this.name = name;
     }
-    public Date getDob() {
+    public String getNextTaskKey() {
+		return nextTaskKey;
+	}
+	public void setNextTaskKey(String nextTaskKey) {
+		this.nextTaskKey = nextTaskKey;
+	}
+	public Date getDob() {
         return dob;
     }
     

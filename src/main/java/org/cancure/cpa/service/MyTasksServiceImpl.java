@@ -103,7 +103,8 @@ public class MyTasksServiceImpl implements MyTasksService {
 		if (roles.contains("ROLE_HOSPITAL_POC")){
 			List<Task> filteredTasks = new ArrayList<>();
 			for (Task task: tasks){
-				if ("Preliminary Examination".equals(task.getName())){
+				//if ("Preliminary Examination".equals(task.getName())){
+				if ("preliminaryExamination".equals(task.getTaskDefinitionKey())){
 					Map<String, Object> processVars = task.getProcessVariables();
 					Object preliminaryExamHospitalId = processVars.get("preliminaryExamHospitalId");
 					if (preliminaryExamHospitalId != null){
@@ -172,6 +173,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 		List taskList = new ArrayList<>();
 		
 		String nextTask = null;
+		String nextTaskKey = null;
 		
 		Collections.sort(tasks, new Comparator<HistoricTaskInstance>(){
 
@@ -195,7 +197,8 @@ public class MyTasksServiceImpl implements MyTasksService {
 		int i=0,flag=0;
 		for (HistoricTaskInstance t : tasks) {
             Map<String, Object> map = new HashMap<>();
-		    if(t.getName().equals("Patient Registration")){
+		    //if(t.gettName().equals("Patient Registration")){
+            if ("patientRegistration".equals(t.getTaskDefinitionKey())) {
 		        map.put("patient",patient);
 		    }
 			map.put("sequenceNo", i++);
@@ -214,7 +217,8 @@ public class MyTasksServiceImpl implements MyTasksService {
 			PatientInvestigation patientInvestigation=patientInvestigationService.findByTaskId(t.getId());  
 			List<PatientDocument> patientDocuments=patientDocumentService.findByTaskId(t.getId());
 			List<PatientDocumentBean> patientDocumentBeanList=new ArrayList<PatientDocumentBean>();
-	         if(t.getName().equals("Patient Registration")){
+	        //if(t.getName().equals("Patient Registration")){
+	        if ("patientRegistration".equals(t.getTaskDefinitionKey())) {	 
 	             for(PatientDocument patientDocument:patientDocuments){
 	                 PatientDocumentBean patientDocumentBean=new PatientDocumentBean();
 	                 BeanUtils.copyProperties(patientDocument, patientDocumentBean);
@@ -223,11 +227,13 @@ public class MyTasksServiceImpl implements MyTasksService {
 	             }
 	             patient.setDocument(patientDocumentBeanList);   
 	             map.put("patient",patient);
-	            }
+	        }
 			map.put("id", t.getId());
 			map.put("nextTask", t.getName());
+			map.put("nextTaskKey", t.getTaskDefinitionKey());
 			map.put("description", t.getDescription());
-			if(!t.getName().equals("Patient Registration")){
+			//if(!t.getName().equals("Patient Registration")){
+			if (!"patientRegistration".equals(t.getTaskDefinitionKey())) {
 			    map.put("documents", toMap(patientDocuments));
 			    map.put("investigation", toMap(patientInvestigation));
 			}						
@@ -245,6 +251,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 			
 			if (t.getEndTime() == null) {
 				nextTask = t.getName();
+				nextTaskKey = t.getTaskDefinitionKey();
 				String taskId = t.getId();
 				List<IdentityLink> roleList = taskService.getIdentityLinksForTask(taskId);
 				List<String> roleNames = new ArrayList<>();
@@ -253,15 +260,18 @@ public class MyTasksServiceImpl implements MyTasksService {
 				}
 				parentMap.put("Owner", roleNames);
 			}
-			if(t.getName().equals("Patient ID Card Generation")){
+			//if(t.getName().equals("Patient ID Card Generation")){
+			if ("patientIdCardGeneration".equals(t.getTaskDefinitionKey())) {
 			    flag=1;
 			}
 		}
 
         if (nextTask != null || flag==1) {
             parentMap.put("nextTask", nextTask);
+            parentMap.put("nextTaskKey", nextTaskKey);
         } else {
             parentMap.put("nextTask", "Rejected");
+            parentMap.put("nextTaskKey", "Rejected");
         }
 		parentMap.put("tasks", taskList);
 		return parentMap;
@@ -360,15 +370,26 @@ public class MyTasksServiceImpl implements MyTasksService {
 		map.put("createTime", t.getCreateTime() != null ? t.getCreateTime().toString() : null);
 		map.put("id", t.getId());
 		map.put("nextTask", t.getName());
+		map.put("nextTaskKey" ,t.getTaskDefinitionKey());
 		Map<String, Object> processVars = t.getProcessVariables();
 		Object patientId = processVars.get("prn");
-		if(!t.getName().equals("Preliminary Examination")){
-			map.put("hospitalCostEstimate", patientService.get((Integer)patientId).getHospitalCostEstimate().toString());
-			map.put("medicalCostEstimate", patientService.get((Integer)patientId).getMedicalCostEstimate().toString());									
+		String taskKey = t.getTaskDefinitionKey();
+		
+		PatientBean patientBean = null;
+		
+		//if(!t.getName().equals("Preliminary Examination")){
+		if (!taskKey.equals("preliminaryExamination")) {
+			patientBean = patientService.get((Integer)patientId);
+			map.put("hospitalCostEstimate", valueOf(patientBean.getHospitalCostEstimate()));
+			map.put("medicalCostEstimate", valueOf(patientBean.getMedicalCostEstimate()));									
 		}
-		if(t.getName().equals("Secretary Approval") || t.getName().equals("EC Approval")){
-		    map.put("hospitalCostApproved", patientService.get((Integer)patientId).getHospitalCostApproved().toString());
-            map.put("medicalCostApproved", patientService.get((Integer)patientId).getMedicalCostApproved().toString());
+		//if(t.getName().equals("Secretary Approval") || t.getName().equals("EC Approval")){
+		if (taskKey.equals("secretaryApproval") || taskKey.equals("ecApproval")) {
+			if (patientBean == null) {
+				patientBean = patientService.get((Integer)patientId);
+			}
+		    map.put("hospitalCostApproved", valueOf(patientBean.getHospitalCostApproved()));
+            map.put("medicalCostApproved", valueOf(patientBean.getMedicalCostApproved()));
 		}
 		Object patientName = processVars.get("patientName");
 		Object pidn = processVars.get("pidn");
@@ -391,7 +412,15 @@ public class MyTasksServiceImpl implements MyTasksService {
 		return map;
 	}
 
-    public Map<String, String> getNextTask(String patientId, String processKey) {
+    private String valueOf(Integer hospitalCostEstimate) {
+		if (hospitalCostEstimate == null) {
+			return "0";
+		} else {
+			return hospitalCostEstimate.toString();
+		}
+	}
+
+	public Map<String, String> getNextTask(String patientId, String processKey) {
         ProcessInstance procInsts = runtimeService.createProcessInstanceQuery().processDefinitionKey(processKey)
                 .processInstanceBusinessKey(patientId).singleResult();
 
@@ -404,6 +433,7 @@ public class MyTasksServiceImpl implements MyTasksService {
             } else {
                 Map<String, String> nextTaskMap = new HashMap<>();
                 nextTaskMap.put("nextTask", "");
+                nextTaskMap.put("nextTaskKey", "");
                 nextTaskMap.put("endTime", historicProcessInstance.getEndTime().toString());
                 nextTaskMap.put("description", historicProcessInstance.getDescription());
                 nextTaskMap.put("prn", patientId);

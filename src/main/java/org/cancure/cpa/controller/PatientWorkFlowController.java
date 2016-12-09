@@ -157,10 +157,15 @@ public class PatientWorkFlowController {
         return "{\"status\" : \"SUCCESS\"}";
    }
    
-   @RequestMapping(value= "/patientregistration/patientidcard", method=RequestMethod.POST)
+   /*@RequestMapping(value= "/patientregistration/patientidcard", method=RequestMethod.POST)
    public String savePatientIDCard(PatientInvestigationBean patientInvestigationBean) throws Exception {
         patientRegistrationWorkflowService.patientIDCard(Integer.parseInt(patientInvestigationBean.getPrn()));
         return "{\"status\" : \"SUCCESS\"}";
-   }
+   }*/
     
+   @RequestMapping(value= "/patientregistration/confirmamount", method=RequestMethod.POST)
+   public String confirmApprovedAmount(PatientInvestigationBean patientInvestigationBean) throws Exception {
+        patientRegistrationWorkflowService.confirmApprovedAmount(patientInvestigationBean);
+        return "{\"status\" : \"SUCCESS\"}";
+   }
 }
