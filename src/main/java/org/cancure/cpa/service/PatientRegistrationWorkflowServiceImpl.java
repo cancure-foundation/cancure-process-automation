@@ -125,11 +125,12 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     @Transactional
     public void secretaryRecommendation(PatientInvestigationBean patientInvestigationBean,String status) throws IOException {
         
+    	patientService.updateCostApproved(patientInvestigationBean.getHospitalCostApproved(),patientInvestigationBean.getMedicalCostApproved(), Integer.parseInt(patientInvestigationBean.getPrn()));
+    	
         Map<String, Object> actVars = new HashMap<String, Object>();
         actVars.put("secApproval", status);
         String taskId=patientRegistrationService.movePatientRegn(String.valueOf(patientInvestigationBean.getPrn()), actVars);
         patientInvestigationBean.setTaskId(taskId);
-        patientService.updateCostApproved(patientInvestigationBean.getHospitalCostApproved(),patientInvestigationBean.getMedicalCostApproved(), Integer.parseInt(patientInvestigationBean.getPrn()));
         patientInvestigationService.savePatientInvestigation(patientInvestigationBean,status);
     }
     

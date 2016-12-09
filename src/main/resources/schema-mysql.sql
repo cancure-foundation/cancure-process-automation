@@ -261,15 +261,6 @@ create table journal(
 	amount decimal(10,2)
 );
 
-create table approvals (
-	id int(10) primary key auto_increment,
-	date date,
-	pidn int(10) references pidn_generator(pidn),
-	amount decimal(10,2),
-	approved_for_account_type int(10) references account_types(id),
-	expiry_date date
-);
-
 create table invoices (
 	id int(10) primary key auto_increment,
 	date date,
