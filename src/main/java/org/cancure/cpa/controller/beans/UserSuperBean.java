@@ -20,6 +20,8 @@ public class UserSuperBean {
 	
 	private String email;
 	
+	private String phone;
+	
 	private String password;
 	
 	private Boolean firstLog;
@@ -108,5 +110,11 @@ public class UserSuperBean {
         this.password = password;
     }
 
-    
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}    
 }

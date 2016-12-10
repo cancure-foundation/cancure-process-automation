@@ -41,6 +41,12 @@
                     </label>
                     <input type="email" data-ng-model="vm.formData.email" required placeholder="Enter email address" />
                 </div>
+                <div class="col-md-4 col-xs-12 input-box">
+                    <label>Contact
+                        <req>*</req>
+                    </label>
+                    <input type="text" data-ng-model="vm.formData.phone" onkeypress="return validatephone(event);" placeholder="Enter contact number" />
+                </div>
             </div>
             <div class="col-xs-12" style="padding: 0px 28px; margin-bottom: 15px;">
                 <fieldset class="appFieldset">

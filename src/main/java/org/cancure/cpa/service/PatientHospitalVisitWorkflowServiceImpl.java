@@ -10,7 +10,6 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
-import org.activiti.engine.task.Task;
 import org.cancure.cpa.controller.beans.PatientApprovalBean;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
@@ -18,6 +17,7 @@ import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
 import org.cancure.cpa.controller.beans.PatientVisitHistoryBean;
 import org.cancure.cpa.controller.beans.TopupStatusBean;
+import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.persistence.entity.AccountTypes;
 import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
@@ -61,6 +61,9 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 	@Autowired
     private HpocHospitalService hpocHospitalService;
 	
+	@Autowired
+	private PatientHospitalVisitNotificationComponent notifier;
+	
 	@Value("${spring.files.save.path}")
 	private String fileSavePath;
 
@@ -100,6 +103,10 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		patientVisit.setTaskId(taskId);
 		patientVisitRepository.save(patientVisit);
 
+		if ("TRUE".equals(patientVisitBean.getTopupNeeded())) {
+			notifier.notifySecretary(pidn);
+		}
+		
 		return patientVisit.getId() + "";
 	}
 
@@ -185,6 +192,11 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		Map<String, Object> activitiVars = new HashMap<String, Object>();
 		activitiVars.put("topupApproved", topupApproved);
 		String taskId = patientHospitalVisitService.moveToNextTask(pidn + "", patientVisitId, activitiVars);
+		PatientVisit patVisit = patientVisitRepository.findOne(patientVisitId);
+		
+		Integer hospitalId = patVisit.getAccountHolderId();
+		List<UserBean> hpocList = hpocHospitalService.getHpocUsersFromHospital(hospitalId);
+		notifier.notifyHpoc(hpocList, pidn);
 		return taskId;
 	}
 
@@ -214,7 +226,15 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 			throw new Exception("No forwards present");
 		}
 
-		return patientHospitalVisitService.moveToNextTask(pidn.toString() + "", patientVisitId, null);
+		String taskId = patientHospitalVisitService.moveToNextTask(pidn.toString() + "", patientVisitId, null);
+		
+		// Notify
+		for (PatientVisitForwardsBean forward : forwardList) {
+			pidn = forward.getPidn();
+			notifier.notifyPartner(forward.getAccountTypeId(), forward.getAccountHolderId(), pidn);
+		}
+		
+		return taskId;
 	}
 
 	@Override

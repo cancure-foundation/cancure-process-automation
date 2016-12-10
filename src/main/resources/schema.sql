@@ -68,6 +68,7 @@ create table user (
 	name varchar(100),
 	login varchar(100),
 	email varchar(100),
+	phone varchar(20),
 	password varchar(100),
 	enabled boolean,
 	first_log boolean,
