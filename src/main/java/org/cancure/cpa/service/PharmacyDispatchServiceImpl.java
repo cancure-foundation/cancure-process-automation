@@ -1,5 +1,6 @@
 package org.cancure.cpa.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,9 @@ import org.springframework.stereotype.Component;
 public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 
 	@Autowired
+	private InvoiceNotificationComponent notifier;
+	
+	@Autowired
 	private InvoicesRepository invoicesRepository;
 	
 	@Autowired
@@ -44,6 +48,12 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 
 	@Autowired
 	private PpocPharmacyService ppocPharmacyService;
+	
+	@Autowired
+	private PharmacyService pharmacyService;
+	
+	@Autowired
+	private LabService labService;
 
 	@Autowired
 	private LpocLabService lpocLabService;
@@ -279,16 +289,19 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		// What type of user is this? PPOC or HPOC or LPOC?
 		Integer accountTypeId;
 		Integer accountHolderId;
+		String accountHolderName;
 				
 		PpocPharmacy pharmacy = ppocPharmacyService.getPharmacyFromPpoc(myUserId);
 		if (pharmacy != null) {
 			// The user is a PPOC
 			accountTypeId = 3; // Pharmacy
 			accountHolderId = pharmacy.getPharmacyId();
+			accountHolderName = pharmacyService.getPharmacy(accountHolderId).getName();
 		} else {
 			LpocLab lab = lpocLabService.getLabFromLpoc(myUserId);
 			accountTypeId = 4; // Lab
 			accountHolderId = lab.getLabId();
+			accountHolderName = labService.get(accountHolderId).getName();
 		}
 
 		if (accountTypeId == null || accountHolderId == null) {
@@ -303,6 +316,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		entity.setComments(bean.getComments());
 		entity.setPidn(bean.getPidn());
 		entity.setStatus("open");
+		entity.setDate(new Timestamp(System.currentTimeMillis()));
 		
 		entity.setToAccountHolderId(1); // To cancure
 		AccountTypes toAccountType = new AccountTypes();
@@ -316,6 +330,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		
 		entity = invoicesRepository.save(entity);
 		
+		notifier.notifySecretary(entity, accountHolderName);
 		return entity.getId();
 	}
 }

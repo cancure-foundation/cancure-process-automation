@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import org.cancure.cpa.controller.beans.InvoicesBean;
 import org.cancure.cpa.controller.beans.PatientApprovalBean;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
@@ -30,6 +31,7 @@ import org.cancure.cpa.persistence.repository.ApprovalRepository;
 import org.cancure.cpa.persistence.repository.InvoicesRepository;
 import org.cancure.cpa.persistence.repository.PatientVisitForwardsRepository;
 import org.cancure.cpa.persistence.repository.PatientVisitRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -250,14 +252,29 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 			
 			List<PatientApproval> patientApprovals = approvalRepository.findByPidn(pidn);
 			if (patientApprovals != null && !patientApprovals.isEmpty()) {
-				historyBean.setPatientApprovals(patientApprovals);
+				List<PatientApprovalBean> paBeanList = new ArrayList<>();
+				for (PatientApproval pa : patientApprovals) {
+					PatientApprovalBean bean = new PatientApprovalBean();
+					BeanUtils.copyProperties(pa, bean);
+					bean.setApprovedForAccountTypeId(pa.getApprovedForAccountType().getId());
+					bean.setApprovedForAccountTypeName(pa.getApprovedForAccountType().getName());
+					paBeanList.add(bean);
+				}
+				historyBean.setPatientApprovals(paBeanList);
 				
 				List<InvoicesEntity> invoicesList = invoicesRepository.findByPidn(pidn);
 				if (invoicesList != null && !invoicesList.isEmpty()){
+					List<InvoicesBean> invoiceBeanList = new ArrayList<>();
 					for (InvoicesEntity entity : invoicesList){
-						entity.setFromAccountHolderName(getPartnerName(entity.getFromAccountTypeId().getId(), entity.getFromAccountHolderId()));
+						InvoicesBean bean = new InvoicesBean();
+						BeanUtils.copyProperties(entity, bean);
+						bean.setFromAccountTypeId(entity.getFromAccountTypeId().getId());
+						bean.setToAccountTypeId(entity.getToAccountTypeId().getId());
+						bean.setFromAccountHolderName(getPartnerName(entity.getFromAccountTypeId().getId(), entity.getFromAccountHolderId()));
+						
+						invoiceBeanList.add(bean);
 					}
-					historyBean.setInvoicesList(invoicesList);
+					historyBean.setInvoicesList(invoiceBeanList);
 				}
 			}
 			
