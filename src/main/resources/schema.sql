@@ -292,7 +292,7 @@ create table patient_visit (
 	date timestamp,
 	pidn number(10) references pidn_generator(pidn),
 	amount decimal(10,2),
-	approved_for_account_type_id int(10) references account_types(id),
+	approved_for_account_type_id number(10) references account_types(id),
 	patient_visit_id number(10),
 	expiry_date date
  );

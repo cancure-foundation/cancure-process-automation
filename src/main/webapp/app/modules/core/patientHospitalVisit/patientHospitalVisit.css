@@ -1,0 +1,35 @@
+.patientHVisit .userInfo .user_img {
+    vertical-align: middle;
+    text-align: center;
+    width: 200px;
+    padding-bottom: 0px;
+}
+.patientHVisit .userInfo td {
+    vertical-align: middle;
+}
+.patientHVisit .userInfo .user_img i {
+    font-size: 10em;
+}
+.patientHVisit .userInfo .fieldName {
+    width: 50px;
+}
+.patientHVisit .userInfo .fieldValue {
+    width: 100px;
+}
+.patientHVisit .userInfo .user_img img {
+    max-width: 100%;
+    max-height: 200px;
+}
+
+
+@media (max-width: 767px) {
+    .patientHVisit .userInfo .fieldName {
+        width: 75px;
+    }
+    .patientHVisit .userInfo .user_img {
+        width: 100px;
+    }
+    .patientHVisit .userInfo .user_img i {
+        font-size: 5em;
+    }
+}
