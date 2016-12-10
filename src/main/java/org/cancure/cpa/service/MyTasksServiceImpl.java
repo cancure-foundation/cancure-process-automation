@@ -93,10 +93,53 @@ public class MyTasksServiceImpl implements MyTasksService {
 			hospitalVisitTasks = filterHospitalVisitTasksForRoles(roles, hospitalVisitTasks, myUserId);
 		}
 		
-		hospitalVisitList = extractTaskAttributes(hospitalVisitTasks);
+		hospitalVisitList = extractHospitalVisitTaskAttributes(hospitalVisitTasks);
 		
 		allProcessMap.put("PATIENT_HOSPITAL_VISIT_DEF_KEY", hospitalVisitList);
 		return allProcessMap;
+	}
+
+	private List<Map<String, String>> extractHospitalVisitTaskAttributes(List<Task> hospitalVisitTasks) {
+		List<Map<String, String>> list = new ArrayList<>();
+		for (Task t : hospitalVisitTasks) {
+			list.add(extractOneHospitalVisitTask(t));
+		}
+		
+		return list;
+	}
+
+	private Map<String, String> extractOneHospitalVisitTask(Task t) {
+		Map<String, String> map = new HashMap<>();
+		map.put("executionId", t.getExecutionId());
+		map.put("createTime", t.getCreateTime() != null ? t.getCreateTime().toString() : null);
+		map.put("id", t.getId());
+		map.put("nextTask", t.getName());
+		map.put("nextTaskKey" ,t.getTaskDefinitionKey());
+		Map<String, Object> processVars = t.getProcessVariables();
+		Object patientId = processVars.get("prn");
+		String taskKey = t.getTaskDefinitionKey();
+		
+		PatientBean patientBean = null;
+		
+		Object patientName = processVars.get("patientName");
+		Object pidn = processVars.get("pidn");
+		if (patientId != null) {
+			map.put("prn", patientId.toString());
+		}
+		
+		if (patientName != null){
+			map.put("patientName", patientName.toString());
+		}
+		
+		if (pidn != null){
+			map.put("pidn", pidn.toString());
+		}
+		Object patientVisitId = processVars.get("patientVisitId");
+		if (patientVisitId != null){
+			map.put("patientVisitId", patientVisitId.toString());
+		}
+		
+		return map;
 	}
 
 	private List<Task> filterTasksForRoles(List<String> roles, List<Task> tasks, Integer myUserId) {
@@ -133,7 +176,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 		if (roles.contains("ROLE_HOSPITAL_POC")){
 			List<Task> filteredTasks = new ArrayList<>();
 			for (Task task: tasks){
-				if ("selectPharmacy".equals(task.getId())){
+				if ("selectPharmacy".equals(task.getTaskDefinitionKey())){
 					Map<String, Object> processVars = task.getProcessVariables();
 					Object hospitalId = processVars.get("hospitalId");
 					if (hospitalId != null){
@@ -404,11 +447,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 		if (pidn != null){
 			map.put("pidn", pidn.toString());
 		}
-		Object patientVisitId = processVars.get("patientVisitId");
-		if (patientVisitId != null){
-			map.put("patientVisitId", patientVisitId.toString());
-		}
-		
+				
 		return map;
 	}
 
