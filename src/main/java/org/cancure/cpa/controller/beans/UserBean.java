@@ -31,7 +31,17 @@ public class UserBean {
 	
 	private String email;
 	
+	private String phone;
+	
 	private Boolean firstLog;
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
 	public Set<Role> getRoles() {
 		return roles;

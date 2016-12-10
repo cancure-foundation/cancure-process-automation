@@ -10,13 +10,15 @@
                     <th class="col-xs-2">Name</th>
                     <th class="col-xs-2">Log-in ID</th>
                     <th class="col-xs-3">Email</th>
+                    <th class="col-xs-3">Phone</th>
                     <th class="col-xs-3">Assigned Roles</th>
                     <th class="col-xs-1">Enabled</th>                 
                     <th class="col-xs-1">Action</th>
                     <tr class="" ng-repeat="user in userList | filter:searchBox:user.name | orderBy : 'id'">
                         <td class="col-xs-2">{{user.name}}</td>
                         <td class="col-xs-2">{{user.login}}</td>
-                        <td class="col-xs-3">{{user.email}}</td>                        
+                        <td class="col-xs-3">{{user.email}}</td>   
+                        <td class="col-xs-3">{{user.phone}}</td>                     
                         <td class="col-xs-3">
                             <role><a>View Roles</a></role>
                             <br>

@@ -5,6 +5,8 @@
 </div>
 <!-- Main content -->
 <div class="content patientRegHistory">
+	<form name="vm.pharmacyDispatchForm" ng-submit="vm.submit();" class="clearfix" autocomplete="off">
+            
     <!-- row -->
     <div class="row">
         <div class="col-md-12">
@@ -132,7 +134,7 @@
 	                    <label>Total Amount :
 	                        <req>*</req>
 	                    </label>
-	                    <input type="text" data-ng-model="vm.totalAmount" maxlength="10" required placeholder="Enter Amount"/>
+	                    <input type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount"/>
 	                </div>
 	            </div>
 	            
@@ -141,13 +143,13 @@
 	                    <label>Pharmacy's bill number :
 	                        <req>*</req>
 	                    </label>
-	                    <input type="text" data-ng-model="vm.partnerBillNumber" maxlength="50" required placeholder="Enter Bill No"/>
+	                    <input type="text" data-ng-model="vm.formData.partnerBillNo" maxlength="50" required placeholder="Enter Bill No"/>
 	                </div>
 	                <div class="input-box">
 	                    <label>Pharmacy's bill amount :
 	                        <req>*</req>
 	                    </label>
-	                    <input type="text" data-ng-model="vm.partnerBillAmount" maxlength="50" required placeholder="Enter Bill Amount"/>
+	                    <input type="text" data-ng-model="vm.formData.partnerBillAmount" maxlength="50" required placeholder="Enter Bill Amount"/>
 	                </div>
 	            </div>
 	            
@@ -156,7 +158,7 @@
 	                    <label>Comments :
 	                        <req>*</req>
 	                    </label>
-	                    <textarea data-ng-model="vm.comments" required rows="4" maxlength="200"> </textarea>
+	                    <textarea data-ng-model="vm.formData.comments" required rows="4" maxlength="200"> </textarea>
 	                </div>
 	            </div>
 	            
@@ -171,12 +173,10 @@
 	                    Submit
 	                </button>
 	                
-	                <button type="submit" class="btn btn-success pull-left" style="margin-right: 8px;">
-	                    Cancel
-	                </button>
 	            </div>
       		</div>
       		
         </div>
     </div>
+    </form>
 </div>

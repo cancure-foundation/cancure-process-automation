@@ -21,9 +21,26 @@ core.controller("PharmacyDispatchController", ['Loader', '$scope', '$state', '$s
 		});
 	};
 	
-	vm.saveInvoice = function() {
+	vm.submit = function() {
 		
-		// Call 
+		Loader.create('Saving Data .. Please wait ...');
+
+		vm.formData.pidn = vm.pharmacyDispatchHistory.patient.pidn;
+		
+		var serverData = angular.copy(vm.formData);
+		
+		// making the server call
+		apiService.serviceRequest({
+			URL: '/pharmacydispatch',
+			method: 'POST',
+			payLoad: serverData,
+			hideErrMsg : true
+		}, function (response) {
+			Flash.create('danger', "Saved successfully", 'large-text');
+			Loader.destroy();
+		}, function (fail){
+			Flash.create('danger', fail.message, 'large-text');
+		}); 
 		
 	};
 		

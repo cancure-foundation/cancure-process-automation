@@ -10,7 +10,7 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
-import org.activiti.engine.task.Task;
+import org.cancure.cpa.controller.beans.InvoicesBean;
 import org.cancure.cpa.controller.beans.PatientApprovalBean;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
@@ -18,6 +18,7 @@ import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
 import org.cancure.cpa.controller.beans.PatientVisitHistoryBean;
 import org.cancure.cpa.controller.beans.TopupStatusBean;
+import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.persistence.entity.AccountTypes;
 import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
@@ -30,6 +31,7 @@ import org.cancure.cpa.persistence.repository.ApprovalRepository;
 import org.cancure.cpa.persistence.repository.InvoicesRepository;
 import org.cancure.cpa.persistence.repository.PatientVisitForwardsRepository;
 import org.cancure.cpa.persistence.repository.PatientVisitRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -60,6 +62,9 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 	
 	@Autowired
     private HpocHospitalService hpocHospitalService;
+	
+	@Autowired
+	private PatientHospitalVisitNotificationComponent notifier;
 	
 	@Value("${spring.files.save.path}")
 	private String fileSavePath;
@@ -100,6 +105,10 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		patientVisit.setTaskId(taskId);
 		patientVisitRepository.save(patientVisit);
 
+		if ("TRUE".equals(patientVisitBean.getTopupNeeded())) {
+			notifier.notifySecretary(pidn);
+		}
+		
 		return patientVisit.getId() + "";
 	}
 
@@ -185,6 +194,11 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		Map<String, Object> activitiVars = new HashMap<String, Object>();
 		activitiVars.put("topupApproved", topupApproved);
 		String taskId = patientHospitalVisitService.moveToNextTask(pidn + "", patientVisitId, activitiVars);
+		PatientVisit patVisit = patientVisitRepository.findOne(patientVisitId);
+		
+		Integer hospitalId = patVisit.getAccountHolderId();
+		List<UserBean> hpocList = hpocHospitalService.getHpocUsersFromHospital(hospitalId);
+		notifier.notifyHpoc(hpocList, pidn);
 		return taskId;
 	}
 
@@ -214,7 +228,15 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 			throw new Exception("No forwards present");
 		}
 
-		return patientHospitalVisitService.moveToNextTask(pidn.toString() + "", patientVisitId, null);
+		String taskId = patientHospitalVisitService.moveToNextTask(pidn.toString() + "", patientVisitId, null);
+		
+		// Notify
+		for (PatientVisitForwardsBean forward : forwardList) {
+			pidn = forward.getPidn();
+			notifier.notifyPartner(forward.getAccountTypeId(), forward.getAccountHolderId(), pidn);
+		}
+		
+		return taskId;
 	}
 
 	@Override
@@ -230,14 +252,29 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 			
 			List<PatientApproval> patientApprovals = approvalRepository.findByPidn(pidn);
 			if (patientApprovals != null && !patientApprovals.isEmpty()) {
-				historyBean.setPatientApprovals(patientApprovals);
+				List<PatientApprovalBean> paBeanList = new ArrayList<>();
+				for (PatientApproval pa : patientApprovals) {
+					PatientApprovalBean bean = new PatientApprovalBean();
+					BeanUtils.copyProperties(pa, bean);
+					bean.setApprovedForAccountTypeId(pa.getApprovedForAccountType().getId());
+					bean.setApprovedForAccountTypeName(pa.getApprovedForAccountType().getName());
+					paBeanList.add(bean);
+				}
+				historyBean.setPatientApprovals(paBeanList);
 				
 				List<InvoicesEntity> invoicesList = invoicesRepository.findByPidn(pidn);
 				if (invoicesList != null && !invoicesList.isEmpty()){
+					List<InvoicesBean> invoiceBeanList = new ArrayList<>();
 					for (InvoicesEntity entity : invoicesList){
-						entity.setFromAccountHolderName(getPartnerName(entity.getFromAccountTypeId().getId(), entity.getFromAccountHolderId()));
+						InvoicesBean bean = new InvoicesBean();
+						BeanUtils.copyProperties(entity, bean);
+						bean.setFromAccountTypeId(entity.getFromAccountTypeId().getId());
+						bean.setToAccountTypeId(entity.getToAccountTypeId().getId());
+						bean.setFromAccountHolderName(getPartnerName(entity.getFromAccountTypeId().getId(), entity.getFromAccountHolderId()));
+						
+						invoiceBeanList.add(bean);
 					}
-					historyBean.setInvoicesList(invoicesList);
+					historyBean.setInvoicesList(invoiceBeanList);
 				}
 			}
 			

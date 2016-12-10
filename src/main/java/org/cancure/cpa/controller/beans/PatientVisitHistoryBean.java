@@ -14,9 +14,9 @@ public class PatientVisitHistoryBean {
 	
 	private PatientVisitBean patientVisit;
 	
-	List<PatientApproval> patientApprovals;
+	List<PatientApprovalBean> patientApprovals;
 	
-	List<InvoicesEntity> invoicesList;
+	List<InvoicesBean> invoicesList;
 
 	public Map<String, String> getTask() {
 		return task;
@@ -42,19 +42,19 @@ public class PatientVisitHistoryBean {
 		this.patientBean = patientBean;
 	}
 
-	public List<PatientApproval> getPatientApprovals() {
+	public List<PatientApprovalBean> getPatientApprovals() {
 		return patientApprovals;
 	}
 
-	public void setPatientApprovals(List<PatientApproval> patientApprovals) {
+	public void setPatientApprovals(List<PatientApprovalBean> patientApprovals) {
 		this.patientApprovals = patientApprovals;
 	}
 
-	public List<InvoicesEntity> getInvoicesList() {
+	public List<InvoicesBean> getInvoicesList() {
 		return invoicesList;
 	}
 
-	public void setInvoicesList(List<InvoicesEntity> invoicesList) {
+	public void setInvoicesList(List<InvoicesBean> invoicesList) {
 		this.invoicesList = invoicesList;
 	}
 }
