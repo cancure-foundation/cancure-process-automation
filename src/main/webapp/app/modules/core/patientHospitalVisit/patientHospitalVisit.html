@@ -1,3 +1,14 @@
+<script type="text/javascript">
+    // function to validate contact number
+    function validatephone(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
 <div class="content-header">
     <h1>
         Patient Hospital Visit
@@ -16,7 +27,7 @@
                             <label>PIDN
                                 <req>*</req>
                             </label>
-                            <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" />
+                            <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" onkeypress="return validatephone(event);"/>
                         </div>
                         <div class="col-md-4 col-xs-12" style="margin-top:26px;">
                             <input type="submit" class="btn btn-success" value="Search">
@@ -24,7 +35,7 @@
                     </div>
                 </div>
             </form>
-            <div class="warningText" ng-show="vm.noSearchResult">Sorry, no items match your query.</div>
+            <div class="warningText" ng-show="vm.noSearchResult">{{vm.pageMessage}}</div>
         </div>
     </div>
 
@@ -63,108 +74,103 @@
                         <tr ng-show="vm.patient.patientBean.hospitalCostEstimate && vm.patient.patientBean.medicalCostEstimate">
                             <td colspan="1" class="text-center"><b>Estimated Costs</b></td>
                             <td colspan="3" class="text-center">
-                                				<b>
+                                <b>
                                             		Hospital : {{vm.patient.patientBean.hospitalCostEstimate | currency:'₹'}} 
                                             		<br>
                                             		Medicine : {{vm.patient.patientBean.medicalCostEstimate | currency:'₹'}} 
                                             	</b>
                             </td>
-					 	</tr>
+                        </tr>
                         <tr>
-				            <td  colspan="1"  class="text-center"><b>Balance Amount</b></td>
-							<td colspan="3" class="text-center">
-								<span ng-class="(vm.balAmount > 5000) ? 'bal-green' : ((vm.balAmount > 2000)? 'bal-orange': 'bal-red')">{{vm.balAmount | currency:'₹'}}</span>
-				            </td>
-                        </tr>                                    
-               </table>	              	                     
-      
-	            <div style="padding:15px 0px;">
-                   <span class="section-title"><b>Approved Amounts to the patient :</b></span>
-                                <div ng-hide="vm.patient.patientApprovals.length > 0" class="empty-text">No amount has been approved for the patient.</div>
-                                <table class="table table-bordered" ng-show="vm.patient.patientApprovals.length > 0" style="max-width: 625px;">
-                                    <thead>
-                                        <tr>
-                                            <th class="col-xs-2">Approved For</th>
-                                            <th class="col-xs-3">Date of Approval</th>
-                                            <th class="col-xs-3">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="item in vm.patient.patientApprovals">
-                                            <td class="col-xs-2">{{item.approvedForAccountTypeName}}</td>
-                                            <td class="col-xs-3">{{item.date | date}}</td>
-                                            <td class="col-xs-3">{{item.amount | currency:'₹'}}</td>
-                                        </tr>
-                                        <tr>
-                                        	<td colspan="3" class="text-center"><b>Total amounts approved (<i>till {{vm.toDay}}</i>) : {{vm.approvedTotal | currency:'₹'}}</b></td>
-                                        </tr> 
-                                    </tbody>
-                                </table>
-                                <br>
-                                <span class="section-title"><b>Payments made to the Patient :</b></span>
-                                <div ng-hide="vm.patient.invoicesList.length > 0" class="empty-text">No payments have been made to the patient.</div>
-                                <table class="table table-bordered" ng-show="vm.patient.invoicesList.length > 0">
-                                    <thead>
-                                        <tr>
-                                            <th class="col-xs-3">Date</th>
-                                            <th class="col-xs-2">Account</th>
-                                            <th class="col-xs-2">Partner</th>
-                                            <th class="col-xs-3">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="item in vm.patient.invoicesList">
-                                            <td class="col-xs-3">{{item.date}}</td>
-                                            <td class="col-xs-2">{{item.fromAccountTypeId.name}}</td>
-                                            <td class="col-xs-3">{{item.fromAccountHolderName}}</td>
-                                            <td class="col-xs-3">{{item.amount}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                </div>
-                <div class="clearfix">
-                    <span class="section-title"><b>Documents (Prescriptions) :</b></span>
-                    <br>
-                    <div class="col-md-4 col-xs-12 input-box" style=" padding-left: 0;">
-                        <label>Type
-                            <req>*</req>
-                        </label>
-                        <select class="form-control" data-ng-model="vm.formData.documentTypes" required>
-                            <option value="">Select Type</option>
-                            <option value="{{item}}" ng-repeat="item in vm.documentTypes">{{item}}</option>
-                        </select>
-                    </div>
+                            <td colspan="1" class="text-center"><b>Balance Amount</b></td>
+                            <td colspan="3" class="text-center">                                
+                            	<span ng-class="(vm.balAmount > 5000) ? 'bal-green' : ((vm.balAmount > 2000)? 'bal-orange': 'bal-red')">{{vm.balAmount | currency:'₹'}}</span>                
+                            </td>
+                        </tr>
+                    </table>
 
-                    <div class="col-md-4 col-xs-12 input-box" style=" padding-left: 0;">
-                        <label>File
-                            <req>*</req>
-                        </label>
-                        <input type="file" />
+                    <div style="padding:15px 0px;">
+                        <span class="section-title"><b>Approved Amounts to the patient :</b></span>
+                        <div ng-hide="vm.patient.patientApprovals.length > 0" class="empty-text">No amount has been approved for the patient.</div>
+                        <table class="table table-bordered" ng-show="vm.patient.patientApprovals.length > 0" style="max-width: 625px;">
+                            <thead>
+                                <tr>
+                                    <th class="col-xs-2">Approved For</th>
+                                    <th class="col-xs-3">Date of Approval</th>
+                                    <th class="col-xs-3">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in vm.patient.patientApprovals">
+                                    <td class="col-xs-2">{{item.approvedForAccountTypeName}}</td>
+                                    <td class="col-xs-3">{{item.date | date}}</td>
+                                    <td class="col-xs-3">{{item.amount | currency:'₹'}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-center"><b>Total amounts approved (<i>till {{vm.toDay}}</i>) : {{vm.approvedTotal | currency:'₹'}}</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <span class="section-title"><b>Payments made to the Patient :</b></span>
+                        <div ng-hide="vm.patient.invoicesList.length > 0" class="empty-text">No payments have been made to the patient.</div>
+                        <table class="table table-bordered" ng-show="vm.patient.invoicesList.length > 0">
+                            <thead>
+                                <tr>
+                                    <th class="col-xs-3">Date</th>
+                                    <th class="col-xs-2">Account</th>
+                                    <th class="col-xs-2">Partner</th>
+                                    <th class="col-xs-3">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in vm.patient.invoicesList">
+                                    <td class="col-xs-3">{{item.date}}</td>
+                                    <td class="col-xs-2">{{item.fromAccountTypeId.name}}</td>
+                                    <td class="col-xs-3">{{item.fromAccountHolderName}}</td>
+                                    <td class="col-xs-3">{{item.amount}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-                <div class="col-xs-12 text-center">
-                    <button class="btn btn-success" ng-click="vm.selectPartners();" style="margin-right: 8px;">
-                        Select Partners
-                    </button>
+                    <form data-ng-submit="vm.submit('FALSE');">
+                    <div class="clearfix">
+                        <span class="section-title">
+                        	<b>Documents/Prescriptions to be uploaded</b>
+                        	<i class="fa fa-plus-circle" aria-hidden="true" ng-click="vm.addPatientFile()"></i>
+                        	<i class="fa fa-minus-circle" aria-hidden="true" ng-click="vm.patientFile.pop();" ng-show="vm.patientFile.length > 1"></i>
+                        </span>
+                        <br>
+                        <div ng-repeat="file in vm.patientFile" class="clearfix">
+                            <div class="col-md-4 col-xs-12 input-box" style=" padding-left: 0;">
+                                <label>Type
+                                    <req>*</req>
+                                </label>
+                                <select class="form-control" data-ng-model="file.documentTypes" required>
+                                    <option value="">Select Type</option>
+                                    <option value="{{item}}" ng-repeat="item in vm.documentTypes">{{item}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 col-xs-12 input-box">
+                                <label>File
+                                    <req>*</req>
+                                </label>
+                                <input type="file" fileid="{{file.id}}" onchange="angular.element(this).scope().vm.FilesSelection(this)" required/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 text-center">
+                    	<input type="text" class="btn btn-warning" ng-click="vm.submit('TRUE');" value="Request Topup" readonly ng-hide="vm.formSubmitted">
+                        <button type="submit" class="btn btn-success" ng-hide="vm.formSubmitted">
+                            Select Partners
+                        </button>
+                        <span style="color: #3ed01e;font-weight:bold;"  ng-show="vm.formSubmitted">{{vm.submitText}}</span>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
+
     </div>
-
-</div>
-<!--  <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panel-info panel-body" ng-show="vm.patient">
-                <div class="col-xs-12">
-                    <button class="btn btn-success pull-left" ng-click="vm.sendToSecretary();" style="margin-right: 8px;">
-                        Send to Secretary for Topup Approval
-                    </button>
-
-                    <button class="btn btn-success pull-left" ng-click="vm.selectPartners();" style="margin-right: 8px;">
-                        Select Partners
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>-->
 </div>

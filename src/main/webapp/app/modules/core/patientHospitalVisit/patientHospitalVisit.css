@@ -21,7 +21,7 @@
     max-height: 200px;
 }
 .patientHVisit .bal-green {
-    color: #00a65a;
+    color: #3ed01e;
     font-weight: 600;
     font-size: 20px;
 }
@@ -34,6 +34,16 @@
     color: #f4961c;
     font-weight: 600;
     font-size: 20px;
+}
+.patientHVisit .fa-plus-circle {
+    color: #3ed01e;
+    outline: none;
+    font-size: 16px;
+}
+.patientHVisit .fa-minus-circle {
+    color: #ff0000;
+    outline: none;
+    font-size: 16px;
 }
 @media (max-width: 767px) {
     .patientHVisit .userInfo .fieldName {
