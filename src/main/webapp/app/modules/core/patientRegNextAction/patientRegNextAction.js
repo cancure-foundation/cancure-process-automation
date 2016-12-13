@@ -31,29 +31,29 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 	 *  function to set fields/data according to the next task
 	 */
 	var setupPeople = function(callback){
-		if ($scope.nextTaskObject.nextTask == 'MB Doctor Approval' || 
-				$scope.nextTaskObject.nextTask == 'Preliminary Examination' || 
-				$scope.nextTaskObject.nextTask == 'Preliminary Examination Clarification') {  
+		if ($scope.nextTaskObject.nextTaskKey == 'mbDoctorApproval' || 
+				$scope.nextTaskObject.nextTaskKey == 'preliminaryExamination' || 
+				$scope.nextTaskObject.nextTaskKey == 'preliminaryExaminationClarification') {  
 
 			apiService.serviceRequest({
 				URL: appSettings.requestURL.hpocDoctors,
 				errorMsg: 'Failed to fetch Doctor list. Try Again!'
 			}, function (response) {	    	
 				callback(response);
-				if ($scope.nextTaskObject.nextTask == 'Preliminary Examination') {
+				if ($scope.nextTaskObject.nextTaskKey == 'preliminaryExamination') {
 					$scope.uploadNeeded = true;
 					vm.isPrelimEx = true;
 				}
-				if ($scope.nextTaskObject.nextTask == 'MB Doctor Approval') {					
+				if ($scope.nextTaskObject.nextTaskKey == 'mbDoctorApproval') {					
 					vm.isMBDoc = true;
 					vm.formData.people = response[0].doctorId.toString();
 				}
 			});
 
-		} else if ($scope.nextTaskObject.nextTask == 'Background Check') {
+		} else if ($scope.nextTaskObject.nextTaskKey == 'backgroundCheck') {
 			vm.statuses = [{'id': 'PASS', 'name' : 'Pass'}, {'id': 'FAIL', 'name' : 'Fail'}];
 			callback(null);
-		} else if ($scope.nextTaskObject.nextTask == 'Secretary Approval') {
+		} else if ($scope.nextTaskObject.nextTaskKey == 'secretaryApproval') {
 			vm.statuses = [{'id': 'Approved', 'name' : 'Approve'}, {'id': 'Recommend', 'name' : 'Forward to EC'},
 			               {'id': 'Reject', 'name' : 'Reject'}, {'id': 'SendBackToPC', 'name' : 'Need background check clarification'},
 			               {'id': 'prelimExamClarificationReqd', 'name' : 'Need preliminary exam clarification'}];
@@ -68,7 +68,7 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 				vm.costValidator();
 			});
 			callback(null);
-		} else if ($scope.nextTaskObject.nextTask == 'EC Approval') {
+		} else if ($scope.nextTaskObject.nextTaskKey == 'ecApproval') {
 			vm.statuses = [{'id': 'accept/save/Approve', 'name' : 'Approve'}, {'id': 'reject/save/Reject', 'name' : 'Reject'}];
 			callback(null);
 		} else {
@@ -106,23 +106,23 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 		
 		var url = '',
 			prefix = '';
-		if ($scope.nextTaskObject.nextTask == 'Preliminary Examination'){
+		if ($scope.nextTaskObject.nextTaskKey == 'preliminaryExamination'){
 			url = 'patientregistration/preliminaryexamination/save';
 			prefix = 'patientInvestigationBean.';
-		} else if ($scope.nextTaskObject.nextTask == 'Background Check') {
+		} else if ($scope.nextTaskObject.nextTaskKey == 'backgroundCheck') {
 			url = 'patientregistration/backgroundcheck/save/' + vm.formData.status; //status
-		} else if ($scope.nextTaskObject.nextTask == 'MB Doctor Approval') {
+		} else if ($scope.nextTaskObject.nextTaskKey == 'mbDoctorApproval') {
 			url = 'patientregistration/mbdoctorrecommendation/save';
-		} else if ($scope.nextTaskObject.nextTask == 'Secretary Approval') {
+		} else if ($scope.nextTaskObject.nextTaskKey == 'secretaryApproval') {
 			url = 'patientregistration/secretaryrecommendation/save/' + vm.formData.status; //status
-		} else if ($scope.nextTaskObject.nextTask == 'Background Clarification') {
+		} else if ($scope.nextTaskObject.nextTaskKey == 'backgroundClarification') {
 			url = 'patientregistration/bgcheckclarification/save/';
-		} else if ($scope.nextTaskObject.nextTask == 'Preliminary Examination Clarification') {
+		} else if ($scope.nextTaskObject.nextTaskKey == 'preliminaryExaminationClarification') {
 			url = 'patientregistration/preliminaryexaminationclarification/save/';
-		} else if ($scope.nextTaskObject.nextTask == 'EC Approval') {
+		} else if ($scope.nextTaskObject.nextTaskKey == 'ecApproval') {
 			url = 'patientregistration/executiveboardrecommendation/' + vm.formData.status; //accept/save or reject/save
-		} else if ($scope.nextTaskObject.nextTask == 'Patient ID Card Generation') {
-			url = 'patientregistration/patientidcard'; // + $scope.prn; //prn
+		} else if ($scope.nextTaskObject.nextTaskKey == 'confirmApprovedAmounts') {
+			url = 'patientregistration/confirmamount'; // + $scope.prn; //prn
 		} else {
 
 		}    	
