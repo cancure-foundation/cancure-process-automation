@@ -14,13 +14,16 @@ core.controller("PatientRegHistoryController", ['Loader', '$scope', '$state', '$
 				name : response.nextTask,
 				roles : response.Owner
 			};
-			if (vm.nextTask.name == "Rejected")
-				vm.patientReject = true;
 			
 			// iteration for first task
 			if (response.tasks[0]) {
 				vm.regDetails = response.tasks[0];
 				vm.patientDetails = vm.regDetails.patient;
+				
+				if (!vm.nextTask.name && !vm.patientDetails.pidn) {
+					vm.patientReject = true;
+				}
+				
 				vm.regDocument = vm.patientDetails.document;
 				vm.patientFamily = [];
 				vm.supportOrg = [];
