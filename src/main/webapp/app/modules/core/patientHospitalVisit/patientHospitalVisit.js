@@ -1,5 +1,5 @@
-core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', '$timeout', 'Flash', '$timeout',
-                                                function (Loader, $timeout, $scope, $state, $stateParams, apiService, appSettings, $timeout, Flash, $timeout) {
+core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', '$timeout', 'Flash', 
+                                                function (Loader, $timeout, $scope, $state, $stateParams, apiService, appSettings, $timeout, Flash) {
 
 	var vm = this;
 	vm.documentTypes = ['Lab Test Prescription', 'Medicine Prescription'];
@@ -20,12 +20,28 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 			if (response && !response.patientBean) {
 				vm.noSearchResult = true;
 			} else {
+				vm.toDay = new Date().toDateString();
 				vm.patient = response;
 				vm.noSearchResult = false;
+				vm.approvedTotal = 0;
+				vm.spendTotal = 0;
+				if (vm.patient.patientApprovals) {
+					for (var i=0; i < vm.patient.patientApprovals.length; i++){
+						vm.approvedTotal = vm.approvedTotal + vm.patient.patientApprovals[i].amount;
+					}
+				}
+				
+				if (vm.patient.invoicesList){
+					for (var i=0; i < vm.patient.invoicesList.length; i++){
+						vm.spendTotal = vm.spendTotal + vm.patient.invoicesList[i].amount;
+					}
+				}
+				vm.balAmount = vm.approvedTotal - vm.spendTotal;
+				vm.balAmount = 3000;
 			}
 			$timeout(function (){
 				Loader.destroy();
-			}, 400);
+			}, 1000);
 		});
 		
 	};
