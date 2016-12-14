@@ -81,6 +81,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		HpocHospital hpocHosMapping = hpocHospitalService.getHospitalFromHpoc(myUserId);
 		Integer hospitalId = hpocHosMapping.getHospitalId();
 		patientVisitBean.setAccountHolderId(hospitalId + "");
+		patientVisitBean.setStatus("open");
 		
 		PatientVisit patientVisit = transformPatientBeanToEntity(patientVisitBean);
 
@@ -144,6 +145,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		at.setId(5);
 		at.setName("Hospital");
 		patientVisit.setAccountTypes(at);
+		patientVisit.setStatus(patientVisitBean.getStatus());
 		patientVisit.setAccountHolderId(Integer.parseInt(patientVisitBean.getAccountHolderId()));
 
 		if (patientVisitBean.getPatientHospitalVisitDocumentBeanList() != null) {
@@ -243,10 +245,19 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 	@Transactional
 	public PatientVisitHistoryBean selectPatient(String pidnString) {
 		Integer pidn = Integer.parseInt(pidnString);
-		List<PatientBean> list = new ArrayList<PatientBean>();
-		list = patientService.searchByPidn(pidn);
+		
+		List<PatientBean> list = patientService.searchByPidn(pidn);
 		if (list != null && !list.isEmpty()) {
 			PatientVisitHistoryBean historyBean = new PatientVisitHistoryBean();
+			
+			// Check if a workflow already exists for this patient.
+			List<PatientVisit> openList = patientVisitRepository.findOpenWorkflowsOfPatient(pidn);
+			if (openList != null && !openList.isEmpty()) {
+				historyBean.setWorkflowExists(true);
+			} else {
+				historyBean.setWorkflowExists(false);
+			}
+			
 			PatientBean patientBean = list.get(0);
 			historyBean.setPatientBean(patientBean);
 			
