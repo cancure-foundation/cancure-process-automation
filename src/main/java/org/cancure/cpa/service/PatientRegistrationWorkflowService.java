@@ -30,5 +30,5 @@ public interface PatientRegistrationWorkflowService {
     
     void patientIDCard(Integer prn) throws Exception;
 
-	void confirmApprovedAmount(PatientInvestigationBean patientInvestigationBean);
+	void confirmApprovedAmount(PatientInvestigationBean patientInvestigationBean) throws IOException;
 }
