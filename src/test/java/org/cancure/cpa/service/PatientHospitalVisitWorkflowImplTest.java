@@ -21,7 +21,7 @@ public class PatientHospitalVisitWorkflowImplTest {
 	private PatientHospitalVisitWorkflowServiceImpl PatientHospitalVisitWorkflowImpl;
 	
 	@Test
-	public void testStartWorkflow() throws IOException {
+	public void testStartWorkflow() throws Exception {
 		PatientVisitBean patientVisitBean = new PatientVisitBean();
 		patientVisitBean.setAccountHolderId("1");
 		patientVisitBean.setAccountTypeId("5");
