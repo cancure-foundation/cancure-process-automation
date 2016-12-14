@@ -3,12 +3,24 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 
 	var vm = this;
 	vm.documentTypes = ['Lab Test Prescription', 'Medicine Prescription'];
+	
 	var init = function() {
-		vm.patient = null;
-		vm.noSearchResult = false;
+		varInit();
 	};
 	
+	function varInit (){
+		vm.patient = null;
+		vm.noSearchResult = false;
+		vm.patientFile = [{
+			id : 0
+		}];
+		vm.formSubmitted = false;
+	}
+	/**
+	 * 
+	 */
 	vm.searchUser = function(){		
+		vm.formSubmitted = false;
 		Loader.create('Please wait while we Search patient.');
 		
 		// making the server call
@@ -18,6 +30,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 			hideErrMsg : true
 		}, function (response) {			
 			if (response && !response.patientBean) {
+				vm.pageMessage="Sorry, no items match your query.";
 				vm.noSearchResult = true;
 			} else {
 				vm.toDay = new Date().toDateString();
@@ -37,54 +50,44 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 					}
 				}
 				vm.balAmount = vm.approvedTotal - vm.spendTotal;
-				vm.balAmount = 3000;
 			}
-			$timeout(function (){
-				Loader.destroy();
-			}, 1000);
+			Loader.destroy();
 		});
 		
 	};
-	
-	vm.FilesSelection = function(input){
-		$timeout(function (){
-			vm.patientFile = [];
-			vm.patientFileNames = [];
-			angular.forEach(input.files, function (v, k) {	
-				vm.patientFile.push(input.files[k]); 			 
-				vm.patientFileNames.push(input.files[k].name); 			 
-			});
+	/**
+	 *  function to handle file selection
+	 */
+	vm.FilesSelection = function(input, item){
+		var index = parseInt(input.attributes.fileid.value);
+		vm.patientFile[index].file = input.files[0];
+	};
+	/**
+	 *  function to add file filed in the UI
+	 */
+	vm.addPatientFile = function (){
+		vm.patientFile.push({
+			id : vm.patientFile.length
 		});
 	};
-	
-	vm.sendToSecretary = function() {
-		alert('Secretary');
-		vm.submit('TRUE');
-	};
-	
-	
-	vm.selectPartners = function() {
-		alert('Toptup');
-		vm.submit('FALSE');
-	};
-	
+	/**
+	 *  function to handle save request
+	 */
 	vm.submit = function(flag) {
+	
+		Loader.create('Sending data... Please wait...');
 		
-		if (!vm.patient) {
-			alert('Nothing to submit');
-			return;
-		}
-		
-		
+		vm.pageMessage = (flag == 'FALSE') ? "Data saved Successfully." : "Topup request send. Data saved successfully."
+				
 		var fd = new FormData();
 		fd.append("pidn", vm.patient.patientBean.pidn);
 		fd.append("topupNeeded", flag);
 		
-		if (vm.patientFile && vm.patientFile.length > 0) {
+		if (vm.patientFile && vm.patientFile.length > 0 && flag == 'FALSE') {
 			for (var i = 0; i < vm.patientFile.length; i++){
 				fd.append("patientHospitalVisitDocumentBeanList["+ i +"].docType", 'Prescription');
 				fd.append("patientHospitalVisitDocumentBeanList["+ i +"].accountTypeId", 3); //Pharmacy
-				fd.append("patientHospitalVisitDocumentBeanList["+ i +"].patientVisitFile",  vm.patientFile[i]);
+				fd.append("patientHospitalVisitDocumentBeanList["+ i +"].patientVisitFile",  vm.patientFile[i].file);
 			}
 		}
 		
@@ -99,12 +102,9 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 			},
 			errorMsg : 'Unable to save data. Try Again!!'
 		}, function (response) {
-			Loader.destroy();
-			Flash.create('success', 'Completed Successfully.', 'large-text');
-			vm.formData = {};
-			alert('Saved successfully ' + response);
-			//$state.go('app.patientRegHistory',  { prn: $scope.prn} );
-
+			Loader.destroy();	
+			vm.noSearchResult = true;
+			vm.pidn = null;
 		});
 		
 	};
