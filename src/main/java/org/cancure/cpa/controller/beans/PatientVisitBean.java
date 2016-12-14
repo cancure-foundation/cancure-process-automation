@@ -14,6 +14,7 @@ public class PatientVisitBean {
 	private String status;
 	private String topupNeeded;
 	private List<PatientVisitDocumentBean> patientHospitalVisitDocumentBeanList;
+	private List<PatientVisitForwardsBean> forwardList;
 	
 	public String getTopupNeeded() {
 		return topupNeeded;
@@ -30,6 +31,12 @@ public class PatientVisitBean {
 		this.patientHospitalVisitDocumentBeanList = patientHospitalVisitDocumentBeanList;
 	}
 	
+	public List<PatientVisitForwardsBean> getForwardList() {
+		return forwardList;
+	}
+	public void setForwardList(List<PatientVisitForwardsBean> forwardList) {
+		this.forwardList = forwardList;
+	}
 	public Long getId() {
 		return id;
 	}

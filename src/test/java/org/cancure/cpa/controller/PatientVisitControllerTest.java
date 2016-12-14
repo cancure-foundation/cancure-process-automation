@@ -1,19 +1,14 @@
 package org.cancure.cpa.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.TaskService;
-import org.activiti.engine.task.Task;
 import org.cancure.cpa.Application;
 import org.cancure.cpa.controller.beans.PatientApprovalBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
-import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
-import org.cancure.cpa.controller.beans.PatientVisitForwardsMasterBean;
 import org.cancure.cpa.controller.beans.TopupStatusBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,8 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -71,7 +64,7 @@ public class PatientVisitControllerTest {
 		System.out.println("%% TOPUP Approval done - " + status);
 		
 		
-		PatientVisitForwardsMasterBean masterBean = new PatientVisitForwardsMasterBean();
+		/*PatientVisitForwardsMasterBean masterBean = new PatientVisitForwardsMasterBean();
 		List<PatientVisitForwardsBean> pvfList = new ArrayList<>();
 		PatientVisitForwardsBean pvfBean = new PatientVisitForwardsBean();
 		pvfBean.setAccountHolderId(1);
@@ -81,7 +74,7 @@ public class PatientVisitControllerTest {
 		pvfList.add(pvfBean);
 		masterBean.setPatientVisitForwards(pvfList);
 		status = controller.selectPartners(masterBean);
-		System.out.println("$$$$$$$$$ Select partners done " + status);
+		System.out.println("$$$$$$$$$ Select partners done " + status);*/
 		
 		
 	}
