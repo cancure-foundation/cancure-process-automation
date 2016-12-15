@@ -115,6 +115,8 @@ insert into settings values (11, 'Executive Committee Timeout Duration (Hours)',
 insert into settings values (12, 'Background Check Reminder Frequency (Hours)', '24');
 insert into settings values (13, 'MB Doctor Reminder Frequency (Hours)', '24');
 insert into settings values (14, 'Sectretary Approval Reminder Frequency (Hours)', '24');
+insert into settings values (15, 'PatientRegWorkflowNotification_email', '<div style="border : 2px solid #f4961c;"><div style="background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;">Cancure Foundation</div><div style="padding:15px;color: #222d32;font-weight:500;">Hi, <br><br><b>The following task been assigned to you.</b> <br> <br><table border=1 style="border-collapse: collapse;"><tr><th style="padding:4px 8px;"> PRN</th><th style="padding:4px 8px;"> Patient Name</th><th style="padding:4px 8px;"> Task Name</th><th style="padding:4px 8px;"> Task Expiry</th></tr><tr><td style="padding:4px 8px;">${prn}</td><td style="padding:4px 8px;">${patName}</td><td style="padding:4px 8px;">${taskName}</td><td style="padding:4px 8px;">${date}</td></tr></table><br>Visit <a href="www.cancure.in.net">www.cancure.in.net</a> <br> <br><b>Thanks,</b> <br>Admin</div></div>');
+insert into settings values (16, 'PatientRegWorkflowNotification_sms', 'The following task has been assigned to you. PRN : ${prn} (${patName}). Task Name : ${taskName}. Cancure');
 
 insert into account_types values (1, 'Cancure');
 insert into account_types values (2, 'Patient');

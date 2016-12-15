@@ -241,7 +241,7 @@ create table patient_investigation (
  create table settings (
  	id number(10) primary key auto_increment,
  	display_name varchar(100),
- 	value varchar(500)
+ 	value varchar(2000)
  );
  
   

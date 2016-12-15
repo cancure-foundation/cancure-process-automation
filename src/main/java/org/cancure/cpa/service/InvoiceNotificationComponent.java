@@ -3,6 +3,7 @@ package org.cancure.cpa.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
@@ -10,6 +11,7 @@ import org.cancure.cpa.persistence.entity.Patient;
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.PatientRepository;
 import org.cancure.cpa.persistence.repository.UserRepository;
+import org.cancure.cpa.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,10 +24,16 @@ public class InvoiceNotificationComponent {
 	@Autowired
 	private PatientRepository patientRepo;
 	
+	@Autowired
+	private EmailNotifier emailNotifier;
+	
+	@Autowired
+	private SMSNotifier smsNotifier;
+	
 	private List<Notifier> taskListeners = new ArrayList<>();
 	public InvoiceNotificationComponent(){
-		taskListeners.add(new EmailNotifier());
-		taskListeners.add(new SMSNotifier());
+		taskListeners.add(emailNotifier);
+		taskListeners.add(smsNotifier);
 	}
 
 	public void notifySecretary(InvoicesEntity entity, String accountHolderName) {
@@ -66,13 +74,17 @@ public class InvoiceNotificationComponent {
                 + "</div>"
                 + "</div>");
 		
-		sendNotification(userSet, message.toString());
+		try {
+			sendNotification(userSet, "monisChangeThis", null);
+		} catch (Exception e) {
+			Log.getLogger().error("Error sending notification", e);
+		}
 	}
 
-	protected void sendNotification(Set<User> userSet, String message) {
+	protected void sendNotification(Set<User> userSet, String messageId, Map<String, Object> values) throws Exception {
 		if (taskListeners != null && !taskListeners.isEmpty()) {
 			for (Notifier notifier : taskListeners) {
-				notifier.notify(userSet, message);
+				notifier.notify(userSet, messageId, values);
 			}
 		}
 	}

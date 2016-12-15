@@ -244,7 +244,7 @@ create table patient_document (
 create table settings (
  	id int(10) primary key auto_increment,
  	display_name varchar(100),
- 	value varchar(500)
+ 	value varchar(2000)
  );
  
 create table account_types (
