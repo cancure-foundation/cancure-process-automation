@@ -5,11 +5,12 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 	vm.documentTypes = ['Lab Test Prescription', 'Medicine Prescription'];
 	
 	var init = function() {
-		console.log($stateParams);		
+		if (appSettings.rolesList.indexOf('ROLE_SECRETARY') >= 0){
+			vm.isSecretary = true;
+		}
 		Loader.create('Fetching data... Please wait..');
 		varInit();
-		if ($stateParams && $stateParams.role && $stateParams.pidn){
-			vm.role = $stateParams.role;
+		if ($stateParams && $stateParams.pidn){			
 			vm.searchUser($stateParams.pidn);
 			vm.preLoad = true;
 		}
@@ -140,7 +141,49 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		});
 		
 	};
-	
+	/**
+	 * 
+	 */
+	vm.doTopup = function(approve){
+		var serverData = {};
+		serverData.pidn = vm.patient.patientBean.pidn;
+		serverData.patientVisitId = $stateParams.id;
+		
+		if (approve) {
+			serverData.patientApproval = [];
+			var hosAmount = {};
+			hosAmount.pidn = vm.patient.patientBean.pidn;
+			hosAmount.amount = vm.hospitalAmount; //vm.pharmacyAmount;
+			hosAmount.approvedForAccountTypeId = 5; // Hospital
+			serverData.patientApproval.push(hosAmount);
+			
+			var pharmaAmount = {};
+			pharmaAmount.pidn = vm.patient.patientBean.pidn;
+			pharmaAmount.amount = vm.pharmacyAmount;
+			pharmaAmount.approvedForAccountTypeId = 3; // Hospital
+			serverData.patientApproval.push(pharmaAmount);
+		}
+		
+		serverData.status = approve ? "TRUE" : "FALSE";
+		
+		// Submit /patientvisit/topup
+		// making the server call
+		apiService.serviceRequest({
+			URL: '/patientvisit/topup',
+			payLoad: serverData,
+			method: 'POST',
+			hideErrMsg : true
+		}, function (response) {
+			if (response == null) {
+				vm.noSearchResult = true;
+			} else {
+				vm.noSearchResult = false;
+			}
+		}, function (fail){
+			Flash.create('danger', fail.message, 'large-text');
+		});
+		
+	}
 	init();
 
 }]);

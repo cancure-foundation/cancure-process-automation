@@ -10,8 +10,7 @@
     }
 </script>
 <div class="content-header">
-    <h1>
-        Patient Hospital Visit
+    <h1>Patient Hospital Visit
         <div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h1>
 </div>
@@ -34,10 +33,10 @@
                         </div>
                     </div>
                 </div>
-            </form>            
+            </form>
         </div>
     </div>
-	<div class="warningText" ng-show="vm.noSearchResult">{{vm.pageMessage}}</div>
+    <div class="warningText" ng-show="vm.noSearchResult">{{vm.pageMessage}}</div>
     <div class="row" ng-show="vm.patient && !vm.noSearchResult">
         <div class="col-xs-12">
             <div class="panel panel-info">
@@ -77,10 +76,10 @@
                             <td colspan="1" class="text-center"><b>Estimated Costs</b></td>
                             <td colspan="3" class="text-center">
                                 <b>
-                                            		Hospital : {{vm.patient.patientBean.hospitalCostEstimate | currency:'₹'}} 
-                                            		<br>
-                                            		Medicine : {{vm.patient.patientBean.medicalCostEstimate | currency:'₹'}} 
-                                            	</b>
+                                	Hospital : {{vm.patient.patientBean.hospitalCostEstimate | currency:'₹'}} 
+                                <br>
+                                	Medicine : {{vm.patient.patientBean.medicalCostEstimate | currency:'₹'}} 
+                                 </b>
                             </td>
                         </tr>
                         <tr>
@@ -113,7 +112,6 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <br>
                         <span class="section-title"><b>Payments made to the Patient :</b></span>
                         <div ng-hide="vm.patient.invoicesList.length > 0" class="empty-text">No payments have been made to the patient.</div>
                         <table class="table table-bordered" ng-show="vm.patient.invoicesList.length > 0">
@@ -127,7 +125,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="item in vm.patient.invoicesList">
-                                    <td class="col-xs-3">{{item.date}}</td>
+                                    <td class="col-xs-3">{{item.date | date}}</td>
                                     <td class="col-xs-2">{{item.fromAccountTypeId.name}}</td>
                                     <td class="col-xs-3">{{item.fromAccountHolderName}}</td>
                                     <td class="col-xs-3">{{item.amount}}</td>
@@ -135,7 +133,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <form data-ng-submit="vm.submit('FALSE');">
+                    <form data-ng-submit="vm.submit('FALSE');" ng-hide="vm.isSecretary">
                         <div class="clearfix">
                             <span class="section-title">
 	                        	<b>Documents/Prescriptions to be uploaded</b>
@@ -185,6 +183,26 @@
                                 Select Partners
                             </button>
                             <span style="color: #3ed01e;font-weight:bold;" ng-show="vm.formSubmitted">{{vm.pageMessage}}</span>
+                        </div>
+                    </form>
+                    <form ng-show="vm.isSecretary" data-ng-submit="vm.doTopup(true);">
+                        <div class="input-box col-xs-12 col-md-4" style="padding-left: 0;">
+                            <label>Additional Amount for Pharmacy
+                                <req>*</req>
+                            </label>
+                            <input type="text" data-ng-model="vm.pharmacyAmount" maxlength="10" required placeholder="Enter Pharmacy Amount" onkeypress="return validatephone(event);"/>
+                        </div>
+                        <div class="input-box col-xs-12 col-md-4" style="padding-left: 0;">
+                            <label>Additional Amount for Hospital
+                                <req>*</req>
+                            </label>
+                            <input type="text" data-ng-model="vm.hospitalAmount" maxlength="10" required placeholder="Enter Hospital Amount" onkeypress="return validatephone(event);"/>
+                        </div>
+                        <div class="col-xs-12">
+                            <button type="submit" class="btn btn-success" style="margin-right: 8px;">
+                                Approve
+                            </button>
+                            <input type="clear" class="btn btn-warning" ng-click="vm.doTopup(false)" value="Clear Form" readonly>                            
                         </div>
                     </form>
                 </div>
