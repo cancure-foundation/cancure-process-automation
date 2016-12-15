@@ -22,4 +22,9 @@ insert into user values (6,'PPOC','ppoc','ppoc@cancure.in.net', '123123232', '$2
 insert into user_role values (6, 8);
 insert into ppoc_pharmacy values (6, 1);
 
+insert into user values (7,'EC1','ec1','ec1@cancure.in.net', '123123232', '$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true, false);
+insert into user values (8,'EC2','ec2','ec2@cancure.in.net', '123123232', '$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true, false);
+insert into user_role values (7, 7);
+insert into user_role values (8, 7);
+
 --insert into APPROVALS values (1, '2016-01-01 12:12:12', 2, 20000, 3, 1, null);

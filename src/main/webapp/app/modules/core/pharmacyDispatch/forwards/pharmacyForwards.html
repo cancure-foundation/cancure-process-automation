@@ -86,7 +86,7 @@
                        </thead>
                        <tbody>
                            <tr ng-repeat="item in vm.forwards">
-                               <td class="col-xs-3">{{item.date}}</td>
+                               <td class="col-xs-3">{{item.date | date}}</td>
                                <td class="col-xs-2">{{item.patient.name}}</td>
                                <td class="col-xs-3"><a ui-sref="app.pharmacyDispatch({ patientVisitId: item.patientVisitId })">View</a></td>
                            </tr>

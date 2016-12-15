@@ -182,12 +182,15 @@ public class PatientRegistrationWorkflowServiceImpl implements PatientRegistrati
     }
 
 	@Override
-	public void confirmApprovedAmount(PatientInvestigationBean patientInvestigationBean) {
+	@Transactional
+	public void confirmApprovedAmount(PatientInvestigationBean patientInvestigationBean) throws IOException {
 		// Update the final approved cost.
 		patientService.updateCostApproved(patientInvestigationBean.getHospitalCostApproved(),
 				patientInvestigationBean.getMedicalCostApproved(), Integer.parseInt(patientInvestigationBean.getPrn()));
 		String taskId = patientRegistrationService.movePatientRegn(String.valueOf(patientInvestigationBean.getPrn()),
 				null);
+		patientInvestigationBean.setTaskId(taskId);
+        patientInvestigationService.savePatientInvestigation(patientInvestigationBean, null);
 
 	}
 

@@ -163,9 +163,22 @@ public class PatientWorkFlowController {
         return "{\"status\" : \"SUCCESS\"}";
    }*/
     
-   @RequestMapping(value= "/patientregistration/confirmamount", method=RequestMethod.POST)
-   public String confirmApprovedAmount(PatientInvestigationBean patientInvestigationBean) throws Exception {
-        patientRegistrationWorkflowService.confirmApprovedAmount(patientInvestigationBean);
-        return "{\"status\" : \"SUCCESS\"}";
-   }
+	@RequestMapping(value = "/patientregistration/confirmamount", method = RequestMethod.POST)
+	public String confirmApprovedAmount(PatientInvestigationBean patientInvestigationBean, OAuth2Authentication auth)
+			throws Exception {
+
+		Integer userId = null;
+		if (auth != null) {
+			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
+			UserBean user = userService.getUserByLogin(login);
+			userId = user.getId();
+		} else {
+			throw new RuntimeException("Not logged in");
+		}
+
+		patientInvestigationBean.setInvestigatorId(userId.toString());
+    	patientInvestigationBean.setInvestigatorType("Secretary");
+		patientRegistrationWorkflowService.confirmApprovedAmount(patientInvestigationBean);
+		return "{\"status\" : \"SUCCESS\"}";
+	}
 }

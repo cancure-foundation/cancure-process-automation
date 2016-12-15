@@ -56,7 +56,7 @@ core.config(["$stateProvider", function ($stateProvider) {
     });
     
     $stateProvider.state('app.patientHospitalVisit', {
-        url: '/patientHospitalVisit',
+        url: '/patientHospitalVisit/:pidn/:id',
         templateUrl: 'app/modules/core/patientHospitalVisit/patientHospitalVisit.html',
         controller: 'PatientHospitalVisitController',
         controllerAs: 'vm',

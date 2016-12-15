@@ -10,15 +10,14 @@
     }
 </script>
 <div class="content-header">
-    <h1>
-        Patient Hospital Visit
+    <h1>Patient Hospital Visit
         <div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h1>
 </div>
 <!-- Main content -->
 <div class="content patientHVisit">
 
-    <div class="row">
+    <div class="row" ng-hide="vm.preLoad">
         <div class="col-md-12">
             <form name="vm.hospitalVisitForm" ng-submit="vm.searchUser();" class="clearfix" autocomplete="off">
                 <div class="panel panel-info">
@@ -27,7 +26,7 @@
                             <label>PIDN
                                 <req>*</req>
                             </label>
-                            <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" onkeypress="return validatephone(event);"/>
+                            <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" onkeypress="return validatephone(event);" />
                         </div>
                         <div class="col-md-4 col-xs-12" style="margin-top:26px;">
                             <input type="submit" class="btn btn-success" value="Search">
@@ -35,10 +34,9 @@
                     </div>
                 </div>
             </form>
-            <div class="warningText" ng-show="vm.noSearchResult">{{vm.pageMessage}}</div>
         </div>
     </div>
-
+    <div class="warningText" ng-show="vm.noSearchResult">{{vm.pageMessage}}</div>
     <div class="row" ng-show="vm.patient && !vm.noSearchResult">
         <div class="col-xs-12">
             <div class="panel panel-info">
@@ -54,7 +52,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-center" colspan="2"><b>PRN : {{vm.patient.patientBean.prn}}</b> <b ng-show="vm.patient.patientBean.pidn"> | PIDN : {{vm.patient.patientBean.pidn}}</b></td>
+                            <td class="text-center" colspan="2"><b>PRN : {{vm.patient.patientBean.prn}}</b> <b ng-show="vm.patient.patientBean.pidn"> | PIDN : {{vm.patient.patientBean.pidn}}</b>
+                                <br>
+                                <a ui-sref="app.patientRegHistory({prn:vm.patient.patientBean.prn})">View Patient History</a>
+                            </td>
                         </tr>
                         <tr>
                             <td class="fieldName">Age</td>
@@ -75,16 +76,16 @@
                             <td colspan="1" class="text-center"><b>Estimated Costs</b></td>
                             <td colspan="3" class="text-center">
                                 <b>
-                                            		Hospital : {{vm.patient.patientBean.hospitalCostEstimate | currency:'₹'}} 
-                                            		<br>
-                                            		Medicine : {{vm.patient.patientBean.medicalCostEstimate | currency:'₹'}} 
-                                            	</b>
+                                	Hospital : {{vm.patient.patientBean.hospitalCostEstimate | currency:'₹'}} 
+                                <br>
+                                	Medicine : {{vm.patient.patientBean.medicalCostEstimate | currency:'₹'}} 
+                                 </b>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="1" class="text-center"><b>Balance Amount</b></td>
-                            <td colspan="3" class="text-center">                                
-                            	<span ng-class="(vm.balAmount > 5000) ? 'bal-green' : ((vm.balAmount > 2000)? 'bal-orange': 'bal-red')">{{vm.balAmount | currency:'₹'}}</span>                
+                            <td colspan="3" class="text-center">
+                                <span ng-class="(vm.balAmount > 5000) ? 'bal-green' : ((vm.balAmount > 2000)? 'bal-orange': 'bal-red')">{{vm.balAmount | currency:'₹'}}</span>
                             </td>
                         </tr>
                     </table>
@@ -111,7 +112,6 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <br>
                         <span class="section-title"><b>Payments made to the Patient :</b></span>
                         <div ng-hide="vm.patient.invoicesList.length > 0" class="empty-text">No payments have been made to the patient.</div>
                         <table class="table table-bordered" ng-show="vm.patient.invoicesList.length > 0">
@@ -125,7 +125,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="item in vm.patient.invoicesList">
-                                    <td class="col-xs-3">{{item.date}}</td>
+                                    <td class="col-xs-3">{{item.date | date}}</td>
                                     <td class="col-xs-2">{{item.fromAccountTypeId.name}}</td>
                                     <td class="col-xs-3">{{item.fromAccountHolderName}}</td>
                                     <td class="col-xs-3">{{item.amount}}</td>
@@ -133,40 +133,77 @@
                             </tbody>
                         </table>
                     </div>
-                    <form data-ng-submit="vm.submit('FALSE');">
-                    <div class="clearfix">
-                        <span class="section-title">
-                        	<b>Documents/Prescriptions to be uploaded</b>
-                        	<i class="fa fa-plus-circle" aria-hidden="true" ng-click="vm.addPatientFile()"></i>
-                        	<i class="fa fa-minus-circle" aria-hidden="true" ng-click="vm.patientFile.pop();" ng-show="vm.patientFile.length > 1"></i>
-                        </span>
-                        <br>
-                        <div ng-repeat="file in vm.patientFile" class="clearfix">
-                            <div class="col-md-4 col-xs-12 input-box" style=" padding-left: 0;">
-                                <label>Type
-                                    <req>*</req>
-                                </label>
-                                <select class="form-control" data-ng-model="file.documentTypes" required>
-                                    <option value="">Select Type</option>
-                                    <option value="{{item}}" ng-repeat="item in vm.documentTypes">{{item}}</option>
-                                </select>
-                            </div>
+                    <form data-ng-submit="vm.submit('FALSE');" ng-hide="vm.isSecretary">
+                        <div class="clearfix">
+                            <span class="section-title">
+	                        	<b>Documents/Prescriptions to be uploaded</b>
+	                        	<i class="fa fa-plus-circle" aria-hidden="true" ng-click="vm.addPatientFile()"></i>
+	                        	<i class="fa fa-minus-circle" aria-hidden="true" ng-click="vm.patientFile.pop();" ng-show="vm.patientFile.length > 1"></i>
+	                        </span>
+                            <br>
+                            <div ng-repeat="file in vm.patientFile" class="clearfix">
+                                <div class="col-md-4 col-xs-12 input-box" style=" padding-left: 0;">
+                                    <label>Type
+                                        <req>*</req>
+                                    </label>
+                                    <select class="form-control" data-ng-model="file.documentTypes" required>
+                                        <option value="">Select Type</option>
+                                        <option value="{{item}}" ng-repeat="item in vm.documentTypes">{{item}}</option>
+                                    </select>
+                                </div>
 
-                            <div class="col-md-4 col-xs-12 input-box">
-                                <label>File
-                                    <req>*</req>
-                                </label>
-                                <input type="file" fileid="{{file.id}}" onchange="angular.element(this).scope().vm.FilesSelection(this)" required/>
+                                <div class="col-md-4 col-xs-12 input-box">
+                                    <label>File
+                                        <req>*</req>
+                                    </label>
+                                    <input type="file" fileid="{{file.id}}" onchange="angular.element(this).scope().vm.FilesSelection(this)" required/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-xs-12">
+                                    <div class="input-box">
+                                        <label>Select Pharmacy
+                                            <req>*</req>
+                                        </label>
+                                        <select class="form-control" data-ng-model="vm.formData.pharmacy" required>
+                                            <option value="">Select Pharmacy</option>
+                                            <option value="{{item.pharmacyId}}" ng-repeat="item in vm.pharmacyList">{{item.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-xs-12" style="margin-top: 36px;">
+                                    <md-checkbox data-ng-model="vm.formData.topUpSelect" required>
+                                        Topup Required
+                                    </md-checkbox>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 text-center">
-                    	<input type="text" class="btn btn-warning" ng-click="vm.submit('TRUE');" value="Request Topup" readonly ng-hide="vm.formSubmitted">
-                        <button type="submit" class="btn btn-success" ng-hide="vm.formSubmitted">
-                            Select Partners
-                        </button>
-                        <span style="color: #3ed01e;font-weight:bold;"  ng-show="vm.formSubmitted">{{vm.submitText}}</span>
-                    </div>
+                        <div class="col-xs-12 text-center">
+                            <button type="submit" class="btn btn-success" ng-hide="vm.formSubmitted">
+                                Select Partners
+                            </button>
+                            <span style="color: #3ed01e;font-weight:bold;" ng-show="vm.formSubmitted">{{vm.pageMessage}}</span>
+                        </div>
+                    </form>
+                    <form ng-show="vm.isSecretary" data-ng-submit="vm.doTopup(true);">
+                        <div class="input-box col-xs-12 col-md-4" style="padding-left: 0;">
+                            <label>Additional Amount for Pharmacy
+                                <req>*</req>
+                            </label>
+                            <input type="text" data-ng-model="vm.pharmacyAmount" maxlength="10" required placeholder="Enter Pharmacy Amount" onkeypress="return validatephone(event);"/>
+                        </div>
+                        <div class="input-box col-xs-12 col-md-4" style="padding-left: 0;">
+                            <label>Additional Amount for Hospital
+                                <req>*</req>
+                            </label>
+                            <input type="text" data-ng-model="vm.hospitalAmount" maxlength="10" required placeholder="Enter Hospital Amount" onkeypress="return validatephone(event);"/>
+                        </div>
+                        <div class="col-xs-12">
+                            <button type="submit" class="btn btn-success" style="margin-right: 8px;">
+                                Approve
+                            </button>
+                            <input type="clear" class="btn btn-warning" ng-click="vm.doTopup(false)" value="Clear Form" readonly>                            
+                        </div>
                     </form>
                 </div>
             </div>
