@@ -5,9 +5,11 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 	vm.documentTypes = ['Lab Test Prescription', 'Medicine Prescription'];
 	
 	var init = function() {
+		console.log($stateParams);		
 		Loader.create('Fetching data... Please wait..');
 		varInit();
-		if ($stateParams.pidn){
+		if ($stateParams && $stateParams.role && $stateParams.pidn){
+			vm.role = $stateParams.role;
 			vm.searchUser($stateParams.pidn);
 			vm.preLoad = true;
 		}
