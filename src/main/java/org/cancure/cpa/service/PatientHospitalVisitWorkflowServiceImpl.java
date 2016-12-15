@@ -71,7 +71,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 
 	@Override
 	@Transactional
-	public String startWorkflow(PatientVisitBean patientVisitBean, Integer myUserId) throws IOException {
+	public String startWorkflow(PatientVisitBean patientVisitBean, Integer myUserId) throws Exception {
 
 		Integer pidn = patientVisitBean.getPidn();
 		List<PatientBean> patientInDbList = patientService.searchByPidn(pidn);
@@ -81,13 +81,17 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		HpocHospital hpocHosMapping = hpocHospitalService.getHospitalFromHpoc(myUserId);
 		Integer hospitalId = hpocHosMapping.getHospitalId();
 		patientVisitBean.setAccountHolderId(hospitalId + "");
+		patientVisitBean.setStatus("open");
 		
 		PatientVisit patientVisit = transformPatientBeanToEntity(patientVisitBean);
 
 		patientVisitRepository.save(patientVisit);
+		Integer patientVisitId = patientVisit.getId();
 
 		savePatientDocs(patientVisit, patientVisitBean);
 
+		// Select partners
+		selectPartners(patientVisitBean.getForwardList(), pidn, patientVisitId);
 		
 		Map<String, Object> variables = new HashMap<>();
 		variables.put("pidn", pidn);
@@ -109,7 +113,15 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 			notifier.notifySecretary(pidn);
 		}
 		
-		return patientVisit.getId() + "";
+		// Notify Partners
+		if (patientVisitBean.getForwardList() != null) {
+			for (PatientVisitForwardsBean forward : patientVisitBean.getForwardList()) {
+				notifier.notifyPartner(forward.getAccountTypeId(), forward.getAccountHolderId(), pidn);
+			}
+		}
+		
+		
+		return patientVisitId + "";
 	}
 
 	private void savePatientDocs(PatientVisit patientVisit, PatientVisitBean patientVisitBean) throws IOException {
@@ -144,6 +156,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		at.setId(5);
 		at.setName("Hospital");
 		patientVisit.setAccountTypes(at);
+		patientVisit.setStatus(patientVisitBean.getStatus());
 		patientVisit.setAccountHolderId(Integer.parseInt(patientVisitBean.getAccountHolderId()));
 
 		if (patientVisitBean.getPatientHospitalVisitDocumentBeanList() != null) {
@@ -202,24 +215,19 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		return taskId;
 	}
 
-	@Override
-	@Transactional
-	public String selectPartners(List<PatientVisitForwardsBean> forwardList) throws Exception {
-		Integer pidn = null;
-		Integer patientVisitId = null;
+	private void selectPartners(List<PatientVisitForwardsBean> forwardList, Integer pidn, Integer patientVisitId) throws Exception {
+		
 		if (forwardList != null && !forwardList.isEmpty()) {
 			for (PatientVisitForwardsBean forward : forwardList) {
-				pidn = forward.getPidn();
-				patientVisitId = forward.getPatientVisitId();
 				// save referred Pharma.
 				PatientVisitForwards fwd = new PatientVisitForwards();
 				fwd.setAccountHolderId(forward.getAccountHolderId());
 				fwd.setDate(new Timestamp(System.currentTimeMillis()));
-				fwd.setPatientVisitId(forward.getPatientVisitId());
+				fwd.setPatientVisitId(patientVisitId);
 				AccountTypes actType = new AccountTypes();
 				actType.setId(forward.getAccountTypeId());
 				fwd.setAccountTypeId(actType);
-				fwd.setPidn(forward.getPidn());
+				fwd.setPidn(pidn);
 				fwd.setStatus("open");
 				
 				patientVisitForwardsRepository.save(fwd);
@@ -228,25 +236,25 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 			throw new Exception("No forwards present");
 		}
 
-		String taskId = patientHospitalVisitService.moveToNextTask(pidn.toString() + "", patientVisitId, null);
-		
-		// Notify
-		for (PatientVisitForwardsBean forward : forwardList) {
-			pidn = forward.getPidn();
-			notifier.notifyPartner(forward.getAccountTypeId(), forward.getAccountHolderId(), pidn);
-		}
-		
-		return taskId;
 	}
 
 	@Override
 	@Transactional
 	public PatientVisitHistoryBean selectPatient(String pidnString) {
 		Integer pidn = Integer.parseInt(pidnString);
-		List<PatientBean> list = new ArrayList<PatientBean>();
-		list = patientService.searchByPidn(pidn);
+		
+		List<PatientBean> list = patientService.searchByPidn(pidn);
 		if (list != null && !list.isEmpty()) {
 			PatientVisitHistoryBean historyBean = new PatientVisitHistoryBean();
+			
+			// Check if a workflow already exists for this patient.
+			List<PatientVisit> openList = patientVisitRepository.findOpenWorkflowsOfPatient(pidn);
+			if (openList != null && !openList.isEmpty()) {
+				historyBean.setWorkflowExists(true);
+			} else {
+				historyBean.setWorkflowExists(false);
+			}
+			
 			PatientBean patientBean = list.get(0);
 			historyBean.setPatientBean(patientBean);
 			

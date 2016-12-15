@@ -3,6 +3,7 @@ package org.cancure.cpa.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.cancure.cpa.controller.beans.UserBean;
@@ -10,6 +11,7 @@ import org.cancure.cpa.persistence.entity.Patient;
 import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.PatientRepository;
 import org.cancure.cpa.persistence.repository.UserRepository;
+import org.cancure.cpa.util.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,11 +32,6 @@ public class PatientHospitalVisitNotificationComponent {
 	private LpocLabService lpocService;
 	
 	private List<Notifier> taskListeners = new ArrayList<>();
-
-	public PatientHospitalVisitNotificationComponent(){
-		taskListeners.add(new EmailNotifier());
-		taskListeners.add(new SMSNotifier());
-	}
 	
 	public void notifyHpoc(List<UserBean> hpocList, Integer pidn) {
 		Set<User> userSet = new HashSet<>();
@@ -71,7 +68,7 @@ public class PatientHospitalVisitNotificationComponent {
                 + "</div>"
                 + "</div>");
 		
-		sendNotification(userSet, message.toString());
+		sendNotification(userSet, "monis to do", null);
 	}
 	
 	public void notifySecretary(Integer pidn) {
@@ -108,14 +105,15 @@ public class PatientHospitalVisitNotificationComponent {
                 + "</div>"
                 + "</div>");
 		
-		sendNotification(userSet, message.toString());
+		sendNotification(userSet, "monis to do", null);
 	}
 
-	protected void sendNotification(Set<User> userSet, String message) {
-		if (taskListeners != null && !taskListeners.isEmpty()) {
-			for (Notifier notifier : taskListeners) {
-				notifier.notify(userSet, message);
-			}
+	protected void sendNotification(Set<User> userSet, String messageId, Map<String, Object> values ) {
+		try {
+			new EmailNotifier().notify(userSet, messageId, null);
+			new SMSNotifier().notify(userSet, messageId, null);
+		} catch (Exception e) {
+			Log.getLogger().error("Exception while notification", e);
 		}
 	}
 
@@ -163,7 +161,7 @@ public class PatientHospitalVisitNotificationComponent {
 	                + "</div>"
 	                + "</div>");
 			
-			sendNotification(userSet, message.toString());
+			sendNotification(userSet, "monis to do", null);
 			
 		}
 	}

@@ -28,6 +28,8 @@ public class PatientVisit {
 	
 	private Timestamp date;
 	
+	private String status;
+	
 	@OneToOne (fetch = FetchType.EAGER)
 	@JoinColumn(name="account_type_id")
 	private AccountTypes accountTypes;
@@ -95,6 +97,14 @@ public class PatientVisit {
 
 	public void setTaskId(String taskId) {
 		this.taskId = taskId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

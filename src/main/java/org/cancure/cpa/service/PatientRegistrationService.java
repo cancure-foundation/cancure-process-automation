@@ -177,7 +177,7 @@ public class PatientRegistrationService {
                 + "Admin"
                 + "</div>"
                 + "</div>");
-		new NotificationComponent().notify(message.toString(), null, task);
+		new NotificationComponent().notify("monis to do", null, null, task);
 		
 		return COMPLETED_STR;
 	}
@@ -223,7 +223,7 @@ public class PatientRegistrationService {
                 + "Admin"
                 + "</div>"
                 + "</div>");
-		new NotificationComponent().notify(message.toString(), null, task);
+		new NotificationComponent().notify("monis to do", null, null, task);
 		return COMPLETED_STR;
 	}
 

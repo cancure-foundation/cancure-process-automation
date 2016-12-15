@@ -1,13 +1,10 @@
 package org.cancure.cpa.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.cancure.cpa.controller.beans.PatientInvestigationBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
-import org.cancure.cpa.controller.beans.PatientVisitForwardsMasterBean;
 import org.cancure.cpa.controller.beans.PatientVisitHistoryBean;
 import org.cancure.cpa.controller.beans.TopupStatusBean;
 import org.cancure.cpa.controller.beans.UserBean;
@@ -27,9 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class PatientVisitController {
 
 	@Autowired
-	private PatientService patientService;
-	
-	@Autowired
 	private UserService userService;
 	
 	
@@ -37,7 +31,7 @@ public class PatientVisitController {
 	private PatientHospitalVisitWorkflowService service;
 
 	@RequestMapping(value = "/patientvisit", method = RequestMethod.POST)
-	public String startPatientHospitalVisit(PatientVisitBean patientHospitalVisitBean, OAuth2Authentication auth) throws IOException {
+	public String startPatientHospitalVisit(PatientVisitBean patientHospitalVisitBean, OAuth2Authentication auth) throws Exception {
 		if (auth != null) {
 			List<String> roles = new ArrayList<>();
 			for (GrantedAuthority a : auth.getAuthorities()){
@@ -59,12 +53,6 @@ public class PatientVisitController {
 	@RequestMapping(value = "/patientvisit/topup", method = RequestMethod.POST)
 	public String topUpApprovedAmount(@RequestBody TopupStatusBean topupBean) {
 		String taskId = service.topUpApprovedAmount(topupBean);
-		return "{\"status\" : \"SUCCESS\",\"taskId\" :" + taskId + "}";
-	}
-	
-	@RequestMapping(value = "/patientvisit/partners", method = RequestMethod.POST)
-	public String selectPartners(@RequestBody  PatientVisitForwardsMasterBean masterBean) throws Exception {
-		String taskId = service.selectPartners(masterBean.getPatientVisitForwards());
 		return "{\"status\" : \"SUCCESS\",\"taskId\" :" + taskId + "}";
 	}
 	

@@ -5,12 +5,16 @@ import static org.cancure.cpa.common.Constants.PATIENT_HOSPITAL_VISIT_DEF_KEY;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
+import org.cancure.cpa.persistence.entity.PatientVisit;
 import org.cancure.cpa.persistence.entity.Settings;
+import org.cancure.cpa.persistence.repository.PatientVisitRepository;
 import org.cancure.cpa.persistence.repository.SettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,6 +32,9 @@ public class PatientHospitalVisitService {
 	
 	@Autowired
 	private SettingsRepository settingsRepository;
+	
+	@Autowired
+	private PatientVisitRepository patientVisitRepository;
 	
 	public String getMaxTopupApprovalWaitTime(){
 		return "R/" + getSettingsInHours(13);
@@ -65,7 +72,13 @@ public class PatientHospitalVisitService {
 		return taskId;
 	}
 	
+	@Transactional
 	public void performClosureTasks(String pidn, Integer patientVisitId){
+		
+		PatientVisit patVisit = patientVisitRepository.findOne(patientVisitId);
+		patVisit.setStatus("closed");
+		patientVisitRepository.save(patVisit);
+		
 		logger.info("Closing task for PIDN ..." + pidn + " and patientVisitId " + patientVisitId);
 	}
 

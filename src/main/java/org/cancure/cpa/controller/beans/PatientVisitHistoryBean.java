@@ -14,9 +14,19 @@ public class PatientVisitHistoryBean {
 	
 	private PatientVisitBean patientVisit;
 	
+	private Boolean workflowExists;
+	
 	List<PatientApprovalBean> patientApprovals;
 	
 	List<InvoicesBean> invoicesList;
+	
+	public Boolean getWorkflowExists() {
+		return workflowExists;
+	}
+
+	public void setWorkflowExists(Boolean workflowExists) {
+		this.workflowExists = workflowExists;
+	}
 
 	public Map<String, String> getTask() {
 		return task;
