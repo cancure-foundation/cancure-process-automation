@@ -73,11 +73,11 @@ public class NotificationComponent {
 	}
 
 	protected void sendNotification(Set<User> userSet, String messageId, Map<String, Object> values) throws Exception {
-		ApplicationContext context = ApplicationContextProvider.getApplicationContext();
-		EmailNotifier emailNotifier = context.getBean(EmailNotifier.class);
-		SMSNotifier smsNotifier = context.getBean(SMSNotifier.class);
-		
-		emailNotifier.notify(userSet, messageId, values);
-		smsNotifier.notify(userSet, messageId, values);
+		try {
+			new EmailNotifier().notify(userSet, messageId, values);
+			new SMSNotifier().notify(userSet, messageId, values);
+		} catch (Exception e) {
+			Log.getLogger().error("Exception while notification", e);
+		}
 	}
 }
