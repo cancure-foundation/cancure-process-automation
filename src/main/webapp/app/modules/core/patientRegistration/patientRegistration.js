@@ -6,7 +6,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 		Loader.create('Fetching Data. Please wait');
 		vm.initializeVars();	
 		$scope.$watch("vm.formData.patientIncome", function(newValue, oldValue) {
-				vm.calcIncome();
+			vm.calcIncome();
 		});
 		var referenceData = apiService.asyncServiceRequest({URL : appSettings.requestURL.patientRegDrpDwn});
 		var hospitalList = apiService.asyncServiceRequest({URL : appSettings.requestURL.hospitalList});

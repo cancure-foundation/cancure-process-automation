@@ -1,5 +1,6 @@
 package org.cancure.cpa.service;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import org.cancure.cpa.persistence.repository.InvoicesRepository;
 import org.cancure.cpa.persistence.repository.PatientVisitForwardsRepository;
 import org.cancure.cpa.persistence.repository.PatientVisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -63,7 +65,9 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 	
 	@Autowired
 	private ApprovalRepository approvalRepository;
-
+	
+	@Value("${spring.files.save.path}")
+    private String fileSavePath;
 	// This is a fishing expedition. May not be a good idea.
 	@Override
 	public List<PatientVisitForwardsBean> searchForwards(Integer accountTypeId, Integer accountHolderId,
@@ -327,7 +331,17 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		AccountTypes approvedForAccountType = new AccountTypes();
 		approvedForAccountType.setId(accountTypeId);
 		entity.setFromAccountTypeId(approvedForAccountType);
+		entity = invoicesRepository.save(entity);
 		
+		if(bean.getPartnerBillFile()!=null){
+		    String originalFileName = bean.getPartnerBillFile().getOriginalFilename();
+
+            String billPath = "/invoices/" + bean.getPidn() + "/" + entity.getId() + "_" + originalFileName;
+
+            File file = new File(fileSavePath + billPath);
+            bean.getPartnerBillFile().transferTo(file);
+            entity.setPartnerBillPath(billPath);;
+		}
 		entity = invoicesRepository.save(entity);
 		
 		notifier.notifySecretary(entity, accountHolderName);

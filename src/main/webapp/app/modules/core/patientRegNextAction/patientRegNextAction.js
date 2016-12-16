@@ -20,6 +20,12 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 		}, function (response) {
 			$scope.prn = $stateParams.prn;
 			$scope.nextTaskObject = response;
+			if ($scope.nextTaskObject && $scope.nextTaskObject.hospitalCostApproved){
+				if ($scope.nextTaskObject.hospitalCostApproved == "0")
+					$scope.nextTaskObject.hospitalCostApproved = null;
+				if ($scope.nextTaskObject.medicalCostApproved == "0")
+					$scope.nextTaskObject.medicalCostApproved = null;
+			}
 			setupPeople(function (data){
 				if (data) 
 					$scope.doctorList = data;				
@@ -58,7 +64,7 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 			               {'id': 'Reject', 'name' : 'Reject'}, {'id': 'SendBackToPC', 'name' : 'Need background check clarification'},
 			               {'id': 'prelimExamClarificationReqd', 'name' : 'Need preliminary exam clarification'}];
 			
-			vm.isSecrtry = true; // flag to indicate i
+			vm.isSecrtry = true; // flag to indicate secretary step
 			
 			// watch secretary entered cost medical cost to see if it exceeds estimates
 			$scope.$watch('vm.formData.medicalCostApproved', function (newValue, oldValue, scope) {
@@ -71,12 +77,24 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 		} else if ($scope.nextTaskObject.nextTaskKey == 'ecApproval') {
 			vm.statuses = [{'id': 'accept/save/Approve', 'name' : 'Approve'}, {'id': 'reject/save/Reject', 'name' : 'Reject'}];
 			callback(null);
+		} else if ($scope.nextTaskObject.nextTaskKey == 'confirmApprovedAmounts') {
+			vm.isSecrtryCnfrm = true; // flag to indicate secretary confirm step
+			vm.formData.hospitalCostApproved = $scope.nextTaskObject.hospitalCostApproved; // pre-populate values
+			vm.formData.medicalCostApproved = $scope.nextTaskObject.medicalCostApproved; // pre-populate values
+			// watch secretary entered cost medical cost to see if it exceeds estimates
+			$scope.$watch('vm.formData.medicalCostApproved', function (newValue, oldValue, scope) {
+				vm.costValidator();
+			});
+			$scope.$watch('vm.formData.hospitalCostApproved', function (newValue, oldValue, scope) {
+				vm.costValidator();
+			});
+			callback(null);
 		} else {
 			callback(null);
 		}
 	};
 	/**
-	 * 
+	 *  handles the file selection for the page
 	 */
 	vm.FilesSelection = function(input){
 		$timeout(function (){
@@ -89,7 +107,7 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 		});
 	};
 	/**
-	 * 
+	 *  to clear all fields
 	 */
 	vm.clearForm = function (){
 		vm.formData = {};
@@ -99,10 +117,10 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 			document.getElementById("patientNextTask-file").value = "";
 	};
 	/**
-	 * 
+	 *  function to submit formdata
 	 */
 	vm.submitTask = function() {		
-		Loader.create('Saving Data .. Please wait!');
+		Loader.create('Saving Data .. Please wait...');
 		
 		var url = '',
 			prefix = '';
@@ -121,7 +139,7 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 			url = 'patientregistration/preliminaryexaminationclarification/save/';
 		} else if ($scope.nextTaskObject.nextTaskKey == 'ecApproval') {
 			url = 'patientregistration/executiveboardrecommendation/' + vm.formData.status; //accept/save or reject/save
-		} else if ($scope.nextTaskObject.nextTaskKey == 'confirmApprovedAmounts') {
+		}  else if ($scope.nextTaskObject.nextTaskKey == 'confirmApprovedAmounts') {
 			url = 'patientregistration/confirmamount'; // + $scope.prn; //prn
 		} else {
 

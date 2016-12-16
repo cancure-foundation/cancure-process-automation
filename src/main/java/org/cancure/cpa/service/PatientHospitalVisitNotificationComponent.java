@@ -1,6 +1,7 @@
 package org.cancure.cpa.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -33,44 +34,6 @@ public class PatientHospitalVisitNotificationComponent {
 	
 	private List<Notifier> taskListeners = new ArrayList<>();
 	
-	public void notifyHpoc(List<UserBean> hpocList, Integer pidn) {
-		Set<User> userSet = new HashSet<>();
-		
-		for (UserBean ub : hpocList){
-			User targetBean = new User();
-			BeanUtils.copyProperties(ub, targetBean);
-			userSet.add(targetBean);
-		}
-		
-		Patient pat = patientRepo.findByPidn(pidn).get(0);
-		String patName = pat.getName();
-		
-		StringBuilder message = new StringBuilder();
-		message.append("<div style='border : 2px solid #f4961c;'>"
-                + "<div style='background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;'>"
-                + "Cancure Foundation</div>"
-                + "<div style='padding:15px;color: #222d32;font-weight:500;'> "
-                + "Hi, <br><br>"
-                + "<b>The following task been assigned to you.</b> <br> <br>"
-                + "<table border=1 style='border-collapse: collapse;'>"
-                + "<tr>"
-                + "<th style='padding:4px 8px;'> PIDN</th>"
-                + "<th style='padding:4px 8px;'> Patient Name</th>"
-                + "</tr>"
-                + "<tr>"
-                + "<td style='padding:4px 8px;'>"+ pidn +"</td>"
-                + "<td style='padding:4px 8px;'>"+ patName +"</td>"
-                + "</tr>"
-                + "</table><br>"
-                + "Visit <a href='www.cancure.in.net'>www.cancure.in.net</a> <br> <br>"
-                + "<b>Thanks,</b> <br>"
-                + "Admin"
-                + "</div>"
-                + "</div>");
-		
-		sendNotification(userSet, "monis to do", null);
-	}
-	
 	public void notifySecretary(Integer pidn) {
 	
 		Set<User> userSet = new HashSet<>();
@@ -81,37 +44,18 @@ public class PatientHospitalVisitNotificationComponent {
 		
 		Patient pat = patientRepo.findByPidn(pidn).get(0);
 		String patName = pat.getName();
-		
-		StringBuilder message = new StringBuilder();
-		message.append("<div style='border : 2px solid #f4961c;'>"
-                + "<div style='background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;'>"
-                + "Cancure Foundation</div>"
-                + "<div style='padding:15px;color: #222d32;font-weight:500;'> "
-                + "Hi, <br><br>"
-                + "<b>You have received a request for approving additional amount to a patient.</b> <br> <br>"
-                + "<table border=1 style='border-collapse: collapse;'>"
-                + "<tr>"
-                + "<th style='padding:4px 8px;'> PIDN</th>"
-                + "<th style='padding:4px 8px;'> Patient Name</th>"
-                + "</tr>"
-                + "<tr>"
-                + "<td style='padding:4px 8px;'>"+ pidn +"</td>"
-                + "<td style='padding:4px 8px;'>"+ patName +"</td>"
-                + "</tr>"
-                + "</table><br>"
-                + "Visit <a href='www.cancure.in.net'>www.cancure.in.net</a> <br> <br>"
-                + "<b>Thanks,</b> <br>"
-                + "Admin"
-                + "</div>"
-                + "</div>");
-		
-		sendNotification(userSet, "monis to do", null);
+				
+		Map<String, Object> values = new HashMap<>();
+        values.put("pidn", pidn);
+        values.put("patName", patName);
+        		
+		sendNotification(userSet, "PatientHospitalVisitSecretaryNotification", values);
 	}
 
 	protected void sendNotification(Set<User> userSet, String messageId, Map<String, Object> values ) {
 		try {
-			new EmailNotifier().notify(userSet, messageId, null);
-			new SMSNotifier().notify(userSet, messageId, null);
+			new EmailNotifier().notify(userSet, messageId, values);
+			new SMSNotifier().notify(userSet, messageId, values);
 		} catch (Exception e) {
 			Log.getLogger().error("Exception while notification", e);
 		}
@@ -138,30 +82,11 @@ public class PatientHospitalVisitNotificationComponent {
 			Patient pat = patientRepo.findByPidn(pidn).get(0);
 			String patName = pat.getName();
 			
-			StringBuilder message = new StringBuilder();
-			message.append("<div style='border : 2px solid #f4961c;'>"
-	                + "<div style='background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;'>"
-	                + "Cancure Foundation</div>"
-	                + "<div style='padding:15px;color: #222d32;font-weight:500;'> "
-	                + "Hi, <br><br>"
-	                + "<b>A patient has been referred to you.</b> <br> <br>"
-	                + "<table border=1 style='border-collapse: collapse;'>"
-	                + "<tr>"
-	                + "<th style='padding:4px 8px;'> PIDN</th>"
-	                + "<th style='padding:4px 8px;'> Patient Name</th>"
-	                + "</tr>"
-	                + "<tr>"
-	                + "<td style='padding:4px 8px;'>"+ pidn +"</td>"
-	                + "<td style='padding:4px 8px;'>"+ patName +"</td>"
-	                + "</tr>"
-	                + "</table><br>"
-	                + "Visit <a href='www.cancure.in.net'>www.cancure.in.net</a> <br> <br>"
-	                + "<b>Thanks,</b> <br>"
-	                + "Admin"
-	                + "</div>"
-	                + "</div>");
-			
-			sendNotification(userSet, "monis to do", null);
+			Map<String, Object> values = new HashMap<>();
+	        values.put("pidn", pidn);
+	        values.put("patName", patName);
+	        
+			sendNotification(userSet, "PatientHospitalVisitPartnerNotification", values);
 			
 		}
 	}

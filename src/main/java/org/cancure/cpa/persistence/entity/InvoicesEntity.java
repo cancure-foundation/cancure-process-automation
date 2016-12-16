@@ -63,6 +63,9 @@ public class InvoicesEntity {
 	@Column(name="partner_bill_amount")
 	private Double partnerBillAmount;
 	
+	@Column(name="partner_bill_path")
+	private String partnerBillPath;
+	
 	private String comments;
 
 	public String getComments() {
@@ -184,5 +187,13 @@ public class InvoicesEntity {
 	public void setPartnerBillAmount(Double partnerBillAmount) {
 		this.partnerBillAmount = partnerBillAmount;
 	}
+
+    public String getPartnerBillPath() {
+        return partnerBillPath;
+    }
+
+    public void setPartnerBillPath(String partnerBillPath) {
+        this.partnerBillPath = partnerBillPath;
+    }
 
 }

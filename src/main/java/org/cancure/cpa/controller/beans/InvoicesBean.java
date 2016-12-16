@@ -33,6 +33,8 @@ public class InvoicesBean {
 	private String partnerBillNo;
 
 	private Double partnerBillAmount;
+	
+	private String partnerBillPath;
 
 	private String comments;
 
@@ -155,5 +157,13 @@ public class InvoicesBean {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
+
+    public String getPartnerBillPath() {
+        return partnerBillPath;
+    }
+
+    public void setPartnerBillPath(String partnerBillPath) {
+        this.partnerBillPath = partnerBillPath;
+    }
 	
 }
