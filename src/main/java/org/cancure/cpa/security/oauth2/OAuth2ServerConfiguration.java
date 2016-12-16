@@ -139,7 +139,6 @@ public class OAuth2ServerConfiguration {
 					.antMatchers("/patientregistration/patientidcard/**").hasRole("PROGRAM_COORDINATOR")
 
 					.antMatchers("/patientvisit/topup").hasAnyRole("SECRETARY")
-					.antMatchers("/patientvisit/partners").hasAnyRole("HOSPITAL_POC")
 					.antMatchers("/patientvisit").hasAnyRole("HOSPITAL_POC")
 					
 					.and().logout().logoutSuccessHandler(customLogoutSuccessHandler)

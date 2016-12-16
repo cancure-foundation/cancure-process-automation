@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.cancure.cpa.controller.beans.InvoicesBean;
 import org.cancure.cpa.controller.beans.PatientApprovalBean;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
@@ -26,6 +27,7 @@ import org.cancure.cpa.persistence.repository.ApprovalRepository;
 import org.cancure.cpa.persistence.repository.InvoicesRepository;
 import org.cancure.cpa.persistence.repository.PatientVisitForwardsRepository;
 import org.cancure.cpa.persistence.repository.PatientVisitRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -241,11 +243,19 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 				Double totalInvoices = 0d;
 				List<InvoicesEntity> invoicesList = invoicesRepository.findByPidnAndFromAccountTypeId(patientVisitBean.getPidn(), approvedForAccountType);
 				if (invoicesList != null && !invoicesList.isEmpty()){
-					historyBean.setInvoicesList(invoicesList);
+					List<InvoicesBean> invoiceBeanList = new ArrayList<>();
+					
 					for (InvoicesEntity entity : invoicesList){
+						InvoicesBean bean = new InvoicesBean();
+						BeanUtils.copyProperties(entity, bean);
+						bean.setFromAccountTypeId(entity.getFromAccountTypeId().getId());
+						bean.setToAccountTypeId(entity.getToAccountTypeId().getId());
 						totalInvoices += entity.getAmount();
+						
+						invoiceBeanList.add(bean);
 					}
 					
+					historyBean.setInvoicesList(invoiceBeanList);
 				}
 				
 				Double balance = totalApprovals - totalInvoices;
