@@ -257,6 +257,9 @@ create table patient_investigation (
 	from_account_holder_id number(10), 
 	to_account_type_id number(10) references account_types(id),
 	to_account_holder_id number(10),
+	mode varchar(20),
+	cheque_no varchar(30),
+	comments varchar(200),
 	amount decimal(10,2)
  );
 

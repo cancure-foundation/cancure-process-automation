@@ -11,7 +11,7 @@ public class PharmacyDispatchHistoryBean {
 	private PatientVisitBean patientVisitBean;
 	private PatientVisitForwardsBean patientVisitForwards;
 	private List<PatientApprovalBean> patientApprovals;
-	private List<InvoicesEntity> invoicesList;
+	private List<InvoicesBean> invoicesList;
 	private PatientBean patient;
 	private Double balance;
 	public PatientBean getPatient() {
@@ -38,10 +38,10 @@ public class PharmacyDispatchHistoryBean {
 	public void setPatientApprovals(List<PatientApprovalBean> patientApprovals) {
 		this.patientApprovals = patientApprovals;
 	}
-	public List<InvoicesEntity> getInvoicesList() {
+	public List<InvoicesBean> getInvoicesList() {
 		return invoicesList;
 	}
-	public void setInvoicesList(List<InvoicesEntity> invoicesList) {
+	public void setInvoicesList(List<InvoicesBean> invoicesList) {
 		this.invoicesList = invoicesList;
 	}
 	public Double getBalance() {

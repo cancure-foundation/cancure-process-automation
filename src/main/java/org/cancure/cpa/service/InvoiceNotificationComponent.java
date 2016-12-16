@@ -24,18 +24,6 @@ public class InvoiceNotificationComponent {
 	@Autowired
 	private PatientRepository patientRepo;
 	
-	@Autowired
-	private EmailNotifier emailNotifier;
-	
-	@Autowired
-	private SMSNotifier smsNotifier;
-	
-	private List<Notifier> taskListeners = new ArrayList<>();
-	public InvoiceNotificationComponent(){
-		taskListeners.add(emailNotifier);
-		taskListeners.add(smsNotifier);
-	}
-
 	public void notifySecretary(InvoicesEntity entity, String accountHolderName) {
 		Integer pidn = entity.getPidn();
 		Set<User> userSet = new HashSet<>();
@@ -82,10 +70,12 @@ public class InvoiceNotificationComponent {
 	}
 
 	protected void sendNotification(Set<User> userSet, String messageId, Map<String, Object> values) throws Exception {
-		if (taskListeners != null && !taskListeners.isEmpty()) {
-			for (Notifier notifier : taskListeners) {
-				notifier.notify(userSet, messageId, values);
-			}
+		
+		try {
+			new EmailNotifier().notify(userSet, messageId, values);
+			new SMSNotifier().notify(userSet, messageId, values);
+		} catch (Exception e) {
+			Log.getLogger().error("Exception while notification", e);
 		}
 	}
 
