@@ -1,0 +1,128 @@
+<div class="content-header">
+    <h1>
+       Payments
+    </h1>
+</div>
+<!-- Main content -->
+<div class="content patientRegHistory">
+	
+	<div class="row" ng-hide="vm.preLoad">
+        <div class="col-md-12">
+            <form name="vm.searchForm" ng-submit="vm.searchInvoices();" class="clearfix" autocomplete="off">
+                <div class="panel panel-info">
+                    <div class="panel-body">
+                        <div class="col-md-4 col-xs-12 input-box" style="padding: 0;">
+                            <label>Partner Type
+                                <req>*</req>
+                            </label>
+                            <select class="form-control" data-ng-model="vm.formData.partnerType" required>
+                                <option value="3">Pharmacy</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 col-xs-12 input-box" style="padding: 0;">
+                            <label>Partner
+                                <req>*</req>
+                            </label>
+                            <select class="form-control" data-ng-model="vm.formData.partnerId" required>
+                                <option value="">Select Partner</option>
+                                <option value="{{item.pharmacyId}}" ng-repeat="item in vm.partners">{{item.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 col-xs-12" style="margin-top:26px;">
+                            <input type="Search" class="btn btn-success" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+	<div style="padding:15px 0px;">
+        <div ng-hide="vm.searched && vm.invoices.length > 0" class="empty-text">No open invoices found.</div>
+        <table class="table table-bordered" ng-show="vm.invoices.length > 0">
+            <thead>
+                <tr>
+                    <th class="col-xs-2">Date</th>
+                    <th class="col-xs-3">PIDN</th>
+                    <th class="col-xs-3">Patient Name</th>
+                    <th class="col-xs-3">Partner Bill Amount</th>
+                    <th class="col-xs-3">Amount</th>
+                    <th class="col-xs-3">Balance Amount</th>
+                    <th class="col-xs-3">Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in vm.patient.patientApprovals">
+                    <td class="col-xs-2">{{item.approvedForAccountTypeName}}</td>
+                    <td class="col-xs-3">{{item.date | date}}</td>
+                    <td class="col-xs-3">{{item.amount | currency:'₹'}}</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="text-center"><b>Total amounts approved (<i>till {{vm.toDay}}</i>) : {{vm.approvedTotal | currency:'₹'}}</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	
+
+	
+
+	<form name="vm.pharmacyDispatchForm" ng-submit="vm.submit();" class="clearfix" autocomplete="off">
+            
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12">
+                        
+            <div class="panel panel-info panel-body" ng-show="vm.pharmacyDispatchHistory.patient">
+            	
+	           <div class="col-xs-12 col-md-4" >
+	                <div class="input-box">
+	                    <label>Total Amount :
+	                        <req>*</req>
+	                    </label>
+	                    <input type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount"/>
+	                </div>
+	            </div>
+	            
+	            <div class="col-xs-12 col-md-4">
+	                <div class="input-box">
+	                    <label>Pharmacy's bill number :
+	                        <req>*</req>
+	                    </label>
+	                    <input type="text" data-ng-model="vm.formData.partnerBillNo" maxlength="50" required placeholder="Enter Bill No"/>
+	                </div>
+	                <div class="input-box">
+	                    <label>Pharmacy's bill amount :
+	                        <req>*</req>
+	                    </label>
+	                    <input type="text" data-ng-model="vm.formData.partnerBillAmount" maxlength="50" required placeholder="Enter Bill Amount"/>
+	                </div>
+	            </div>
+	            
+	            <div class="col-xs-12 col-md-4" >
+	                <div class="input-box">
+	                    <label>Comments :
+	                        <req>*</req>
+	                    </label>
+	                    <textarea data-ng-model="vm.formData.comments" required rows="4" maxlength="200"> </textarea>
+	                </div>
+	            </div>
+	            
+            </div>
+      	
+      	
+      		
+      	
+      		<div class="panel panel-info panel-body">
+      			<div class="col-xs-12">
+	                <button type="submit" class="btn btn-success pull-left" style="margin-right: 8px;">
+	                    Submit
+	                </button>
+	                
+	            </div>
+      		</div>
+      		
+        </div>
+    </div>
+    </form>
+</div>
