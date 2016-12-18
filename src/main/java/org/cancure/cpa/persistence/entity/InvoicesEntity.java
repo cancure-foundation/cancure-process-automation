@@ -65,6 +65,16 @@ public class InvoicesEntity {
 	
 	private String comments;
 
+	private Long journalId; 
+	
+	public Long getJournalId() {
+		return journalId;
+	}
+
+	public void setJournalId(Long journalId) {
+		this.journalId = journalId;
+	}
+
 	public String getComments() {
 		return comments;
 	}

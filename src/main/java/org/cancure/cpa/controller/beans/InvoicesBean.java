@@ -36,6 +36,16 @@ public class InvoicesBean {
 
 	private String comments;
 
+	private Long journalId; 
+	
+	public Long getJournalId() {
+		return journalId;
+	}
+
+	public void setJournalId(Long journalId) {
+		this.journalId = journalId;
+	}
+
 	public Integer getId() {
 		return id;
 	}

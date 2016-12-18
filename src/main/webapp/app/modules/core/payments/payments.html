@@ -15,7 +15,7 @@
                             <label>Partner Type
                                 <req>*</req>
                             </label>
-                            <select class="form-control" data-ng-model="vm.formData.partnerType" required>
+                            <select class="form-control" data-ng-model="vm.formData.partnerType" required ng-change="vm.clear()">
                                 <option value="3">Pharmacy</option>
                             </select>
                         </div>
@@ -23,13 +23,13 @@
                             <label>Partner
                                 <req>*</req>
                             </label>
-                            <select class="form-control" data-ng-model="vm.formData.partnerId" required>
+                            <select class="form-control" data-ng-model="vm.formData.partnerId" required ng-change="vm.clear()">
                                 <option value="">Select Partner</option>
                                 <option value="{{item.pharmacyId}}" ng-repeat="item in vm.partners">{{item.name}}</option>
                             </select>
                         </div>
                         <div class="col-md-4 col-xs-12" style="margin-top:26px;">
-                            <input type="Search" class="btn btn-success" value="Search">
+                            <input type="submit" class="btn btn-success" value="Search Open Invoices">
                         </div>
                     </div>
                 </div>
@@ -37,14 +37,15 @@
         </div>
     </div>
 
+	<form name="vm.paymentsForm" ng-submit="vm.submitPayment();" class="clearfix" autocomplete="off">
 	<div style="padding:15px 0px;">
         <div ng-hide="vm.searched && vm.invoices.length > 0" class="empty-text">No open invoices found.</div>
-        <table class="table table-bordered" ng-show="vm.invoices.length > 0">
+        <table class="table table-bordered" ng-show="vm.searched && vm.invoices.length > 0">
             <thead>
                 <tr>
+                	<th class="col-xs-2">Select</th>
                     <th class="col-xs-2">Date</th>
                     <th class="col-xs-3">PIDN</th>
-                    <th class="col-xs-3">Patient Name</th>
                     <th class="col-xs-3">Partner Bill Amount</th>
                     <th class="col-xs-3">Amount</th>
                     <th class="col-xs-3">Balance Amount</th>
@@ -52,75 +53,77 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in vm.patient.patientApprovals">
-                    <td class="col-xs-2">{{item.approvedForAccountTypeName}}</td>
-                    <td class="col-xs-3">{{item.date | date}}</td>
+                <tr ng-repeat="item in vm.invoices">
+                	<td class="col-xs-2">
+                		<md-checkbox ng-model="vm.paymentForm.selectedInvoices[item.id]" ng-change="vm.computeTotal()">
+                        </md-checkbox>
+                	</td>
+                    <td class="col-xs-2">{{item.date | date}}</td>
+                    <td class="col-xs-3">{{item.pidn}}</td>
+                    <td class="col-xs-3">{{item.partnerBillAmount | currency:'₹'}}</td>
                     <td class="col-xs-3">{{item.amount | currency:'₹'}}</td>
-                </tr>
-                <tr>
-                    <td colspan="3" class="text-center"><b>Total amounts approved (<i>till {{vm.toDay}}</i>) : {{vm.approvedTotal | currency:'₹'}}</b></td>
+                    <td class="col-xs-3">{{item.balanceAmount | currency:'₹'}}</td>
+                    <td class="col-xs-3">{{item.comments}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
-	
-
-	
-
-	<form name="vm.pharmacyDispatchForm" ng-submit="vm.submit();" class="clearfix" autocomplete="off">
-            
+	            
     <!-- row -->
     <div class="row">
         <div class="col-md-12">
                         
-            <div class="panel panel-info panel-body" ng-show="vm.pharmacyDispatchHistory.patient">
+            <div class="panel panel-info panel-body" ng-show="vm.searched && vm.invoices.length > 0">
             	
 	           <div class="col-xs-12 col-md-4" >
 	                <div class="input-box">
-	                    <label>Total Amount :
+	                    <label>Payment mode :
 	                        <req>*</req>
 	                    </label>
-	                    <input type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount"/>
+	                    <select class="form-control" data-ng-model="vm.paymentForm.mode" required>
+                            <option value="3">Cheque</option>
+                            <option value="3">Cash</option>
+                            <option value="3">Online</option>
+                            <option value="3">Others</option>
+                        </select>
 	                </div>
 	            </div>
 	            
 	            <div class="col-xs-12 col-md-4">
 	                <div class="input-box">
-	                    <label>Pharmacy's bill number :
+	                    <label>Cheque No :
 	                        <req>*</req>
 	                    </label>
-	                    <input type="text" data-ng-model="vm.formData.partnerBillNo" maxlength="50" required placeholder="Enter Bill No"/>
+	                    <input type="text" data-ng-model="vm.paymentForm.chequeNo" maxlength="50" required placeholder="Enter Cheque No"/>
 	                </div>
 	                <div class="input-box">
-	                    <label>Pharmacy's bill amount :
+	                    <label>Comments :
 	                        <req>*</req>
 	                    </label>
-	                    <input type="text" data-ng-model="vm.formData.partnerBillAmount" maxlength="50" required placeholder="Enter Bill Amount"/>
+	                    <textarea data-ng-model="vm.paymentForm.comments" rows="4" maxlength="200"> </textarea>
 	                </div>
 	            </div>
 	            
 	            <div class="col-xs-12 col-md-4" >
 	                <div class="input-box">
-	                    <label>Comments :
-	                        <req>*</req>
+	                    <label>Amount :
+	                        <b>{{ vm.totalAmount }}</b>
 	                    </label>
-	                    <textarea data-ng-model="vm.formData.comments" required rows="4" maxlength="200"> </textarea>
+	                    
 	                </div>
 	            </div>
-	            
+	    		
+	      		<div class="panel panel-info panel-body">
+	      			<div class="col-xs-12">
+		                <button type="submit" class="btn btn-success pull-left" style="margin-right: 8px;">
+		                    Submit
+		                </button>
+		                
+		            </div>
+	      		</div>        
             </div>
       	
       	
-      		
-      	
-      		<div class="panel panel-info panel-body">
-      			<div class="col-xs-12">
-	                <button type="submit" class="btn btn-success pull-left" style="margin-right: 8px;">
-	                    Submit
-	                </button>
-	                
-	            </div>
-      		</div>
       		
         </div>
     </div>

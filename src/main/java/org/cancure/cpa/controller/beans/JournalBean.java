@@ -2,6 +2,8 @@ package org.cancure.cpa.controller.beans;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+
 public class JournalBean {
 
 	private Long id;
@@ -15,6 +17,47 @@ public class JournalBean {
 	private Integer toAccountTypeId;
 	
 	private Integer toAccountHolderId;
+
+	private Double amount;
+	
+	private String mode;
+	
+	private String chequeNo;
+	
+	private String comments;
+
+	
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+
+	public String getChequeNo() {
+		return chequeNo;
+	}
+
+	public void setChequeNo(String chequeNo) {
+		this.chequeNo = chequeNo;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
 
 	public Long getId() {
 		return id;

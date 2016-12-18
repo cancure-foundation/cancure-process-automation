@@ -257,7 +257,7 @@ core.config(["$stateProvider", function ($stateProvider) {
     });
     
     $stateProvider.state('app.payments', {
-        url: '/pharmacy',
+        url: '/payments',
         templateUrl: 'app/modules/core/payments/payments.html',
         controller: 'PaymentsController',
         controllerAs: 'vm',

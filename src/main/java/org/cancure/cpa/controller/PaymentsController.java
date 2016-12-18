@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.cancure.cpa.controller.beans.InvoicesBean;
 import org.cancure.cpa.controller.beans.JournalBean;
+import org.cancure.cpa.controller.beans.PaymentBean;
 import org.cancure.cpa.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,12 @@ public class PaymentsController {
 	@RequestMapping(method = RequestMethod.POST, value = "/journal")
 	public Long save(@RequestBody JournalBean journal) {
 		return paymentService.saveJournal(journal);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/payments")
+	public String savePayment(@RequestBody PaymentBean paymentBean) {
+		paymentService.savePayment(paymentBean);
+		return "success";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/invoices/{accountTypeId}/{accountHolderId}")

@@ -279,6 +279,7 @@ create table invoices (
 	balance_amount int(10),
 	partner_bill_no varchar(50),
 	partner_bill_amount decimal(10,2),
+	journal_id int(10) references journal(id),
 	comments varchar(200)
 ); 
 

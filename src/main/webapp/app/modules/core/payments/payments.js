@@ -2,7 +2,7 @@ core.controller("PaymentsController", ['Loader', '$scope', '$state', '$statePara
                                                 function (Loader, $scope, $state, $stateParams, apiService, appSettings, $timeout, Flash) {
 
 	var vm = this;
-	var vm.searched = false;
+	vm.searched = false;
 	
 	var init = function() {
 		// making the server call
@@ -13,15 +13,18 @@ core.controller("PaymentsController", ['Loader', '$scope', '$state', '$statePara
 		}, function (response) {
 			Flash.dismiss();
 			vm.partners = response;
-			vm.searched = true;
 		}, function (fail){
-			vm.searched = true;
 			Flash.create('danger', fail.message, 'large-text');
 		});
 	};
 	
+	vm.clear = function() {
+		vm.searched = false;
+		vm.invoices = {}
+	}	
+	
 	vm.searchInvoices = function() {
-		
+		vm.invoices = [];
 		Loader.create('Searching.. Please wait ...');
 		
 		// making the server call
@@ -30,12 +33,59 @@ core.controller("PaymentsController", ['Loader', '$scope', '$state', '$statePara
 			method: 'GET',
 			hideErrMsg : true
 		}, function (response) {
+			vm.searched = true;
 			vm.invoices = response;
-			Flash.create('danger', "Saved successfully", 'large-text');
+			Loader.destroy();
+		}, function (fail){
+			vm.searched = true;
+			Flash.create('danger', fail.message, 'large-text');
+		}); 
+		
+	};
+	
+	vm.computeTotal = function() {
+		var total = 0;
+		for (var i=0; i < vm.invoices.length; i++) {
+			if (vm.paymentForm.selectedInvoices[vm.invoices[i].id]) {
+				total += (vm.invoices[i].amount);
+			}
+		}
+		
+		vm.totalAmount = total;
+	};
+	
+	vm.submitPayment = function(){
+		
+		vm.paymentForm.selectedInvoiceIds = [];
+		for (var i=0; i < vm.invoices.length; i++) {
+			if (vm.paymentForm.selectedInvoices[vm.invoices[i].id]) {
+				vm.paymentForm.selectedInvoiceIds.push(vm.invoices[i].id);
+			}
+		}
+		
+		if (vm.paymentForm.selectedInvoiceIds.length == 0) {
+			Flash.create('danger', 'Please select at least one invoice', 'large-text');
+		}
+		
+		//alert(vm.paymentForm.selectedInvoiceIds);
+		Loader.create('Please wait ...');
+
+		var serverData = angular.copy(vm.paymentForm);
+		serverData.selectedInvoiceIds = vm.paymentForm.selectedInvoiceIds;
+		serverData.toAccountHolderId = vm.formData.partnerId;
+		serverData.toAccountTypeId = vm.formData.partnerType;
+		serverData.amount = vm.totalAmount;
+		
+		// making the server call
+		apiService.serviceRequest({
+			URL: '/payments',
+			method: 'POST',
+			payLoad: serverData
+		}, function (response) {
 			Loader.destroy();
 		}, function (fail){
 			Flash.create('danger', fail.message, 'large-text');
-		}); 
+		});
 		
 	};
 		
