@@ -275,6 +275,9 @@ create table patient_investigation (
 	status varchar(10),
 	closed_date date,
 	balance_amount number(10),
+	partner_bill_no varchar(50),
+	partner_bill_amount decimal(10,2),
+	journal_id number(10) references journal(id),
 	comments varchar(200)
  );
  

@@ -21,10 +21,12 @@ public class InvoicesEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+	private Long journalId; 
+
     private Timestamp date;
 
     private Integer pidn;
-
+    
     @OneToOne(fetch = FetchType.EAGER)
     // @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "from_account_type_id")
@@ -158,5 +160,14 @@ public class InvoicesEntity {
     public void setBalanceAmount(Double balanceAmount) {
         this.balanceAmount = balanceAmount;
     }
+
+
+	public Long getJournalId() {
+		return journalId;
+	}
+
+	public void setJournalId(Long journalId) {
+		this.journalId = journalId;
+	}
 
 }

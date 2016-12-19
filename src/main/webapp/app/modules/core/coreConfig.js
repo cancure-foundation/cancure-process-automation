@@ -246,4 +246,14 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
     
+    $stateProvider.state('app.payments', {
+        url: '/payments',
+        templateUrl: 'app/modules/core/payments/payments.html',
+        controller: 'PaymentsController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Payments'
+        }
+    });
+    
 }]);
