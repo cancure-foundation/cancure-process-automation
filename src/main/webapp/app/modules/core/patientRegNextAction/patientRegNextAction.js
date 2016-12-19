@@ -194,13 +194,13 @@ core.controller("patientRegNextActionController", ['$timeout', '$scope', '$state
 		var errFlag;
 		if (parseInt(vm.formData.medicalCostApproved) > parseInt($scope.nextTaskObject.medicalCostEstimate)){
 			errFlag = true;
-			document.getElementById("medicalCostApproved").value="";
+			//document.getElementById("medicalCostApproved").value="";
 		} else if (parseInt(vm.formData.hospitalCostApproved) > parseInt($scope.nextTaskObject.hospitalCostEstimate)){
 			errFlag = true;
-			document.getElementById("hospitalCostApproved").value="";
+			//document.getElementById("hospitalCostApproved").value="";
 		}
 		if (errFlag) 
-			vm.costErr = "Approved cost should not be greater than Estimated Cost.";			
+			vm.costErr = "Approved cost is greater than Estimated Cost.";			
 		else
 			vm.costErr = null;
 	}

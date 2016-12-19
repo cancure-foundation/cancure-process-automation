@@ -72,16 +72,6 @@
                         <tr>
                             <td colspan="3" class="text-center"><b>Patient Total Income : {{vm.patient.patientBean.totalIncome | currency:'₹'}}</b></td>
                         </tr>
-                        <tr ng-show="vm.patient.patientBean.hospitalCostEstimate && vm.patient.patientBean.medicalCostEstimate">
-                            <td colspan="1" class="text-center"><b>Estimated Costs</b></td>
-                            <td colspan="3" class="text-center">
-                                <b>
-                                	Hospital : {{vm.patient.patientBean.hospitalCostEstimate | currency:'₹'}} 
-                                <br>
-                                	Medicine : {{vm.patient.patientBean.medicalCostEstimate | currency:'₹'}} 
-                                 </b>
-                            </td>
-                        </tr>
                         <tr>
                             <td colspan="1" class="text-center"><b>Balance Amount</b></td>
                             <td colspan="3" class="text-center">
@@ -92,8 +82,12 @@
 
                     <div style="padding:15px 0px;">
                         <span class="section-title"><b>Approved Amounts to the patient :</b></span><br>
-                        <i>(These are payments credited to patients's account)</i><br><br>
-                        <div ng-hide="vm.patient.patientApprovals.length > 0" class="empty-text">No amount has been approved for the patient.</div>
+                        <i>(These are payments credited to patients's account)</i><br>
+                        <table class="table table-bordered text-center" ng-hide="vm.patient.patientApprovals.length > 0" style="max-width: 690px;">
+                        	<tr>
+                        		<td>No amount has been approved for the patient.</td>
+                        	</tr>
+                        </table>
                         <table class="table table-bordered" ng-show="vm.patient.patientApprovals.length > 0" style="max-width: 690px;">
                             <thead>
                                 <tr>
@@ -114,8 +108,12 @@
                             </tbody>
                         </table>
                         <span class="section-title"><b>Payments made to the Patient :</b></span><br>
-                        <i>(These are payments debited from patients's account)</i><br><br>
-                        <div ng-hide="vm.patient.invoicesList.length > 0" class="empty-text">No payments have been made to the patient.</div>
+                        <i>(These are payments debited from patients's account)</i><br>
+                        <table class="table table-bordered text-center" ng-hide="vm.patient.invoicesList.length > 0" style="max-width: 690px;">
+                        	<tr>
+                        		<td>No payments have been made to the patient.</td>
+                        	</tr>
+                        </table>                        
                         <table class="table table-bordered" ng-show="vm.patient.invoicesList.length > 0" style="max-width: 690px;">
                             <thead>
                                 <tr>
@@ -210,9 +208,9 @@
                         </div>
                         <div class="col-xs-12">
                             <button type="submit" class="btn btn-success" style="margin-right: 8px;">
-                                Approve
+                                Approve Request
                             </button>
-                            <input type="clear" class="btn btn-warning" ng-click="vm.doTopup(false)" value="Clear Form" readonly>                            
+                            <input type="clear" class="btn btn-warning" ng-click="vm.doTopup(false)" value="Reject Request" readonly>                            
                         </div>
                     </form>
                 </div>

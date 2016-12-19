@@ -145,6 +145,8 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 	 * 
 	 */
 	vm.doTopup = function(approve){
+		Loader.create('Saving data... Please wait...');		
+		
 		var serverData = {};
 		serverData.pidn = vm.patient.patientBean.pidn;
 		serverData.patientVisitId = $stateParams.id;
@@ -174,6 +176,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 			method: 'POST',
 			hideErrMsg : true
 		}, function (response) {
+			Loader.destroy();	
 			if (response == null) {
 				vm.noSearchResult = true;
 			} else {
