@@ -1,5 +1,6 @@
 package org.cancure.cpa.service;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import javax.transaction.Transactional;
 import org.cancure.cpa.controller.beans.InvoicesBean;
 import org.cancure.cpa.controller.beans.PatientApprovalBean;
 import org.cancure.cpa.controller.beans.PatientBean;
+import org.cancure.cpa.controller.beans.PatientBillsBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
@@ -18,6 +20,7 @@ import org.cancure.cpa.persistence.entity.AccountTypes;
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
 import org.cancure.cpa.persistence.entity.LpocLab;
 import org.cancure.cpa.persistence.entity.PatientApproval;
+import org.cancure.cpa.persistence.entity.PatientBills;
 import org.cancure.cpa.persistence.entity.PatientVisit;
 import org.cancure.cpa.persistence.entity.PatientVisitDocuments;
 import org.cancure.cpa.persistence.entity.PatientVisitForwards;
@@ -28,6 +31,7 @@ import org.cancure.cpa.persistence.repository.PatientVisitForwardsRepository;
 import org.cancure.cpa.persistence.repository.PatientVisitRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -65,7 +69,12 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 	
 	@Autowired
 	private ApprovalRepository approvalRepository;
-
+	
+	@Autowired
+	private PatientBillService patientBillService;
+	
+	@Value("${spring.files.save.path}")
+    private String fileSavePath;
 	// This is a fishing expedition. May not be a good idea.
 	@Override
 	public List<PatientVisitForwardsBean> searchForwards(Integer accountTypeId, Integer accountHolderId,
@@ -280,7 +289,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 				if (accountTypeId == patDocsEntity.getAccountTypes().getId()) { 
 					PatientVisitDocumentBean patDocBean = new PatientVisitDocumentBean();
 					patDocBean.setAccountTypeId(patDocsEntity.getAccountTypes().getId());
-					patDocBean.setDocId(patDocsEntity.getDocId().longValue());
+					patDocBean.setDocId(patDocsEntity.getDocId());
 					patDocBean.setDocType(patDocsEntity.getDocType());
 					
 					patDocsBean.add(patDocBean);
@@ -321,8 +330,6 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		InvoicesEntity entity = new InvoicesEntity();
 		entity.setAmount(bean.getAmount());
 		entity.setBalanceAmount(bean.getAmount());
-		entity.setPartnerBillAmount(bean.getPartnerBillAmount());
-		entity.setPartnerBillNo(bean.getPartnerBillNo());
 		entity.setComments(bean.getComments());
 		entity.setPidn(bean.getPidn());
 		entity.setStatus("open");
@@ -337,9 +344,21 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		AccountTypes approvedForAccountType = new AccountTypes();
 		approvedForAccountType.setId(accountTypeId);
 		entity.setFromAccountTypeId(approvedForAccountType);
-		
 		entity = invoicesRepository.save(entity);
 		
+		List<PatientBills> patientBills= new ArrayList<>();
+		for(PatientBillsBean patientBillBean:bean.getPatientBillsBean()){
+		    PatientBills patientBill=new PatientBills();
+		    BeanUtils.copyProperties(patientBillBean, patientBill);
+		    patientBill.setInvoiceId(entity.getId());
+		    String originalFileName = patientBillBean.getPartnerBillFile().getOriginalFilename();
+		    String billPath = "/invoices/" + bean.getPidn() + "/" + entity.getId() + "_" + originalFileName;
+            patientBill.setPartnerBillPath(billPath);
+            File file = new File(fileSavePath + billPath);
+            patientBillBean.getPartnerBillFile().transferTo(file);
+            patientBills.add(patientBill);
+		}
+		patientBillService.savePatientBills(patientBills);
 		notifier.notifySecretary(entity, accountHolderName);
 		return entity.getId();
 	}

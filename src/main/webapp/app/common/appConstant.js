@@ -109,35 +109,33 @@ app.constant('appSettings', {
 		state: "pharmacy.pharmacyList",
 		pageId : 5
 	},
-
 	{
 		title: "Labs",
 		icon: "flask",
 		state: "lab.labList",
 		pageId : 6
+	},	
+	{
+		title: "Patient Visit",
+		icon: "briefcase",
+		state: "patientHospitalVisit",
+		pageId : 7
 	},
 	{
+		title: "Pharmacy Forwards",
+		icon: "medkit",
+		state: "pharmacyForwards",
+		pageId : 8
+	},{
 		title: "Patient Search",
 		icon: "search",
 		state: "searchPatient",
-		pageId : 7
+		pageId : 9
 	},
 	{
 		title: "Settings",
 		icon: "gears",
 		state: "settingsList",
-		pageId : 8
-	},
-	{
-		title: "Patient Visit",
-		icon: "gears",
-		state: "patientHospitalVisit",
-		pageId : 9
-	},
-	{
-		title: "Pharmacy Forwards",
-		icon: "gears",
-		state: "pharmacyForwards",
 		pageId : 10
 	},
 	{

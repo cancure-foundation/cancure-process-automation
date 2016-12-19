@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class PatientVisitDocumentBean {
 
-	private Long docId;
+	private Integer docId;
 	private String docType;
 	private String docPath;
 	private Integer accountTypeId; 
@@ -18,11 +18,11 @@ public class PatientVisitDocumentBean {
 		this.patientVisitFile = patientVisitFile;
 	}
 
-	public Long getDocId() {
+	public Integer getDocId() {
 		return docId;
 	}
 
-	public void setDocId(Long docId) {
+	public void setDocId(Integer docId) {
 		this.docId = docId;
 	}
 

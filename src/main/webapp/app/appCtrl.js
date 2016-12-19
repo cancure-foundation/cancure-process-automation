@@ -56,7 +56,7 @@ app.controller(	"appCtrl",[ '$rootScope', '$scope',	'$state', '$http', '$cookies
 									 });
 						 });
 				 // sort the accessList[]
-				 accessList.sort();
+				 accessList.sort(function(a,b){return a-b});
 				 // add Main menu items of the dashboard
 				 vm.menuItems = []
 				 for (var i = 0; i < accessList.length; i++) {
@@ -158,10 +158,12 @@ app.controller(	"appCtrl",[ '$rootScope', '$scope',	'$state', '$http', '$cookies
 						 2 : [ 'app.patientRegistration' ],
 						 3 : [ 'app.hospital.hospitalList', 'app.hospital.hospitalCreate', 'app.hospital.hpocMapping' ],
 						 4 : [ 'app.doctor' ],
-						 5 : [],
+						 5 : [ 'app.pharmacy.pharmacyList', 'app.pharmacy.pharmacyCreate' ],
 						 6 : [ 'app.lab.labList', 'app.lab.labCreate' ],
-						 7 : [ 'app.searchPatient' ],
-						 8 : [ 'app.settingsList' ]
+						 7 : [ 'app.patientHospitalVisit' ],
+						 8 : [ 'app.pharmacyForwards', 'app.pharmacyDispatch' ],
+						 9 : [ 'app.searchPatient' ],
+						 10 : [ 'app.settingsList' ]
 				 }, currentState = $state.current.name;
 
 				 if (pageList[pageId] && pageList[pageId].indexOf(currentState) >= 0)

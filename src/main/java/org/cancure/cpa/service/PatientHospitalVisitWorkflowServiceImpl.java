@@ -64,6 +64,9 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
     private HpocHospitalService hpocHospitalService;
 	
 	@Autowired
+    private PatientVisitDocumentService patientVisitDocumentService;
+	
+	@Autowired
 	private PatientHospitalVisitNotificationComponent notifier;
 	
 	@Value("${spring.files.save.path}")
@@ -211,7 +214,6 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		
 		Integer hospitalId = patVisit.getAccountHolderId();
 		List<UserBean> hpocList = hpocHospitalService.getHpocUsersFromHospital(hospitalId);
-		notifier.notifyHpoc(hpocList, pidn);
 		return taskId;
 	}
 
@@ -242,6 +244,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 	@Transactional
 	public PatientVisitHistoryBean selectPatient(String pidnString) {
 		Integer pidn = Integer.parseInt(pidnString);
+		List<PatientVisitDocumentBean> patientVisitDocumentList=new ArrayList<PatientVisitDocumentBean>();
 		
 		List<PatientBean> list = patientService.searchByPidn(pidn);
 		if (list != null && !list.isEmpty()) {
@@ -257,7 +260,16 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 			
 			PatientBean patientBean = list.get(0);
 			historyBean.setPatientBean(patientBean);
-			
+			for(PatientVisit patientVisit:openList){
+			    List<PatientVisitDocuments> patientVisitDocuments=new ArrayList<PatientVisitDocuments>();
+			    patientVisitDocuments=patientVisitDocumentService.getPatientDocByVisitId(patientVisit.getId());
+			    for(PatientVisitDocuments patientVisitDocument:patientVisitDocuments){
+			        PatientVisitDocumentBean patientVisitDocumentBean =new PatientVisitDocumentBean();
+			        BeanUtils.copyProperties(patientVisitDocument, patientVisitDocumentBean);
+			        patientVisitDocumentList.add(patientVisitDocumentBean);			        
+			    }			    
+			}
+			historyBean.setPatientVisitDocuments(patientVisitDocumentList);
 			List<PatientApproval> patientApprovals = approvalRepository.findByPidn(pidn);
 			if (patientApprovals != null && !patientApprovals.isEmpty()) {
 				List<PatientApprovalBean> paBeanList = new ArrayList<>();
@@ -321,7 +333,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 			for (PatientVisitDocuments doc : docList) {
 				PatientVisitDocumentBean docBean = new PatientVisitDocumentBean();
 				docBean.setAccountTypeId(doc.getAccountTypes().getId());
-				docBean.setDocId(doc.getDocId().longValue());
+				docBean.setDocId(doc.getDocId());
 				docBean.setDocPath(doc.getDocPath());
 				docBean.setDocType(doc.getDocType());
 				

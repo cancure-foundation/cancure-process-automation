@@ -281,6 +281,14 @@ create table patient_investigation (
 	comments varchar(200)
  );
  
+ create table patient_bills (
+	bill_id number(10) primary key auto_increment,
+	partner_bill_no varchar(50),
+	partner_bill_amount decimal(10,2),
+	partner_bill_path varchar(250),
+	invoice_id number(10) references invoices(id) 
+);
+ 
 create table patient_visit (
 	id number(10) primary key auto_increment,
 	pidn number(10) references pidn_generator(pidn),

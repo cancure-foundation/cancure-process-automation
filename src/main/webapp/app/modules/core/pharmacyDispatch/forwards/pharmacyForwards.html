@@ -1,99 +1,98 @@
+<script type="text/javascript">
+    // function to validate contact number
+    function validatephone(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
 <div class="content-header">
-    <h1>
-        Pharmacy Medicine Dispatch
+    <h1> Pharmacy Medicine Dispatch
+        <div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h1>
 </div>
 <!-- Main content -->
-<div class="content patientRegHistory">
-    <!-- row -->
-    <div class="row">
+<div class="content patientHVisit">
+
+    <div class="row" ng-hide="vm.preLoad">
         <div class="col-md-12">
-            
-            <div class="panel panel-info panel-body">
-            	<div class="panel-body" style="padding-bottom: 0px;">
-	                <div class="col-md-4 col-xs-12 input-box">
-	                    <label>PIDN
-	                        <req>*</req>
-	                    </label>
-	                    <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" />
-	                </div>
-	                <div class="col-md-12 col-xs-12 text-left" style="padding-bottom: 15px;">
-		                <input type="button" class="btn btn-success" ng-click="vm.searchUser();" value="Search">
-		            </div>
-	            </div>
+            <form name="vm.hospitalVisitForm" ng-submit="vm.searchUser();" class="clearfix" autocomplete="off">
+                <div class="panel panel-info">
+                    <div class="panel-body">
+                        <div class="col-md-4 col-xs-12 input-box" style="padding: 0;">
+                            <label>PIDN
+                                <req>*</req>
+                            </label>
+                            <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" onkeypress="return validatephone(event);" />
+                        </div>
+                        <div class="col-md-4 col-xs-12" style="margin-top:26px;">
+                            <input type="submit" class="btn btn-success" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="warningText" ng-show="vm.noSearchResult">{{vm.pageMessage}}</div>
+    <div class="row" ng-show="vm.forwards && !vm.noSearchResult">
+        <div class="col-xs-12">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <h4 style="margin:0px;">Patient Basic Information</h4>
+                    <br>
+                    <table class="table table-bordered userInfo" style="max-width: 690px;">
+                        <tr>
+                            <td rowspan="5" class="user_img">
+                                <img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
+                                <i ng-hide="vm.profileSrc" class="fa fa-user" aria-hidden="true" />
+                                <div> <b>{{vm.patient.name}}</b> </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" colspan="2"><b>PRN : {{vm.patient.prn}}</b> <b ng-show="vm.patient.pidn"> | PIDN : {{vm.patient.pidn}}</b>
+                                <br>
+                                <a ui-sref="app.patientRegHistory({prn:vm.patient.prn})">View Patient History</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">Age</td>
+                            <td class="fieldValue">{{vm.patient.age}}</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">Gender</td>
+                            <td class="fieldValue">{{vm.patient.gender}}</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">Contact</td>
+                            <td class="fieldValue">{{vm.patient.contact}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-center"><b>Patient Total Income : {{vm.patient.totalIncome | currency:'₹'}}</b></td>
+                        </tr>
+                    </table>
+                    <b>Patient Visit Details</b>
+                    <br>
+                    <table class="table table-bordered" style="margin-bottom: 0px;max-width: 690px;">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-3">Date</th>
+                                <th class="col-xs-2">Patient</th>
+                                <th class="col-xs-3">View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in vm.forwards">
+                                <td class="col-xs-3">{{item.date | date}}</td>
+                                <td class="col-xs-2">{{item.patient.name}}</td>
+                                <td class="col-xs-3"><a ui-sref="app.pharmacyDispatch({ patientVisitId: item.patientVisitId })">View</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            
-            <div class="noResultText" ng-show="vm.noSearchResult">Sorry, no items match your query.</div>
-            
-            <div class="panel panel-info panel-body" ng-hide="vm.noSearchResult">
-            	
-            	<div class="col-xs-12">
-	            	
-	            	<div class="panel panel-info panel-body" ng-show="vm.forwards.length > 0">
-		            	<div class="panel-body" style="padding-bottom: 0px;">
-			                <div class="col-md-4 col-xs-12 input-box">
-			                    <label>PIDN
-			                    </label>
-			                    {{ vm.forwards[0].patient.pidn }}
-			                </div>
-			            </div>
-		            	<div class="panel-body" style="padding-bottom: 0px;">
-			                <div class="col-md-4 col-xs-12 input-box">
-			                    <label>Name
-			                    </label>
-			                    {{ vm.forwards[0].patient.name }}
-			                </div>
-			                <div class="col-md-4 col-xs-12 input-box">
-			                    <label>Address
-			                    </label>
-			                    {{ vm.forwards[0].patient.address }}
-			                </div>
-			            </div>
-			            <div class="panel-body" style="padding-bottom: 0px;">
-			                <div class="col-md-4 col-xs-12 input-box">
-			                    <label>Phone
-			                    </label>
-			                    {{ vm.forwards[0].patient.contact }}
-			                </div>
-			                <div class="col-md-4 col-xs-12 input-box">
-			                    <label>Gender
-			                    </label>
-			                    {{ vm.forwards[0].patient.gender }}
-			                </div>
-			            </div>
-			            <div class="panel-body" style="padding-bottom: 0px;">
-			                <div class="col-md-4 col-xs-12 input-box">
-			                    <label>Age
-			                    </label>
-			                    {{ vm.forwards[0].patient.age }}
-			                </div>
-			                <div class="col-md-4 col-xs-12 input-box">
-			                    <label>Blood Group
-			                    </label>
-			                    {{ vm.forwards[0].patient.bloodGroup }}
-			                </div>
-			            </div>
-	            	</div>
-	            
-	            
-                   <table class="table table-bordered" ng-show="vm.forwards.length > 0">
-                       <thead>
-                           <tr>
-                               <th class="col-xs-3">Date</th>
-                               <th class="col-xs-2">Patient</th>
-                               <th class="col-xs-3">View</th>
-                           </tr>
-                       </thead>
-                       <tbody>
-                           <tr ng-repeat="item in vm.forwards">
-                               <td class="col-xs-3">{{item.date | date}}</td>
-                               <td class="col-xs-2">{{item.patient.name}}</td>
-                               <td class="col-xs-3"><a ui-sref="app.pharmacyDispatch({ patientVisitId: item.patientVisitId })">View</a></td>
-                           </tr>
-                       </tbody>
-                   </table>
-               </div>
-	       </div>     		
         </div>
     </div>
 </div>

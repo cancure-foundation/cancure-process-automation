@@ -3,8 +3,7 @@ package org.cancure.cpa.controller.beans;
 import java.util.List;
 import java.util.Map;
 
-import org.cancure.cpa.persistence.entity.InvoicesEntity;
-import org.cancure.cpa.persistence.entity.PatientApproval;
+import org.cancure.cpa.persistence.entity.PatientVisitDocuments;
 
 public class PatientVisitHistoryBean {
 
@@ -19,6 +18,8 @@ public class PatientVisitHistoryBean {
 	List<PatientApprovalBean> patientApprovals;
 	
 	List<InvoicesBean> invoicesList;
+	
+	List<PatientVisitDocumentBean> patientVisitDocuments;
 	
 	public Boolean getWorkflowExists() {
 		return workflowExists;
@@ -67,4 +68,13 @@ public class PatientVisitHistoryBean {
 	public void setInvoicesList(List<InvoicesBean> invoicesList) {
 		this.invoicesList = invoicesList;
 	}
+
+    public List<PatientVisitDocumentBean> getPatientVisitDocuments() {
+        return patientVisitDocuments;
+    }
+
+    public void setPatientVisitDocuments(List<PatientVisitDocumentBean> patientVisitDocuments) {
+        this.patientVisitDocuments = patientVisitDocuments;
+    }
+		
 }

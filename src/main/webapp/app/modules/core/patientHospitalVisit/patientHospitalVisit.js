@@ -61,9 +61,9 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 				vm.patient = response;
 				vm.noSearchResult = false;
 				
-				// checks if any requests is pending for the user
-				vm.formSubmitted = response.workflowExists;
-				if (vm.formSubmitted){
+				// checks if any requests is pending for the user				
+				if (response.workflowExists && !vm.isSecretary){					
+					vm.formSubmitted = true;
 					vm.pageMessage ="Requests pending for the patient. Please contact Sectretary.";
 				}
 				
@@ -81,6 +81,10 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 					}
 				}
 				vm.balAmount = vm.approvedTotal - vm.spendTotal;
+				
+				if (vm.isSecretary){
+					vm.patientVisitDocuments = vm.patient.patientVisitDocuments;
+				}
 			}
 			Loader.destroy();
 		});
@@ -115,7 +119,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		// checks to inlcude files selected
 		if (vm.patientFile && vm.patientFile.length > 0) {
 			for (var i = 0; i < vm.patientFile.length; i++){
-				fd.append("patientHospitalVisitDocumentBeanList["+ i +"].docType", 'Prescription');
+				fd.append("patientHospitalVisitDocumentBeanList["+ i +"].docType", vm.patientFile[i].documentTypes);
 				fd.append("patientHospitalVisitDocumentBeanList["+ i +"].accountTypeId", 3); //Pharmacy
 				fd.append("patientHospitalVisitDocumentBeanList["+ i +"].patientVisitFile",  vm.patientFile[i].file);
 			}
@@ -145,6 +149,8 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 	 * 
 	 */
 	vm.doTopup = function(approve){
+		Loader.create('Saving data... Please wait...');		
+		
 		var serverData = {};
 		serverData.pidn = vm.patient.patientBean.pidn;
 		serverData.patientVisitId = $stateParams.id;
@@ -174,10 +180,12 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 			method: 'POST',
 			hideErrMsg : true
 		}, function (response) {
+			Loader.destroy();	
 			if (response == null) {
-				vm.noSearchResult = true;
+				Flash.create('danger', 'Failed to complete action. Try again!', 'large-text');
 			} else {
-				vm.noSearchResult = false;
+				vm.formSubmitted = true;
+				vm.pageMessage = "Patient account credited."
 			}
 		}, function (fail){
 			Flash.create('danger', fail.message, 'large-text');

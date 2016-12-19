@@ -27,4 +27,22 @@ insert into user values (8,'EC2','ec2','ec2@cancure.in.net', '123123232', '$2a$1
 insert into user_role values (7, 7);
 insert into user_role values (8, 7);
 
---insert into APPROVALS values (1, '2016-01-01 12:12:12', 2, 20000, 3, 1, null);
+insert into APPROVALS values (1, '2016-01-01 12:12:12', 2, 20000, 3, 1, null);
+
+insert into patient values (1, 1, 'John Doe', '1992-01-01', 'MALE', 'A-', '123123123', 'SINGLE', 'Address', 'Employed', 'N', 'House', null, 'Friend', '342342342', 'Friend', 
+null, null, null, 'Sample Doc', 'Cooerative', 'Diagnosis', '2015-01-01',  'Needs treatment', 'Treatment', null, 1000, '123123123123', 1, 1, 10000, 2000, 1000, 1000);
+
+insert into patient values (2, 2, 'Miachael Reisaj', '1992-01-01', 'MALE', 'A-', '123123123', 'SINGLE', 'Address', 'Employed', 'N', 'House', null, 'Friend', '342342342', 'Friend', 
+null, null, null, 'Sample Doc', 'Cooerative', 'Diagnosis', '2015-01-01',  'Needs treatment', 'Treatment', null, 1000, '123123123123', 1, 1, 10000, 2000, 1000, 1000);
+
+insert into PIDN_GENERATOR values (1,1);
+insert into PIDN_GENERATOR values (2,2);
+
+insert into APPROVALS values (1, '2016-01-01 12:12:12', 1, 20000, 3, 1, null);
+insert into APPROVALS values (2, '2016-01-01 12:12:12', 1, 3000, 5, 1, null);
+insert into APPROVALS values (3, '2016-01-01 12:12:12', 2, 20000, 3, 1, null);
+insert into APPROVALS values (4, '2016-01-01 12:12:12', 2, 3000, 5, 1, null);
+
+
+
+
