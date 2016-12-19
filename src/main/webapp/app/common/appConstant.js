@@ -109,7 +109,6 @@ app.constant('appSettings', {
 		state: "pharmacy.pharmacyList",
 		pageId : 5
 	},
-
 	{
 		title: "Labs",
 		icon: "flask",
@@ -124,7 +123,7 @@ app.constant('appSettings', {
 	},
 	{
 		title: "Pharmacy Forwards",
-		icon: "gears",
+		icon: "medkit",
 		state: "pharmacyForwards",
 		pageId : 8
 	},{
@@ -144,7 +143,7 @@ app.constant('appSettings', {
 		ROLE_GUEST : [0, 9],
 		ROLE_SECRETARY : [0, 9],
 		ROLE_EXECUTIVE_COMMITTEE : [0, 9],
-		ROLE_ADMIN : [0, 1, 3, 4, 5, 6, 7, 10],
+		ROLE_ADMIN : [0, 1, 3, 4, 5, 6, 10],
 		ROLE_HOSPITAL_POC : [0, 2, 7, 9], 
 		ROLE_DOCTOR : [0, 9],
 		ROLE_PROGRAM_COORDINATOR : [0, 2, 9],

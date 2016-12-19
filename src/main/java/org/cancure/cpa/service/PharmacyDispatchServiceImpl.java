@@ -289,7 +289,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 				if (accountTypeId == patDocsEntity.getAccountTypes().getId()) { 
 					PatientVisitDocumentBean patDocBean = new PatientVisitDocumentBean();
 					patDocBean.setAccountTypeId(patDocsEntity.getAccountTypes().getId());
-					patDocBean.setDocId(patDocsEntity.getDocId().longValue());
+					patDocBean.setDocId(patDocsEntity.getDocId());
 					patDocBean.setDocType(patDocsEntity.getDocType());
 					
 					patDocsBean.add(patDocBean);

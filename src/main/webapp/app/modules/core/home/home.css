@@ -118,3 +118,16 @@
     font-size: 22px;
     font-weight: 600;
 }
+.homepage .basket .queue-heading {
+    background-color: #f4961c;
+    color: #fff;
+    padding: 8px 8px;
+}
+.homepage .basket .queue-heading i{
+    cursor: pointer;
+}
+.homepage .basket .queue-body {
+    border: 1px solid #f4961c;
+    padding: 8px;
+    margin-bottom: 15px;
+}

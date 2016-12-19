@@ -333,7 +333,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 			for (PatientVisitDocuments doc : docList) {
 				PatientVisitDocumentBean docBean = new PatientVisitDocumentBean();
 				docBean.setAccountTypeId(doc.getAccountTypes().getId());
-				docBean.setDocId(doc.getDocId().longValue());
+				docBean.setDocId(doc.getDocId());
 				docBean.setDocPath(doc.getDocPath());
 				docBean.setDocType(doc.getDocType());
 				
