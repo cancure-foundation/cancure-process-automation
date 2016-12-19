@@ -13,6 +13,7 @@ import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientBillsBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
+import org.cancure.cpa.controller.beans.PatientVisitForwardDetailsBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
 import org.cancure.cpa.controller.beans.PharmacyDispatchHistoryBean;
 import org.cancure.cpa.controller.beans.PharmacyInvoiceBean;
@@ -107,8 +108,9 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 	}
 	
 	@Override
-	public List<PatientVisitForwardsBean> searchForwardsByPidn(Integer pidn, Integer myUserId) throws Exception {
+	public PatientVisitForwardDetailsBean searchForwardsByPidn(Integer pidn, Integer myUserId) throws Exception {
 
+	    PatientVisitForwardDetailsBean patientVisitForwardDetailsBean=new PatientVisitForwardDetailsBean();
 		// What type of user is this? PPOC or HPOC or LPOC?
 		Integer accountTypeId;
 		Integer accountHolderId;
@@ -139,6 +141,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		if (forwards != null && !forwards.isEmpty()) {
 			// All are same patient
 			List<PatientBean> patient = patientService.searchByPidn(pidn);
+			patientVisitForwardDetailsBean.setPatientBean(patient.get(0));
 			
 			for (PatientVisitForwards fwd : forwards) {
 				
@@ -151,9 +154,34 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 				forwardsList.add(bean);
 				
 			}
+			patientVisitForwardDetailsBean.setPatientVisitForwardsBean(forwardsList);
 		}
-
-		return forwardsList;
+		
+		List<PatientApproval> patientApprovals = approvalRepository.findByPidnAndApprovedForAccountType(pidn, approvedForAccountType);
+        if (patientApprovals != null && !patientApprovals.isEmpty()) {
+            Double totalApprovals = 0d;
+            List<PatientApprovalBean> paBeanList = new ArrayList<>();
+            
+            for (PatientApproval pa : patientApprovals) {
+                
+                PatientApprovalBean paBean = new PatientApprovalBean();
+                paBean.setAmount(pa.getAmount());
+                paBean.setApprovedForAccountTypeId(pa.getApprovedForAccountType().getId());
+                paBean.setApprovedForAccountTypeName(pa.getApprovedForAccountType().getName());
+                paBean.setDate(pa.getDate());
+                paBean.setExpiryDate(pa.getExpiryDate());
+                paBean.setId(pa.getId());
+                paBean.setPatientVisitId(pa.getPatientVisitId());
+                paBean.setPidn(pa.getPidn().toString());
+                //paBean.setStatus(pa.get);
+                
+                paBeanList.add(paBean);
+                
+                totalApprovals += pa.getAmount();
+            }
+            patientVisitForwardDetailsBean.setPatientApprovals(paBeanList);
+        }
+		return patientVisitForwardDetailsBean;
 	}
 	
 
