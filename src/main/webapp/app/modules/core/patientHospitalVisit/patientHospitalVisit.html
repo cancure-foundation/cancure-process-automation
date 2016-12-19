@@ -43,7 +43,7 @@
                 <div class="panel-body">
                     <h4 style="margin:0px;">Patient Basic Information</h4>
                     <br>
-                    <table class="table table-bordered userInfo" style="margin-bottom: 0px;max-width: 625px;">
+                    <table class="table table-bordered userInfo" style="margin-bottom: 0px;max-width: 690px;">
                         <tr>
                             <td rowspan="5" class="user_img">
                                 <img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
@@ -91,9 +91,10 @@
                     </table>
 
                     <div style="padding:15px 0px;">
-                        <span class="section-title"><b>Approved Amounts to the patient :</b></span>
+                        <span class="section-title"><b>Approved Amounts to the patient :</b></span><br>
+                        <i>(These are payments credited to patients's account)</i><br><br>
                         <div ng-hide="vm.patient.patientApprovals.length > 0" class="empty-text">No amount has been approved for the patient.</div>
-                        <table class="table table-bordered" ng-show="vm.patient.patientApprovals.length > 0" style="max-width: 625px;">
+                        <table class="table table-bordered" ng-show="vm.patient.patientApprovals.length > 0" style="max-width: 690px;">
                             <thead>
                                 <tr>
                                     <th class="col-xs-2">Approved For</th>
@@ -108,27 +109,36 @@
                                     <td class="col-xs-3">{{item.amount | currency:'₹'}}</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" class="text-center"><b>Total amounts approved (<i>till {{vm.toDay}}</i>) : {{vm.approvedTotal | currency:'₹'}}</b></td>
+                                    <td colspan="3" class="text-center" style="font-size: 16px;"><b>Total amount approved (<i>till {{vm.toDay}}</i>) : {{vm.approvedTotal | currency:'₹'}}</b></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <span class="section-title"><b>Payments made to the Patient :</b></span>
+                        <span class="section-title"><b>Payments made to the Patient :</b></span><br>
+                        <i>(These are payments debited from patients's account)</i><br><br>
                         <div ng-hide="vm.patient.invoicesList.length > 0" class="empty-text">No payments have been made to the patient.</div>
-                        <table class="table table-bordered" ng-show="vm.patient.invoicesList.length > 0">
+                        <table class="table table-bordered" ng-show="vm.patient.invoicesList.length > 0" style="max-width: 690px;">
                             <thead>
                                 <tr>
-                                    <th class="col-xs-3">Date</th>
-                                    <th class="col-xs-2">Account</th>
-                                    <th class="col-xs-2">Partner</th>
+                                    <th class="col-xs-3">Approved To</th>
+                                    <th class="col-xs-2">Date of Approval</th>
+                                    <th class="col-xs-2">Partner Type</th>
                                     <th class="col-xs-3">Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="item in vm.patient.invoicesList">
-                                    <td class="col-xs-3">{{item.date | date}}</td>
-                                    <td class="col-xs-2">{{item.fromAccountTypeId.name}}</td>
                                     <td class="col-xs-3">{{item.fromAccountHolderName}}</td>
-                                    <td class="col-xs-3">{{item.amount}}</td>
+                                    <td class="col-xs-2">{{item.date | date}}</td>
+                                    <td class="col-xs-3">
+                                    	<div ng-switch on="item.fromAccountTypeId">
+                                    		<div ng-switch-when="3">Pharmacy</div>
+                                    		<div ng-switch-default>Lab</div>
+                                    	</div>
+                                    </td>
+                                    <td class="col-xs-3">{{item.amount | currency:'₹'}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-center" style="font-size: 16px;"><b>Total amount spend (<i>till {{vm.toDay}}</i>) : {{vm.spendTotal | currency:'₹'}}</b></td>
                                 </tr>
                             </tbody>
                         </table>

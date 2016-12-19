@@ -1,34 +1,35 @@
-core.controller("PharmacyForwardsController", ['Loader', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', '$timeout', 'Flash',
-                                                function (Loader, $scope, $state, $stateParams, apiService, appSettings, $timeout, Flash) {
+core.controller("PharmacyForwardsController", ['Loader', '$scope', '$state', '$stateParams', 'apiService',
+                                                function (Loader, $scope, $state, $stateParams, apiService) {
 
 	var vm = this;
 	
+	var init = function (){
+		vm.forwards = null;		
+	};
+	/**
+	 * 
+	 */
 	vm.searchUser = function() {
-		vm.forwards = null;
-		if (!vm.pidn){
-			alert('Please enter a PIDN');
-			return;
-		}
-		
-		Flash.create('info', 'Please wait while we Search patient.', 'large-text');
+		Loader.create('Please wait while we Search patient.');
 		
 		// making the server call
 		apiService.serviceRequest({
 			URL: '/pharmacydispatch/' + vm.pidn,
 			method: 'GET',
 			hideErrMsg : true
-		}, function (response) {
-			Flash.dismiss();
-			if (response == null) {
+		}, function (response) {	
+			if (response.length == 0) {
 				vm.noSearchResult = true;
+				vm.pageMessage ="Sorry, no items match your query.";
 			} else {
 				vm.forwards = response;
+				vm.patient = response[0].patient;
 				vm.noSearchResult = false;
 			}
-		}, function (fail){
-			Flash.create('danger', fail.message, 'large-text');
+			Loader.destroy();
 		});
 	};
 	
+	init();
 	
 }]);

@@ -115,41 +115,40 @@ app.constant('appSettings', {
 		icon: "flask",
 		state: "lab.labList",
 		pageId : 6
-	},
-	{
-		title: "Patient Search",
-		icon: "search",
-		state: "searchPatient",
-		pageId : 7
-	},
-	{
-		title: "Settings",
-		icon: "gears",
-		state: "settingsList",
-		pageId : 8
-	},
+	},	
 	{
 		title: "Patient Visit",
-		icon: "gears",
+		icon: "briefcase",
 		state: "patientHospitalVisit",
-		pageId : 9
+		pageId : 7
 	},
 	{
 		title: "Pharmacy Forwards",
 		icon: "gears",
 		state: "pharmacyForwards",
+		pageId : 8
+	},{
+		title: "Patient Search",
+		icon: "search",
+		state: "searchPatient",
+		pageId : 9
+	},
+	{
+		title: "Settings",
+		icon: "gears",
+		state: "settingsList",
 		pageId : 10
 	}],
 	
 	pageAccess : {
-		ROLE_GUEST : [0, 7],
-		ROLE_SECRETARY : [0, 7],
-		ROLE_EXECUTIVE_COMMITTEE : [0, 7],
-		ROLE_ADMIN : [0, 1, 3, 4, 5, 6, 7, 8],
-		ROLE_HOSPITAL_POC : [0, 2, 7, 9],
-		ROLE_DOCTOR : [0, 7],
-		ROLE_PROGRAM_COORDINATOR : [0, 2, 7, 10],
-		ROLE_PHARMACY : [10, 7]
+		ROLE_GUEST : [0, 9],
+		ROLE_SECRETARY : [0, 9],
+		ROLE_EXECUTIVE_COMMITTEE : [0, 9],
+		ROLE_ADMIN : [0, 1, 3, 4, 5, 6, 7, 8, 10],
+		ROLE_HOSPITAL_POC : [0, 2, 7, 9], 
+		ROLE_DOCTOR : [0, 9],
+		ROLE_PROGRAM_COORDINATOR : [0, 2, 8, 9],
+		ROLE_PHARMACY : [8, 9]
 	},
 	
 	rolesList : [] // stores all role names (authority)
