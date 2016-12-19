@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.cancure.cpa.controller.beans.PatientBillsBean;
+import org.cancure.cpa.controller.beans.PatientVisitForwardDetailsBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
 import org.cancure.cpa.controller.beans.PharmacyDispatchHistoryBean;
 import org.cancure.cpa.controller.beans.PharmacyInvoiceBean;
@@ -51,7 +52,7 @@ public class PharmacyDispatchController {
 	}
 
 	@RequestMapping(value = "/pharmacydispatch/{pidn}", method = RequestMethod.GET)
-	public List<PatientVisitForwardsBean> searchPatientForward(@PathVariable("pidn") String pidn, OAuth2Authentication auth)
+	public PatientVisitForwardDetailsBean searchPatientForward(@PathVariable("pidn") String pidn, OAuth2Authentication auth)
 			throws Exception {
 
 		if (auth != null) {
