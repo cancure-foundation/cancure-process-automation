@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.cancure.cpa.controller.beans.InvoicesBean;
 import org.cancure.cpa.controller.beans.PatientApprovalBean;
 import org.cancure.cpa.controller.beans.PatientBean;
+import org.cancure.cpa.controller.beans.PatientBillsBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
@@ -19,6 +20,7 @@ import org.cancure.cpa.persistence.entity.AccountTypes;
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
 import org.cancure.cpa.persistence.entity.LpocLab;
 import org.cancure.cpa.persistence.entity.PatientApproval;
+import org.cancure.cpa.persistence.entity.PatientBills;
 import org.cancure.cpa.persistence.entity.PatientVisit;
 import org.cancure.cpa.persistence.entity.PatientVisitDocuments;
 import org.cancure.cpa.persistence.entity.PatientVisitForwards;
@@ -67,6 +69,9 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 	
 	@Autowired
 	private ApprovalRepository approvalRepository;
+	
+	@Autowired
+	private PatientBillService patientBillService;
 	
 	@Value("${spring.files.save.path}")
     private String fileSavePath;
@@ -325,8 +330,6 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		InvoicesEntity entity = new InvoicesEntity();
 		entity.setAmount(bean.getAmount());
 		entity.setBalanceAmount(bean.getAmount());
-		entity.setPartnerBillAmount(bean.getPartnerBillAmount());
-		entity.setPartnerBillNo(bean.getPartnerBillNo());
 		entity.setComments(bean.getComments());
 		entity.setPidn(bean.getPidn());
 		entity.setStatus("open");
@@ -343,17 +346,19 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		entity.setFromAccountTypeId(approvedForAccountType);
 		entity = invoicesRepository.save(entity);
 		
-		if(bean.getPartnerBillFile()!=null){
-		    String originalFileName = bean.getPartnerBillFile().getOriginalFilename();
-
-            String billPath = "/invoices/" + bean.getPidn() + "/" + entity.getId() + "_" + originalFileName;
-
+		List<PatientBills> patientBills= new ArrayList<>();
+		for(PatientBillsBean patientBillBean:bean.getPatientBillsBean()){
+		    PatientBills patientBill=new PatientBills();
+		    BeanUtils.copyProperties(patientBillBean, patientBill);
+		    patientBill.setInvoiceId(entity.getId());
+		    String originalFileName = patientBillBean.getPartnerBillFile().getOriginalFilename();
+		    String billPath = "/invoices/" + bean.getPidn() + "/" + entity.getId() + "_" + originalFileName;
+            patientBill.setPartnerBillPath(billPath);
             File file = new File(fileSavePath + billPath);
-            bean.getPartnerBillFile().transferTo(file);
-            entity.setPartnerBillPath(billPath);;
+            patientBillBean.getPartnerBillFile().transferTo(file);
+            patientBills.add(patientBill);
 		}
-		entity = invoicesRepository.save(entity);
-		
+		patientBillService.savePatientBills(patientBills);
 		notifier.notifySecretary(entity, accountHolderName);
 		return entity.getId();
 	}

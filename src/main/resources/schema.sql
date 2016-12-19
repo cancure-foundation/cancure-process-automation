@@ -275,10 +275,16 @@ create table patient_investigation (
 	status varchar(10),
 	closed_date date,
 	balance_amount number(10),
-	partner_bill_no varchar(50),
-	partner_bill_amount decimal(10,2),
 	comments varchar(200)
  );
+ 
+ create table patient_bills (
+	bill_id number(10) primary key auto_increment,
+	partner_bill_no varchar(50),
+	partner_bill_amount decimal(10,2),
+	partner_bill_path varchar(250),
+	invoice_id number(10) references invoices(id) 
+);
  
 create table patient_visit (
 	id number(10) primary key auto_increment,

@@ -2,8 +2,6 @@ package org.cancure.cpa.controller.beans;
 
 import java.sql.Timestamp;
 
-import org.cancure.cpa.persistence.entity.AccountTypes;
-
 public class InvoicesBean {
 
 	private Integer id;
@@ -29,12 +27,6 @@ public class InvoicesBean {
 	private Timestamp closedDate;
 
 	private Double balanceAmount;
-
-	private String partnerBillNo;
-
-	private Double partnerBillAmount;
-	
-	private String partnerBillPath;
 
 	private String comments;
 
@@ -134,22 +126,6 @@ public class InvoicesBean {
 		this.balanceAmount = balanceAmount;
 	}
 
-	public String getPartnerBillNo() {
-		return partnerBillNo;
-	}
-
-	public void setPartnerBillNo(String partnerBillNo) {
-		this.partnerBillNo = partnerBillNo;
-	}
-
-	public Double getPartnerBillAmount() {
-		return partnerBillAmount;
-	}
-
-	public void setPartnerBillAmount(Double partnerBillAmount) {
-		this.partnerBillAmount = partnerBillAmount;
-	}
-
 	public String getComments() {
 		return comments;
 	}
@@ -157,13 +133,5 @@ public class InvoicesBean {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-
-    public String getPartnerBillPath() {
-        return partnerBillPath;
-    }
-
-    public void setPartnerBillPath(String partnerBillPath) {
-        this.partnerBillPath = partnerBillPath;
-    }
 	
 }

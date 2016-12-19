@@ -1,15 +1,13 @@
 package org.cancure.cpa.controller.beans;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 public class PharmacyInvoiceBean {
 
 	private Integer pidn;
 	private Double amount;
-	private Double partnerBillAmount;
-	private String partnerBillNo;
 	private String comments;
-	private MultipartFile partnerBillFile;
+	private List<PatientBillsBean> patientBillsBean;
 	
 	public Integer getPidn() {
 		return pidn;
@@ -23,29 +21,16 @@ public class PharmacyInvoiceBean {
 	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
-	public Double getPartnerBillAmount() {
-		return partnerBillAmount;
-	}
-	public void setPartnerBillAmount(Double partnerBillAmount) {
-		this.partnerBillAmount = partnerBillAmount;
-	}
-	public String getPartnerBillNo() {
-		return partnerBillNo;
-	}
-	public void setPartnerBillNo(String partnerBillNo) {
-		this.partnerBillNo = partnerBillNo;
-	}
 	public String getComments() {
 		return comments;
 	}
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-    public MultipartFile getPartnerBillFile() {
-        return partnerBillFile;
+    public List<PatientBillsBean> getPatientBillsBean() {
+        return patientBillsBean;
     }
-    public void setPartnerBillFile(MultipartFile partnerBillFile) {
-        this.partnerBillFile = partnerBillFile;
-    }
-	
+    public void setPatientBillsBean(List<PatientBillsBean> patientBillsBean) {
+        this.patientBillsBean = patientBillsBean;
+    }	
 }
