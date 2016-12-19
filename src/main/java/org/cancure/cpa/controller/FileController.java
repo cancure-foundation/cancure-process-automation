@@ -1,7 +1,6 @@
 package org.cancure.cpa.controller;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
@@ -9,8 +8,12 @@ import java.net.URLConnection;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.cancure.cpa.persistence.entity.PatientBills;
 import org.cancure.cpa.persistence.entity.PatientDocument;
+import org.cancure.cpa.persistence.entity.PatientVisitDocuments;
+import org.cancure.cpa.service.PatientBillService;
 import org.cancure.cpa.service.PatientDocumentService;
+import org.cancure.cpa.service.PatientVisitDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -33,6 +36,12 @@ public class FileController {
     
     @Autowired
     private PatientDocumentService patientDocumentService;
+    
+    @Autowired
+    private PatientVisitDocumentService patientVisitDocumentService;
+    
+    @Autowired
+    private PatientBillService patientBillService;
 
     @RequestMapping(value = "/files/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public void getFile(@PathVariable("id") Integer id, HttpServletResponse response) throws IOException {
@@ -64,5 +73,21 @@ public class FileController {
     public void getIDCard(@PathVariable("prn") String prn, HttpServletResponse response) throws IOException {
     	String filePath = fileSavePath + "/" + prn + "/IDCard"+ prn + ".pdf";
     	returnMimeContent(filePath, response);
+    }
+    
+    @RequestMapping("/files/patientvisit/{id}")
+    public void getPatientVisitFiles(@PathVariable("id") Integer id, HttpServletResponse response) throws IOException {
+        
+        PatientVisitDocuments patVisitDoc = patientVisitDocumentService.getPatientVisitDocuments(id);
+        String filePath = fileSavePath + patVisitDoc.getDocPath();
+        returnMimeContent(filePath, response);
+    }
+    
+    @RequestMapping("/files/patientbills/{id}")
+    public void getPatientBills(@PathVariable("id") Integer id, HttpServletResponse response) throws IOException {
+        
+        PatientBills patBills = patientBillService.getPatientBills(id);
+        String filePath = fileSavePath + patBills.getPartnerBillPath();
+        returnMimeContent(filePath, response);
     }
 }

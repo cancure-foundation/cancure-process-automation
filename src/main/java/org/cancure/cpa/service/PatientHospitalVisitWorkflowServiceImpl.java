@@ -211,7 +211,6 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		
 		Integer hospitalId = patVisit.getAccountHolderId();
 		List<UserBean> hpocList = hpocHospitalService.getHpocUsersFromHospital(hospitalId);
-		notifier.notifyHpoc(hpocList, pidn);
 		return taskId;
 	}
 

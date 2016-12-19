@@ -9,180 +9,154 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 @Entity
-@Table(name="invoices")
+@Table(name = "invoices")
 public class InvoicesEntity {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
-	
-	private Timestamp date;
-	
-	private Integer pidn;
-	
-	@OneToOne (fetch = FetchType.EAGER)
-	//@Fetch(FetchMode.JOIN)
-	@JoinColumn(name="from_account_type_id")
-	private AccountTypes fromAccountTypeId;
-	
-	@Column(name="from_account_holder_id")
-	private Integer fromAccountHolderId;
-	
-	@Transient
-	private String fromAccountHolderName;
-	
-	@OneToOne (fetch = FetchType.EAGER)
-	@JoinColumn(name="to_account_type_id")
-	private AccountTypes toAccountTypeId;
-	
-	@Column(name="to_account_holder_id")
-	private Integer toAccountHolderId;
-	
-	private Double amount;
-	
-	private String status;
-	
-	@Column(name="closed_date")
-	private Timestamp closedDate;
-	
-	@Column(name="balance_amount")
-	private Double balanceAmount;
-	
-	@Column(name="partner_bill_no")
-	private String partnerBillNo;
-	
-	@Column(name="partner_bill_amount")
-	private Double partnerBillAmount;
-	
-	private String comments;
+    private Integer id;
 
-	public String getComments() {
-		return comments;
-	}
+    private Timestamp date;
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+    private Integer pidn;
 
-	public String getFromAccountHolderName() {
-		return fromAccountHolderName;
-	}
+    @OneToOne(fetch = FetchType.EAGER)
+    // @Fetch(FetchMode.JOIN)
+    @JoinColumn(name = "from_account_type_id")
+    private AccountTypes fromAccountTypeId;
 
-	public void setFromAccountHolderName(String fromAccountHolderName) {
-		this.fromAccountHolderName = fromAccountHolderName;
-	}
+    @Column(name = "from_account_holder_id")
+    private Integer fromAccountHolderId;
 
-	public Integer getId() {
-		return id;
-	}
+    @Transient
+    private String fromAccountHolderName;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "to_account_type_id")
+    private AccountTypes toAccountTypeId;
 
-	public Timestamp getDate() {
-		return date;
-	}
+    @Column(name = "to_account_holder_id")
+    private Integer toAccountHolderId;
 
-	public void setDate(Timestamp date) {
-		this.date = date;
-	}
+    private Double amount;
 
-	public Integer getPidn() {
-		return pidn;
-	}
+    private String status;
 
-	public void setPidn(Integer pidn) {
-		this.pidn = pidn;
-	}
+    @Column(name = "closed_date")
+    private Timestamp closedDate;
 
-	public AccountTypes getFromAccountTypeId() {
-		return fromAccountTypeId;
-	}
+    @Column(name = "balance_amount")
+    private Double balanceAmount;
 
-	public void setFromAccountTypeId(AccountTypes fromAccountTypeId) {
-		this.fromAccountTypeId = fromAccountTypeId;
-	}
+    private String comments;
 
-	public Integer getFromAccountHolderId() {
-		return fromAccountHolderId;
-	}
+    public String getComments() {
+        return comments;
+    }
 
-	public void setFromAccountHolderId(Integer fromAccountHolderId) {
-		this.fromAccountHolderId = fromAccountHolderId;
-	}
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 
-	public AccountTypes getToAccountTypeId() {
-		return toAccountTypeId;
-	}
+    public String getFromAccountHolderName() {
+        return fromAccountHolderName;
+    }
 
-	public void setToAccountTypeId(AccountTypes toAccountTypeId) {
-		this.toAccountTypeId = toAccountTypeId;
-	}
+    public void setFromAccountHolderName(String fromAccountHolderName) {
+        this.fromAccountHolderName = fromAccountHolderName;
+    }
 
-	public Integer getToAccountHolderId() {
-		return toAccountHolderId;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setToAccountHolderId(Integer toAccountHolderId) {
-		this.toAccountHolderId = toAccountHolderId;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Double getAmount() {
-		return amount;
-	}
+    public Timestamp getDate() {
+        return date;
+    }
 
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public Integer getPidn() {
+        return pidn;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setPidn(Integer pidn) {
+        this.pidn = pidn;
+    }
 
-	public Timestamp getClosedDate() {
-		return closedDate;
-	}
+    public AccountTypes getFromAccountTypeId() {
+        return fromAccountTypeId;
+    }
 
-	public void setClosedDate(Timestamp closedDate) {
-		this.closedDate = closedDate;
-	}
+    public void setFromAccountTypeId(AccountTypes fromAccountTypeId) {
+        this.fromAccountTypeId = fromAccountTypeId;
+    }
 
-	public Double getBalanceAmount() {
-		return balanceAmount;
-	}
+    public Integer getFromAccountHolderId() {
+        return fromAccountHolderId;
+    }
 
-	public void setBalanceAmount(Double balanceAmount) {
-		this.balanceAmount = balanceAmount;
-	}
+    public void setFromAccountHolderId(Integer fromAccountHolderId) {
+        this.fromAccountHolderId = fromAccountHolderId;
+    }
 
-	public String getPartnerBillNo() {
-		return partnerBillNo;
-	}
+    public AccountTypes getToAccountTypeId() {
+        return toAccountTypeId;
+    }
 
-	public void setPartnerBillNo(String partnerBillNo) {
-		this.partnerBillNo = partnerBillNo;
-	}
+    public void setToAccountTypeId(AccountTypes toAccountTypeId) {
+        this.toAccountTypeId = toAccountTypeId;
+    }
 
-	public Double getPartnerBillAmount() {
-		return partnerBillAmount;
-	}
+    public Integer getToAccountHolderId() {
+        return toAccountHolderId;
+    }
 
-	public void setPartnerBillAmount(Double partnerBillAmount) {
-		this.partnerBillAmount = partnerBillAmount;
-	}
+    public void setToAccountHolderId(Integer toAccountHolderId) {
+        this.toAccountHolderId = toAccountHolderId;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Timestamp getClosedDate() {
+        return closedDate;
+    }
+
+    public void setClosedDate(Timestamp closedDate) {
+        this.closedDate = closedDate;
+    }
+
+    public Double getBalanceAmount() {
+        return balanceAmount;
+    }
+
+    public void setBalanceAmount(Double balanceAmount) {
+        this.balanceAmount = balanceAmount;
+    }
 
 }

@@ -1,12 +1,14 @@
 package org.cancure.cpa.controller.beans;
 
+import java.util.List;
+
 public class PharmacyInvoiceBean {
 
 	private Integer pidn;
 	private Double amount;
-	private Double partnerBillAmount;
-	private String partnerBillNo;
 	private String comments;
+	private List<PatientBillsBean> patientBillsBean;
+	
 	public Integer getPidn() {
 		return pidn;
 	}
@@ -19,22 +21,16 @@ public class PharmacyInvoiceBean {
 	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
-	public Double getPartnerBillAmount() {
-		return partnerBillAmount;
-	}
-	public void setPartnerBillAmount(Double partnerBillAmount) {
-		this.partnerBillAmount = partnerBillAmount;
-	}
-	public String getPartnerBillNo() {
-		return partnerBillNo;
-	}
-	public void setPartnerBillNo(String partnerBillNo) {
-		this.partnerBillNo = partnerBillNo;
-	}
 	public String getComments() {
 		return comments;
 	}
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
+    public List<PatientBillsBean> getPatientBillsBean() {
+        return patientBillsBean;
+    }
+    public void setPatientBillsBean(List<PatientBillsBean> patientBillsBean) {
+        this.patientBillsBean = patientBillsBean;
+    }	
 }

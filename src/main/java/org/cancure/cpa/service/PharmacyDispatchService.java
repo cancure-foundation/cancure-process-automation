@@ -2,6 +2,7 @@ package org.cancure.cpa.service;
 
 import java.util.List;
 
+import org.cancure.cpa.controller.beans.PatientBillsBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
 import org.cancure.cpa.controller.beans.PharmacyDispatchHistoryBean;
 import org.cancure.cpa.controller.beans.PharmacyInvoiceBean;
