@@ -134,6 +134,7 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 			Loader.destroy();
 			if (response && response.length == 0){
 				vm.showForm = true;
+				vm.aadharExist = null;
 			} else {
 				vm.aadharExist = response[0].prn; 
 			}

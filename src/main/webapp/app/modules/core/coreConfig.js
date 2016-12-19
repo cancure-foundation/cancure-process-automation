@@ -65,16 +65,6 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
     
-    $stateProvider.state('app.patientHospitalVisitTopup', {
-        url: '/patientHospitalVisitTopup/:patientVisitId',
-        templateUrl: 'app/modules/core/patientHospitalVisit/topup/patientHospitalVisitTopup.html',
-        controller: 'PatientHospitalVisitTopupController',
-        controllerAs: 'vm',
-        data: {
-            pageTitle: 'Patient Hospital Visit Topup'
-        }
-    });
-    
     $stateProvider.state('app.pharmacyForwards', {
         url: '/pharmacyForwards/:pidn',
         templateUrl: 'app/modules/core/pharmacyDispatch/forwards/pharmacyForwards.html',
