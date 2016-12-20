@@ -7,6 +7,8 @@ public class PatientVisitForwardDetailsBean {
     private PatientBean patientBean;
     private List<PatientVisitForwardsBean> patientVisitForwardsBean;
     private List<PatientApprovalBean> patientApprovals;
+    private Double balance;
+    
     public PatientBean getPatientBean() {
         return patientBean;
     }
@@ -25,5 +27,10 @@ public class PatientVisitForwardDetailsBean {
     public void setPatientApprovals(List<PatientApprovalBean> patientApprovals) {
         this.patientApprovals = patientApprovals;
     }
-    
+    public Double getBalance() {
+        return balance;
+    }
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }    
 }

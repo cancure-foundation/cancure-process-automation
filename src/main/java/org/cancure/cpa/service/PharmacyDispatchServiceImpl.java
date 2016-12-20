@@ -180,6 +180,17 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
                 totalApprovals += pa.getAmount();
             }
             patientVisitForwardDetailsBean.setPatientApprovals(paBeanList);
+            
+            Double totalInvoices = 0d;
+            List<InvoicesEntity> invoicesList = invoicesRepository.findByPidnAndFromAccountTypeId(pidn, approvedForAccountType);
+            if (invoicesList != null && !invoicesList.isEmpty()){  
+                for (InvoicesEntity entity : invoicesList){
+                    totalInvoices += entity.getAmount();
+                    }  
+            }
+            
+            Double balance = totalApprovals - totalInvoices;
+            patientVisitForwardDetailsBean.setBalance(balance);
         }
 		return patientVisitForwardDetailsBean;
 	}
