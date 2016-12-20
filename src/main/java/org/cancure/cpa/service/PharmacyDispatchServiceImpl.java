@@ -148,7 +148,6 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 				PatientVisitForwardsBean bean = new PatientVisitForwardsBean();
 				bean.setDate(fwd.getDate());
 				bean.setPidn(fwd.getPidn());
-				bean.setPatient(patient.get(0));
 				bean.setPatientVisitId(fwd.getPatientVisitId());
 
 				forwardsList.add(bean);
@@ -249,62 +248,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 			} else {
 				// No forwards to this Partner. Just return.
 				return historyBean;
-			}
-			
-			List<PatientBean> patient = patientService.searchByPidn(patientVisit.getPidn());
-			if (patient != null && patient.size() == 1) {
-				historyBean.setPatient(patient.get(0));
-			}
-			
-			// Now find pending amount and past approvals
-			
-			
-			List<PatientApproval> patientApprovals = approvalRepository.findByPidnAndApprovedForAccountType(patientVisitBean.getPidn(), approvedForAccountType);
-			if (patientApprovals != null && !patientApprovals.isEmpty()) {
-				Double totalApprovals = 0d;
-				List<PatientApprovalBean> paBeanList = new ArrayList<>();
-				
-				for (PatientApproval pa : patientApprovals) {
-					
-					PatientApprovalBean paBean = new PatientApprovalBean();
-					paBean.setAmount(pa.getAmount());
-					paBean.setApprovedForAccountTypeId(pa.getApprovedForAccountType().getId());
-					paBean.setApprovedForAccountTypeName(pa.getApprovedForAccountType().getName());
-					paBean.setDate(pa.getDate());
-					paBean.setExpiryDate(pa.getExpiryDate());
-					paBean.setId(pa.getId());
-					paBean.setPatientVisitId(pa.getPatientVisitId());
-					paBean.setPidn(pa.getPidn().toString());
-					//paBean.setStatus(pa.get);
-					
-					paBeanList.add(paBean);
-					
-					totalApprovals += pa.getAmount();
-				}
-				
-				historyBean.setPatientApprovals(paBeanList);
-				
-				Double totalInvoices = 0d;
-				List<InvoicesEntity> invoicesList = invoicesRepository.findByPidnAndFromAccountTypeId(patientVisitBean.getPidn(), approvedForAccountType);
-				if (invoicesList != null && !invoicesList.isEmpty()){
-					List<InvoicesBean> invoiceBeanList = new ArrayList<>();
-					
-					for (InvoicesEntity entity : invoicesList){
-						InvoicesBean bean = new InvoicesBean();
-						BeanUtils.copyProperties(entity, bean);
-						bean.setFromAccountTypeId(entity.getFromAccountTypeId().getId());
-						bean.setToAccountTypeId(entity.getToAccountTypeId().getId());
-						totalInvoices += entity.getAmount();
-						
-						invoiceBeanList.add(bean);
-					}
-					
-					historyBean.setInvoicesList(invoiceBeanList);
-				}
-				
-				Double balance = totalApprovals - totalInvoices;
-				historyBean.setBalance(balance);
-			}
+			}			
 		}
 		
 		return historyBean;
