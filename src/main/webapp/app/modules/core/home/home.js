@@ -1,5 +1,5 @@
-core.controller("HomeController", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'appSettings',
-function ($rootScope, $scope, $state, $location, Flash, appSettings) {
+core.controller("HomeController", ['$rootScope', '$scope', '$state', '$location', 'Flash', 'appSettings', 'apiService', 'Loader',
+function ($rootScope, $scope, $state, $location, Flash, appSettings, apiService, Loader) {
 	
 		var vm = this;
         
@@ -37,9 +37,43 @@ function ($rootScope, $scope, $state, $location, Flash, appSettings) {
         });
 
         var init = function () {
-            vm.showDetails = true;
-            vm.home = {};
+        	vm.fetchData();
+        	vm.q_1_loadText = null;
+        	vm.q_1_load = false;
+        	vm.q_2_load = false;
         };
+        
+        vm.fetchData = function (refresh){
+        	vm.q_1_load = true;
+        	vm.q_1_loadText = refresh ? "Refreshing Patient Registration Queue" : 'Loading Patient Registration Queue';
+        	
+        	vm.q_2_load = true;
+        	vm.q_2_loadText = refresh ? "Refreshing Patient Visit Queue" : 'Loading Patient Visit Queue';
+        	
+        	
+    		apiService.serviceRequest({
+    			URL: appSettings.requestURL.myQueue
+    		}, function (response) {
+    			vm.tasks = response;    			
+    			if(vm.tasks.PATIENT_REG_PROCESS_DEF_KEY.length == 0){
+    				vm.q_1_load = false;
+    				vm.q_1_noResult = true;
+    				vm.q_1_loadText = "Patient Registration queue is Empty."
+    			} else {
+    				vm.q_1_load = false;
+    				vm.q_1_loadText = null;
+    			}
+    			if(vm.tasks.PATIENT_HOSPITAL_VISIT_DEF_KEY.length == 0){
+    				vm.q_2_load = false;
+    				vm.q_2_noResult = true;
+    				vm.q_2_loadText = "Patient Hospital Visit queue is Empty."
+    			} else {
+    				vm.q_2_load = false;
+    				vm.q_2_loadText = null;
+    			}
+    			Loader.destroy();
+    		});
+        }
 
         // init function, execution starts here
         init();

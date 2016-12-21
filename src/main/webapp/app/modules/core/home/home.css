@@ -123,11 +123,20 @@
     color: #fff;
     padding: 8px 8px;
 }
-.homepage .basket .queue-heading i{
+.homepage .basket .queue-heading i {
     cursor: pointer;
 }
 .homepage .basket .queue-body {
     border: 1px solid #f4961c;
     padding: 8px;
     margin-bottom: 15px;
+    min-height: 150px;
+}
+.homepage .basket .queue-body .notification {
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 42px;
+}
+.homepage .basket .queue-body table {
+    background: #fff;
 }

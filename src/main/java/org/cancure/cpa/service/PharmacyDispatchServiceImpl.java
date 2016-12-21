@@ -328,7 +328,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		approvedForAccountType.setId(accountTypeId);
 		entity.setFromAccountTypeId(approvedForAccountType);
 		entity = invoicesRepository.save(entity);
-		
+		new File(fileSavePath + "/invoices/" + bean.getPidn()).mkdirs();
 		List<PatientBills> patientBills= new ArrayList<>();
 		for(PatientBillsBean patientBillBean:bean.getPatientBillsBean()){
 		    PatientBills patientBill=new PatientBills();

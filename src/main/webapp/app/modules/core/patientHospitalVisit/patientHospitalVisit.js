@@ -29,7 +29,8 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 	/**
 	 * 
 	 */
-	function varInit (){
+	function varInit(){
+		vm.pidn = null;
 		vm.formData = {};
 		vm.formData.topUp = false;
 		vm.patient = null;
@@ -108,7 +109,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 	/**
 	 *  function to handle save request
 	 */
-	vm.submit = function() {
+	vm.submit = function() {	
 	
 		Loader.create('Sending data... Please wait...');		
 				
@@ -140,15 +141,17 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 			errorMsg : 'Unable to save data. Try Again!!'
 		}, function (response) {
 			Loader.destroy();	
-			vm.pageMessage ="Requests submitted successfully.";
-			vm.formSubmitted = true;				
+			apiService.showAlert("Request Placed Successfully !!", function (){
+				varInit();
+			});			
 		});
 		
 	};
 	/**
 	 * 
 	 */
-	vm.doTopup = function(approve){
+	vm.doTopup = function(approve){	
+		
 		Loader.create('Saving data... Please wait...');		
 		
 		var serverData = {};
@@ -184,8 +187,9 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 			if (response == null) {
 				Flash.create('danger', 'Failed to complete action. Try again!', 'large-text');
 			} else {
-				vm.formSubmitted = true;
-				vm.pageMessage = "Patient account credited."
+				apiService.showAlert("Action Completed Successfully !!", function (){
+					$state.go('app.home');
+				});	
 			}
 		}, function (fail){
 			Flash.create('danger', fail.message, 'large-text');
