@@ -1,5 +1,5 @@
-app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', 'Loader', 
-                           function ($http, $q,  $state, $cookies, appSettings, Flash, Loader) {
+app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', 'Flash', 'Loader', '$mdDialog',
+                           function ($http, $q,  $state, $cookies, appSettings, Flash, Loader, $mdDialog) {
 
 	/**
 	 * function to place http request
@@ -105,11 +105,28 @@ app.service('apiService', ['$http', '$q', '$state', '$cookies', 'appSettings', '
 				+ printContents + '</div></html>');
 		popupWin.document.close();	
 	};
+	/**
+	 *  function to show alert messages
+	 */
+	  var showAlert = function (text, callback) {
+	      alert = $mdDialog.alert({
+	        title: 'Cancure Alert !',
+	        textContent: text,
+	        ok: 'Close'
+	      });
 
+	      $mdDialog
+	        .show( alert )
+	        .finally(function() {
+	          	if (callback)
+	          		callback();
+	        });
+	    }
 	this.serviceRequest = serviceRequest; // function to place http request
 	this.asyncServiceRequest = asyncServiceRequest; // function to place async service request
 	this.logoutAction = logoutAction; // function to be called on logout
 	this.adjustScreenHeight = adjustScreenHeight; // function to set the center wrapper height so that UI does not fall when content is less
 	this.printScreen = printScreen; // function to print the content of the given section
+	this.showAlert = showAlert; // function to show alert messages
 
 }]);

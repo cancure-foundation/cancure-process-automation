@@ -3,6 +3,70 @@
         Cancure Foundation
     </div>
     <div class="homepage">
+        <div class="basket">
+            <div class="queue-heading">Patient Registration Queue <i class="fa fa-refresh" aria-hidden="true" style="padding-left: 5px;outline:none;" ng-click="vm.fetchData();"></i></div>
+            <div class="queue-body">
+                <div ng-show="vm.q_1_load" class="text-center notification">
+                    <i class="fa fa-cog fa-spin" aria-hidden="true"></i>
+                    <br> {{vm.q_1_loadText}}
+                </div>
+                <div ng-show="vm.q_1_noResult" class="text-center notification">
+                    <i class="fa fa-smile-o" aria-hidden="true"></i>
+                    <br> {{vm.q_1_loadText}}
+                </div>
+                <table class="table table-bordered" ng-show="vm.tasks.PATIENT_REG_PROCESS_DEF_KEY.length > 0">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-1">PRN</th>
+                            <th class="col-xs-3">Patient Name</th>
+                            <th class="col-xs-3">Next Task</th>
+                            <th class="col-xs-3">Start Time</th>
+                            <th class="col-xs-2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="task in vm.tasks.PATIENT_REG_PROCESS_DEF_KEY">
+                            <td class="col-xs-1">{{task.prn}}</td>
+                            <td class="col-xs-3">{{task.patientName}}</td>
+                            <td class="col-xs-3">{{task.nextTask}}</td>
+                            <td class="col-xs-3">{{task.createTime}}</td>
+                            <th class="col-xs-2"><a ui-sref="app.patientRegHistory({ prn: task.prn })">View</a></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="queue-heading">Patient Hospital VisitQueue <i class="fa fa-refresh" aria-hidden="true" style="padding-left: 5px;outline:none;" ng-click="vm.fetchData()"></i></div>
+            <div class="queue-body">
+                <div ng-show="vm.q_2_load" class="text-center notification">
+                    <i class="fa fa-cog fa-spin" aria-hidden="true"></i>
+                    <br> {{vm.q_2_loadText}}
+                </div>
+                <div ng-show="vm.q_2_noResult" class="text-center notification">
+                    <i class="fa fa-smile-o" aria-hidden="true"></i>
+                    <br> {{vm.q_2_loadText}}
+                </div>
+                 <table class="table table-bordered" ng-show="vm.tasks.PATIENT_HOSPITAL_VISIT_DEF_KEY.length > 0">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-1">PIDN</th>
+                            <th class="col-xs-3">Patient Name</th>
+                            <th class="col-xs-3">Next Task</th>
+                            <th class="col-xs-3">Start Time</th>
+                            <th class="col-xs-2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="task in vm.tasks.PATIENT_HOSPITAL_VISIT_DEF_KEY">
+                            <td class="col-xs-1">{{task.pidn}}</td>
+                            <td class="col-xs-3">{{task.patientName}}</td>
+                            <td class="col-xs-3">{{task.nextTask}}</td>
+                            <td class="col-xs-3">{{task.createTime}}</td>
+                            <th class="col-xs-2"><a ui-sref="app.patientHospitalVisit({ pidn: task.pidn, id : task.patientVisitId })">View</a></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div id="owl-single" class="owl-carousel owl-theme">
@@ -55,16 +119,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="basket">
-            <div class="queue-heading">Patient Queue <i class="fa fa-refresh" aria-hidden="true" style="padding-left: 5px;"></i></div>
-            <div class="queue-body">
-            	e
-            </div>
-            <div class="queue-heading">Patient Queue <i class="fa fa-refresh" aria-hidden="true" style="padding-left: 5px;"></i></div>
-            <div class="queue-body">
-            e
             </div>
         </div>
         <div class="conclude-wrapper">TOGETHER WE CAN SAVE. NOT ONE, BUT MANY

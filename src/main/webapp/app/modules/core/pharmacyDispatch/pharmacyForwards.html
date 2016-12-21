@@ -1,0 +1,197 @@
+<script type="text/javascript">
+    // function to validate contact number
+    function validatephone(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
+<div class="content-header">
+    <h1> Pharmacy Medicine Dispatch
+        <div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
+    </h1>
+</div>
+<!-- Main content -->
+<div class="content patientHVisit">
+
+    <div class="row" ng-hide="vm.preLoad">
+        <div class="col-md-12">
+            <form name="vm.hospitalVisitForm" ng-submit="vm.searchUser();" class="clearfix" autocomplete="off">
+                <div class="panel panel-info">
+                    <div class="panel-body">
+                        <div class="col-md-4 col-xs-12 input-box" style="padding: 0;">
+                            <label>PIDN
+                                <req>*</req>
+                            </label>
+                            <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" onkeypress="return validatephone(event);" />
+                        </div>
+                        <div class="col-md-4 col-xs-12" style="margin-top:26px;">
+                            <input type="submit" class="btn btn-success" value="Search">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="warningText" ng-show="vm.noSearchResult">{{vm.pageMessage}}</div>
+    <div class="row" ng-show="vm.patient && !vm.noSearchResult">
+        <div class="col-xs-12">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <h4 style="margin:0px;">Patient Basic Information</h4>
+                    <br>
+                    <table class="table table-bordered userInfo" style="max-width: 690px;">
+                        <tr>
+                            <td rowspan="5" class="user_img">
+                                <img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
+                                <i ng-hide="vm.profileSrc" class="fa fa-user" aria-hidden="true" />
+                                <div> <b>{{vm.patient.name}}</b> </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" colspan="2"><b>PRN : {{vm.patient.prn}}</b> <b ng-show="vm.patient.pidn"> | PIDN : {{vm.patient.pidn}}</b>
+                                <br>
+                                <a ui-sref="app.patientRegHistory({prn:vm.patient.prn})">View Patient History</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">Age</td>
+                            <td class="fieldValue">{{vm.patient.age}}</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">Gender</td>
+                            <td class="fieldValue">{{vm.patient.gender}}</td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">Contact</td>
+                            <td class="fieldValue">{{vm.patient.contact}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-center"><b>Total Income : {{vm.patient.totalIncome | currency:'₹'}}</b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-center"><b>Account Balance : {{vm.balance | currency:'₹'}}</b></td>
+                        </tr>
+                    </table>
+
+
+                    <!-- patient payments : start -->
+                    <b> Patient Payments</b>
+                    <br>
+                    <i>(These are payments credited to patients's pharmacy account)</i>
+                    <table class="table table-bordered" ng-show="vm.approvals.length > 0" style="max-width: 690px;">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-3">Date</th>
+                                <th class="col-xs-2">Approved For</th>
+                                <th class="col-xs-3">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in vm.approvals">
+                                <td class="col-xs-3">{{item.date | date}}</td>
+                                <td class="col-xs-2">{{item.approvedForAccountTypeName}}</td>
+                                <td class="col-xs-3">{{item.amount | currency:'₹'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- patient payments : end -->
+
+                    <!-- patient visits : start -->
+                    <b ng-hide="vm.visitDetails">Patient Visit Details<br></b>
+                    <i ng-hide="vm.visitDetails">(These are dates patient has visited hospital and data was recorded)</i>
+                    <table class="table table-bordered" style="margin-bottom: 0px;max-width: 690px;" ng-hide="vm.visitDetails">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-3">Date</th>
+                                <th class="col-xs-3">View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in vm.visits">
+                                <td class="col-xs-3">{{item.date | date}}</td>
+                                <td class="col-xs-3"><span style="color: #3c8dbc;" data-ng-click="vm.fetchVisit(item);">View</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- patient visits : end -->
+
+                    <!-- patient visit details : start -->
+                    <form class="row" ng-show="vm.visitDetails" data-ng-submit="vm.submit();">
+                    	<div class="col-xs-12" style="font-size: 18px;font-weight: bold;">
+                    		<i style="color: #3c8dbc;outline:none;" ng-click="vm.visitDetails=null;" class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+                    		<u>Details of patient visit on {{vm.visitDate | date}} </u>
+                    	</div>
+                       	<div class="col-xs-12">
+                       		 <b>Prescriptions</b>
+                       		 <br>
+                       		 <i>(These are prescriptions uploaded during patient visit)</i>
+                       		 <table class="table table-bordered" ng-show="vm.visitDocs.length > 0" style="max-width: 690px;">
+                            <thead>
+                                <tr>
+                                    <th class="col-xs-3">Document Type</th>
+                                    <th class="col-xs-2">View</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in vm.visitDocs">
+                                    <td class="col-xs-3">{{item.docType}}</td>
+                                    <td class="col-xs-3"><a href="files/{{item.docId}}">View</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       	</div>                        
+                        <div class="col-xs-12">
+                            <b>Upload Bill Details </b>
+                            <i class="fa fa-plus-circle" aria-hidden="true" ng-click="vm.bill.push({'id':vm.bill.length})"></i>
+                            <i class="fa fa-minus-circle" aria-hidden="true" ng-click="vm.bill.pop();" ng-show="vm.bill.length > 1"></i>
+                        </div>
+                        <div ng-repeat="bill in vm.bill">
+                            <div class="input-box col-xs-12 col-md-4">
+                                <label>Bill number :
+                                    <req>*</req>
+                                </label>
+                                <input type="text" data-ng-model="bill.partnerBillNo" maxlength="50" required placeholder="Enter Bill No" onkeypress="return validatephone(event);"/>
+                            </div>
+                            <div class="input-box col-xs-12 col-md-4">
+                                <label>Bill amount :
+                                    <req>*</req>
+                                </label>
+                                <input type="text" data-ng-model="bill.partnerBillAmount" maxlength="50" required placeholder="Enter Bill Amount" onkeypress="return validatephone(event);"/>
+                            </div>
+                            <div class="input-box col-xs-12 col-md-4">
+                                <label>Bill File:
+                                    <req>*</req>
+                                </label>
+                                <input type="file" fileid="{{bill.id}}" onchange="angular.element(this).scope().vm.FilesSelection(this)" required/>
+                            </div>
+                        </div>
+                        <div class="input-box col-xs-12 col-md-4">
+                            <label>Cancure Amount Redeemed :
+                                <req>*</req>
+                            </label>
+                            <input id="cancureRdAmt" type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount" onkeypress="return validatephone(event);"/>
+                        </div>
+                        <div class="input-box col-xs-12 col-md-8">
+                            <label>Comments :
+                                <req>*</req>
+                            </label>
+                            <textarea data-ng-model="vm.formData.comments" required rows="1" maxlength="200"> </textarea>
+                        </div>
+                        <div class="col-xs-12" ng-show="vm.balErr" style="color: #ff0000;">
+                        	<b>Cancure Amount Redeemed</b> exceed available balance (<b>{{vm.balance | currency:'₹'}}</b>) in patient account.
+                        </div>
+                        <div class="text-center">
+                        	<button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </form>
+                    <!-- patient visit details : end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

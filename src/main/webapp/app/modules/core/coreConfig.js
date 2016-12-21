@@ -67,21 +67,11 @@ core.config(["$stateProvider", function ($stateProvider) {
     
     $stateProvider.state('app.pharmacyForwards', {
         url: '/pharmacyForwards/:pidn',
-        templateUrl: 'app/modules/core/pharmacyDispatch/forwards/pharmacyForwards.html',
+        templateUrl: 'app/modules/core/pharmacyDispatch/pharmacyForwards.html',
         controller: 'PharmacyForwardsController',
         controllerAs: 'vm',
         data: {
             pageTitle: 'Pharmacy Forwards'
-        }
-    });
-    
-    $stateProvider.state('app.pharmacyDispatch', {
-        url: '/pharmacyDispatch/:patientVisitId',
-        templateUrl: 'app/modules/core/pharmacyDispatch/pharmacyDispatch.html',
-        controller: 'PharmacyDispatchController',
-        controllerAs: 'vm',
-        data: {
-            pageTitle: 'Pharmacy Dispatch'
         }
     });
 
@@ -92,16 +82,6 @@ core.config(["$stateProvider", function ($stateProvider) {
         controllerAs: 'vm',
         data: {
             pageTitle: 'Patient Registration Next Action'
-        }
-    });
-    
-    $stateProvider.state('app.myQueue', {
-        url: '/myQueue',
-        templateUrl: 'app/modules/core/myQueue/myQueue.html',
-        controller: 'myQueueController',
-        controllerAs: 'vm',
-        data: {
-            pageTitle: 'My Queue'
         }
     });
 

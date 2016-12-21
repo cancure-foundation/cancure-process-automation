@@ -73,7 +73,7 @@ public class PharmacyDispatchController {
 	}
 
 	@RequestMapping(value = "/pharmacydispatch", method = RequestMethod.POST)
-	public String saveInvoice(@RequestBody PharmacyInvoiceBean pharmacyInvoiceBean, OAuth2Authentication auth)
+	public String saveInvoice(PharmacyInvoiceBean pharmacyInvoiceBean, OAuth2Authentication auth)
 			throws Exception {
 
 		if (auth != null) {
