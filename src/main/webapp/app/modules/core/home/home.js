@@ -37,17 +37,24 @@ function ($rootScope, $scope, $state, $location, Flash, appSettings, apiService,
         });
 
         var init = function () {
-        	vm.fetchData();
-        	vm.q_1_loadText = null;
-        	vm.q_1_load = false;
-        	vm.q_2_load = false;
+        	if (appSettings.rolesList.indexOf("ROLE_PHARMACY") >= 0){
+        		vm.showQueue = false;
+    		} else {
+    			vm.fetchData();
+            	vm.q_1_loadText = null;
+            	vm.q_1_load = false;
+            	vm.q_2_load = false;
+            	vm.showQueue = true;
+    		}        	
         };
         
         vm.fetchData = function (refresh){
         	vm.q_1_load = true;
+        	vm.q_1_noResult = false;
         	vm.q_1_loadText = refresh ? "Refreshing Patient Registration Queue" : 'Loading Patient Registration Queue';
         	
         	vm.q_2_load = true;
+        	vm.q_2_noResult = false;
         	vm.q_2_loadText = refresh ? "Refreshing Patient Visit Queue" : 'Loading Patient Visit Queue';
         	
         	
@@ -62,6 +69,7 @@ function ($rootScope, $scope, $state, $location, Flash, appSettings, apiService,
     			} else {
     				vm.q_1_load = false;
     				vm.q_1_loadText = null;
+    				vm.q_1_noResult = false;
     			}
     			if(vm.tasks.PATIENT_HOSPITAL_VISIT_DEF_KEY.length == 0){
     				vm.q_2_load = false;
@@ -70,6 +78,7 @@ function ($rootScope, $scope, $state, $location, Flash, appSettings, apiService,
     			} else {
     				vm.q_2_load = false;
     				vm.q_2_loadText = null;
+    				vm.q_2_noResult = false;
     			}
     			Loader.destroy();
     		});

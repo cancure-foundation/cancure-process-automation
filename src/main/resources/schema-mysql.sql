@@ -297,7 +297,8 @@ create table patient_visit (
 	date timestamp,
 	account_type_id int(10) references account_types(id),
 	account_holder_id int(10),
-	task_id varchar(10)
+	task_id varchar(10),
+	status varchar(10)
 );
 
 create table approvals (
