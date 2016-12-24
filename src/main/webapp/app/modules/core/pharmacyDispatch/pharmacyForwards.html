@@ -26,7 +26,7 @@
                             <label>PIDN
                                 <req>*</req>
                             </label>
-                            <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" onkeypress="return validatephone(event);" />
+                            <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" onkeypress="return validatephone(event);" maxlength="5"/>
                         </div>
                         <div class="col-md-4 col-xs-12" style="margin-top:26px;">
                             <input type="submit" class="btn btn-success" value="Search">
@@ -73,13 +73,16 @@
                             <td colspan="3" class="text-center"><b>Total Income : {{vm.patient.totalIncome | currency:'₹'}}</b></td>
                         </tr>
                         <tr>
-                            <td colspan="3" class="text-center"><b>Account Balance : {{vm.balance | currency:'₹'}}</b></td>
+                         	<td colspan="1" class="text-center"><b>Balance Amount</b></td>
+                            <td colspan="3" class="text-center"><b>
+                            <span ng-class="(vm.balance > 5000) ? 'bal-green' : ((vm.balance > 2000)? 'bal-orange': 'bal-red')">                            
+                            {{vm.balance | currency:'₹'}}</span></b></td>
                         </tr>
                     </table>
 
 
                     <!-- patient payments : start -->
-                    <b> Patient Payments</b>
+                    <!-- <b> Patient Payments</b>
                     <br>
                     <i>(These are payments credited to patients's pharmacy account)</i>
                     <table class="table table-bordered" ng-show="vm.approvals.length > 0" style="max-width: 690px;">
@@ -97,7 +100,7 @@
                                 <td class="col-xs-3">{{item.amount | currency:'₹'}}</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> -->
                     <!-- patient payments : end -->
 
                     <!-- patient visits : start -->
@@ -111,8 +114,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in vm.visits">
-                                <td class="col-xs-3">{{item.date | date}}</td>
+                            <tr ng-repeat="item in vm.visits | orderBy : 'patientVisitId'">
+                                <td class="col-xs-3">{{item.date | date : 'medium'}}</td>
                                 <td class="col-xs-3"><span style="color: #3c8dbc;" data-ng-click="vm.fetchVisit(item);">View</span></td>
                             </tr>
                         </tbody>
@@ -154,13 +157,13 @@
                                 <label>Bill number :
                                     <req>*</req>
                                 </label>
-                                <input type="text" data-ng-model="bill.partnerBillNo" maxlength="50" required placeholder="Enter Bill No" onkeypress="return validatephone(event);"/>
+                                <input onpaste="return false;" type="text" data-ng-model="bill.partnerBillNo" maxlength="10" required placeholder="Enter Bill No" onkeypress="return validatephone(event);"/>
                             </div>
                             <div class="input-box col-xs-12 col-md-4">
                                 <label>Bill amount :
                                     <req>*</req>
                                 </label>
-                                <input type="text" data-ng-model="bill.partnerBillAmount" maxlength="50" required placeholder="Enter Bill Amount" onkeypress="return validatephone(event);"/>
+                                <input onpaste="return false;" type="text" data-ng-model="bill.partnerBillAmount" maxlength="10" required placeholder="Enter Bill Amount" onkeypress="return validatephone(event);"/>
                             </div>
                             <div class="input-box col-xs-12 col-md-4">
                                 <label>Bill File:
@@ -173,7 +176,7 @@
                             <label>Cancure Amount Redeemed :
                                 <req>*</req>
                             </label>
-                            <input id="cancureRdAmt" type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount" onkeypress="return validatephone(event);"/>
+                            <input onpaste="return false;" id="cancureRdAmt" type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount" onkeypress="return validatephone(event);"/>
                         </div>
                         <div class="input-box col-xs-12 col-md-8">
                             <label>Comments :
@@ -182,7 +185,8 @@
                             <textarea data-ng-model="vm.formData.comments" required rows="1" maxlength="200"> </textarea>
                         </div>
                         <div class="col-xs-12" ng-show="vm.balErr" style="color: #ff0000;">
-                        	<b>Cancure Amount Redeemed</b> exceed available balance (<b>{{vm.balance | currency:'₹'}}</b>) in patient account.
+                        	<span ng-hide="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds available balance (<b>{{vm.balance | currency:'₹'}}</b>) in patient account.</span>
+                        	<span ng-show="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds pharmacy bill amount.</span>
                         </div>
                         <div class="text-center">
                         	<button type="submit" class="btn btn-success">Submit</button>

@@ -29,12 +29,12 @@ public class TemplateUtil {
 		
 	}
 	
-	public static void main(String[] args) throws Exception {
+	/*public static void main(String[] args) throws Exception {
 		Map<String, Object> values = new HashMap<>();
 		values.put("user", "Dantis");
 		
 		String output = TemplateUtil.process("Hello ${user} test", values);
 		System.out.println(output);
-	}
+	}*/
 	
 }

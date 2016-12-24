@@ -3,7 +3,7 @@
         Cancure Foundation
     </div>
     <div class="homepage">
-        <div class="basket">
+        <div class="basket" ng-show="vm.showQueue">
             <div class="queue-heading">Patient Registration Queue <i class="fa fa-refresh" aria-hidden="true" style="padding-left: 5px;outline:none;" ng-click="vm.fetchData();"></i></div>
             <div class="queue-body">
                 <div ng-show="vm.q_1_load" class="text-center notification">
@@ -14,7 +14,7 @@
                     <i class="fa fa-smile-o" aria-hidden="true"></i>
                     <br> {{vm.q_1_loadText}}
                 </div>
-                <table class="table table-bordered" ng-show="vm.tasks.PATIENT_REG_PROCESS_DEF_KEY.length > 0">
+                <table class="table table-bordered" ng-show="vm.tasks.PATIENT_REG_PROCESS_DEF_KEY.length > 0" ng-hide="vm.q_1_load || vm.q_1_noResult">
                     <thead>
                         <tr>
                             <th class="col-xs-1">PRN</th>
@@ -45,7 +45,7 @@
                     <i class="fa fa-smile-o" aria-hidden="true"></i>
                     <br> {{vm.q_2_loadText}}
                 </div>
-                 <table class="table table-bordered" ng-show="vm.tasks.PATIENT_HOSPITAL_VISIT_DEF_KEY.length > 0">
+                 <table class="table table-bordered" ng-show="vm.tasks.PATIENT_HOSPITAL_VISIT_DEF_KEY.length > 0" ng-hide="vm.q_2_load || vm.q_2_noResult">
                     <thead>
                         <tr>
                             <th class="col-xs-1">PIDN</th>
