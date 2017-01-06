@@ -178,8 +178,8 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public void updateCostEstimate(Integer hospitalCostEstimate, Integer medicalCostEstimate, Integer prn) {
-        patientRepo.updateCostEstimate(hospitalCostEstimate, medicalCostEstimate, prn);
+    public void updateCostEstimate(Integer hospitalCostEstimate, Integer medicalCostEstimate, String patientType, Integer prn) {
+        patientRepo.updateCostEstimate(hospitalCostEstimate, medicalCostEstimate, patientType, prn);
         
     }    
 	

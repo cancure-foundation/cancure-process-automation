@@ -50,6 +50,7 @@ public class PatientBean {
     private List<SupportOrganisationBean> organisation=new ArrayList<SupportOrganisationBean>();
     private List<PatientDocumentBean> document=new ArrayList<PatientDocumentBean>();
     private List<PatientInvestigationBean> patientInvestigation=new ArrayList<PatientInvestigationBean>();
+    private String patientType;
     
     public Integer getPrn() {
         return prn;
@@ -304,6 +305,12 @@ public class PatientBean {
     }
     public void setMedicalCostApproved(Integer medicalCostApproved) {
         this.medicalCostApproved = medicalCostApproved;
+    }
+    public String getPatientType() {
+        return patientType;
+    }
+    public void setPatientType(String patientType) {
+        this.patientType = patientType;
     } 
     
 }

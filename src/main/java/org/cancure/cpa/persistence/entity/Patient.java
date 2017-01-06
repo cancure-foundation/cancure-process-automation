@@ -130,6 +130,9 @@ public class Patient {
     @Column(name="medical_cost_approved")
     private Integer medicalCostApproved;
     
+    @Column(name="patient_type")
+    private String patientType;
+    
     @OneToMany(mappedBy="familyPatient")
     private List<PatientFamily> patientFamily=new ArrayList<PatientFamily>();
     
@@ -421,6 +424,14 @@ public class Patient {
 
     public void setMedicalCostApproved(Integer medicalCostApproved) {
         this.medicalCostApproved = medicalCostApproved;
+    }
+
+    public String getPatientType() {
+        return patientType;
+    }
+
+    public void setPatientType(String patientType) {
+        this.patientType = patientType;
     }
     
     
