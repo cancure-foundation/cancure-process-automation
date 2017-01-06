@@ -181,7 +181,8 @@ create table patient(
 	hospital_cost_estimate number(10),
 	medical_cost_estimate number(10),
 	hospital_cost_approved number(10),
-	medical_cost_approved number(10)
+	medical_cost_approved number(10),
+	patient_type varchar(20)
 );
 
 
@@ -239,7 +240,7 @@ create table patient_investigation (
  );
  
  create table settings (
- 	id number(10) primary key auto_increment,
+ 	id number(10) primary key auto_increment,	
  	display_name varchar(100),
  	value varchar(2000)
  );
