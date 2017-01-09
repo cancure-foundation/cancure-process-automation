@@ -6,7 +6,7 @@
       <documentation>Patient registers with Cancure providing personal details, family details, ID proofs
     		, income proofs etc.</documentation>
     </userTask>
-    <userTask id="preliminaryExamination" name="Preliminary Examination" activiti:candidateGroups="ROLE_HOSPITAL_POC,ROLE_DOCTOR" activiti:dueDate="${patientRegistrationService.maxPreliminaryExaminationTime}">
+    <userTask id="preliminaryExamination" name="Preliminary Doctor Examination" activiti:candidateGroups="ROLE_HOSPITAL_POC,ROLE_DOCTOR" activiti:dueDate="${patientRegistrationService.maxPreliminaryExaminationTime}">
       <documentation>Doctor conducts preliminary examination and provides reports. 
     		HPOC estimates the treatment costs.</documentation>
       <extensionElements>
@@ -27,7 +27,7 @@
     <sequenceFlow id="flow3" sourceRef="patientRegistration" targetRef="preliminaryExamination"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="preliminaryExamination" targetRef="backgroundCheck"></sequenceFlow>
     <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="patientRegistration"></sequenceFlow>
-    <userTask id="mbDoctorApproval" name="MB Doctor Approval" activiti:candidateGroups="ROLE_DOCTOR" activiti:dueDate="${patientRegistrationService.maxMBDoctorApprovalTime}">
+    <userTask id="mbDoctorApproval" name="Medical Board Approval" activiti:candidateGroups="ROLE_DOCTOR" activiti:dueDate="${patientRegistrationService.maxMBDoctorApprovalTime}">
       <documentation>MB Doctors verifies the cost estimations and provides their input.</documentation>
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>
@@ -48,7 +48,7 @@
     <sequenceFlow id="flow9" sourceRef="exclusivegateway2" targetRef="servicetask2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${secApproval=='Reject'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="ecApproval" name="EC Approval" activiti:candidateGroups="ROLE_EXECUTIVE_COMMITTEE" activiti:dueDate="${patientRegistrationService.maxEcApprovalTime}">
+    <userTask id="ecApproval" name="Executive Committee Approval" activiti:candidateGroups="ROLE_EXECUTIVE_COMMITTEE" activiti:dueDate="${patientRegistrationService.maxEcApprovalTime}">
       <documentation>Executive Committee verifies the patient's details and approves or rejects Cancure help.</documentation>
       <extensionElements>
         <activiti:taskListener event="create" class="org.cancure.cpa.service.NotifierService"></activiti:taskListener>

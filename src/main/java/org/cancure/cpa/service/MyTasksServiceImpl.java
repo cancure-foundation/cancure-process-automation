@@ -421,7 +421,8 @@ public class MyTasksServiceImpl implements MyTasksService {
 		if (!taskKey.equals("preliminaryExamination")) {
 			patientBean = patientService.get((Integer)patientId);
 			map.put("hospitalCostEstimate", valueOf(patientBean.getHospitalCostEstimate()));
-			map.put("medicalCostEstimate", valueOf(patientBean.getMedicalCostEstimate()));									
+			map.put("medicalCostEstimate", valueOf(patientBean.getMedicalCostEstimate()));		
+			map.put("patientType", patientBean.getPatientType());
 		}
 		//if(t.getName().equals("Secretary Approval") || t.getName().equals("EC Approval")){
 		if (taskKey.equals("secretaryApproval") || taskKey.equals("ecApproval") || taskKey.equals("confirmApprovedAmounts") || taskKey.equals("backgroundClarification") || taskKey.equals("preliminaryExaminationClarification")) {

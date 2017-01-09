@@ -41,9 +41,6 @@ function ($rootScope, $scope, $state, $location, Flash, appSettings, apiService,
         		vm.showQueue = false;
     		} else {
     			vm.fetchData();
-            	vm.q_1_loadText = null;
-            	vm.q_1_load = false;
-            	vm.q_2_load = false;
             	vm.showQueue = true;
     		}        	
         };

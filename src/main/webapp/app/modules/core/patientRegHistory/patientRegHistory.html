@@ -25,7 +25,13 @@
                                             <td rowspan="5" class="user_img">
                                                 <img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
                                                 <i ng-hide="vm.profileSrc" class="fa fa-user" aria-hidden="true" />
-                                                <div> <b>{{vm.patientDetails.name}}</b> </div>
+                                                <div style="padding-bottom: 5px;"> 
+                                                	<b ng-switch on="vm.patientDetails.patientType">
+                                                		<span ng-switch-when="inPatient">In-Patient Name : {{vm.patientDetails.name}}</span>
+                                                		<span ng-switch-when="outPatient">Out-Patient Name : {{vm.patientDetails.name}}</span>
+                                                		<span ng-switch-default>Patient Name : {{vm.patientDetails.name}}</span>
+                                                	</b> 
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr>
@@ -46,25 +52,23 @@
                                         <tr>
                                             <td colspan="3" class="text-center"><b>Patient Total Income : {{vm.patientDetails.totalIncome | currency:'₹'}}</b></td>
                                         </tr>
-                                        <tr ng-show="vm.patientDetails.hospitalCostEstimate && vm.patientDetails.medicalCostEstimate">
+                                        <tr ng-show="vm.patientDetails.hospitalCostEstimate || vm.patientDetails.medicalCostEstimate">
                                             <td colspan="1" class="text-center"><b>Estimated Costs</b></td>
                                             <td colspan="3" class="text-center">
-                                                <b>
-                                            		Hospital : {{vm.patientDetails.hospitalCostEstimate | currency:'₹'}} 
-                                            		<br>
-                                            		Medicine : {{vm.patientDetails.medicalCostEstimate | currency:'₹'}} 
-                                            	</b
-                                            ></td>
+                                                <b ng-switch on="vm.patientDetails.patientType">
+                                                	<span ng-switch-when="inPatient">{{vm.patientDetails.hospitalCostEstimate | currency:'₹'}} </span>
+                                 					<span ng-switch-when="outPatient">{{vm.patientDetails.medicalCostEstimate | currency:'₹'}} </span>                                            		
+                                            	</b>
+                                            </td>
                                         </tr>
-                                        <tr ng-show="vm.patientDetails.hospitalCostApproved && vm.patientDetails.medicalCostApproved">
+                                        <tr ng-show="vm.patientDetails.hospitalCostApproved || vm.patientDetails.medicalCostApproved">
                                             <td  colspan="1"  class="text-center"><b>Approved Amount</b></td>
                                             <td colspan="3" class="text-center">
-                                                <b>
-                                            		Hospital :  {{vm.patientDetails.hospitalCostApproved | currency:'₹'}} 
-                                            		<br>
-                                            		Medicine : {{vm.patientDetails.medicalCostApproved | currency:'₹'}} 
-                                            	</b
-                                            ></td>
+                                            	<b ng-switch on="vm.patientDetails.patientType">
+                                                	<span ng-switch-when="inPatient">{{vm.patientDetails.hospitalCostApproved | currency:'₹'}}  </span>
+                                 					<span ng-switch-when="outPatient">{{vm.patientDetails.medicalCostApproved | currency:'₹'}}  </span>                                            		
+                                            	</b>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td colspan="3" style="text-align: center;">

@@ -48,7 +48,13 @@
                             <td rowspan="5" class="user_img">
                                 <img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
                                 <i ng-hide="vm.profileSrc" class="fa fa-user" aria-hidden="true" />
-                                <div> <b>{{vm.patient.patientBean.name}}</b> </div>
+                                <div style="padding-bottom: 5px;"> 
+                                    <b ng-switch on="vm.patient.patientBean.patientType">
+                                    	<span ng-switch-when="inPatient">In-Patient Name : {{vm.patient.patientBean.name}}</span>
+                                    	<span ng-switch-when="outPatient">Out-Patient Name : {{vm.patient.patientBean.name}}</span>
+                                    	<span ng-switch-default>Patient Name : {{vm.patient.patientBean.name}}</span>
+                                    </b> 
+								</div>
                             </td>
                         </tr>
                         <tr>
@@ -147,7 +153,7 @@
                     </div>
                     
                     <!-- block for hpoc action : start -->                    
-                    <form data-ng-submit="vm.submit('FALSE');" ng-hide="vm.isSecretary">
+                    <form data-ng-submit="vm.sendToPharma('FALSE');" ng-show="vm.outPatient && !vm.isSecretary">
                         <div class="clearfix">
                             <span class="section-title">
 	                        	<b>Documents/Prescriptions to be uploaded</b>
@@ -194,7 +200,7 @@
                         </div>
                         <div class="col-xs-12 text-center">
                             <button type="submit" class="btn btn-success" ng-hide="vm.formSubmitted">
-                                Select Partners
+                                Send
                             </button>
                             <span style="color: #3ed01e;font-weight:bold;" ng-show="vm.formSubmitted">{{vm.pageMessage}}</span>
                         </div>
@@ -244,6 +250,54 @@
                         </div>
                     </form>
                     <!-- block for secretary action : end -->
+                    
+                    <!-- hospital bill details : start -->
+                    <form class="row" data-ng-submit="vm.hospitalBill();" ng-show="vm.inPatient && !vm.isSecretary">               
+                        <div class="col-xs-12">
+                            <b>Upload Bill Details </b>
+                            <i class="fa fa-plus-circle" aria-hidden="true" ng-click="vm.bill.push({'id':vm.bill.length})"></i>
+                            <i class="fa fa-minus-circle" aria-hidden="true" ng-click="vm.bill.pop();" ng-show="vm.bill.length > 1"></i>
+                        </div>
+                        <div ng-repeat="bill in vm.bill">
+                            <div class="input-box col-xs-12 col-md-4">
+                                <label>Bill number :
+                                    <req>*</req>
+                                </label>
+                                <input onpaste="return false;" type="text" data-ng-model="bill.partnerBillNo" maxlength="10" required placeholder="Enter Bill No" onkeypress="return validatephone(event);"/>
+                            </div>
+                            <div class="input-box col-xs-12 col-md-4">
+                                <label>Bill amount :
+                                    <req>*</req>
+                                </label>
+                                <input onpaste="return false;" type="text" data-ng-model="bill.partnerBillAmount" maxlength="10" required placeholder="Enter Bill Amount" onkeypress="return validatephone(event);"/>
+                            </div>
+                            <div class="input-box col-xs-12 col-md-4">
+                                <label>Bill File:
+                                    <req>*</req>
+                                </label>
+                                <input type="file" fileid="{{bill.id}}" onchange="angular.element(this).scope().vm.FilesSelection(this)" required/>
+                            </div>
+                        </div>
+                        
+                        <div class="input-box col-xs-12 col-md-8">
+                            <label>Comments :
+                                <req>*</req>
+                            </label>
+                            <textarea data-ng-model="vm.formData.comments" required rows="1" maxlength="200"> </textarea>
+                        </div>
+                        
+                        <div class="col-md-4 col-xs-12" style="margin-top: 36px;">
+                        	<md-checkbox data-ng-model="vm.formData.topUpSelect" required>
+                            	Topup Required
+                        	</md-checkbox>
+                        </div>
+                                
+                        <div class="text-center  col-xs-12">
+                        	<button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </form>
+                    <!-- hospital bill details : end -->
+                    
                 </div>
             </div>
         </div>
