@@ -1,15 +1,15 @@
 core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', '$timeout', 'Flash', 
-                                                function (Loader, $timeout, $scope, $state, $stateParams, apiService, appSettings, $timeout, Flash) {
+                                                   function (Loader, $timeout, $scope, $state, $stateParams, apiService, appSettings, $timeout, Flash) {
 
 	var vm = this;
 	vm.documentTypes = ['Lab Test Prescription', 'Medicine Prescription'];
-	
+
 	var init = function() {
 		if (appSettings.rolesList.indexOf('ROLE_SECRETARY') >= 0){
 			vm.isSecretary = true;
 		}
 		Loader.create('Fetching data... Please wait..');
-		varInit();
+		varInit(true);
 		if ($stateParams && $stateParams.pidn){			
 			vm.searchUser($stateParams.pidn);
 			vm.preLoad = true;
@@ -29,8 +29,9 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 	/**
 	 * 
 	 */
-	function varInit(){
-		vm.pidn = null;
+	function varInit(init){
+		if (init)
+			vm.pidn = null;
 		vm.formData = {};
 		vm.formData.topUp = false;
 		vm.patient = null;
@@ -38,16 +39,22 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		vm.patientFile = [{
 			id : 0
 		}];
+		vm.bill = [{
+			id : 0
+		}];
+		vm.inPatient = false; // resets the flag
+		vm.outPatient = false; // resets the flag
 	}
 	/**
 	 *  function to search the particular patient
 	 */
 	vm.searchUser = function(searchValue){
+		varInit();
 		Loader.create('Please wait while we Search patient.');
-		
+
 		vm.formSubmitted = false;		
 		var pidn = (searchValue) ? searchValue : vm.pidn; 
-		
+
 		// making the server call
 		apiService.serviceRequest({
 			URL: '/patientvisit/patient/' + pidn,
@@ -61,13 +68,13 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 				vm.toDay = new Date().toDateString();
 				vm.patient = response;
 				vm.noSearchResult = false;
-				
+
 				// checks if any requests is pending for the user				
 				if (response.workflowExists && !vm.isSecretary){					
 					vm.formSubmitted = true;
 					vm.pageMessage ="Requests pending for the patient. Please contact Sectretary.";
 				}
-				
+
 				vm.approvedTotal = 0;
 				vm.spendTotal = 0;
 				if (vm.patient.patientApprovals) {
@@ -75,21 +82,27 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 						vm.approvedTotal = vm.approvedTotal + vm.patient.patientApprovals[i].amount;
 					}
 				}
-				
+
 				if (vm.patient.invoicesList){
 					for (var i=0; i < vm.patient.invoicesList.length; i++){
 						vm.spendTotal = vm.spendTotal + vm.patient.invoicesList[i].amount;
 					}
 				}
 				vm.balAmount = vm.approvedTotal - vm.spendTotal;
-				
+
 				if (vm.isSecretary){
 					vm.patientVisitDocuments = vm.patient.patientVisitDocuments;
+				}
+				
+				if (vm.patient.patientBean && vm.patient.patientBean.patientType == 'inPatient') {
+					vm.inPatient = true;
+				} else if (vm.patient.patientBean && vm.patient.patientBean.patientType == 'outPatient') {
+					vm.outPatient = true;
 				}
 			}
 			Loader.destroy();
 		});
-		
+
 	};
 	/**
 	 *  function to handle file selection
@@ -109,14 +122,14 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 	/**
 	 *  function to handle save request
 	 */
-	vm.submit = function() {	
-	
+	vm.sendToPharma = function() {	
+
 		Loader.create('Sending data... Please wait...');		
-				
+
 		var fd = new FormData();
 		fd.append("pidn", vm.patient.patientBean.pidn);
 		fd.append("topupNeeded", (vm.formData.topUpSelect) ? 'TRUE' : 'FALSE');
-		
+
 		// checks to inlcude files selected
 		if (vm.patientFile && vm.patientFile.length > 0) {
 			for (var i = 0; i < vm.patientFile.length; i++){
@@ -128,7 +141,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 
 		fd.append("forwardList[0].accountTypeId", 3);			
 		fd.append("forwardList[0].accountHolderId", vm.formData.pharmacy);				
-		
+
 		// making the server call
 		apiService.serviceRequest({
 			URL: '/patientvisit',
@@ -145,19 +158,25 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 				varInit();
 			});			
 		});
-		
+
 	};
 	/**
 	 * 
 	 */
+	vm.hospitalBill = function (){
+		
+	}
+	/**
+	 * 
+	 */
 	vm.doTopup = function(approve){	
-		
+
 		Loader.create('Saving data... Please wait...');		
-		
+
 		var serverData = {};
 		serverData.pidn = vm.patient.patientBean.pidn;
 		serverData.patientVisitId = $stateParams.id;
-		
+
 		if (approve) {
 			serverData.patientApproval = [];
 			var hosAmount = {};
@@ -165,16 +184,16 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 			hosAmount.amount = vm.hospitalAmount; //vm.pharmacyAmount;
 			hosAmount.approvedForAccountTypeId = 5; // Hospital
 			serverData.patientApproval.push(hosAmount);
-			
+
 			var pharmaAmount = {};
 			pharmaAmount.pidn = vm.patient.patientBean.pidn;
 			pharmaAmount.amount = vm.pharmacyAmount;
 			pharmaAmount.approvedForAccountTypeId = 3; // Hospital
 			serverData.patientApproval.push(pharmaAmount);
 		}
-		
+
 		serverData.status = approve ? "TRUE" : "FALSE";
-		
+
 		// Submit /patientvisit/topup
 		// making the server call
 		apiService.serviceRequest({
@@ -194,7 +213,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		}, function (fail){
 			Flash.create('danger', fail.message, 'large-text');
 		});
-		
+
 	}
 	init();
 
