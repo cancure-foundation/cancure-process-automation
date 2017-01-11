@@ -194,9 +194,9 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		fd.append("amount", parseFloat(vm.formData.amount));
 
 		for (var i=0; i<vm.bill.length;i++){
-			fd.append("patientBillsBean[" + i + "].partnerBillNo",  vm.bill[i].partnerBillNo);
-			fd.append("patientBillsBean[" + i + "].partnerBillAmount",  parseFloat(vm.bill[i].partnerBillAmount));
-			fd.append("patientBillsBean[" + i + "].partnerBillFile",  vm.bill[i].file);
+			fd.append("patientBills[" + i + "].partnerBillNo",  vm.bill[i].partnerBillNo);
+			fd.append("patientBills[" + i + "].partnerBillAmount",  parseFloat(vm.bill[i].partnerBillAmount));
+			fd.append("patientBills[" + i + "].partnerBillFile",  vm.bill[i].file);
 		}	
 
 		// making the server call
@@ -211,7 +211,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		}, function (response) {			
 			Loader.destroy();
 			apiService.showAlert("Data Saved Successfully !!", function (){
-				init();
+				init(1);
 			});	
 		}, function (fail){
 			Flash.create('danger', 'Action Failed. Try Again!!', 'large-text');
