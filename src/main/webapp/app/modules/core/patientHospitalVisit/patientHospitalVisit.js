@@ -93,12 +93,34 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 				if (vm.isSecretary){
 					vm.patientVisitDocuments = vm.patient.patientVisitDocuments;
 				}
-				
+
 				if (vm.patient.patientBean && vm.patient.patientBean.patientType == 'inPatient') {
 					vm.inPatient = true;
 				} else if (vm.patient.patientBean && vm.patient.patientBean.patientType == 'outPatient') {
 					vm.outPatient = true;
 				}
+
+				$scope.$watch('vm.formData.amount', function (newValue, oldValue, scope) {
+					if (vm.formData.amount && parseInt(vm.formData.amount) > vm.balAmount){
+						vm.balErr = true;	
+						vm.billErr = false;			
+						document.getElementById('cancureRdAmt').value = null;
+					} else if (checkBill()) {
+						vm.balErr = true;
+						vm.billErr = true;			
+						document.getElementById('cancureRdAmt').value = null;
+					} else
+						vm.balErr = false;
+
+					function checkBill(){						
+						var billAmt = 0;
+						for (var i=0; i<vm.bill.length;i++){
+							billAmt = billAmt + parseInt(vm.bill[i].partnerBillAmount);
+						}
+						return vm.formData.amount > billAmt;
+					}
+				});
+
 			}
 			Loader.destroy();
 		});
@@ -120,7 +142,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		});
 	};
 	/**
-	 *  function to handle save request
+	 *  function to handle save request for out-paitent
 	 */
 	vm.sendToPharma = function() {	
 
@@ -155,19 +177,57 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		}, function (response) {
 			Loader.destroy();	
 			apiService.showAlert("Request Placed Successfully !!", function (){
-				varInit();
+				varInit(init);
 			});			
 		});
 
 	};
 	/**
-	 * 
+	 *  function to handle save for in-patient
 	 */
-	vm.hospitalBill = function (){
-		
-	}
+	vm.hospitalBill = function (){		
+		Loader.create('Saving Data .. Please wait ...');
+		var fd = new FormData();
+
+		fd.append("pidn", vm.pidn);
+		fd.append("comments", vm.formData.comments);
+		fd.append("amount", parseFloat(vm.formData.amount));
+
+		for (var i=0; i<vm.bill.length;i++){
+			fd.append("patientBills[" + i + "].partnerBillNo",  vm.bill[i].partnerBillNo);
+			fd.append("patientBills[" + i + "].partnerBillAmount",  parseFloat(vm.bill[i].partnerBillAmount));
+			fd.append("patientBills[" + i + "].partnerBillFile",  vm.bill[i].file);
+		}	
+
+		// making the server call
+		apiService.serviceRequest({
+			URL: '/patientvisit/inpatient',
+			method: 'POST',
+			payLoad: fd,
+			hideErrMsg : true,
+			headers: {
+				'Content-Type': undefined
+			}
+		}, function (response) {			
+			Loader.destroy();
+			apiService.showAlert("Data Saved Successfully !!", function (){
+				init(1);
+			});	
+		}, function (fail){
+			Flash.create('danger', 'Action Failed. Try Again!!', 'large-text');
+		}); 
+
+	};
 	/**
-	 * 
+	 *  function to handle file selection
+	 */
+	vm.billSelection = function(input){
+		var index = parseInt(input.attributes.fileid.value);
+		vm.bill[index].file = input.files[0];		
+		console.log(vm.bill)
+	};
+	/**
+	 *  function to handle save for secretary pop-up
 	 */
 	vm.doTopup = function(approve){	
 
@@ -179,17 +239,21 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 
 		if (approve) {
 			serverData.patientApproval = [];
-			var hosAmount = {};
-			hosAmount.pidn = vm.patient.patientBean.pidn;
-			hosAmount.amount = vm.hospitalAmount; //vm.pharmacyAmount;
-			hosAmount.approvedForAccountTypeId = 5; // Hospital
-			serverData.patientApproval.push(hosAmount);
+			if (vm.inPatient) {
+				var hosAmount = {};
+				hosAmount.pidn = vm.patient.patientBean.pidn;
+				hosAmount.amount = vm.hospitalAmount; //vm.pharmacyAmount;
+				hosAmount.approvedForAccountTypeId = 5; // Hospital
+				serverData.patientApproval.push(hosAmount);
+			}
 
-			var pharmaAmount = {};
-			pharmaAmount.pidn = vm.patient.patientBean.pidn;
-			pharmaAmount.amount = vm.pharmacyAmount;
-			pharmaAmount.approvedForAccountTypeId = 3; // Hospital
-			serverData.patientApproval.push(pharmaAmount);
+			if (vm.outPatient) {
+				var pharmaAmount = {};
+				pharmaAmount.pidn = vm.patient.patientBean.pidn;
+				pharmaAmount.amount = vm.pharmacyAmount;
+				pharmaAmount.approvedForAccountTypeId = 3; // Hospital
+				serverData.patientApproval.push(pharmaAmount);
+			}
 		}
 
 		serverData.status = approve ? "TRUE" : "FALSE";
