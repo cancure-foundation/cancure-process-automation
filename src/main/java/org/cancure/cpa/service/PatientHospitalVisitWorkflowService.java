@@ -13,4 +13,6 @@ public interface PatientHospitalVisitWorkflowService {
 	PatientVisitHistoryBean selectPatient(String pidn);
 
 	PatientVisitHistoryBean searchByPatientVisitId(String patientVisitId);
+
+    String startInPatientWorkflow(PatientVisitBean patientVisitBean, Integer myUserId) throws Exception;
 }

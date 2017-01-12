@@ -50,6 +50,26 @@ public class PatientVisitController {
 		
 	}
 
+	   @RequestMapping(value = "/patientvisit/inpatient", method = RequestMethod.POST)
+	    public String startInPatientHospitalVisit(PatientVisitBean patientHospitalVisitBean, OAuth2Authentication auth) throws Exception {
+	        if (auth != null) {
+	            List<String> roles = new ArrayList<>();
+	            for (GrantedAuthority a : auth.getAuthorities()){
+	                roles.add(a.getAuthority());
+	            }
+	            
+	            String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
+	            UserBean user = userService.getUserByLogin(login);
+	            Integer userId = user.getId();
+	            
+	            String pvId = service.startInPatientWorkflow(patientHospitalVisitBean, userId);
+	            return "{\"status\" : \"SUCCESS\",\"patientVisitId\" :" + pvId + "}";
+	        } else {
+	            throw new RuntimeException("Not logged in");
+	        }
+	        
+	    }
+	   
 	@RequestMapping(value = "/patientvisit/topup", method = RequestMethod.POST)
 	public String topUpApprovedAmount(@RequestBody TopupStatusBean topupBean) {
 		String taskId = service.topUpApprovedAmount(topupBean);
