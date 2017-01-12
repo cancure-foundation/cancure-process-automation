@@ -139,8 +139,11 @@
                                     <td class="col-xs-2">{{item.date | date}}</td>
                                     <td class="col-xs-3">
                                         <div ng-switch on="item.fromAccountTypeId">
+                                            <div ng-switch-when="2">Patient</div>
                                             <div ng-switch-when="3">Pharmacy</div>
-                                            <div ng-switch-default>Lab</div>
+                                            <div ng-switch-when="4">Lab</div>
+                                            <div ng-switch-when="5">Hospital</div>                                           
+                                            <div ng-switch-default>Cancure</div>
                                         </div>
                                     </td>
                                     <td class="col-xs-3">{{item.amount | currency:'₹'}}</td>

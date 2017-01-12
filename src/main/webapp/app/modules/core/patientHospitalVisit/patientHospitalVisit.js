@@ -192,6 +192,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		fd.append("pidn", vm.pidn);
 		fd.append("comments", vm.formData.comments);
 		fd.append("amount", parseFloat(vm.formData.amount));
+		fd.append("topupNeeded", (vm.formData.topUpSelect) ? 'TRUE' : 'FALSE');
 
 		for (var i=0; i<vm.bill.length;i++){
 			fd.append("patientBills[" + i + "].partnerBillNo",  vm.bill[i].partnerBillNo);
