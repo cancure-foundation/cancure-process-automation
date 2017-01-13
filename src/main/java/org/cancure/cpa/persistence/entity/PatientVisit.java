@@ -37,6 +37,12 @@ public class PatientVisit {
 	@Column(name="account_holder_id")
 	private Integer accountHolderId;
 	
+	@Column(name="topup_comments")
+	private String topupComments;
+	
+	@Column(name="topup_amount")
+	private Double topupAmount;
+	
 	@OneToMany(mappedBy="patientVisit", cascade = CascadeType.ALL)
 	private List<PatientVisitDocuments> patientVisitDocumentsList;
 	
@@ -106,5 +112,21 @@ public class PatientVisit {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+    public String getTopupComments() {
+        return topupComments;
+    }
+
+    public void setTopupComments(String topupComments) {
+        this.topupComments = topupComments;
+    }
+
+    public Double getTopupAmount() {
+        return topupAmount;
+    }
+
+    public void setTopupAmount(Double topupAmount) {
+        this.topupAmount = topupAmount;
+    }
 
 }

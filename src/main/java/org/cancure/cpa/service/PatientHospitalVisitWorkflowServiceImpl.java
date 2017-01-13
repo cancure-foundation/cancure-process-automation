@@ -177,7 +177,8 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		patientVisit.setAccountTypes(at);
 		patientVisit.setStatus(patientVisitBean.getStatus());
 		patientVisit.setAccountHolderId(Integer.parseInt(patientVisitBean.getAccountHolderId()));
-
+		patientVisit.setTopupComments(patientVisitBean.getTopupComments());
+		patientVisit.setTopupAmount(patientVisitBean.getTopupEstimateAmount());
 		if (patientVisitBean.getPatientHospitalVisitDocumentBeanList() != null) {
 			List<PatientVisitDocuments> patientVisitDocList = new ArrayList<>();
 			for (PatientVisitDocumentBean bean : patientVisitBean.getPatientHospitalVisitDocumentBeanList()) {
@@ -312,6 +313,10 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 					}
 					historyBean.setInvoicesList(invoiceBeanList);
 				}
+			}
+			if(openList.size() != 0){
+			    historyBean.setTopupComments(openList.get(0).getTopupComments());
+	            historyBean.setTopupEstimateAmount(openList.get(0).getTopupAmount());
 			}
 			
 			return historyBean;
