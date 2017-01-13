@@ -149,6 +149,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 				bean.setDate(fwd.getDate());
 				bean.setPidn(fwd.getPidn());
 				bean.setPatientVisitId(fwd.getPatientVisitId());
+				bean.setBillStatus(fwd.getStatus());
 
 				forwardsList.add(bean);
 				
@@ -341,6 +342,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
             patientBillBean.getPartnerBillFile().transferTo(file);
             patientBills.add(patientBill);
 		}
+		patientVisitForwardsRepository.updateBillStatus(bean.getBillStatus(), bean.getPatientVisitId());
 		patientBillService.savePatientBills(patientBills);
 		notifier.notifySecretary(entity, accountHolderName);
 		return entity.getId();
