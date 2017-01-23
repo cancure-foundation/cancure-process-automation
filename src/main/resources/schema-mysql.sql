@@ -299,7 +299,9 @@ create table patient_visit (
 	account_type_id int(10) references account_types(id),
 	account_holder_id int(10),
 	task_id varchar(10),
-	status varchar(10)
+	status varchar(10),
+	topup_comments varchar(2000),
+	topup_amount decimal(10,2)
 );
 
 create table approvals (

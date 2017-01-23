@@ -18,6 +18,8 @@ public class PatientVisitBean {
 	private List<PatientBillsBean> patientBills;
 	private String comments;
 	private Double amount;
+	private String topupComments;
+	private Double topupEstimateAmount;
 	
 	public String getTopupNeeded() {
 		return topupNeeded;
@@ -100,5 +102,18 @@ public class PatientVisitBean {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
+    public String getTopupComments() {
+        return topupComments;
+    }
+    public void setTopupComments(String topupComments) {
+        this.topupComments = topupComments;
+    }
+    public Double getTopupEstimateAmount() {
+        return topupEstimateAmount;
+    }
+    public void setTopupEstimateAmount(Double topupEstimateAmount) {
+        this.topupEstimateAmount = topupEstimateAmount;
+    }
+   
     
 }
