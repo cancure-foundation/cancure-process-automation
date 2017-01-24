@@ -230,7 +230,6 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 			List<PatientVisitForwards> forwards = patientVisitForwardsRepository
 					.findByAccountTypeIdAndAccountHolderIdAndPatientVisitId(approvedForAccountType, accountHolderId,
 							patientVisitBean.getId().intValue());
-			
 			if (forwards != null && forwards.size() == 1) {
 				
 				PatientVisitForwards fwdEntity = forwards.get(0);

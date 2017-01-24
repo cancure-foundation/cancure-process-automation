@@ -28,4 +28,9 @@ public class PatientBillServiceImpl implements PatientBillService {
         return patientBillRepo.findOne(billId);
     }
 
+    @Override
+    public List<PatientBills> getPatientBillByInvoice(Integer invoiceId) {
+        // TODO Auto-generated method stub
+        return patientBillRepo.findByInvoiceId(invoiceId);
+    }
 }

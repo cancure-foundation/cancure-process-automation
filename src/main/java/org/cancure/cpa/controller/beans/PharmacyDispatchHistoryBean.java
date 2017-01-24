@@ -2,9 +2,7 @@ package org.cancure.cpa.controller.beans;
 
 import java.util.List;
 
-import org.cancure.cpa.persistence.entity.InvoicesEntity;
-import org.cancure.cpa.persistence.entity.PatientApproval;
-import org.cancure.cpa.persistence.entity.PatientVisitForwards;
+import org.cancure.cpa.persistence.entity.PatientBills;
 
 public class PharmacyDispatchHistoryBean {
 
@@ -14,6 +12,7 @@ public class PharmacyDispatchHistoryBean {
 	private List<InvoicesBean> invoicesList;
 	private PatientBean patient;
 	private Double balance;
+	private List<PatientBills> patientBills;
 	public PatientBean getPatient() {
 		return patient;
 	}
@@ -49,6 +48,12 @@ public class PharmacyDispatchHistoryBean {
 	}
 	public void setBalance(Double balance) {
 		this.balance = balance;
+	}
+	public List<PatientBills> getPatientBills() {
+		return patientBills;
+	}
+	public void setPatientBills(List<PatientBills> patientBills) {
+		this.patientBills = patientBills;
 	}
 	
 }

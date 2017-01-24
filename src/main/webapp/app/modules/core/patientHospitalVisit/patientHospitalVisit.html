@@ -48,13 +48,13 @@
                             <td rowspan="5" class="user_img">
                                 <img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
                                 <i ng-hide="vm.profileSrc" class="fa fa-user" aria-hidden="true" />
-                                <div style="padding-bottom: 5px;"> 
+                                <div style="padding-bottom: 5px;">
                                     <b ng-switch on="vm.patient.patientBean.patientType">
                                     	<span ng-switch-when="inPatient">In-Patient Name : {{vm.patient.patientBean.name}}</span>
                                     	<span ng-switch-when="outPatient">Out-Patient Name : {{vm.patient.patientBean.name}}</span>
                                     	<span ng-switch-default>Patient Name : {{vm.patient.patientBean.name}}</span>
-                                    </b> 
-								</div>
+                                    </b>
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -142,7 +142,7 @@
                                             <div ng-switch-when="2">Patient</div>
                                             <div ng-switch-when="3">Pharmacy</div>
                                             <div ng-switch-when="4">Lab</div>
-                                            <div ng-switch-when="5">Hospital</div>                                           
+                                            <div ng-switch-when="5">Hospital</div>
                                             <div ng-switch-default>Cancure</div>
                                         </div>
                                     </td>
@@ -154,8 +154,8 @@
                             </tbody>
                         </table>
                     </div>
-                    
-                    <!-- block for hpoc action : start -->                    
+
+                    <!-- block for hpoc action : start -->
                     <form data-ng-submit="vm.sendToPharma('FALSE');" ng-show="vm.outPatient && !vm.isSecretary">
                         <div class="clearfix">
                             <span class="section-title">
@@ -200,6 +200,23 @@
                                     </md-checkbox>
                                 </div>
                             </div>
+                            <div class="row" ng-show="vm.formData.topUpSelect">
+                                <div class="input-box col-xs-12 col-md-4">
+                                    <label>Estimated Top-up Amount :
+                                        <req>*</req>
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">₹</div>
+                                        <input onpaste="return false;" type="text" data-ng-model="vm.formData.topupEstimateAmount" maxlength="10" ng-required="vm.formData.topUpSelect" placeholder="Enter Amount" onkeypress="return validatephone(event);" />
+                                    </div>
+                                </div>
+                                <div class="input-box col-xs-12 col-md-4">
+                                    <label>Comments :
+                                        <req>*</req>
+                                    </label>
+                                    <textarea data-ng-model="vm.formData.topupComments" ng-required="vm.formData.topUpSelect" rows="1" maxlength="200" placeholder="Enter comments for top-up request"> </textarea>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-xs-12 text-center">
                             <button type="submit" class="btn btn-success" ng-hide="vm.formSubmitted">
@@ -209,13 +226,13 @@
                         </div>
                     </form>
                     <!-- block for hpoc action : end -->
-                    
-                    
+
                     <!-- block for secretary action : start -->
                     <form ng-show="vm.isSecretary" data-ng-submit="vm.doTopup(true);">
-                    	<b> Prescriptions to the patient</b> <br>
-                    	 <i>(These are documents uploaded during patient's hospital visit)</i>
-                    	 <bR>
+                        <b> Prescriptions to the patient</b>
+                        <br>
+                        <i>(These are documents uploaded during patient's hospital visit)</i>
+                        <bR>
                         <table class="table table-bordered" ng-show="vm.patientVisitDocuments.length > 0" style="max-width: 690px;">
                             <thead>
                                 <tr>
@@ -227,6 +244,24 @@
                                 <tr ng-repeat="item in vm.patientVisitDocuments">
                                     <td class="col-xs-3">{{item.docType}}</td>
                                     <td class="col-xs-2"><a href="/files/patientvisit/{{item.docId}}">View</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <b> Top-up Details</b>
+                        <br>
+                        <i>(These are comments entered when top-up request is been placed.)</i>
+                        <bR>
+                        <table class="table table-bordered" ng-show="vm.patientVisitDocuments.length > 0" style="max-width: 690px;">
+                            <thead>
+                                <tr>
+                                    <th class="col-xs-3">Requested Top-up Amount</th>
+                                    <th class="col-xs-2">Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in vm.patientVisitDocuments">
+                                    <td class="col-xs-3">{{vm.patient.topupEstimateAmount | currency:'₹'}}</td>
+                                    <td class="col-xs-2">{{vm.patient.topupComments}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -248,14 +283,14 @@
                             </button>
                             <input type="clear" class="btn btn-warning" ng-click="vm.doTopup(false)" value="Reject Request" readonly ng-hide="vm.formSubmitted">
                             <div class="text-center">
-                            	<span style="color: #3ed01e;font-weight:bold;" ng-show="vm.formSubmitted">{{vm.pageMessage}}</span>
+                                <span style="color: #3ed01e;font-weight:bold;" ng-show="vm.formSubmitted">{{vm.pageMessage}}</span>
                             </div>
                         </div>
                     </form>
                     <!-- block for secretary action : end -->
-                    
+
                     <!-- hospital bill details : start -->
-                    <form class="row" data-ng-submit="vm.hospitalBill();" ng-show="vm.inPatient && !vm.isSecretary">               
+                    <form class="row" data-ng-submit="vm.hospitalBill();" ng-show="vm.inPatient && !vm.isSecretary">
                         <div class="col-xs-12">
                             <b>Upload Bill Details </b>
                             <i class="fa fa-plus-circle" aria-hidden="true" ng-click="vm.bill.push({'id':vm.bill.length})"></i>
@@ -266,13 +301,13 @@
                                 <label>Bill number :
                                     <req>*</req>
                                 </label>
-                                <input onpaste="return false;" type="text" data-ng-model="bill.partnerBillNo" maxlength="10" required placeholder="Enter Bill No" onkeypress="return validatephone(event);"/>
+                                <input onpaste="return false;" type="text" data-ng-model="bill.partnerBillNo" maxlength="10" required placeholder="Enter Bill No" onkeypress="return validatephone(event);" />
                             </div>
                             <div class="input-box col-xs-12 col-md-4">
                                 <label>Bill amount :
                                     <req>*</req>
                                 </label>
-                                <input onpaste="return false;" type="text" data-ng-model="bill.partnerBillAmount" maxlength="10" required placeholder="Enter Bill Amount" onkeypress="return validatephone(event);"/>
+                                <input onpaste="return false;" type="text" data-ng-model="bill.partnerBillAmount" maxlength="10" required placeholder="Enter Bill Amount" onkeypress="return validatephone(event);" />
                             </div>
                             <div class="input-box col-xs-12 col-md-4">
                                 <label>Bill File:
@@ -281,38 +316,46 @@
                                 <input type="file" fileid="{{bill.id}}" onchange="angular.element(this).scope().vm.billSelection(this)" required/>
                             </div>
                         </div>
-                        
+
                         <div class="input-box col-xs-12 col-md-4">
                             <label>Cancure Amount Redeemed :
                                 <req>*</req>
                             </label>
-                            <input onpaste="return false;" id="cancureRdAmt" type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount" onkeypress="return validatephone(event);"/>
+                            <input onpaste="return false;" id="cancureRdAmt" type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount" onkeypress="return validatephone(event);" />
                         </div>
-                        
-                        <div class="input-box col-xs-12 col-md-4">
-                            <label>Comments :
-                                <req>*</req>
-                            </label>
-                            <textarea data-ng-model="vm.formData.comments" required rows="1" maxlength="200"> </textarea>
-                        </div>
-                        
+
                         <div class="col-md-4 col-xs-12" style="margin-top: 36px;">
-                        	<md-checkbox data-ng-model="vm.formData.topUpSelect" required>
-                            	Topup Required
-                        	</md-checkbox>
+                            <md-checkbox data-ng-model="vm.formData.topUpSelect" required>
+                                Topup Required
+                            </md-checkbox>
                         </div>
-                             
+
+                        <div class="col-xs-12" ng-show="vm.formData.topUpSelect">
+                            <div class="input-box col-xs-12 col-md-4" style="padding-left: 0px;">
+                                <label>Estimated TopUp Amount :
+                                    <req>*</req>
+                                </label>
+                                <input onpaste="return false;" type="text" data-ng-model="vm.formData.topupEstimateAmount" maxlength="10" ng-required="vm.formData.topUpSelect" placeholder="Enter Amount" onkeypress="return validatephone(event);" />
+                            </div>
+                            <div class="input-box col-xs-12 col-md-4">
+                                <label>Comments :
+                                    <req>*</req>
+                                </label>
+                                <textarea data-ng-model="vm.formData.topupComments" ng-required="vm.formData.topUpSelect" rows="1" maxlength="200"> </textarea>
+                            </div>
+                        </div>
+
                         <div class="col-xs-12" ng-show="vm.balErr" style="color: #ff0000;">
-                        	<span ng-hide="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds available balance (<b>{{vm.balAmount | currency:'₹'}}</b>) in patient account.</span>
-                        	<span ng-show="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds pharmacy bill amount.</span>
+                            <span ng-hide="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds available balance (<b>{{vm.balAmount | currency:'₹'}}</b>) in patient account.</span>
+                            <span ng-show="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds pharmacy bill amount.</span>
                         </div>
-                           
+
                         <div class="text-center  col-xs-12">
-                        	<button type="submit" class="btn btn-success">Submit</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                     </form>
                     <!-- hospital bill details : end -->
-                    
+
                 </div>
             </div>
         </div>

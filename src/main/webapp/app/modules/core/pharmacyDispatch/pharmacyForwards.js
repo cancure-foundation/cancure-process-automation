@@ -80,9 +80,11 @@ core.controller("PharmacyForwardsController", ['Loader', '$scope', '$state', '$s
 			method: 'GET',
 			hideErrMsg : true
 		}, function (response) {
+			vm.formData.patientVisitId = response.patientVisitForwards.patientVisitId;
 			vm.visitDetails = true;
 			vm.visitDate = item.date;
 			vm.visitDocs = response.patientVisitBean.patientHospitalVisitDocumentBeanList;			
+			vm.formData.closeBill = "close";
 			Loader.destroy();
 		}, function (fail){
 			Flash.create('danger', fail.message, 'large-text');
@@ -98,6 +100,9 @@ core.controller("PharmacyForwardsController", ['Loader', '$scope', '$state', '$s
 		fd.append("pidn", vm.patient.pidn);
 		fd.append("comments", vm.formData.comments);
 		fd.append("amount", parseFloat(vm.formData.amount));
+		fd.append("billStatus", vm.formData.closeBill);
+		fd.append("patientVisitId", vm.formData.patientVisitId);
+		debugger
 		
 		for (var i=0; i<vm.bill.length;i++){
 			fd.append("patientBillsBean[" + i + "].partnerBillNo",  vm.bill[i].partnerBillNo);
