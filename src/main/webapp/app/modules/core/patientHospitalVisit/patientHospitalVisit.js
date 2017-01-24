@@ -72,7 +72,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 				// checks if any requests is pending for the user				
 				if (response.workflowExists && !vm.isSecretary){					
 					vm.formSubmitted = true;
-					vm.pageMessage ="Requests pending for the patient. Please contact Sectretary.";
+					vm.pageMessage ="Requests pending for the patient. Please contact Secretary.";
 				}
 
 				vm.approvedTotal = 0;
@@ -151,6 +151,8 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		var fd = new FormData();
 		fd.append("pidn", vm.patient.patientBean.pidn);
 		fd.append("topupNeeded", (vm.formData.topUpSelect) ? 'TRUE' : 'FALSE');
+		fd.append("topupEstimateAmount", vm.formData.topupEstimateAmount);
+		fd.append("topupComments", vm.formData.topupComments);
 
 		// checks to inlcude files selected
 		if (vm.patientFile && vm.patientFile.length > 0) {
@@ -225,7 +227,6 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 	vm.billSelection = function(input){
 		var index = parseInt(input.attributes.fileid.value);
 		vm.bill[index].file = input.files[0];		
-		console.log(vm.bill)
 	};
 	/**
 	 *  function to handle save for secretary pop-up

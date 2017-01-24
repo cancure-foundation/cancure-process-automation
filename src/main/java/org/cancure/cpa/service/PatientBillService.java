@@ -9,4 +9,6 @@ public interface PatientBillService {
     String savePatientBills(List<PatientBills> patientBills);
     
     PatientBills getPatientBills(Integer billId);
+
+	List<PatientBills> getPatientBillByInvoice(Integer invoiceId);
 }

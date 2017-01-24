@@ -86,13 +86,20 @@
                     <table class="table table-bordered" style="margin-bottom: 0px;max-width: 690px;" ng-hide="vm.visitDetails">
                         <thead>
                             <tr>
-                                <th class="col-xs-3">Date</th>
+                                <th class="col-xs-6">Date</th>
+                                <th class="col-xs-3">Status</th>
                                 <th class="col-xs-3">View</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in vm.visits | orderBy : 'patientVisitId'">
+                            <tr ng-repeat="item in vm.visits | orderBy :'item.date':true">
                                 <td class="col-xs-3">{{item.date | date : 'medium'}}</td>
+                                <td class="col-xs-3">
+                                	<span ng-switch="item.billStatus">
+                                		<span ng-switch-when="open" class="bal-green" style="font-size: 14px">Open</span>
+                                		<span ng-switch-default style="font-weight: bold;">Closed</span>
+                                	</span>
+                                </td>
                                 <td class="col-xs-3"><span style="color: #3c8dbc;" data-ng-click="vm.fetchVisit(item);">View</span></td>
                             </tr>
                         </tbody>
@@ -161,6 +168,19 @@
                             </label>
                             <textarea data-ng-model="vm.formData.comments" required rows="1" maxlength="200"> </textarea>
                         </div>
+                         <div class="input-box col-xs-12">
+                            <label>
+                            	<span style="display: block;">Can the bill be closed ?</span>
+                            	<i style="font-size: 14px;font-weight: normal;">(Mark the bill as closed if all items in the prescription are dispatched)</i>  
+                            </label>                       		                          
+                            <div>
+                            	<md-radio-group ng-model="vm.formData.closeBill">
+      								<md-radio-button value="close" class="md-primary" style="display:inline;margin-right:8px;">Close Bill</md-radio-button>
+      								<md-radio-button value="open" style="display:inline;">Keep Bill Open</md-radio-button>
+    							</md-radio-group>
+                            </div>
+                        </div>
+                        
                         <div class="col-xs-12" ng-show="vm.balErr" style="color: #ff0000;">
                         	<span ng-hide="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds available balance (<b>{{vm.balance | currency:'₹'}}</b>) in patient account.</span>
                         	<span ng-show="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds pharmacy bill amount.</span>
