@@ -88,38 +88,66 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 						vm.spendTotal = vm.spendTotal + vm.patient.invoicesList[i].amount;
 					}
 				}
-				vm.balAmount = vm.approvedTotal - vm.spendTotal;
+				
+				vm.balAmount = vm.approvedTotal - vm.spendTotal; // calculates the balance amount
 
+				// sets the flags to indicate patient-type
+				if (vm.patient.patientBean && vm.patient.patientBean.patientType == 'inPatient') {
+					vm.inPatient = true; // indicate patient is an in-patient
+				} else if (vm.patient.patientBean && vm.patient.patientBean.patientType == 'outPatient') {
+					vm.outPatient = true; // indicate the patient is an out-patient
+				}
+
+				// checks if secretary to make UI changes
 				if (vm.isSecretary){
 					vm.patientVisitDocuments = vm.patient.patientVisitDocuments;
-				}
-
-				if (vm.patient.patientBean && vm.patient.patientBean.patientType == 'inPatient') {
-					vm.inPatient = true;
-				} else if (vm.patient.patientBean && vm.patient.patientBean.patientType == 'outPatient') {
-					vm.outPatient = true;
-				}
-
-				$scope.$watch('vm.formData.amount', function (newValue, oldValue, scope) {
-					if (vm.formData.amount && parseInt(vm.formData.amount) > vm.balAmount){
-						vm.balErr = true;	
-						vm.billErr = false;			
-						document.getElementById('cancureRdAmt').value = null;
-					} else if (checkBill()) {
-						vm.balErr = true;
-						vm.billErr = true;			
-						document.getElementById('cancureRdAmt').value = null;
-					} else
-						vm.balErr = false;
-
-					function checkBill(){						
-						var billAmt = 0;
-						for (var i=0; i<vm.bill.length;i++){
-							billAmt = billAmt + parseInt(vm.bill[i].partnerBillAmount);
-						}
-						return vm.formData.amount > billAmt;
+					if(vm.inPatient){
+						// watch to check if secretary entered amount exceeds the requested amount
+						$scope.$watch('vm.hospitalAmount', function (newValue, oldValue, scope) {
+							if (vm.hospitalAmount && newValue){
+								if (parseInt(vm.hospitalAmount) > vm.patient.topupEstimateAmount){
+									vm.balErr = true;
+									vm.hospitalAmount = null;
+								} else {
+									vm.balErr = false;
+								}
+							}
+						});
+					} else{
+						// watch to check if secretary entered amount exceeds the requested amount
+						$scope.$watch('vm.pharmacyAmount', function (newValue, oldValue, scope) {
+							if (vm.pharmacyAmount && newValue){
+								if (parseInt(vm.pharmacyAmount) > vm.patient.topupEstimateAmount){
+									vm.balErr = true;
+									vm.pharmacyAmount = null;
+								} else {
+									vm.balErr = false;
+								}
+							}
+						});
 					}
-				});
+				} else {
+					$scope.$watch('vm.formData.amount', function (newValue, oldValue, scope) {
+						if (vm.formData.amount && parseInt(vm.formData.amount) > vm.balAmount){
+							vm.balErr = true;	
+							vm.billErr = false;			
+							document.getElementById('cancureRdAmt').value = null;
+						} else if (checkBill()) {
+							vm.balErr = true;
+							vm.billErr = true;			
+							document.getElementById('cancureRdAmt').value = null;
+						} else
+							vm.balErr = false;
+
+						function checkBill(){						
+							var billAmt = 0;
+							for (var i=0; i<vm.bill.length;i++){
+								billAmt = billAmt + parseInt(vm.bill[i].partnerBillAmount);
+							}
+							return vm.formData.amount > billAmt;
+						}
+					});
+				}
 
 			}
 			Loader.destroy();

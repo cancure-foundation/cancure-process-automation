@@ -269,13 +269,22 @@
                             <label>Additional Amount for Pharmacy
                                 <req>*</req>
                             </label>
-                            <input type="text" data-ng-model="vm.pharmacyAmount" maxlength="10" ng-required="vm.outPatient" placeholder="Enter Pharmacy Amount" onkeypress="return validatephone(event);" />
+                            <div class="input-group">
+                                <div class="input-group-addon">₹</div>
+                                <input type="text" data-ng-model="vm.pharmacyAmount" maxlength="10" ng-required="vm.outPatient" placeholder="Enter Pharmacy Amount" onkeypress="return validatephone(event);" />
+                            </div>
                         </div>
                         <div class="input-box col-xs-12 col-md-4" style="padding-left: 0;" ng-show="vm.inPatient">
                             <label>Additional Amount for Hospital
                                 <req>*</req>
                             </label>
-                            <input type="text" data-ng-model="vm.hospitalAmount" maxlength="10" ng-required="vm.inPatient" placeholder="Enter Hospital Amount" onkeypress="return validatephone(event);" />
+                            <div class="input-group">
+                                <div class="input-group-addon">₹</div>
+                                <input type="text" data-ng-model="vm.hospitalAmount" maxlength="10" ng-required="vm.inPatient" placeholder="Enter Hospital Amount" onkeypress="return validatephone(event);" />
+                            </div>
+                        </div>
+                        <div class="col-xs-12" style="color: #ff0000;padding: 0px 0px 15px 0px; font-weight: bold;" ng-show="vm.balErr">
+	                        	Amount exceeds requested top-up amount ({{vm.patient.topupEstimateAmount | currency:'₹'}}).
                         </div>
                         <div class="col-xs-12">
                             <button type="submit" class="btn btn-success" style="margin-right: 8px;" ng-hide="vm.formSubmitted">
@@ -321,7 +330,10 @@
                             <label>Cancure Amount Redeemed :
                                 <req>*</req>
                             </label>
-                            <input onpaste="return false;" id="cancureRdAmt" type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount" onkeypress="return validatephone(event);" />
+                            <div class="input-group">
+                                <div class="input-group-addon">₹</div>
+                                <input onpaste="return false;" id="cancureRdAmt" type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount" onkeypress="return validatephone(event);" />
+                            </div>
                         </div>
 
                         <div class="col-md-4 col-xs-12" style="margin-top: 36px;">
