@@ -26,7 +26,7 @@
                             <label>PIDN
                                 <req>*</req>
                             </label>
-                            <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" onkeypress="return validatephone(event);" maxlength="5"/>
+                            <input type="text" data-ng-model="vm.pidn" required placeholder="Enter PIDN" onkeypress="return validatephone(event);" maxlength="5" />
                         </div>
                         <div class="col-md-4 col-xs-12" style="margin-top:26px;">
                             <input type="submit" class="btn btn-success" value="Search">
@@ -73,7 +73,7 @@
                             <td colspan="3" class="text-center"><b>Total Income : {{vm.patient.totalIncome | currency:'₹'}}</b></td>
                         </tr>
                         <tr>
-                         	<td colspan="1" class="text-center"><b>Balance Amount</b></td>
+                            <td colspan="1" class="text-center"><b>Balance Amount</b></td>
                             <td colspan="3" class="text-center"><b>
                             <span ng-class="(vm.balance > 5000) ? 'bal-green' : ((vm.balance > 2000)? 'bal-orange': 'bal-red')">                            
                             {{vm.balance | currency:'₹'}}</span></b></td>
@@ -95,10 +95,10 @@
                             <tr ng-repeat="item in vm.visits | orderBy :'item.date':true">
                                 <td class="col-xs-3">{{item.date | date : 'medium'}}</td>
                                 <td class="col-xs-3">
-                                	<span ng-switch="item.billStatus">
+                                    <span ng-switch="item.billStatus">
                                 		<span ng-switch-when="open" class="bal-green" style="font-size: 14px">Open</span>
-                                		<span ng-switch-default style="font-weight: bold;">Closed</span>
-                                	</span>
+                                    <span ng-switch-default style="font-weight: bold;">Closed</span>
+                                    </span>
                                 </td>
                                 <td class="col-xs-3"><span style="color: #3c8dbc;" data-ng-click="vm.fetchVisit(item);">View</span></td>
                             </tr>
@@ -108,46 +108,49 @@
 
                     <!-- patient visit details : start -->
                     <form class="row" ng-show="vm.visitDetails" data-ng-submit="vm.submit();">
-                    	<div class="col-xs-12" style="font-size: 18px;font-weight: bold;">
-                    		<i style="color: #3c8dbc;outline:none;" ng-click="vm.visitDetails=null;" class="fa fa-arrow-circle-left" aria-hidden="true"></i>
-                    		<u>Details of patient visit on {{vm.visitDate | date}} </u>
-                    	</div>
-                       	<div class="col-xs-12">
-                       		 <b>Prescriptions</b>
-                       		 <br>
-                       		 <i>(These are prescriptions uploaded during patient visit)</i>
-                       		 <table class="table table-bordered" ng-show="vm.visitDocs.length > 0" style="max-width: 690px;">
-                            <thead>
-                                <tr>
-                                    <th class="col-xs-3">Document Type</th>
-                                    <th class="col-xs-2">View</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="item in vm.visitDocs">
-                                    <td class="col-xs-3">{{item.docType}}</td>
-                                    <td class="col-xs-3"><a href="files/{{item.docId}}">View</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                       	</div>                        
+                        <div class="col-xs-12" style="font-size: 18px;font-weight: bold;">
+                            <i style="color: #3c8dbc;outline:none;" ng-click="vm.visitDetails=null;" class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+                            <u>Details of patient visit on {{vm.visitDate | date}} </u>
+                        </div>
+                        <div class="col-xs-12">
+                            <b>Prescriptions</b>
+                            <br>
+                            <i>(These are prescriptions uploaded during patient visit)</i>
+                            <table class="table table-bordered" ng-show="vm.visitDocs.length > 0" style="max-width: 690px;">
+                                <thead>
+                                    <tr>
+                                        <th class="col-xs-3">Document Type</th>
+                                        <th class="col-xs-2">View</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in vm.visitDocs">
+                                        <td class="col-xs-3">{{item.docType}}</td>
+                                        <td class="col-xs-3"><a href="files/{{item.docId}}">View</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="col-xs-12">
                             <b>Upload Bill Details </b>
                             <i class="fa fa-plus-circle" aria-hidden="true" ng-click="vm.bill.push({'id':vm.bill.length})"></i>
-                            <i class="fa fa-minus-circle" aria-hidden="true" ng-click="vm.bill.pop();" ng-show="vm.bill.length > 1"></i>
+                            <i class="fa fa-minus-circle" aria-hidden="true" ng-click="vm.bill.pop();vm.calcBillTotal();" ng-show="vm.bill.length > 1"></i>
                         </div>
                         <div ng-repeat="bill in vm.bill">
                             <div class="input-box col-xs-12 col-md-4">
                                 <label>Bill number :
                                     <req>*</req>
                                 </label>
-                                <input onpaste="return false;" type="text" data-ng-model="bill.partnerBillNo" maxlength="10" required placeholder="Enter Bill No" onkeypress="return validatephone(event);"/>
+                                <input onpaste="return false;" type="text" data-ng-model="bill.partnerBillNo" maxlength="10" required placeholder="Enter Bill No" onkeypress="return validatephone(event);" />
                             </div>
                             <div class="input-box col-xs-12 col-md-4">
                                 <label>Bill amount :
                                     <req>*</req>
                                 </label>
-                                <input onpaste="return false;" type="text" data-ng-model="bill.partnerBillAmount" maxlength="10" required placeholder="Enter Bill Amount" onkeypress="return validatephone(event);"/>
+                                <div class="input-group">
+                                    <div class="input-group-addon">₹</div>
+                                    <input onpaste="return false;" type="text" ng-change="vm.calcBillTotal();" data-ng-model="bill.partnerBillAmount" maxlength="10" required placeholder="Enter Bill Amount" onkeypress="return validatephone(event);" />
+                                </div>
                             </div>
                             <div class="input-box col-xs-12 col-md-4">
                                 <label>Bill File:
@@ -156,11 +159,19 @@
                                 <input type="file" fileid="{{bill.id}}" onchange="angular.element(this).scope().vm.FilesSelection(this)" required/>
                             </div>
                         </div>
+                        
+                        <div class="col-xs-12" style="padding-bottom: 15px;font-size: 16px;font-weight: bold;">
+							Bill Total : {{vm.billTotal || 0 | currency:'₹'}}
+						</div>
+						
                         <div class="input-box col-xs-12 col-md-4">
                             <label>Cancure Amount Redeemed :
                                 <req>*</req>
                             </label>
-                            <input onpaste="return false;" id="cancureRdAmt" type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount" onkeypress="return validatephone(event);"/>
+                            <div class="input-group">
+                                <div class="input-group-addon">₹</div>
+                                <input ng-disabled="!vm.bill[0].partnerBillAmount" onpaste="return false;" id="cancureRdAmt" type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount" onkeypress="return validatephone(event);" />
+                            </div>
                         </div>
                         <div class="input-box col-xs-12 col-md-8">
                             <label>Comments :
@@ -168,25 +179,25 @@
                             </label>
                             <textarea data-ng-model="vm.formData.comments" required rows="1" maxlength="200"> </textarea>
                         </div>
-                         <div class="input-box col-xs-12">
+                        <div class="input-box col-xs-12">
                             <label>
-                            	<span style="display: block;">Can the bill be closed ?</span>
-                            	<i style="font-size: 14px;font-weight: normal;">(Mark the bill as closed if all items in the prescription are dispatched)</i>  
-                            </label>                       		                          
+                                <span style="display: block;">Can the bill be closed ?</span>
+                                <i style="font-size: 14px;font-weight: normal;">(Mark the bill as closed if all items in the prescription are dispatched)</i>
+                            </label>
                             <div>
-                            	<md-radio-group ng-model="vm.formData.closeBill">
-      								<md-radio-button value="close" class="md-primary" style="display:inline;margin-right:8px;">Close Bill</md-radio-button>
-      								<md-radio-button value="open" style="display:inline;">Keep Bill Open</md-radio-button>
-    							</md-radio-group>
+                                <md-radio-group ng-model="vm.formData.closeBill">
+                                    <md-radio-button value="close" class="md-primary" style="display:inline;margin-right:8px;">Close Bill</md-radio-button>
+                                    <md-radio-button value="open" style="display:inline;">Keep Bill Open</md-radio-button>
+                                </md-radio-group>
                             </div>
                         </div>
-                        
+
                         <div class="col-xs-12" ng-show="vm.balErr" style="color: #ff0000;">
-                        	<span ng-hide="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds available balance (<b>{{vm.balance | currency:'₹'}}</b>) in patient account.</span>
-                        	<span ng-show="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds pharmacy bill amount.</span>
+                            <span ng-hide="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds available balance (<b>{{vm.balance | currency:'₹'}}</b>) in patient account.</span>
+                            <span ng-show="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds pharmacy bill amount.</span>
                         </div>
                         <div class="text-center">
-                        	<button type="submit" class="btn btn-success">Submit</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                     </form>
                     <!-- patient visit details : end -->
