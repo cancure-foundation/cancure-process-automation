@@ -64,6 +64,19 @@ core.controller("PharmacyForwardsController", ['Loader', '$scope', '$state', '$s
 		});
 	};
 	/**
+	 *  to calculate bill total
+	 */
+	vm.calcBillTotal = function (){
+		vm.billTotal = 0;
+		for (var i=0; i<vm.bill.length;i++){
+			if (vm.bill[i].partnerBillAmount)
+				vm.billTotal = vm.billTotal + parseInt(vm.bill[i].partnerBillAmount);
+		}
+		
+		if(vm.billTotal == 0)
+			vm.formData.amount = 0;
+	};
+	/**
 	 *  function to handle file selection
 	 */
 	vm.FilesSelection = function(input){

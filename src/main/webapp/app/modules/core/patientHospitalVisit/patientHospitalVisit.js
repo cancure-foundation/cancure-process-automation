@@ -88,7 +88,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 						vm.spendTotal = vm.spendTotal + vm.patient.invoicesList[i].amount;
 					}
 				}
-				
+
 				vm.balAmount = vm.approvedTotal - vm.spendTotal; // calculates the balance amount
 
 				// sets the flags to indicate patient-type
@@ -127,32 +127,50 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 						});
 					}
 				} else {
-					$scope.$watch('vm.formData.amount', function (newValue, oldValue, scope) {
-						if (vm.formData.amount && parseInt(vm.formData.amount) > vm.balAmount){
-							vm.balErr = true;	
-							vm.billErr = false;			
-							document.getElementById('cancureRdAmt').value = null;
-						} else if (checkBill()) {
-							vm.balErr = true;
-							vm.billErr = true;			
-							document.getElementById('cancureRdAmt').value = null;
-						} else
-							vm.balErr = false;
+					if(vm.inPatient){
+						// watch to check cancure redeemed amount exceed bill amount or available balance
+						$scope.$watch('vm.formData.amount', function (newValue, oldValue, scope) {
+							if (vm.formData.amount && parseInt(vm.formData.amount) > vm.balAmount){
+								vm.balErr = true;	
+								vm.billErr = false;			
+								document.getElementById('cancureRdAmt').value = null;
+							} else if (vm.formData.amount > vm.billTotal) {
+								vm.balErr = true;
+								vm.billErr = true;			
+								document.getElementById('cancureRdAmt').value = null;
+							} else
+								vm.balErr = false;
 
-						function checkBill(){						
-							var billAmt = 0;
-							for (var i=0; i<vm.bill.length;i++){
-								billAmt = billAmt + parseInt(vm.bill[i].partnerBillAmount);
+							function checkBill(){						
+								var billAmt = 0;
+								for (var i=0; i<vm.bill.length;i++){
+									billAmt = billAmt + parseInt(vm.bill[i].partnerBillAmount);
+								}
+								return vm.formData.amount > billAmt;
 							}
-							return vm.formData.amount > billAmt;
-						}
-					});
+						});						
+					} else {
+
+					}
 				}
 
 			}
 			Loader.destroy();
 		});
 
+	};
+	/**
+	 *  to calculate bill total
+	 */
+	vm.calcBillTotal = function (){
+		vm.billTotal = 0;
+		for (var i=0; i<vm.bill.length;i++){
+			if (vm.bill[i].partnerBillAmount)
+				vm.billTotal = vm.billTotal + parseInt(vm.bill[i].partnerBillAmount);
+		}
+		
+		if(vm.billTotal == 0)
+			vm.formData.amount = 0;
 	};
 	/**
 	 *  function to handle file selection

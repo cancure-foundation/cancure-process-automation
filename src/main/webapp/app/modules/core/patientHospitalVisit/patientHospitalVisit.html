@@ -284,7 +284,7 @@
                             </div>
                         </div>
                         <div class="col-xs-12" style="color: #ff0000;padding: 0px 0px 15px 0px; font-weight: bold;" ng-show="vm.balErr">
-	                        	Amount exceeds requested top-up amount ({{vm.patient.topupEstimateAmount | currency:'₹'}}).
+                            Amount exceeds requested top-up amount ({{vm.patient.topupEstimateAmount | currency:'₹'}}).
                         </div>
                         <div class="col-xs-12">
                             <button type="submit" class="btn btn-success" style="margin-right: 8px;" ng-hide="vm.formSubmitted">
@@ -303,7 +303,7 @@
                         <div class="col-xs-12">
                             <b>Upload Bill Details </b>
                             <i class="fa fa-plus-circle" aria-hidden="true" ng-click="vm.bill.push({'id':vm.bill.length})"></i>
-                            <i class="fa fa-minus-circle" aria-hidden="true" ng-click="vm.bill.pop();" ng-show="vm.bill.length > 1"></i>
+                            <i class="fa fa-minus-circle" aria-hidden="true" ng-click="vm.bill.pop(); vm.calcBillTotal();" ng-show="vm.bill.length > 1"></i>
                         </div>
                         <div ng-repeat="bill in vm.bill">
                             <div class="input-box col-xs-12 col-md-4">
@@ -316,7 +316,10 @@
                                 <label>Bill amount :
                                     <req>*</req>
                                 </label>
-                                <input onpaste="return false;" type="text" data-ng-model="bill.partnerBillAmount" maxlength="10" required placeholder="Enter Bill Amount" onkeypress="return validatephone(event);" />
+                                <div class="input-group">
+                                    <div class="input-group-addon">₹</div>
+                                    <input onpaste="return false;" type="text" ng-change="vm.calcBillTotal();" data-ng-model="bill.partnerBillAmount" maxlength="10" required placeholder="Enter Bill Amount" onkeypress="return validatephone(event);" />
+                                </div>
                             </div>
                             <div class="input-box col-xs-12 col-md-4">
                                 <label>Bill File:
@@ -326,13 +329,17 @@
                             </div>
                         </div>
 
+                        <div class="col-xs-12" style="padding-bottom: 15px;font-size: 16px;font-weight: bold;">
+                            Bill Total : {{vm.billTotal || 0 | currency:'₹'}}
+                        </div>
+
                         <div class="input-box col-xs-12 col-md-4">
                             <label>Cancure Amount Redeemed :
                                 <req>*</req>
                             </label>
                             <div class="input-group">
                                 <div class="input-group-addon">₹</div>
-                                <input onpaste="return false;" id="cancureRdAmt" type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount" onkeypress="return validatephone(event);" />
+                                <input ng-disabled="!vm.bill[0].partnerBillAmount" onpaste="return false;" id="cancureRdAmt" type="text" data-ng-model="vm.formData.amount" maxlength="10" required placeholder="Enter Amount" onkeypress="return validatephone(event);" />
                             </div>
                         </div>
 
@@ -347,13 +354,16 @@
                                 <label>Estimated TopUp Amount :
                                     <req>*</req>
                                 </label>
-                                <input onpaste="return false;" type="text" data-ng-model="vm.formData.topupEstimateAmount" maxlength="10" ng-required="vm.formData.topUpSelect" placeholder="Enter Amount" onkeypress="return validatephone(event);" />
+                                <div class="input-group">
+                                    <div class="input-group-addon">₹</div>
+                                    <input onpaste="return false;" type="text" data-ng-model="vm.formData.topupEstimateAmount" maxlength="10" ng-required="vm.formData.topUpSelect" placeholder="Enter Amount" onkeypress="return validatephone(event);" />
+                                </div>
                             </div>
                             <div class="input-box col-xs-12 col-md-4">
                                 <label>Comments :
                                     <req>*</req>
                                 </label>
-                                <textarea data-ng-model="vm.formData.topupComments" ng-required="vm.formData.topUpSelect" rows="1" maxlength="200"> </textarea>
+                                <textarea data-ng-model="vm.formData.topupComments" ng-required="vm.formData.topUpSelect" rows="1" maxlength="200" placeholder="Enter comments for top-up request"> </textarea>
                             </div>
                         </div>
 
