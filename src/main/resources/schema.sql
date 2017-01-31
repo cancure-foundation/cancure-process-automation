@@ -264,6 +264,13 @@ create table patient_investigation (
 	amount decimal(10,2)
  );
 
+ create table payment_workflow (
+	id number(10) primary key auto_increment,
+	status varchar(10),
+	to_account_type_id number(10) references account_types(id),
+	to_account_holder_id number(10)
+);
+ 
  create table invoices (
 	id number(10) primary key auto_increment,
 	date date,

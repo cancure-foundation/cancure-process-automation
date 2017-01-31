@@ -2,14 +2,14 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="Payment" name="Payment" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="SelectInvoices" name="Select Invoices" activiti:candidateGroups="ROLE_HOSPITAL_POC">
+    <userTask id="SelectInvoices" name="Select Invoices" activiti:candidateGroups="ROLE_PROGRAM_COORDINATOR">
       <documentation>InPatient gets treated in the hospital. His bills are uploaded by HPOC. For further treatment a topup might be requested.</documentation>
     </userTask>
     <userTask id="ApprovePayment" name="Approve Payment" activiti:candidateGroups="ROLE_SECRETARY"></userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="SelectInvoices"></sequenceFlow>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow9" sourceRef="PaymentClosueTasks" targetRef="endevent1"></sequenceFlow>
-    <serviceTask id="PaymentClosueTasks" name="Payment Closure Tasks" activiti:expression="#{inpatientHospitalVisitService.performClosureTasks(pidn, patientVisitId)}"></serviceTask>
+    <serviceTask id="PaymentClosueTasks" name="Payment Closure Tasks" activiti:expression="#{paymentWorkflowService.performClosureTasks(paymentWorkflowId)}"></serviceTask>
     <sequenceFlow id="flow15" sourceRef="ApprovePayment" targetRef="PaymentClosueTasks"></sequenceFlow>
     <sequenceFlow id="flow16" sourceRef="SelectInvoices" targetRef="ApprovePayment"></sequenceFlow>
   </process>

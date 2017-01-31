@@ -14,6 +14,8 @@ public interface PaymentService {
 
 	List<InvoicesBean> getInvoices(Integer accountTypeId, Integer accountHolderId);
 
-	public void savePayment(PaymentBean paymentBean);
+	public void startPaymentWorkflow(PaymentBean paymentBean);
+
+	void approvePayment(Long paymentWorkflowId);
 	
 }
