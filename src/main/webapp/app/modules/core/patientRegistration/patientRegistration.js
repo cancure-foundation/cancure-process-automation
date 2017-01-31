@@ -115,17 +115,18 @@ core.controller("PatientRegistrationController", ['$q', '$scope', '$state', 'Fla
 	/**
 	 * 
 	 */
-	vm.validateAadhar = function (){		
+	vm.validateAadhar = function (){	
+		vm.aadharExist = false;
+		vm.aadharReqErr = false;
 		if (!vm.formData.aadharNo) {		
 			document.getElementById("patientReg-aadhar").focus();
-			vm.aadharReqErr = true;
+			vm.aadharReqErr = true;			
 			return
 		} else if (vm.formData.aadharNo.length < 12){
 			document.getElementById("patientReg-aadhar").focus();
 			vm.aadharReqErr = true;
 			return
-		}
-		vm.aadharReqErr = false;
+		}		
 		Loader.create('Validating Aadhar Card.. Please wait...');
 		apiService.serviceRequest({
 			URL: 'patient/search/aadharNo/'  +  vm.formData.aadharNo.toString(),

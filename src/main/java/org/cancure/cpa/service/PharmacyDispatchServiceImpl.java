@@ -13,6 +13,7 @@ import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientBillsBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
+import org.cancure.cpa.controller.beans.PatientVisitForwardDetailsBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
 import org.cancure.cpa.controller.beans.PharmacyDispatchHistoryBean;
 import org.cancure.cpa.controller.beans.PharmacyInvoiceBean;
@@ -107,8 +108,9 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 	}
 	
 	@Override
-	public List<PatientVisitForwardsBean> searchForwardsByPidn(Integer pidn, Integer myUserId) throws Exception {
+	public PatientVisitForwardDetailsBean searchForwardsByPidn(Integer pidn, Integer myUserId) throws Exception {
 
+	    PatientVisitForwardDetailsBean patientVisitForwardDetailsBean=new PatientVisitForwardDetailsBean();
 		// What type of user is this? PPOC or HPOC or LPOC?
 		Integer accountTypeId;
 		Integer accountHolderId;
@@ -139,21 +141,58 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		if (forwards != null && !forwards.isEmpty()) {
 			// All are same patient
 			List<PatientBean> patient = patientService.searchByPidn(pidn);
+			patientVisitForwardDetailsBean.setPatientBean(patient.get(0));
 			
 			for (PatientVisitForwards fwd : forwards) {
 				
 				PatientVisitForwardsBean bean = new PatientVisitForwardsBean();
 				bean.setDate(fwd.getDate());
 				bean.setPidn(fwd.getPidn());
-				bean.setPatient(patient.get(0));
 				bean.setPatientVisitId(fwd.getPatientVisitId());
+				bean.setBillStatus(fwd.getStatus());
 
 				forwardsList.add(bean);
 				
 			}
+			patientVisitForwardDetailsBean.setPatientVisitForwardsBean(forwardsList);
 		}
-
-		return forwardsList;
+		
+		List<PatientApproval> patientApprovals = approvalRepository.findByPidnAndApprovedForAccountType(pidn, approvedForAccountType);
+        if (patientApprovals != null && !patientApprovals.isEmpty()) {
+            Double totalApprovals = 0d;
+            List<PatientApprovalBean> paBeanList = new ArrayList<>();
+            
+            for (PatientApproval pa : patientApprovals) {
+                
+                PatientApprovalBean paBean = new PatientApprovalBean();
+                paBean.setAmount(pa.getAmount());
+                paBean.setApprovedForAccountTypeId(pa.getApprovedForAccountType().getId());
+                paBean.setApprovedForAccountTypeName(pa.getApprovedForAccountType().getName());
+                paBean.setDate(pa.getDate());
+                paBean.setExpiryDate(pa.getExpiryDate());
+                paBean.setId(pa.getId());
+                paBean.setPatientVisitId(pa.getPatientVisitId());
+                paBean.setPidn(pa.getPidn().toString());
+                //paBean.setStatus(pa.get);
+                
+                paBeanList.add(paBean);
+                
+                totalApprovals += pa.getAmount();
+            }
+            patientVisitForwardDetailsBean.setPatientApprovals(paBeanList);
+            
+            Double totalInvoices = 0d;
+            List<InvoicesEntity> invoicesList = invoicesRepository.findByPidnAndFromAccountTypeId(pidn, approvedForAccountType);
+            if (invoicesList != null && !invoicesList.isEmpty()){  
+                for (InvoicesEntity entity : invoicesList){
+                    totalInvoices += entity.getAmount();
+                    }  
+            }
+            
+            Double balance = totalApprovals - totalInvoices;
+            patientVisitForwardDetailsBean.setBalance(balance);
+        }
+		return patientVisitForwardDetailsBean;
 	}
 	
 
@@ -191,7 +230,6 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 			List<PatientVisitForwards> forwards = patientVisitForwardsRepository
 					.findByAccountTypeIdAndAccountHolderIdAndPatientVisitId(approvedForAccountType, accountHolderId,
 							patientVisitBean.getId().intValue());
-			
 			if (forwards != null && forwards.size() == 1) {
 				
 				PatientVisitForwards fwdEntity = forwards.get(0);
@@ -210,62 +248,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 			} else {
 				// No forwards to this Partner. Just return.
 				return historyBean;
-			}
-			
-			List<PatientBean> patient = patientService.searchByPidn(patientVisit.getPidn());
-			if (patient != null && patient.size() == 1) {
-				historyBean.setPatient(patient.get(0));
-			}
-			
-			// Now find pending amount and past approvals
-			
-			
-			List<PatientApproval> patientApprovals = approvalRepository.findByPidnAndApprovedForAccountType(patientVisitBean.getPidn(), approvedForAccountType);
-			if (patientApprovals != null && !patientApprovals.isEmpty()) {
-				Double totalApprovals = 0d;
-				List<PatientApprovalBean> paBeanList = new ArrayList<>();
-				
-				for (PatientApproval pa : patientApprovals) {
-					
-					PatientApprovalBean paBean = new PatientApprovalBean();
-					paBean.setAmount(pa.getAmount());
-					paBean.setApprovedForAccountTypeId(pa.getApprovedForAccountType().getId());
-					paBean.setApprovedForAccountTypeName(pa.getApprovedForAccountType().getName());
-					paBean.setDate(pa.getDate());
-					paBean.setExpiryDate(pa.getExpiryDate());
-					paBean.setId(pa.getId());
-					paBean.setPatientVisitId(pa.getPatientVisitId());
-					paBean.setPidn(pa.getPidn().toString());
-					//paBean.setStatus(pa.get);
-					
-					paBeanList.add(paBean);
-					
-					totalApprovals += pa.getAmount();
-				}
-				
-				historyBean.setPatientApprovals(paBeanList);
-				
-				Double totalInvoices = 0d;
-				List<InvoicesEntity> invoicesList = invoicesRepository.findByPidnAndFromAccountTypeId(patientVisitBean.getPidn(), approvedForAccountType);
-				if (invoicesList != null && !invoicesList.isEmpty()){
-					List<InvoicesBean> invoiceBeanList = new ArrayList<>();
-					
-					for (InvoicesEntity entity : invoicesList){
-						InvoicesBean bean = new InvoicesBean();
-						BeanUtils.copyProperties(entity, bean);
-						bean.setFromAccountTypeId(entity.getFromAccountTypeId().getId());
-						bean.setToAccountTypeId(entity.getToAccountTypeId().getId());
-						totalInvoices += entity.getAmount();
-						
-						invoiceBeanList.add(bean);
-					}
-					
-					historyBean.setInvoicesList(invoiceBeanList);
-				}
-				
-				Double balance = totalApprovals - totalInvoices;
-				historyBean.setBalance(balance);
-			}
+			}			
 		}
 		
 		return historyBean;
@@ -345,7 +328,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		approvedForAccountType.setId(accountTypeId);
 		entity.setFromAccountTypeId(approvedForAccountType);
 		entity = invoicesRepository.save(entity);
-		
+		new File(fileSavePath + "/invoices/" + bean.getPidn()).mkdirs();
 		List<PatientBills> patientBills= new ArrayList<>();
 		for(PatientBillsBean patientBillBean:bean.getPatientBillsBean()){
 		    PatientBills patientBill=new PatientBills();
@@ -358,6 +341,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
             patientBillBean.getPartnerBillFile().transferTo(file);
             patientBills.add(patientBill);
 		}
+		patientVisitForwardsRepository.updateBillStatus(bean.getBillStatus(), bean.getPatientVisitId());
 		patientBillService.savePatientBills(patientBills);
 		notifier.notifySecretary(entity, accountHolderName);
 		return entity.getId();

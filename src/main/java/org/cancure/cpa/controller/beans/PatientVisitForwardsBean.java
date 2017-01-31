@@ -12,6 +12,7 @@ public class PatientVisitForwardsBean {
 	private String accountTypeName;
 	private Integer accountHolderId;
 	private Timestamp date;
+	private String billStatus;
 	
 	public String getAccountTypeName() {
 		return accountTypeName;
@@ -61,4 +62,11 @@ public class PatientVisitForwardsBean {
 	public void setDate(Timestamp date) {
 		this.date = date;
 	}
+    public String getBillStatus() {
+        return billStatus;
+    }
+    public void setBillStatus(String billStatus) {
+        this.billStatus = billStatus;
+    }
+	
 }

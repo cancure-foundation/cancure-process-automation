@@ -7,67 +7,71 @@ import org.cancure.cpa.persistence.entity.PatientVisitDocuments;
 
 public class PatientVisitHistoryBean {
 
-	private Map<String, String> task;
-	
-	private PatientBean patientBean;
-	
-	private PatientVisitBean patientVisit;
-	
-	private Boolean workflowExists;
-	
-	List<PatientApprovalBean> patientApprovals;
-	
-	List<InvoicesBean> invoicesList;
-	
-	List<PatientVisitDocumentBean> patientVisitDocuments;
-	
-	public Boolean getWorkflowExists() {
-		return workflowExists;
-	}
+    private Map<String, String> task;
 
-	public void setWorkflowExists(Boolean workflowExists) {
-		this.workflowExists = workflowExists;
-	}
+    private PatientBean patientBean;
 
-	public Map<String, String> getTask() {
-		return task;
-	}
+    private PatientVisitBean patientVisit;
 
-	public void setTask(Map<String, String> task) {
-		this.task = task;
-	}
+    private Boolean workflowExists;
 
-	public PatientVisitBean getPatientVisit() {
-		return patientVisit;
-	}
+    List<PatientApprovalBean> patientApprovals;
 
-	public void setPatientVisit(PatientVisitBean patientVisit) {
-		this.patientVisit = patientVisit;
-	}
+    List<InvoicesBean> invoicesList;
 
-	public PatientBean getPatientBean() {
-		return patientBean;
-	}
+    List<PatientVisitDocumentBean> patientVisitDocuments;
 
-	public void setPatientBean(PatientBean patientBean) {
-		this.patientBean = patientBean;
-	}
+    private String topupComments;
 
-	public List<PatientApprovalBean> getPatientApprovals() {
-		return patientApprovals;
-	}
+    private Double topupEstimateAmount;
 
-	public void setPatientApprovals(List<PatientApprovalBean> patientApprovals) {
-		this.patientApprovals = patientApprovals;
-	}
+    public Boolean getWorkflowExists() {
+        return workflowExists;
+    }
 
-	public List<InvoicesBean> getInvoicesList() {
-		return invoicesList;
-	}
+    public void setWorkflowExists(Boolean workflowExists) {
+        this.workflowExists = workflowExists;
+    }
 
-	public void setInvoicesList(List<InvoicesBean> invoicesList) {
-		this.invoicesList = invoicesList;
-	}
+    public Map<String, String> getTask() {
+        return task;
+    }
+
+    public void setTask(Map<String, String> task) {
+        this.task = task;
+    }
+
+    public PatientVisitBean getPatientVisit() {
+        return patientVisit;
+    }
+
+    public void setPatientVisit(PatientVisitBean patientVisit) {
+        this.patientVisit = patientVisit;
+    }
+
+    public PatientBean getPatientBean() {
+        return patientBean;
+    }
+
+    public void setPatientBean(PatientBean patientBean) {
+        this.patientBean = patientBean;
+    }
+
+    public List<PatientApprovalBean> getPatientApprovals() {
+        return patientApprovals;
+    }
+
+    public void setPatientApprovals(List<PatientApprovalBean> patientApprovals) {
+        this.patientApprovals = patientApprovals;
+    }
+
+    public List<InvoicesBean> getInvoicesList() {
+        return invoicesList;
+    }
+
+    public void setInvoicesList(List<InvoicesBean> invoicesList) {
+        this.invoicesList = invoicesList;
+    }
 
     public List<PatientVisitDocumentBean> getPatientVisitDocuments() {
         return patientVisitDocuments;
@@ -76,5 +80,21 @@ public class PatientVisitHistoryBean {
     public void setPatientVisitDocuments(List<PatientVisitDocumentBean> patientVisitDocuments) {
         this.patientVisitDocuments = patientVisitDocuments;
     }
-		
+
+    public String getTopupComments() {
+        return topupComments;
+    }
+
+    public void setTopupComments(String topupComments) {
+        this.topupComments = topupComments;
+    }
+
+    public Double getTopupEstimateAmount() {
+        return topupEstimateAmount;
+    }
+
+    public void setTopupEstimateAmount(Double topupEstimateAmount) {
+        this.topupEstimateAmount = topupEstimateAmount;
+    }
+    
 }

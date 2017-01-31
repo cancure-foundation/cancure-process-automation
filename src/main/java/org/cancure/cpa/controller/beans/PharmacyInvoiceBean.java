@@ -8,6 +8,8 @@ public class PharmacyInvoiceBean {
 	private Double amount;
 	private String comments;
 	private List<PatientBillsBean> patientBillsBean;
+	private String billStatus;
+	private Integer patientVisitId;
 	
 	public Integer getPidn() {
 		return pidn;
@@ -32,5 +34,18 @@ public class PharmacyInvoiceBean {
     }
     public void setPatientBillsBean(List<PatientBillsBean> patientBillsBean) {
         this.patientBillsBean = patientBillsBean;
-    }	
+    }
+    public String getBillStatus() {
+        return billStatus;
+    }
+    public void setBillStatus(String billStatus) {
+        this.billStatus = billStatus;
+    }
+    public Integer getPatientVisitId() {
+        return patientVisitId;
+    }
+    public void setPatientVisitId(Integer patientVisitId) {
+        this.patientVisitId = patientVisitId;
+    }
+    
 }

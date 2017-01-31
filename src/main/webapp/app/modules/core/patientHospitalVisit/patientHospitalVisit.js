@@ -1,15 +1,15 @@
 core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', '$timeout', 'Flash', 
-                                                function (Loader, $timeout, $scope, $state, $stateParams, apiService, appSettings, $timeout, Flash) {
+                                                   function (Loader, $timeout, $scope, $state, $stateParams, apiService, appSettings, $timeout, Flash) {
 
 	var vm = this;
 	vm.documentTypes = ['Lab Test Prescription', 'Medicine Prescription'];
-	
+
 	var init = function() {
 		if (appSettings.rolesList.indexOf('ROLE_SECRETARY') >= 0){
 			vm.isSecretary = true;
 		}
 		Loader.create('Fetching data... Please wait..');
-		varInit();
+		varInit(true);
 		if ($stateParams && $stateParams.pidn){			
 			vm.searchUser($stateParams.pidn);
 			vm.preLoad = true;
@@ -29,7 +29,9 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 	/**
 	 * 
 	 */
-	function varInit (){
+	function varInit(init){
+		if (init)
+			vm.pidn = null;
 		vm.formData = {};
 		vm.formData.topUp = false;
 		vm.patient = null;
@@ -37,16 +39,22 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		vm.patientFile = [{
 			id : 0
 		}];
+		vm.bill = [{
+			id : 0
+		}];
+		vm.inPatient = false; // resets the flag
+		vm.outPatient = false; // resets the flag
 	}
 	/**
 	 *  function to search the particular patient
 	 */
 	vm.searchUser = function(searchValue){
+		varInit();
 		Loader.create('Please wait while we Search patient.');
-		
+
 		vm.formSubmitted = false;		
 		var pidn = (searchValue) ? searchValue : vm.pidn; 
-		
+
 		// making the server call
 		apiService.serviceRequest({
 			URL: '/patientvisit/patient/' + pidn,
@@ -60,13 +68,13 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 				vm.toDay = new Date().toDateString();
 				vm.patient = response;
 				vm.noSearchResult = false;
-				
+
 				// checks if any requests is pending for the user				
 				if (response.workflowExists && !vm.isSecretary){					
 					vm.formSubmitted = true;
-					vm.pageMessage ="Requests pending for the patient. Please contact Sectretary.";
+					vm.pageMessage ="Requests pending for the patient. Please contact Secretary.";
 				}
-				
+
 				vm.approvedTotal = 0;
 				vm.spendTotal = 0;
 				if (vm.patient.patientApprovals) {
@@ -74,21 +82,95 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 						vm.approvedTotal = vm.approvedTotal + vm.patient.patientApprovals[i].amount;
 					}
 				}
-				
+
 				if (vm.patient.invoicesList){
 					for (var i=0; i < vm.patient.invoicesList.length; i++){
 						vm.spendTotal = vm.spendTotal + vm.patient.invoicesList[i].amount;
 					}
 				}
-				vm.balAmount = vm.approvedTotal - vm.spendTotal;
-				
+
+				vm.balAmount = vm.approvedTotal - vm.spendTotal; // calculates the balance amount
+
+				// sets the flags to indicate patient-type
+				if (vm.patient.patientBean && vm.patient.patientBean.patientType == 'inPatient') {
+					vm.inPatient = true; // indicate patient is an in-patient
+				} else if (vm.patient.patientBean && vm.patient.patientBean.patientType == 'outPatient') {
+					vm.outPatient = true; // indicate the patient is an out-patient
+				}
+
+				// checks if secretary to make UI changes
 				if (vm.isSecretary){
 					vm.patientVisitDocuments = vm.patient.patientVisitDocuments;
+					if(vm.inPatient){
+						// watch to check if secretary entered amount exceeds the requested amount
+						$scope.$watch('vm.hospitalAmount', function (newValue, oldValue, scope) {
+							if (vm.hospitalAmount && newValue){
+								if (parseInt(vm.hospitalAmount) > vm.patient.topupEstimateAmount){
+									vm.balErr = true;
+									vm.hospitalAmount = null;
+								} else {
+									vm.balErr = false;
+								}
+							}
+						});
+					} else{
+						// watch to check if secretary entered amount exceeds the requested amount
+						$scope.$watch('vm.pharmacyAmount', function (newValue, oldValue, scope) {
+							if (vm.pharmacyAmount && newValue){
+								if (parseInt(vm.pharmacyAmount) > vm.patient.topupEstimateAmount){
+									vm.balErr = true;
+									vm.pharmacyAmount = null;
+								} else {
+									vm.balErr = false;
+								}
+							}
+						});
+					}
+				} else {
+					if(vm.inPatient){
+						// watch to check cancure redeemed amount exceed bill amount or available balance
+						$scope.$watch('vm.formData.amount', function (newValue, oldValue, scope) {
+							if (vm.formData.amount && parseInt(vm.formData.amount) > vm.balAmount){
+								vm.balErr = true;	
+								vm.billErr = false;			
+								document.getElementById('cancureRdAmt').value = null;
+							} else if (vm.formData.amount > vm.billTotal) {
+								vm.balErr = true;
+								vm.billErr = true;			
+								document.getElementById('cancureRdAmt').value = null;
+							} else
+								vm.balErr = false;
+
+							function checkBill(){						
+								var billAmt = 0;
+								for (var i=0; i<vm.bill.length;i++){
+									billAmt = billAmt + parseInt(vm.bill[i].partnerBillAmount);
+								}
+								return vm.formData.amount > billAmt;
+							}
+						});						
+					} else {
+
+					}
 				}
+
 			}
 			Loader.destroy();
 		});
+
+	};
+	/**
+	 *  to calculate bill total
+	 */
+	vm.calcBillTotal = function (){
+		vm.billTotal = 0;
+		for (var i=0; i<vm.bill.length;i++){
+			if (vm.bill[i].partnerBillAmount)
+				vm.billTotal = vm.billTotal + parseInt(vm.bill[i].partnerBillAmount);
+		}
 		
+		if(vm.billTotal == 0)
+			vm.formData.amount = 0;
 	};
 	/**
 	 *  function to handle file selection
@@ -106,16 +188,18 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		});
 	};
 	/**
-	 *  function to handle save request
+	 *  function to handle save request for out-paitent
 	 */
-	vm.submit = function() {
-	
+	vm.sendToPharma = function() {	
+
 		Loader.create('Sending data... Please wait...');		
-				
+
 		var fd = new FormData();
 		fd.append("pidn", vm.patient.patientBean.pidn);
 		fd.append("topupNeeded", (vm.formData.topUpSelect) ? 'TRUE' : 'FALSE');
-		
+		fd.append("topupEstimateAmount", vm.formData.topupEstimateAmount);
+		fd.append("topupComments", vm.formData.topupComments);
+
 		// checks to inlcude files selected
 		if (vm.patientFile && vm.patientFile.length > 0) {
 			for (var i = 0; i < vm.patientFile.length; i++){
@@ -127,7 +211,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 
 		fd.append("forwardList[0].accountTypeId", 3);			
 		fd.append("forwardList[0].accountHolderId", vm.formData.pharmacy);				
-		
+
 		// making the server call
 		apiService.serviceRequest({
 			URL: '/patientvisit',
@@ -140,38 +224,88 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 			errorMsg : 'Unable to save data. Try Again!!'
 		}, function (response) {
 			Loader.destroy();	
-			vm.pageMessage ="Requests submitted successfully.";
-			vm.formSubmitted = true;				
+			apiService.showAlert("Request Placed Successfully !!", function (){
+				varInit(init);
+			});			
 		});
-		
+
 	};
 	/**
-	 * 
+	 *  function to handle save for in-patient
 	 */
-	vm.doTopup = function(approve){
+	vm.hospitalBill = function (){		
+		Loader.create('Saving Data .. Please wait ...');
+		var fd = new FormData();
+
+		fd.append("pidn", vm.pidn);
+		fd.append("comments", vm.formData.comments);
+		fd.append("amount", parseFloat(vm.formData.amount));
+		fd.append("topupNeeded", (vm.formData.topUpSelect) ? 'TRUE' : 'FALSE');
+
+		for (var i=0; i<vm.bill.length;i++){
+			fd.append("patientBills[" + i + "].partnerBillNo",  vm.bill[i].partnerBillNo);
+			fd.append("patientBills[" + i + "].partnerBillAmount",  parseFloat(vm.bill[i].partnerBillAmount));
+			fd.append("patientBills[" + i + "].partnerBillFile",  vm.bill[i].file);
+		}	
+
+		// making the server call
+		apiService.serviceRequest({
+			URL: '/patientvisit/inpatient',
+			method: 'POST',
+			payLoad: fd,
+			hideErrMsg : true,
+			headers: {
+				'Content-Type': undefined
+			}
+		}, function (response) {			
+			Loader.destroy();
+			apiService.showAlert("Data Saved Successfully !!", function (){
+				init(1);
+			});	
+		}, function (fail){
+			Flash.create('danger', 'Action Failed. Try Again!!', 'large-text');
+		}); 
+
+	};
+	/**
+	 *  function to handle file selection
+	 */
+	vm.billSelection = function(input){
+		var index = parseInt(input.attributes.fileid.value);
+		vm.bill[index].file = input.files[0];		
+	};
+	/**
+	 *  function to handle save for secretary pop-up
+	 */
+	vm.doTopup = function(approve){	
+
 		Loader.create('Saving data... Please wait...');		
-		
+
 		var serverData = {};
 		serverData.pidn = vm.patient.patientBean.pidn;
 		serverData.patientVisitId = $stateParams.id;
-		
+
 		if (approve) {
 			serverData.patientApproval = [];
-			var hosAmount = {};
-			hosAmount.pidn = vm.patient.patientBean.pidn;
-			hosAmount.amount = vm.hospitalAmount; //vm.pharmacyAmount;
-			hosAmount.approvedForAccountTypeId = 5; // Hospital
-			serverData.patientApproval.push(hosAmount);
-			
-			var pharmaAmount = {};
-			pharmaAmount.pidn = vm.patient.patientBean.pidn;
-			pharmaAmount.amount = vm.pharmacyAmount;
-			pharmaAmount.approvedForAccountTypeId = 3; // Hospital
-			serverData.patientApproval.push(pharmaAmount);
+			if (vm.inPatient) {
+				var hosAmount = {};
+				hosAmount.pidn = vm.patient.patientBean.pidn;
+				hosAmount.amount = vm.hospitalAmount; //vm.pharmacyAmount;
+				hosAmount.approvedForAccountTypeId = 5; // Hospital
+				serverData.patientApproval.push(hosAmount);
+			}
+
+			if (vm.outPatient) {
+				var pharmaAmount = {};
+				pharmaAmount.pidn = vm.patient.patientBean.pidn;
+				pharmaAmount.amount = vm.pharmacyAmount;
+				pharmaAmount.approvedForAccountTypeId = 3; // Hospital
+				serverData.patientApproval.push(pharmaAmount);
+			}
 		}
-		
+
 		serverData.status = approve ? "TRUE" : "FALSE";
-		
+
 		// Submit /patientvisit/topup
 		// making the server call
 		apiService.serviceRequest({
@@ -184,13 +318,14 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 			if (response == null) {
 				Flash.create('danger', 'Failed to complete action. Try again!', 'large-text');
 			} else {
-				vm.formSubmitted = true;
-				vm.pageMessage = "Patient account credited."
+				apiService.showAlert("Action Completed Successfully !!", function (){
+					$state.go('app.home');
+				});	
 			}
 		}, function (fail){
 			Flash.create('danger', fail.message, 'large-text');
 		});
-		
+
 	}
 	init();
 

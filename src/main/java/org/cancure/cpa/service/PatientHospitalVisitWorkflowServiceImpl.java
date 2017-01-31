@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import org.cancure.cpa.controller.beans.InvoicesBean;
 import org.cancure.cpa.controller.beans.PatientApprovalBean;
 import org.cancure.cpa.controller.beans.PatientBean;
+import org.cancure.cpa.controller.beans.PatientBillsBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardsBean;
@@ -20,9 +21,12 @@ import org.cancure.cpa.controller.beans.PatientVisitHistoryBean;
 import org.cancure.cpa.controller.beans.TopupStatusBean;
 import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.persistence.entity.AccountTypes;
+import org.cancure.cpa.persistence.entity.Hospital;
 import org.cancure.cpa.persistence.entity.HpocHospital;
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
+import org.cancure.cpa.persistence.entity.Lab;
 import org.cancure.cpa.persistence.entity.PatientApproval;
+import org.cancure.cpa.persistence.entity.PatientBills;
 import org.cancure.cpa.persistence.entity.PatientVisit;
 import org.cancure.cpa.persistence.entity.PatientVisitDocuments;
 import org.cancure.cpa.persistence.entity.PatientVisitForwards;
@@ -61,6 +65,9 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 	private PharmacyService pharmacyService;
 	
 	@Autowired
+    private LabService labService;
+	
+	@Autowired
     private HpocHospitalService hpocHospitalService;
 	
 	@Autowired
@@ -69,9 +76,18 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 	@Autowired
 	private PatientHospitalVisitNotificationComponent notifier;
 	
+	@Autowired
+	private HospitalService hospitalService;
+	
 	@Value("${spring.files.save.path}")
 	private String fileSavePath;
 
+	@Autowired
+    private PatientBillService patientBillService;
+	
+	@Autowired
+    private InvoiceNotificationComponent invoiceNotifier;
+	
 	@Override
 	@Transactional
 	public String startWorkflow(PatientVisitBean patientVisitBean, Integer myUserId) throws Exception {
@@ -161,7 +177,8 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		patientVisit.setAccountTypes(at);
 		patientVisit.setStatus(patientVisitBean.getStatus());
 		patientVisit.setAccountHolderId(Integer.parseInt(patientVisitBean.getAccountHolderId()));
-
+		patientVisit.setTopupComments(patientVisitBean.getTopupComments());
+		patientVisit.setTopupAmount(patientVisitBean.getTopupEstimateAmount());
 		if (patientVisitBean.getPatientHospitalVisitDocumentBeanList() != null) {
 			List<PatientVisitDocuments> patientVisitDocList = new ArrayList<>();
 			for (PatientVisitDocumentBean bean : patientVisitBean.getPatientHospitalVisitDocumentBeanList()) {
@@ -297,6 +314,10 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 					historyBean.setInvoicesList(invoiceBeanList);
 				}
 			}
+			if(openList.size() != 0){
+			    historyBean.setTopupComments(openList.get(0).getTopupComments());
+	            historyBean.setTopupEstimateAmount(openList.get(0).getTopupAmount());
+			}
 			
 			return historyBean;
 		}
@@ -357,8 +378,98 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 			}
 			return phar.getName();
 		}
-		
+		else if(fromAccountTypeId == 4){
+		    Lab lab = labService.get(fromAccountHolderId);
+            if (lab == null){
+                return "Unknown Lab";
+            }
+            return lab.getName();
+		}
+		else if(fromAccountTypeId == 5){
+            Hospital hospital = hospitalService.getHospital(fromAccountHolderId);
+            if (hospital == null){
+                return "Unknown Hospital";
+            }
+            return hospital.getName();
+        }
 		return "";
 	}
 
+	@Override
+    @Transactional
+    public String startInPatientWorkflow(PatientVisitBean patientVisitBean, Integer myUserId) throws Exception {
+
+        Integer pidn = patientVisitBean.getPidn();
+        List<PatientBean> patientInDbList = patientService.searchByPidn(pidn);
+        PatientBean patientInDb = patientInDbList.get(0);
+        
+        // Find the hospital of this HPOC.
+        HpocHospital hpocHosMapping = hpocHospitalService.getHospitalFromHpoc(myUserId);
+        Integer hospitalId = hpocHosMapping.getHospitalId();
+        patientVisitBean.setAccountHolderId(hospitalId + "");
+        patientVisitBean.setStatus("open");
+        
+        PatientVisit patientVisit = transformPatientBeanToEntity(patientVisitBean);
+
+        patientVisitRepository.save(patientVisit);
+        Integer patientVisitId = patientVisit.getId();
+
+        
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("pidn", pidn);
+        variables.put("patientName", patientInDb.getName());
+        variables.put("patientVisitId", patientVisit.getId());
+        variables.put("hospitalId", hospitalId);
+
+        //patientHospitalVisitService.startPatientHospitalVisitWorkflow(variables, pidn + "", patientVisit.getId());
+
+        // Move to next task
+        Map<String, Object> activitiVars = new HashMap<String, Object>();
+        activitiVars.put("topupNeeded", patientVisitBean.getTopupNeeded());
+        //String taskId = patientHospitalVisitService.moveToNextTask(pidn + "", patientVisit.getId(), activitiVars);
+
+        //patientVisit.setTaskId(taskId);
+        patientVisitRepository.save(patientVisit);
+
+        if ("TRUE".equals(patientVisitBean.getTopupNeeded())) {
+            notifier.notifySecretary(pidn);
+        }
+        
+        InvoicesEntity entity = new InvoicesEntity();
+        entity.setAmount(patientVisitBean.getAmount());        
+        entity.setComments(patientVisitBean.getComments());
+        entity.setPidn(pidn);
+        entity.setStatus("open");
+        entity.setDate(new Timestamp(System.currentTimeMillis()));
+        
+        entity.setToAccountHolderId(1); // To cancure
+        AccountTypes toAccountType = new AccountTypes();
+        toAccountType.setId(1);
+        entity.setToAccountTypeId(toAccountType);
+        
+        entity.setFromAccountHolderId(hospitalId);
+        //entity.setFromAccountHolderName(hospitalService.getHospital(hospitalId).getName());
+        AccountTypes approvedForAccountType = new AccountTypes();
+        approvedForAccountType.setId(5);
+        entity.setFromAccountTypeId(approvedForAccountType);
+        entity = invoicesRepository.save(entity);
+        new File(fileSavePath + "/invoices/" + pidn).mkdirs();
+        List<PatientBills> patientBills= new ArrayList<>();
+        for(PatientBillsBean patientBillBean:patientVisitBean.getPatientBills()){
+            PatientBills patientBill=new PatientBills();
+            BeanUtils.copyProperties(patientBillBean, patientBill);
+            patientBill.setInvoiceId(entity.getId());
+            String originalFileName = patientBillBean.getPartnerBillFile().getOriginalFilename();
+            String billPath = "/invoices/" + pidn + "/" + entity.getId() + "_" + originalFileName;
+            patientBill.setPartnerBillPath(billPath);
+            File file = new File(fileSavePath + billPath);
+            patientBillBean.getPartnerBillFile().transferTo(file);
+            patientBills.add(patientBill);
+        }
+        patientBillService.savePatientBills(patientBills);
+        invoiceNotifier.notifySecretary(entity, hospitalService.getHospital(hospitalId).getName());
+        
+        
+        return patientVisitId + "";
+    }
 }

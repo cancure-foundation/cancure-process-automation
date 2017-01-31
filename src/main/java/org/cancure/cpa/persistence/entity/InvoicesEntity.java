@@ -21,6 +21,7 @@ public class InvoicesEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(name="journal_id")
 	private Long journalId; 
 
     private Timestamp date;

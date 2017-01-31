@@ -15,6 +15,11 @@ public class PatientVisitBean {
 	private String topupNeeded;
 	private List<PatientVisitDocumentBean> patientHospitalVisitDocumentBeanList;
 	private List<PatientVisitForwardsBean> forwardList;
+	private List<PatientBillsBean> patientBills;
+	private String comments;
+	private Double amount;
+	private String topupComments;
+	private Double topupEstimateAmount;
 	
 	public String getTopupNeeded() {
 		return topupNeeded;
@@ -79,4 +84,36 @@ public class PatientVisitBean {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+    public List<PatientBillsBean> getPatientBills() {
+        return patientBills;
+    }
+    public void setPatientBills(List<PatientBillsBean> patientBills) {
+        this.patientBills = patientBills;
+    }
+    public String getComments() {
+        return comments;
+    }
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+    public Double getAmount() {
+        return amount;
+    }
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+    public String getTopupComments() {
+        return topupComments;
+    }
+    public void setTopupComments(String topupComments) {
+        this.topupComments = topupComments;
+    }
+    public Double getTopupEstimateAmount() {
+        return topupEstimateAmount;
+    }
+    public void setTopupEstimateAmount(Double topupEstimateAmount) {
+        this.topupEstimateAmount = topupEstimateAmount;
+    }
+   
+    
 }
