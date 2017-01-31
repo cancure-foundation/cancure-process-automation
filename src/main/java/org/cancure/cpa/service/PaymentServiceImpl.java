@@ -3,6 +3,7 @@ package org.cancure.cpa.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -12,8 +13,10 @@ import org.cancure.cpa.controller.beans.PaymentBean;
 import org.cancure.cpa.persistence.entity.AccountTypes;
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
 import org.cancure.cpa.persistence.entity.Journal;
+import org.cancure.cpa.persistence.entity.PaymentWorkflow;
 import org.cancure.cpa.persistence.repository.InvoicesRepository;
 import org.cancure.cpa.persistence.repository.JournalRepository;
+import org.cancure.cpa.persistence.repository.PaymentWorkflowRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +29,12 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired
 	private InvoicesRepository invoicesRepo;
+	
+	@Autowired
+	private PaymentWorkflowService paymentWorkflowService;
+	
+	@Autowired
+	private PaymentWorkflowRepository paymentWorkflowRepository;
 
 	@Override
 	public Long saveJournal(JournalBean bean) {
@@ -79,7 +88,29 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	@Transactional
-	public void savePayment(PaymentBean paymentBean) {
+	public void startPaymentWorkflow(PaymentBean paymentBean) {
+		
+		PaymentWorkflow paymentWorkflow = new PaymentWorkflow();
+		paymentWorkflow.setStatus("open");
+		paymentWorkflow.setToAccountHolderId(paymentBean.getToAccountHolderId());
+		AccountTypes at = new AccountTypes();
+		at.setId(paymentBean.getToAccountTypeId());
+		paymentWorkflow.setToAccountTypeId(at);
+		paymentWorkflowRepository.save(paymentWorkflow);
+		
+		paymentWorkflowService.startPaymentWorkflow(paymentBean, paymentWorkflow);
+		
+	}
+	
+	@Override
+	@Transactional
+	public void approvePayment(Long paymentWorkflowId) {	
+		
+		PaymentWorkflow paymentWorkflow = paymentWorkflowRepository.findOne(paymentWorkflowId);
+		Map<String, Object> params = paymentWorkflowService.findTask(paymentWorkflowId + "");
+		PaymentBean paymentBean = new PaymentBean();
+		// For Monis
+		// Create bean from params
 		
 		List<Integer> invoiceList = paymentBean.getSelectedInvoiceIds();
 		if (invoiceList == null || invoiceList.isEmpty()) {

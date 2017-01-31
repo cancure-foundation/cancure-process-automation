@@ -19,14 +19,20 @@ public class PaymentsController {
 	@Autowired
 	private PaymentService paymentService;
 
-	@RequestMapping(method = RequestMethod.POST, value = "/journal")
+	/*@RequestMapping(method = RequestMethod.POST, value = "/journal")
 	public Long save(@RequestBody JournalBean journal) {
 		return paymentService.saveJournal(journal);
+	}*/
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/payments")
+	public String savePayment(@RequestBody PaymentBean paymentBean) {
+		paymentService.startPaymentWorkflow(paymentBean);
+		return "success";
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/payments")
-	public String savePayment(@RequestBody PaymentBean paymentBean) {
-		paymentService.savePayment(paymentBean);
+	@RequestMapping(method = RequestMethod.POST, value = "/payments/{paymentWorkflowId}")
+	public String approvePayment(@PathVariable("paymentWorkflowId") Long paymentWorkflowId) {
+		paymentService.approvePayment(paymentWorkflowId);
 		return "success";
 	}
 

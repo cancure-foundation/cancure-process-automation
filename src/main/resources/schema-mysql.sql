@@ -266,6 +266,13 @@ create table journal(
 	amount decimal(10,2)
 );
 
+create table payment_workflow (
+	id int(10) primary key auto_increment,
+	status varchar(10),
+	to_account_type_id int(10) references account_types(id),
+	to_account_holder_id int(10)
+);
+
 create table invoices (
 	id int(10) primary key auto_increment,
 	date date,
