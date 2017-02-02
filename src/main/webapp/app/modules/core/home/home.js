@@ -68,11 +68,15 @@ function ($rootScope, $scope, $state, $location, Flash, appSettings, apiService,
     				vm.q_1_loadText = null;
     				vm.q_1_noResult = false;
     			}
-    			if(vm.tasks.PATIENT_HOSPITAL_VISIT_DEF_KEY.length == 0){
+    			if(vm.tasks.PATIENT_HOSPITAL_VISIT_DEF_KEY.length == 0 && vm.tasks.IN_PATIENT_HOSPITAL_VISIT_DEF_KEY.length == 0){
     				vm.q_2_load = false;
     				vm.q_2_noResult = true;
     				vm.q_2_loadText = "Patient Hospital Visit queue is Empty."
     			} else {
+    				
+    				for(var i=0; i < vm.tasks.IN_PATIENT_HOSPITAL_VISIT_DEF_KEY.length; i++)
+    					vm.tasks.PATIENT_HOSPITAL_VISIT_DEF_KEY.push(vm.tasks.IN_PATIENT_HOSPITAL_VISIT_DEF_KEY[i])
+    					
     				vm.q_2_load = false;
     				vm.q_2_loadText = null;
     				vm.q_2_noResult = false;

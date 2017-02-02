@@ -229,20 +229,37 @@
 
                     <!-- block for secretary action : start -->
                     <form ng-show="vm.isSecretary" data-ng-submit="vm.doTopup(true);">
-                        <b> Prescriptions to the patient</b>
+                        <b> 
+                        	<span ng-show="vm.inPatient">
+                        		Patient Bills
+                        	</span>
+                        	<span ng-show="vm.outPatient">
+                        		Prescriptions to the patient
+                        	</span>
+                        </b>
                         <br>
-                        <i>(These are documents uploaded during patient's hospital visit)</i>
+                        <i>(These are documents/bills uploaded during patient's hospital visit)</i>
                         <bR>
                         <table class="table table-bordered" ng-show="vm.patientVisitDocuments.length > 0" style="max-width: 690px;">
                             <thead>
-                                <tr>
+                                <tr ng-show="vm.outPatient">
                                     <th class="col-xs-3">Document Type</th>
                                     <th class="col-xs-2">Action</th>
                                 </tr>
+                                 <tr ng-show="vm.inPatient">
+                                    <th class="col-xs-3">Bill No</th>
+                                    <th class="col-xs-2">Bill Amount</th>
+                                    <th class="col-xs-2">Bill File</th>
+                                </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="item in vm.patientVisitDocuments">
+                                <tr ng-repeat="item in vm.patientVisitDocuments" ng-show="vm.outPatient">
                                     <td class="col-xs-3">{{item.docType}}</td>
+                                    <td class="col-xs-2"><a href="/files/patientvisit/{{item.docId}}">View</a></td>
+                                </tr>
+                                <tr ng-repeat="item in vm.patientVisitDocuments" ng-show="vm.inPatient">
+                                    <td class="col-xs-3">{{item.partnerBillNo}}</td>
+                                    <td class="col-xs-3">{{item.partnerBillAmount | currency:'₹'}}</td>
                                     <td class="col-xs-2"><a href="/files/patientvisit/{{item.docId}}">View</a></td>
                                 </tr>
                             </tbody>
@@ -372,8 +389,11 @@
                             <span ng-show="vm.billErr"><b>Cancure Amount Redeemed</b> exceeds pharmacy bill amount.</span>
                         </div>
 
-                        <div class="text-center  col-xs-12">
-                            <button type="submit" class="btn btn-success">Submit</button>
+                        <div class="col-xs-12 text-center">
+                            <button type="submit" class="btn btn-success" ng-hide="vm.formSubmitted">
+                                Send
+                            </button>
+                            <span style="color: #3ed01e;font-weight:bold;" ng-show="vm.formSubmitted">{{vm.pageMessage}}</span>
                         </div>
                     </form>
                     <!-- hospital bill details : end -->
