@@ -81,7 +81,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 		}
 		list = extractTaskAttributes(tasks);
 
-		allProcessMap.put(Constants.PATIENT_REG_PROCESS_DEF_KEY, list);
+		allProcessMap.put("PATIENT_REG_PROCESS_DEF_KEY", list);
 		
 		List<Map<String, String>> hospitalVisitList = new ArrayList<>();
 		List<Task> hospitalVisitTasks = taskService.createTaskQuery()
@@ -95,7 +95,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 		
 		hospitalVisitList = extractHospitalVisitTaskAttributes(hospitalVisitTasks);
 		
-		allProcessMap.put(Constants.IN_PATIENT_HOSPITAL_VISIT_DEF_KEY, hospitalVisitList);
+		allProcessMap.put("PATIENT_HOSPITAL_VISIT_DEF_KEY", hospitalVisitList);
 		return allProcessMap;
 	}
 
