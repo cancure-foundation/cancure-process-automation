@@ -11,4 +11,6 @@ public interface PatientBillService {
     PatientBills getPatientBills(Integer billId);
 
 	List<PatientBills> getPatientBillByInvoice(Integer invoiceId);
+
+    List<PatientBills> getPatientBillByPatientVisitId(Integer patientVisitId);
 }

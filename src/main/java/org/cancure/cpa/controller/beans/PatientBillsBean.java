@@ -17,6 +17,8 @@ public class PatientBillsBean {
     private String partnerBillPath;
 
     private Integer invoiceId;
+    
+    private Integer patientVisitId;
 
     private MultipartFile partnerBillFile;
     
@@ -66,6 +68,14 @@ public class PatientBillsBean {
 
     public void setPartnerBillFile(MultipartFile partnerBillFile) {
         this.partnerBillFile = partnerBillFile;
+    }
+
+    public Integer getPatientVisitId() {
+        return patientVisitId;
+    }
+
+    public void setPatientVisitId(Integer patientVisitId) {
+        this.patientVisitId = patientVisitId;
     }
    
 }

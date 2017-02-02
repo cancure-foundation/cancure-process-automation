@@ -24,6 +24,8 @@ public class PatientVisitHistoryBean {
     private String topupComments;
 
     private Double topupEstimateAmount;
+    
+    List<PatientBillsBean> patientBills;
 
     public Boolean getWorkflowExists() {
         return workflowExists;
@@ -95,6 +97,14 @@ public class PatientVisitHistoryBean {
 
     public void setTopupEstimateAmount(Double topupEstimateAmount) {
         this.topupEstimateAmount = topupEstimateAmount;
+    }
+
+    public List<PatientBillsBean> getPatientBills() {
+        return patientBills;
+    }
+
+    public void setPatientBills(List<PatientBillsBean> patientBills) {
+        this.patientBills = patientBills;
     }
     
 }

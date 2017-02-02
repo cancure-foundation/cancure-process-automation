@@ -33,4 +33,10 @@ public class PatientBillServiceImpl implements PatientBillService {
         // TODO Auto-generated method stub
         return patientBillRepo.findByInvoiceId(invoiceId);
     }
+    
+    @Override
+    public List<PatientBills> getPatientBillByPatientVisitId(Integer patientVisitId) {
+        // TODO Auto-generated method stub
+        return patientBillRepo.findByPatientVisitId(patientVisitId);
+    }
 }
