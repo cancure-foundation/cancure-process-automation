@@ -79,6 +79,9 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 	@Autowired
 	private HospitalService hospitalService;
 	
+	@Autowired
+	private InPatientHospitalVisitService inPatientHospitalVisitService;
+	
 	@Value("${spring.files.save.path}")
 	private String fileSavePath;
 
@@ -421,12 +424,12 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
         variables.put("patientVisitId", patientVisit.getId());
         variables.put("hospitalId", hospitalId);
 
-        //patientHospitalVisitService.startPatientHospitalVisitWorkflow(variables, pidn + "", patientVisit.getId());
+        inPatientHospitalVisitService.startInPatientHospitalVisitWorkflow(variables, pidn + "", patientVisit.getId());
 
         // Move to next task
         Map<String, Object> activitiVars = new HashMap<String, Object>();
         activitiVars.put("topupNeeded", patientVisitBean.getTopupNeeded());
-        //String taskId = patientHospitalVisitService.moveToNextTask(pidn + "", patientVisit.getId(), activitiVars);
+        String taskId = inPatientHospitalVisitService.moveToNextTask(pidn + "", patientVisit.getId(), activitiVars);
 
         //patientVisit.setTaskId(taskId);
         patientVisitRepository.save(patientVisit);
