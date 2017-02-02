@@ -28,6 +28,9 @@ public class PatientBills {
     @Column(name="invoice_id")
     private Integer invoiceId;
 
+    @Column(name="patient_visit_id")
+    private Integer patientVisitId;
+    
     public Integer getBillId() {
         return billId;
     }
@@ -67,5 +70,12 @@ public class PatientBills {
     public void setInvoiceId(Integer invoiceId) {
         this.invoiceId = invoiceId;
     }
-    
+
+    public Integer getPatientVisitId() {
+        return patientVisitId;
+    }
+
+    public void setPatientVisitId(Integer patientVisitId) {
+        this.patientVisitId = patientVisitId;
+    }
 }

@@ -291,14 +291,6 @@ create table invoices (
 	comments varchar(200)
 ); 
 
-create table patient_bills (
-	bill_id int(10) primary key auto_increment,
-	partner_bill_no varchar(50),
-	partner_bill_amount decimal(10,2),
-	partner_bill_path varchar(250),
-	invoice_id int(10) references invoices(id) 
-);
-
 create table patient_visit (
 	id int(10) primary key auto_increment,
 	pidn int(10) references pidn_generator(pidn),
@@ -309,6 +301,15 @@ create table patient_visit (
 	status varchar(10),
 	topup_comments varchar(2000),
 	topup_amount decimal(10,2)
+);
+
+create table patient_bills (
+	bill_id int(10) primary key auto_increment,
+	partner_bill_no varchar(50),
+	partner_bill_amount decimal(10,2),
+	partner_bill_path varchar(250),
+	invoice_id int(10) references invoices(id),
+	patient_visit_id int(10) references patient_visit(id)
 );
 
 create table approvals (

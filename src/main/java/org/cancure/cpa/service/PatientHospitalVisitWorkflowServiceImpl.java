@@ -265,6 +265,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 	public PatientVisitHistoryBean selectPatient(String pidnString) {
 		Integer pidn = Integer.parseInt(pidnString);
 		List<PatientVisitDocumentBean> patientVisitDocumentList=new ArrayList<PatientVisitDocumentBean>();
+		List<PatientBillsBean> patientBillsList = new ArrayList<>();
 		
 		List<PatientBean> list = patientService.searchByPidn(pidn);
 		if (list != null && !list.isEmpty()) {
@@ -281,15 +282,31 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 			PatientBean patientBean = list.get(0);
 			historyBean.setPatientBean(patientBean);
 			for(PatientVisit patientVisit:openList){
+			    Integer test = patientVisit.getId();
+			    System.out.println(test);
 			    List<PatientVisitDocuments> patientVisitDocuments=new ArrayList<PatientVisitDocuments>();
 			    patientVisitDocuments=patientVisitDocumentService.getPatientDocByVisitId(patientVisit.getId());
 			    for(PatientVisitDocuments patientVisitDocument:patientVisitDocuments){
 			        PatientVisitDocumentBean patientVisitDocumentBean =new PatientVisitDocumentBean();
 			        BeanUtils.copyProperties(patientVisitDocument, patientVisitDocumentBean);
 			        patientVisitDocumentList.add(patientVisitDocumentBean);			        
-			    }			    
+			    }
+			    
+			    List<PatientBills> patientBills = patientBillService.getPatientBillByPatientVisitId(patientVisit.getId());
+			    for(PatientBills patientBill:patientBills){
+                    PatientBillsBean patientBillsBean =new PatientBillsBean();
+                    BeanUtils.copyProperties(patientBill, patientBillsBean);
+                    patientBillsList.add(patientBillsBean);                 
+                }
 			}
 			historyBean.setPatientVisitDocuments(patientVisitDocumentList);
+			historyBean.setPatientBills(patientBillsList);
+            
+			//Get bills for InPatient
+			
+			
+			
+			
 			List<PatientApproval> patientApprovals = approvalRepository.findByPidn(pidn);
 			if (patientApprovals != null && !patientApprovals.isEmpty()) {
 				List<PatientApprovalBean> paBeanList = new ArrayList<>();
@@ -316,6 +333,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 					}
 					historyBean.setInvoicesList(invoiceBeanList);
 				}
+				
 			}
 			if(openList.size() != 0){
 			    historyBean.setTopupComments(openList.get(0).getTopupComments());
@@ -462,6 +480,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
             PatientBills patientBill=new PatientBills();
             BeanUtils.copyProperties(patientBillBean, patientBill);
             patientBill.setInvoiceId(entity.getId());
+            patientBill.setPatientVisitId(patientVisitId);
             String originalFileName = patientBillBean.getPartnerBillFile().getOriginalFilename();
             String billPath = "/invoices/" + pidn + "/" + entity.getId() + "_" + originalFileName;
             patientBill.setPartnerBillPath(billPath);
