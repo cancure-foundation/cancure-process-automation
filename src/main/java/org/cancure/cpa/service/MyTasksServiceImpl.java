@@ -1,5 +1,7 @@
 package org.cancure.cpa.service;
 
+import static org.cancure.cpa.common.Constants.IN_PATIENT_HOSPITAL_VISIT_DEF_KEY;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -96,6 +98,25 @@ public class MyTasksServiceImpl implements MyTasksService {
 		hospitalVisitList = extractHospitalVisitTaskAttributes(hospitalVisitTasks);
 		
 		allProcessMap.put("PATIENT_HOSPITAL_VISIT_DEF_KEY", hospitalVisitList);
+		
+		
+		//InPatient
+		
+		List<Map<String, String>> inPatientHospitalVisitList = new ArrayList<>();
+        List<Task> inPatientHospitalVisitTasks = taskService.createTaskQuery()
+                .processDefinitionKey(Constants.IN_PATIENT_HOSPITAL_VISIT_DEF_KEY)
+                .includeProcessVariables().orderByTaskCreateTime().asc()
+                .taskCandidateGroupIn(roles).list();
+
+        if (myUserId != null) {
+            inPatientHospitalVisitTasks = filterHospitalVisitTasksForRoles(roles, inPatientHospitalVisitTasks, myUserId);
+        }
+        
+        inPatientHospitalVisitList = extractHospitalVisitTaskAttributes(inPatientHospitalVisitTasks);
+        
+        allProcessMap.put("IN_PATIENT_HOSPITAL_VISIT_DEF_KEY", inPatientHospitalVisitList);
+		
+		
 		return allProcessMap;
 	}
 
