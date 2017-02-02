@@ -100,7 +100,8 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 
 				// checks if secretary to make UI changes
 				if (vm.isSecretary){
-					vm.patientVisitDocuments = vm.patient.patientVisitDocuments;
+					
+					vm.patientVisitDocuments = (vm.outPatient) ? vm.patient.patientVisitDocuments : vm.patient.patientBills;
 					if(vm.inPatient){
 						// watch to check if secretary entered amount exceeds the requested amount
 						$scope.$watch('vm.hospitalAmount', function (newValue, oldValue, scope) {
@@ -238,9 +239,10 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		var fd = new FormData();
 
 		fd.append("pidn", vm.pidn);
-		fd.append("comments", vm.formData.comments);
 		fd.append("amount", parseFloat(vm.formData.amount));
 		fd.append("topupNeeded", (vm.formData.topUpSelect) ? 'TRUE' : 'FALSE');
+		fd.append("topupEstimateAmount", vm.formData.topupEstimateAmount);
+		fd.append("topupComments", vm.formData.topupComments);
 
 		for (var i=0; i<vm.bill.length;i++){
 			fd.append("patientBills[" + i + "].partnerBillNo",  vm.bill[i].partnerBillNo);

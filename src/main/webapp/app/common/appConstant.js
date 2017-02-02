@@ -140,7 +140,7 @@ app.constant('appSettings', {
 	},
 	{
 		title: "Payments",
-		icon: "gears",
+		icon: "money",
 		state: "payments",
 		pageId : 11
 	}],
