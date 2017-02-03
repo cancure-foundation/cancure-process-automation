@@ -1,6 +1,7 @@
 package org.cancure.cpa.controller.beans;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class InvoicesBean {
 
@@ -31,6 +32,8 @@ public class InvoicesBean {
 	private String comments;
 
 	private Long journalId; 
+	
+	List<PatientBillsBean> patientBillList;
 	
 	public Long getJournalId() {
 		return journalId;
@@ -143,5 +146,13 @@ public class InvoicesBean {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
+
+    public List<PatientBillsBean> getPatientBillList() {
+        return patientBillList;
+    }
+
+    public void setPatientBillList(List<PatientBillsBean> patientBillList) {
+        this.patientBillList = patientBillList;
+    }
 	
 }
