@@ -116,15 +116,21 @@ public class PaymentServiceImpl implements PaymentService {
 		
 	}
 	
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
 	@Transactional
 	public void approvePayment(Long paymentWorkflowId) {	
 		
 		PaymentWorkflow paymentWorkflow = paymentWorkflowRepository.findOne(paymentWorkflowId);
 		Map<String, Object> params = paymentWorkflowService.findTask(paymentWorkflowId + "");
 		PaymentBean paymentBean = new PaymentBean();
-		// For Monis
-		// Create bean from params
+		paymentBean.setToAccountHolderId(Integer.parseInt(params.get("toAccountHolderId").toString()));
+		paymentBean.setToAccountTypeId(Integer.parseInt(params.get("toAccountTypeId").toString()));
+		paymentBean.setAmount(Double.parseDouble(params.get("mode").toString()));
+		paymentBean.setChequeNo(params.get("chequeNo").toString());
+		paymentBean.setComments(params.get("amount").toString());
+		paymentBean.setMode(params.get("mode").toString());
+		paymentBean.setSelectedInvoiceIds(((ArrayList<Integer>) params.get("selectedInvoiceIds")));
 		
 		List<Integer> invoiceList = paymentBean.getSelectedInvoiceIds();
 		if (invoiceList == null || invoiceList.isEmpty()) {
