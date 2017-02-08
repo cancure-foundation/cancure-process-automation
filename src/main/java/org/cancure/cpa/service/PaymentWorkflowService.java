@@ -66,6 +66,7 @@ public class PaymentWorkflowService {
 		variables.put("toAccountTypeId", paymentBean.getToAccountTypeId());
 		variables.put("toAccountHolderId", paymentBean.getToAccountHolderId());
 		variables.put("paymentWorkflowId", paymentWorkflow.getId());
+		variables.put("amount", paymentBean.getAmount());
 		
 		ProcessInstance procInst = runtimeService.startProcessInstanceByKey(PAYMENT_DEF_KEY, paymentWorkflow.getId() + "",
 				variables);

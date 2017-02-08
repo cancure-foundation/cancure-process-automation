@@ -9,10 +9,12 @@ import javax.transaction.Transactional;
 
 import org.cancure.cpa.controller.beans.InvoicesBean;
 import org.cancure.cpa.controller.beans.JournalBean;
+import org.cancure.cpa.controller.beans.PatientBillsBean;
 import org.cancure.cpa.controller.beans.PaymentBean;
 import org.cancure.cpa.persistence.entity.AccountTypes;
 import org.cancure.cpa.persistence.entity.InvoicesEntity;
 import org.cancure.cpa.persistence.entity.Journal;
+import org.cancure.cpa.persistence.entity.PatientBills;
 import org.cancure.cpa.persistence.entity.PaymentWorkflow;
 import org.cancure.cpa.persistence.repository.InvoicesRepository;
 import org.cancure.cpa.persistence.repository.JournalRepository;
@@ -35,6 +37,9 @@ public class PaymentServiceImpl implements PaymentService {
 	
 	@Autowired
 	private PaymentWorkflowRepository paymentWorkflowRepository;
+	
+	@Autowired
+	private PatientBillService patientBillService;
 
 	@Override
 	public Long saveJournal(JournalBean bean) {
@@ -75,10 +80,19 @@ public class PaymentServiceImpl implements PaymentService {
 		if (entities != null && !entities.isEmpty()) {
 			for (InvoicesEntity entity : entities) {
 				InvoicesBean bean = new InvoicesBean();
+				List<PatientBillsBean> patientBillList = new ArrayList<>();
 				BeanUtils.copyProperties(entity, bean);
 				bean.setFromAccountTypeId(entity.getFromAccountTypeId().getId());
 				bean.setToAccountTypeId(entity.getToAccountTypeId().getId());
-
+				//Adding patient Bills
+				List<PatientBills> patBillList = patientBillService.getPatientBillByInvoice(entity.getId());
+				for(PatientBills patientBill:patBillList){
+                    PatientBillsBean patientBillsBean =new PatientBillsBean();
+                    BeanUtils.copyProperties(patientBill, patientBillsBean);
+                    patientBillList.add(patientBillsBean);
+				}
+ 
+				bean.setPatientBillList(patientBillList);
 				invoiceBeanList.add(bean);
 			}
 		}
@@ -102,15 +116,21 @@ public class PaymentServiceImpl implements PaymentService {
 		
 	}
 	
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
 	@Transactional
 	public void approvePayment(Long paymentWorkflowId) {	
 		
 		PaymentWorkflow paymentWorkflow = paymentWorkflowRepository.findOne(paymentWorkflowId);
 		Map<String, Object> params = paymentWorkflowService.findTask(paymentWorkflowId + "");
 		PaymentBean paymentBean = new PaymentBean();
-		// For Monis
-		// Create bean from params
+		paymentBean.setToAccountHolderId(Integer.parseInt(params.get("toAccountHolderId").toString()));
+		paymentBean.setToAccountTypeId(Integer.parseInt(params.get("toAccountTypeId").toString()));
+		paymentBean.setAmount(Double.parseDouble(params.get("mode").toString()));
+		paymentBean.setChequeNo(params.get("chequeNo").toString());
+		paymentBean.setComments(params.get("amount").toString());
+		paymentBean.setMode(params.get("mode").toString());
+		paymentBean.setSelectedInvoiceIds(((ArrayList<Integer>) params.get("selectedInvoiceIds")));
 		
 		List<Integer> invoiceList = paymentBean.getSelectedInvoiceIds();
 		if (invoiceList == null || invoiceList.isEmpty()) {
