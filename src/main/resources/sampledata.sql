@@ -27,13 +27,17 @@ insert into user values (8,'EC2','ec2','ec2@cancure.in.net', '123123232', '$2a$1
 insert into user_role values (7, 7);
 insert into user_role values (8, 7);
 
+insert into user values (9,'secretary','secretary','secretary@cancure.in.net', '123123232', '$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true, false);
+insert into user_role values (9, 6);
+
+
 insert into APPROVALS values (1, '2016-01-01 12:12:12', 2, 20000, 3, 1, null);
 
 insert into patient values (1, 1, 'John Doe', '1992-01-01', 'MALE', 'A-', '123123123', 'SINGLE', 'Address', 'Employed', 'N', 'House', null, 'Friend', '342342342', 'Friend', 
-null, null, null, 'Sample Doc', 'Cooerative', 'Diagnosis', '2015-01-01',  'Needs treatment', 'Treatment', null, 1000, '123123123123', 1, 1, 10000, 2000, 1000, 1000);
+null, null, null, 'Sample Doc', 'Cooerative', 'Diagnosis', '2015-01-01',  'Needs treatment', 'Treatment', null, 1000, '123123123123', 1, 1, 10000, 2000, 1000, 1000, 'inPatient');
 
 insert into patient values (2, 2, 'Miachael Reisaj', '1992-01-01', 'MALE', 'A-', '123123123', 'SINGLE', 'Address', 'Employed', 'N', 'House', null, 'Friend', '342342342', 'Friend', 
-null, null, null, 'Sample Doc', 'Cooerative', 'Diagnosis', '2015-01-01',  'Needs treatment', 'Treatment', null, 1000, '123123123123', 1, 1, 10000, 2000, 1000, 1000);
+null, null, null, 'Sample Doc', 'Cooerative', 'Diagnosis', '2015-01-01',  'Needs treatment', 'Treatment', null, 1000, '123123123123', 1, 1, 10000, 2000, 1000, 1000, 'inPatient');
 
 insert into PIDN_GENERATOR values (1,1);
 insert into PIDN_GENERATOR values (2,2);
