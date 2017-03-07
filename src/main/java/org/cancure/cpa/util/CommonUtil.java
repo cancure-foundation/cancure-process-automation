@@ -1,5 +1,6 @@
 package org.cancure.cpa.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +32,11 @@ public class CommonUtil {
         }
         return totalIncome;
         
+    }
+    
+    public static String formatDate(Date date) {
+    	SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+    	return sdf.format(date);
     }
 
 }

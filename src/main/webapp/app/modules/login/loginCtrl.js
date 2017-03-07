@@ -1,6 +1,6 @@
-login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$cookies', 'Flash', 'apiService', 'appSettings', '$http',
+login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$cookies', 'Flash', 'apiService', 'appSettings', '$http', '$location',
 
-                               function ($rootScope, $scope, $state, $timeout, $cookies, Flash, apiService, appSettings, $http) {
+                               function ($rootScope, $scope, $state, $timeout, $cookies, Flash, apiService, appSettings, $http, $location) {
 	var vm = this;
 
 
@@ -48,8 +48,16 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 					vm.stateLogin = false;
 					vm.stateResetPassword = true;		
 					vm.loggingIn = false;
-				} else
+				} 
+				
+				if (!appSettings.redirectToUrlAfterLogin || appSettings.redirectToUrlAfterLogin == '') {
 					$state.go('app.home'); // route to the home page
+				} else {
+					var redirectUrl = appSettings.redirectToUrlAfterLogin;
+					appSettings.redirectToUrlAfterLogin = '';
+					$location.path(redirectUrl);
+				}
+				
 			}, function fail(fail){
 				vm.formData = {}; // clears the login form data
 			});			
@@ -69,12 +77,17 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 		}
 		vm.loggingIn = true;
 		apiService.serviceRequest({
-			URL: appSettings.requestURL.firstLogResetPassword,
+			URL: appSettings.requestURL.createUser,
 			method: 'POST',
 			payLoad: {
 				password : vm.resetPass.password,
 				id : vm.userDetails.id,
-				login : vm.userDetails.login
+				email : vm.userDetails.email,
+				enabled : vm.userDetails.enabled,
+				login : vm.userDetails.login,
+				name : vm.userDetails.name,
+				roles : vm.userDetails.roles,
+				firstLog : vm.userDetails.firstLog
 			}
 		}, function (response) {
 			$state.go('app.home');
@@ -99,7 +112,11 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 		}, function (response) {
 			if (response.status == "SUCCESS") {
 				Flash.create('success', 'Passwords reset successful. Please check your email.', 'large-text');
-				vm.initVar();
+				vm.loggingIn = false; // to show the user summary div
+				vm.stateLogin = true; 
+				vm.stateResetPassword = false; 
+				vm.stateForgotPassword = false;
+				vm.forgotPass = {};		
 			} else {
 				Flash.create('danger', 'Sorry, data provided does not match any record.', 'large-text');
 				vm.forgotPass = {};			

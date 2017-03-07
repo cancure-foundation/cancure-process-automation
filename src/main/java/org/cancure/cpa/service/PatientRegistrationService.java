@@ -7,17 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.Transactional;
-
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.log4j.Logger;
-import org.cancure.cpa.persistence.entity.PidnGenerator;
 import org.cancure.cpa.persistence.entity.Settings;
 import org.cancure.cpa.persistence.repository.SettingsRepository;
+import org.cancure.cpa.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -84,15 +82,15 @@ public class PatientRegistrationService {
     }
 	
 	public String getBgCheckTimeCycle(){
-		return "R/" + getSettingsInHours(12);
+		return getSettingsInHours(12);
 	}
 	
 	public String getSecretaryApprovalTimeCycle(){
-		return "R/" + getSettingsInHours(14);
+		return getSettingsInHours(14);
 	}
 	
 	public String getMbDoctorApprovalTimeCycle(){
-		return "R/" + getSettingsInHours(13);
+		return getSettingsInHours(13);
 	}
 
 	/**
@@ -103,7 +101,7 @@ public class PatientRegistrationService {
 	 */
 	private String getSettingsInHours(Integer id){
 		Settings sett = settingsRepository.findOne(id);
-		return "PT" + sett.getValue() + "H";
+		return sett.getValue();
 	}
 	
 	public String startPatientRegnProcess(Map<String, Object> variables,
@@ -150,34 +148,11 @@ public class PatientRegistrationService {
 		Map vars = task.getVariables();
 		String patName = (String)vars.get("patientName");
 		Integer prn = (Integer)vars.get("prn");
-		StringBuffer message = new StringBuffer("");
-		/*message.append("Hi, <br>A person's workflow has been closed. <br>Patient Name : " + patName + 
-				"<br>PRN : " + prn + "<br>" + 
-				"<br>Thanks, <br/>Cancure");*/
-		message.append("<div style='border : 2px solid #f4961c;'>"
-                + "<div style='background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;'>"
-                + "Cancure Foundation</div>"
-                + "<div style='padding:15px;color: #222d32;font-weight:500;'> "
-                + "Hi, <br><br>"
-                + "<b>The folowing workflow has been closed.</b> <br> <br>"
-                + "<table border=1 style='border-collapse: collapse;'>"
-                + "<tr>"
-                + "<th style='padding:4px 8px;'> PRN</th>"
-                + "<th style='padding:4px 8px;'> Patient Name</th>"
-                + "<th style='padding:4px 8px;'> Task Name</th>"
-                + "</tr>"
-                + "<tr>"
-                + "<td style='padding:4px 8px;'>"+ prn +"</td>"
-                + "<td style='padding:4px 8px;'>"+ patName +"</td>"
-                + "<td style='padding:4px 8px;'>"+ task.getName() +"</td>"
-                + "</tr>"
-                + "</table><br>"
-                + "Visit <a href='www.cancure.in.net'>www.cancure.in.net</a> <br> <br>"
-                + "<b>Thanks,</b> <br>"
-                + "Admin"
-                + "</div>"
-                + "</div>");
-		new NotificationComponent().notify("monis to do", null, null, task);
+		Map<String, Object> values = new HashMap<>();
+		values.put("prn", prn);
+		values.put("patName", patName);
+		
+		new NotificationComponent().notify("PatientRegWorkflowClosure", values, "ROLE_PROGRAM_COORDINATOR", task);
 		
 		return COMPLETED_STR;
 	}
@@ -185,45 +160,18 @@ public class PatientRegistrationService {
 	public String reminderTask(String patientId) {
 		// Send reminder notifications
 		TaskEntity task = (TaskEntity)findTask(patientId);
-		String taskId = task.getId();
-		logger.info("Moving Task Id ..." + taskId);
 		
 		Map vars = task.getVariables();
 		String patName = (String)vars.get("patientName");
 		Integer prn = (Integer)vars.get("prn");
-		StringBuffer message = new StringBuffer("");
-		/*message.append("Hi, <br>This is a reminder to take action on a person's workflow. "
-				+ "<br>Patient Name : " + patName + 
-				"<br>PRN : " + prn + "<br>" + 
-				"<br>Task to do : " + task.getName() + 
-				"<br>Thanks, <br/>Cancure");*/
-		message.append("<div style='border : 2px solid #f4961c;'>"
-                + "<div style='background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;'>"
-                + "Cancure Foundation</div>"
-                + "<div style='padding:15px;color: #222d32;font-weight:500;'> "
-                + "Hi, <br><br>"
-                + "<b>The following task is pending in your queue.</b> <br> <br>"
-                + "<table border=1 style='border-collapse: collapse;'>"
-                + "<tr>"
-                + "<th style='padding:4px 8px;'> PRN</th>"
-                + "<th style='padding:4px 8px;'> Patient Name</th>"
-                + "<th style='padding:4px 8px;'> Task Name</th>"
-                + "<th style='padding:4px 8px;'> Task Expiry</th>"
-                + "</tr>"
-                + "<tr>"
-                + "<td style='padding:4px 8px;'>"+ prn +"</td>"
-                + "<td style='padding:4px 8px;'>"+ patName +"</td>"
-                + "<td style='padding:4px 8px;'>"+ task.getName() +"</td>"
-                + "<td style='padding:4px 8px;'>"+ task.getDueDate() +"</td>"
-                + "</tr>"
-                + "</table><br>"
-                + "<i>Please take necessary action.</i> <br>"
-                + "Visit <a href='www.cancure.in.net'>www.cancure.in.net</a> <br> <br>"
-                + "<b>Thanks,</b> <br>"
-                + "Admin"
-                + "</div>"
-                + "</div>");
-		new NotificationComponent().notify("monis to do", null, null, task);
+		
+		Map<String, Object> values = new HashMap<>();
+		values.put("prn", prn);
+		values.put("patName", patName);
+		values.put("taskName", task.getName());
+		values.put("taskDueDate", CommonUtil.formatDate(task.getDueDate()));
+		
+		new NotificationComponent().notify("PatientRegWorkflowReminder", values, null, task);
 		return COMPLETED_STR;
 	}
 
@@ -233,6 +181,7 @@ public class PatientRegistrationService {
 
 		Task taskData = findTask(patientId);
 		String taskId=taskData.getId();
+		// taskData.getName() equals MBDoctorApproval, then save. Otherwise only save Docs.
 
 		HashMap<String, Object> actVars = new HashMap<String, Object>();
 		String executionId = taskData.getExecutionId();
