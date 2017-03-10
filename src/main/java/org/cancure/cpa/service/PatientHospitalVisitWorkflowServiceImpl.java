@@ -217,6 +217,7 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 					approval.setDate(new Timestamp(System.currentTimeMillis()));
 					approval.setPatientVisitId(patientVisitId);
 					approval.setPidn(pidn);
+					approval.setPatientVisitId(patientVisitId);
 					AccountTypes at = new AccountTypes();
 					at.setId(b.getApprovedForAccountTypeId());
 					approval.setApprovedForAccountType(at);
@@ -229,7 +230,18 @@ public class PatientHospitalVisitWorkflowServiceImpl implements PatientHospitalV
 		// Move to next task
 		Map<String, Object> activitiVars = new HashMap<String, Object>();
 		activitiVars.put("topupApproved", topupApproved);
-		String taskId = patientHospitalVisitService.moveToNextTask(pidn + "", patientVisitId, activitiVars);
+		
+		PatientBean pat = patientService.searchByPidn(pidn).get(0);
+		String taskId = null;
+		if(pat.getPatientType().equals("inPatient")){
+		    taskId = inPatientHospitalVisitService.moveToNextTask(pidn + "", patientVisitId, activitiVars);
+		}else
+		{
+		    taskId = patientHospitalVisitService.moveToNextTask(pidn + "", patientVisitId, activitiVars);
+		}
+		
+		
+		/*String taskId = patientHospitalVisitService.moveToNextTask(pidn + "", patientVisitId, activitiVars);*/
 		PatientVisit patVisit = patientVisitRepository.findOne(patientVisitId);
 		
 		Integer hospitalId = patVisit.getAccountHolderId();
