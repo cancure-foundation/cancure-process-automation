@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.cancure.cpa.controller.beans.UserBean;
 import org.cancure.cpa.service.MyTasksService;
+import org.cancure.cpa.service.NotificationComponent;
 import org.cancure.cpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -69,9 +70,23 @@ public class MyWorkflowController {
 	}
 	
 	@RequestMapping("/tasks/history/{prn}")
-	public Map<String, Object> getTaskHistory(@PathVariable("prn") String prn) {
+	public Map<String, Object> getTaskHistory(@PathVariable("prn") String prn, OAuth2Authentication auth) {
 		
-		return myTasksService.getTaskHistory(prn, PATIENT_REG_PROCESS_DEF_KEY);
-
+		if (auth != null) {
+			List<String> roles = new ArrayList<>();
+			for (GrantedAuthority a : auth.getAuthorities()){
+				roles.add(a.getAuthority());
+			}
+		
+			String login = (String) ((Map) auth.getUserAuthentication().getDetails()).get("username");
+			UserBean user = userService.getUserByLogin(login);
+			String doctorName = user.getName();
+			
+			Map<String, Object> taskMap = myTasksService.getTaskHistory(prn, PATIENT_REG_PROCESS_DEF_KEY);
+			new NotificationComponent().notifyTaskView(taskMap, roles, "mbDoctorApproval", "ROLE_DOCTOR", doctorName);
+			return taskMap;
+		} else {
+			throw new RuntimeException("Not logged in");
+		}
 	}
 }
