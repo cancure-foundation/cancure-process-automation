@@ -334,6 +334,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		    PatientBills patientBill=new PatientBills();
 		    BeanUtils.copyProperties(patientBillBean, patientBill);
 		    patientBill.setInvoiceId(entity.getId());
+		    patientBill.setPatientVisitId(bean.getPatientVisitId());
 		    String originalFileName = patientBillBean.getPartnerBillFile().getOriginalFilename();
 		    String billPath = "/invoices/" + bean.getPidn() + "/" + entity.getId() + "_" + originalFileName;
             patientBill.setPartnerBillPath(billPath);

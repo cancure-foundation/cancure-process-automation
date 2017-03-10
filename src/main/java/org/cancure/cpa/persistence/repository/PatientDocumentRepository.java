@@ -8,5 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface PatientDocumentRepository extends CrudRepository<PatientDocument, Integer> {
     
     List<PatientDocument> findByTaskId(String taskId);
+    
+    List<PatientDocument> findByPrn(Integer prn);
 
 }
