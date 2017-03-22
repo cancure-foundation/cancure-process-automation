@@ -69,7 +69,11 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 				vm.patient = response;
 				vm.noSearchResult = false;			
 				vm.regDocument = vm.patient.patientBean.document;
-				vm.profileSrc = appSettings.baseURL + 'files/' + vm.regDocument[0].docId;
+
+				if(vm.regDocument.length > 0){
+					vm.profileSrc = appSettings.baseURL + 'files/' + vm.regDocument[0].docId;
+				}
+				
 				
 				
 				// checks if any requests is pending for the user				

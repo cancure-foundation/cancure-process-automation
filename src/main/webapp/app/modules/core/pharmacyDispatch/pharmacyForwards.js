@@ -40,7 +40,10 @@ core.controller("PharmacyForwardsController", ['Loader', '$scope', '$state', '$s
 				vm.balance = response.balance;
 				vm.noSearchResult = false;
 				vm.regDocument = vm.patient.document;
-				vm.profileSrc = appSettings.baseURL + 'files/' + vm.regDocument[0].docId;
+				if(vm.regDocument.length > 0){
+					vm.profileSrc = appSettings.baseURL + 'files/' + vm.regDocument[0].docId;
+				}
+				
 				$scope.$watch('vm.formData.amount', function (newValue, oldValue, scope) {
 					if (vm.formData.amount && parseInt(vm.formData.amount) > vm.balance){
 						vm.balErr = true;	
