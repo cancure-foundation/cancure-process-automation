@@ -1,11 +1,12 @@
-app.controller(	"appCtrl",[ '$rootScope', '$scope',	'$state', '$http', '$cookies', 'Flash', 'appSettings', 'apiService', '$mdDialog', '$mdMedia',
-		 function($rootScope, $scope, $state, $http, $cookies, Flash, appSettings, apiService, $mdDialog, $mdMedia) {
+app.controller(	"appCtrl",[ '$rootScope', '$scope',	'$state', '$http', '$cookies', 'Flash', 'appSettings', 'apiService', '$mdDialog', '$mdMedia', '$location',
+		 function($rootScope, $scope, $state, $http, $cookies, Flash, appSettings, apiService, $mdDialog, $mdMedia, $location) {
 
 			 var vm = this;
 			 /**
 			  * exection starts with the init function
 			  */
 			 var init = function() {
+				 appSettings.redirectToUrlAfterLogin = $location.path();
 				 if ($cookies.get('userName')) {
 					 appSettings.loginUserName = $cookies.get('userName'); // sets the userName to app settings
 					 appSettings.roles = JSON.parse($cookies.get('roles')); // sets the roles to app settings

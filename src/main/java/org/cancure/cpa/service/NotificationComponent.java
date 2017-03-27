@@ -42,7 +42,9 @@ public class NotificationComponent {
 				// If present, mail only assignee.
 				Object var = task.getVariable("assignee");
 				if (var != null) {
-
+					//Remove the variable. Otherwise it will be available for the next tasks too.
+					task.removeVariable("assignee");
+					
 					String assignees = var.toString();
 					String[] assigneesCsv = assignees.split(",");
 					for (String id : assigneesCsv) {
