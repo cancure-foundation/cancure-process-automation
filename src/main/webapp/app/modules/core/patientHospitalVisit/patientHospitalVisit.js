@@ -67,8 +67,15 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 			} else {
 				vm.toDay = new Date().toDateString();
 				vm.patient = response;
-				vm.noSearchResult = false;
+				vm.noSearchResult = false;			
+				vm.regDocument = vm.patient.patientBean.document;
 
+				if(vm.regDocument.length > 0){
+					vm.profileSrc = appSettings.baseURL + 'files/' + vm.regDocument[0].docId;
+				}
+				
+				
+				
 				// checks if any requests is pending for the user				
 				if (response.workflowExists && !vm.isSecretary){					
 					vm.formSubmitted = true;
@@ -196,7 +203,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		Loader.create('Sending data... Please wait...');		
 
 		var topupEstimateAmount = vm.formData.topupEstimateAmount ? parseFloat(vm.formData.topupEstimateAmount) : 0;
-		var topupComments = vm.formData.topupComments ? toString(vm.formData.topupComments) : null;
+		var topupComments = vm.formData.topupComments ? vm.formData.topupComments : null;
 		
 		var fd = new FormData();
 		fd.append("pidn", vm.patient.patientBean.pidn);
@@ -242,7 +249,7 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		var fd = new FormData();
 
 		var topupEstimateAmount = vm.formData.topupEstimateAmount ? parseFloat(vm.formData.topupEstimateAmount) : 0;
-		var topupComments = vm.formData.topupComments ? toString(vm.formData.topupComments) : null;
+		var topupComments = vm.formData.topupComments ? vm.formData.topupComments : null;
 		
 		fd.append("pidn", vm.pidn);
 		fd.append("amount", parseFloat(vm.formData.amount));

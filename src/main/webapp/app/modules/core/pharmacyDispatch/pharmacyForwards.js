@@ -1,5 +1,5 @@
-core.controller("PharmacyForwardsController", ['Loader', '$scope', '$state', '$stateParams', 'apiService', 'Flash',
-                                                function (Loader, $scope, $state, $stateParams, apiService, Flash) {
+core.controller("PharmacyForwardsController", ['Loader', '$scope', '$state', '$stateParams', 'apiService', 'appSettings', 'Flash',
+                                                function (Loader, $scope, $state, $stateParams, apiService, appSettings, Flash) {
 
 	var vm = this;
 	
@@ -39,6 +39,11 @@ core.controller("PharmacyForwardsController", ['Loader', '$scope', '$state', '$s
 				vm.visits = response.patientVisitForwardsBean;
 				vm.balance = response.balance;
 				vm.noSearchResult = false;
+				vm.regDocument = vm.patient.document;
+				if(vm.regDocument.length > 0){
+					vm.profileSrc = appSettings.baseURL + 'files/' + vm.regDocument[0].docId;
+				}
+				
 				$scope.$watch('vm.formData.amount', function (newValue, oldValue, scope) {
 					if (vm.formData.amount && parseInt(vm.formData.amount) > vm.balance){
 						vm.balErr = true;	

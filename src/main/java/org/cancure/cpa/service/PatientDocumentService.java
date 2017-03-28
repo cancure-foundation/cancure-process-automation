@@ -10,4 +10,6 @@ public interface PatientDocumentService {
     List<PatientDocument> findByTaskId(String taskId);
     
     PatientDocument findOne(Integer id);
+
+    List<PatientDocument> findByPrn(Integer prn);
 }

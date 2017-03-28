@@ -11,6 +11,7 @@ import org.cancure.cpa.controller.beans.InvoicesBean;
 import org.cancure.cpa.controller.beans.PatientApprovalBean;
 import org.cancure.cpa.controller.beans.PatientBean;
 import org.cancure.cpa.controller.beans.PatientBillsBean;
+import org.cancure.cpa.controller.beans.PatientDocumentBean;
 import org.cancure.cpa.controller.beans.PatientVisitBean;
 import org.cancure.cpa.controller.beans.PatientVisitDocumentBean;
 import org.cancure.cpa.controller.beans.PatientVisitForwardDetailsBean;
@@ -22,6 +23,7 @@ import org.cancure.cpa.persistence.entity.InvoicesEntity;
 import org.cancure.cpa.persistence.entity.LpocLab;
 import org.cancure.cpa.persistence.entity.PatientApproval;
 import org.cancure.cpa.persistence.entity.PatientBills;
+import org.cancure.cpa.persistence.entity.PatientDocument;
 import org.cancure.cpa.persistence.entity.PatientVisit;
 import org.cancure.cpa.persistence.entity.PatientVisitDocuments;
 import org.cancure.cpa.persistence.entity.PatientVisitForwards;
@@ -41,6 +43,8 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 	@Autowired
 	private InvoiceNotificationComponent notifier;
 	
+	@Autowired
+	private PatientDocumentService patientDocumentService;
 	@Autowired
 	private InvoicesRepository invoicesRepository;
 	
@@ -141,6 +145,20 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		if (forwards != null && !forwards.isEmpty()) {
 			// All are same patient
 			List<PatientBean> patient = patientService.searchByPidn(pidn);
+			
+			List<PatientDocument> document = new ArrayList<PatientDocument>();
+            List<PatientDocumentBean>documentBean=new ArrayList<PatientDocumentBean>();
+            document = patientDocumentService.findByPrn(patient.get(0).getPrn());
+            for (PatientDocument patientDocument : document) {
+                PatientDocumentBean patientDocumentBean = new PatientDocumentBean();
+                if(patientDocument.getDocCategory().equals("Profile Image")){
+                    BeanUtils.copyProperties(patientDocument, patientDocumentBean);
+                }else{
+                    continue;
+                }
+                documentBean.add(patientDocumentBean);
+            }
+            patient.get(0).setDocument(documentBean);
 			patientVisitForwardDetailsBean.setPatientBean(patient.get(0));
 			
 			for (PatientVisitForwards fwd : forwards) {
@@ -334,6 +352,7 @@ public class PharmacyDispatchServiceImpl implements PharmacyDispatchService {
 		    PatientBills patientBill=new PatientBills();
 		    BeanUtils.copyProperties(patientBillBean, patientBill);
 		    patientBill.setInvoiceId(entity.getId());
+		    patientBill.setPatientVisitId(bean.getPatientVisitId());
 		    String originalFileName = patientBillBean.getPartnerBillFile().getOriginalFilename();
 		    String billPath = "/invoices/" + bean.getPidn() + "/" + entity.getId() + "_" + originalFileName;
             patientBill.setPartnerBillPath(billPath);
