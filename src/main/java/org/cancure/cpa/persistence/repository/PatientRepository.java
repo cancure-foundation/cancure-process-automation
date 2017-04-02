@@ -29,4 +29,9 @@ public interface PatientRepository extends CrudRepository<Patient, Integer> {
     @Modifying
     @Query("update Patient u set u.hospitalCostApproved = ?1, u.medicalCostApproved = ?2 where u.prn = ?3")
     public int updateCostApproved(Integer hospitalCostApproved, Integer medicalCostApproved,  Integer prn);
+    
+    @Modifying
+    @Query("update Patient u set u.mbapprovalViewedDoctors = ?1 where u.prn = ?2")
+    public int updateMbApprovalViewedDoctors(String doctors,  Integer prn);
+    
 }

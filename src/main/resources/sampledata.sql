@@ -42,10 +42,10 @@ null, null, null, 'Sample Doc', 'Cooerative', 'Diagnosis', '2015-01-01',  'Needs
 insert into PIDN_GENERATOR values (1,1);
 insert into PIDN_GENERATOR values (2,2);
 
-insert into APPROVALS values (1, '2016-01-01 12:12:12', 1, 20000, 3, 1, null);
-insert into APPROVALS values (2, '2016-01-01 12:12:12', 1, 3000, 5, 1, null);
-insert into APPROVALS values (3, '2016-01-01 12:12:12', 2, 20000, 3, 1, null);
-insert into APPROVALS values (4, '2016-01-01 12:12:12', 2, 3000, 5, 1, null);
+insert into approvals values (1, '2016-01-01 12:12:12', 1, 20000, 3, 1, null);
+insert into approvals values (2, '2016-01-01 12:12:12', 1, 3000, 5, 1, null);
+insert into approvals values (3, '2016-01-01 12:12:12', 2, 20000, 3, 1, null);
+insert into approvals values (4, '2016-01-01 12:12:12', 2, 3000, 5, 1, null);
 
 
 
