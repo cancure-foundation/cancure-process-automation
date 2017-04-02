@@ -92,25 +92,20 @@ public class NotificationComponent {
 	 * @param userName 
 	 * @throws Exception 
 	 */
-	public void notifyTaskView(Map<String, Object> taskMap, List<String> roles, String nextTask, String roleToBeNotified, String userName) {
-		if (roles != null && !roles.isEmpty() && roles.contains(roleToBeNotified)) {
-			String nextTaskKey = (String)taskMap.get("nextTaskKey");
-			if (nextTaskKey != null && nextTaskKey.equals(nextTask)) {
+	public void notifyTaskView(Map<String, Object> taskMap, String roleToBeNotified, String userName) {
+		
+		ApplicationContext context = ApplicationContextProvider.getApplicationContext();					
+		UserRepository userRepository = context.getBean(UserRepository.class);
+		Set<User> userSet = new HashSet<>();
 
-				ApplicationContext context = ApplicationContextProvider.getApplicationContext();					
-				UserRepository userRepository = context.getBean(UserRepository.class);
-				Set<User> userSet = new HashSet<>();
-
-				Iterable<User> userList = userRepository.findByUserRole(roleToBeNotified);
-				for (User u : userList) {
-					userSet.add(u);
-				}
-				
-				Map<String, Object> values = extractMessageValues(taskMap, userName); 				
-				
-				sendNotification(userSet, "PatientRegWorkflowDoctorView", values);
-			}
+		Iterable<User> userList = userRepository.findByUserRole(roleToBeNotified);
+		for (User u : userList) {
+			userSet.add(u);
 		}
+		
+		Map<String, Object> values = extractMessageValues(taskMap, userName); 				
+		
+		sendNotification(userSet, "PatientRegWorkflowDoctorView", values);
 	}
 
 	private Map<String, Object> extractMessageValues(Map<String, Object> taskMap, String userName) {
