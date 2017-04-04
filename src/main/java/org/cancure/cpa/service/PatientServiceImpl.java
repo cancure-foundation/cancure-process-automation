@@ -188,6 +188,12 @@ public class PatientServiceImpl implements PatientService {
         patientRepo.updateCostApproved(hospitalCostApproved, medicalCostApproved, prn);
         
     }
+    
+    @Transactional
+    @Override
+    public void updateMbApprovalViewedDoctors(String doctors, Integer prn) {
+    	patientRepo.updateMbApprovalViewedDoctors(doctors, prn);
+    }
 
 	@Override
 	public void saveApprovedAmounts(Integer pidn, Integer prn) {

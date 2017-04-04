@@ -182,7 +182,8 @@ create table patient(
 	medical_cost_estimate number(10),
 	hospital_cost_approved number(10),
 	medical_cost_approved number(10),
-	patient_type varchar(20)
+	patient_type varchar(20),
+	mbapproval_viewed_doctors varchar(50)
 );
 
 

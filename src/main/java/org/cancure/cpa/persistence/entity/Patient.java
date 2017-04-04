@@ -133,6 +133,9 @@ public class Patient {
     @Column(name="patient_type")
     private String patientType;
     
+    @Column(name="mbapproval_viewed_doctors")
+    private String mbapprovalViewedDoctors;
+    
     @OneToMany(mappedBy="familyPatient")
     private List<PatientFamily> patientFamily=new ArrayList<PatientFamily>();
     
@@ -433,8 +436,14 @@ public class Patient {
     public void setPatientType(String patientType) {
         this.patientType = patientType;
     }
-    
-    
+
+	public String getMbapprovalViewedDoctors() {
+		return mbapprovalViewedDoctors;
+	}
+
+	public void setMbapprovalViewedDoctors(String mbapprovalViewedDoctors) {
+		this.mbapprovalViewedDoctors = mbapprovalViewedDoctors;
+	}
 
  /*   public List<PatientDocument> getDocument() {
         return document;
