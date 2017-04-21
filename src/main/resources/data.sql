@@ -128,6 +128,9 @@ insert into settings values (25, 'PatientRegWorkflowReminder_email', '<div style
 insert into settings values (26, 'PatientRegWorkflowReminder_sms', 'The following task is pending in your queue. Pls take action. Patient : ${patName}. Visit - www.cancure.in.net/#/app/patientRegHistory/${prn}');
 insert into settings values (27, 'PatientRegWorkflowDoctorView_email', '<div style="border : 2px solid #f4961c;"><div style="background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;">Cancure Foundation</div><div style="padding:15px;color: #222d32;font-weight:500;"> Hi, <br><br><b>Doctor ${doctorName} is viewing the file of the below patient.</b> <br> <br><table border=1 style="border-collapse: collapse;"><tr><th style="padding:4px 8px;"> PRN</th><th style="padding:4px 8px;"> Patient Name</th></tr><tr><td style="padding:4px 8px;">${prn}</td><td style="padding:4px 8px;">${patName}</td></tr></table><br><br>You can view the file of that patient and enter your comments at <a href="www.cancure.in.net/#/app/patientRegHistory/${prn}">www.cancure.in.net</a> <br> <br><b>Thanks,</b> <br>Cancure</div></div>');
 insert into settings values (28, 'PatientRegWorkflowDoctorView_sms', 'Doctor ${doctorName} is viewing the file of Patient : ${patName} (PRN: ${prn}). Cancure');
+insert into settings values (29, 'SMS Enabled (true/false)', 'true');
+insert into settings values (30, 'SMS Username', 'ed@cancure.in');
+insert into settings values (31, 'SMS Hash key', 'hashkey');
 
 insert into account_types values (1, 'Cancure');
 insert into account_types values (2, 'Patient');
