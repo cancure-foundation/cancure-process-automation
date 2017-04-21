@@ -11,12 +11,31 @@ import org.cancure.cpa.util.Log;
  * An API to send SMS using http://api.textlocal.in API
  * Documentation at : http://api.textlocal.in/docs/sendsms
  */
-public class SMSSender {
-	public String sendSms(String numbersCSV, String smsMessage) {
+public class SMSSender extends Thread {
+	
+	private String numbersCSV;
+	private String smsMessage;
+	private String smsUsername;
+	private String smsHash;
+	
+	public SMSSender(String numbersCSV, String smsMessage, String smsUsername, String smsHash){
+		this.numbersCSV = numbersCSV;
+		this.smsMessage = smsMessage;
+		this.smsUsername = smsUsername;
+		this.smsHash = smsHash;
+	}
+	
+	@Override
+	public void run() {
+		sendSms();
+	}
+	
+	
+	private String sendSms() {
 		try {
 			// Construct data
-			String user = "username=" + "youremail@address.com";
-			String hash = "&hash=" + "Your API hash";
+			String user = "username=" + smsUsername;
+			String hash = "&hash=" + smsHash;
 			String message = "&message=" + smsMessage;
 			String sender = "&sender=" + "TXTLCL";
 			String numbers = "&numbers=" + numbersCSV; // "918123456789";
