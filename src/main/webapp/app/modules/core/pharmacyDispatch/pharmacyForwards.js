@@ -120,7 +120,6 @@ core.controller("PharmacyForwardsController", ['Loader', '$scope', '$state', '$s
 		fd.append("amount", parseFloat(vm.formData.amount));
 		fd.append("billStatus", vm.formData.closeBill);
 		fd.append("patientVisitId", vm.formData.patientVisitId);
-		debugger
 		
 		for (var i=0; i<vm.bill.length;i++){
 			fd.append("patientBillsBean[" + i + "].partnerBillNo",  vm.bill[i].partnerBillNo);
