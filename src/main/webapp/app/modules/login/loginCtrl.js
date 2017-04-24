@@ -75,7 +75,7 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 		}
 		vm.loggingIn = true;
 		apiService.serviceRequest({
-			URL: appSettings.requestURL.createUser,
+			URL: appSettings.requestURL.firstLogResetPassword,
 			method: 'POST',
 			payLoad: {
 				password : vm.resetPass.password,
