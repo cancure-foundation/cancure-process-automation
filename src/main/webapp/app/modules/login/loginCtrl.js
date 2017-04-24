@@ -48,9 +48,7 @@ login.controller("loginCtrl", ['$rootScope', '$scope', '$state', '$timeout', '$c
 					vm.stateLogin = false;
 					vm.stateResetPassword = true;		
 					vm.loggingIn = false;
-				} 
-				
-				if (!appSettings.redirectToUrlAfterLogin || appSettings.redirectToUrlAfterLogin == '') {
+				} else if (!appSettings.redirectToUrlAfterLogin || appSettings.redirectToUrlAfterLogin == '') {
 					$state.go('app.home'); // route to the home page
 				} else {
 					var redirectUrl = appSettings.redirectToUrlAfterLogin;
