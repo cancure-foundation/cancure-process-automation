@@ -51,6 +51,7 @@ public class PatientBean {
     private List<PatientDocumentBean> document=new ArrayList<PatientDocumentBean>();
     private List<PatientInvestigationBean> patientInvestigation=new ArrayList<PatientInvestigationBean>();
     private String patientType;
+    private String mbapprovalViewedDoctors;
     
     public Integer getPrn() {
         return prn;
@@ -311,6 +312,12 @@ public class PatientBean {
     }
     public void setPatientType(String patientType) {
         this.patientType = patientType;
-    } 
+    }
+	public String getMbapprovalViewedDoctors() {
+		return mbapprovalViewedDoctors;
+	}
+	public void setMbapprovalViewedDoctors(String mbapprovalViewedDoctors) {
+		this.mbapprovalViewedDoctors = mbapprovalViewedDoctors;
+	} 
     
 }

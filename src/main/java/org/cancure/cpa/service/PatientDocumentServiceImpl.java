@@ -21,6 +21,14 @@ public class PatientDocumentServiceImpl implements PatientDocumentService {
     }
 
     @Override
+    public List<PatientDocument> findByPrn(Integer prn) {
+        
+        List<PatientDocument> patientDocument=patientDocumentRepo.findByPrn(prn);
+        return patientDocument;
+
+    }
+    
+    @Override
     public PatientDocument findOne(Integer id) {
         return patientDocumentRepo.findOne(id);
     }

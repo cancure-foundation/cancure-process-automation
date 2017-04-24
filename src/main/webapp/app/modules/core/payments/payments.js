@@ -121,7 +121,7 @@ core.controller("PaymentsController", ['Loader', '$scope', '$state', '$statePara
 		// making the server call
 		apiService.serviceRequest({
 			URL: '/payments',
-			method: 'POST',
+			method: 'PUT',
 			payLoad: serverData
 		}, function (response) {
 			Loader.destroy();

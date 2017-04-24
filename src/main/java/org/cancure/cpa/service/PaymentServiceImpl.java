@@ -155,6 +155,9 @@ public class PaymentServiceImpl implements PaymentService {
 		for (Integer invoiceId : invoiceList) {
 			invoicesRepo.closeInvoice("closed", now, 0d, journalId, invoiceId);
 		}
+		
+		// Move workflow to next step
+		paymentWorkflowService.moveToNextTask(paymentWorkflowId, null);
 	}
 
 }

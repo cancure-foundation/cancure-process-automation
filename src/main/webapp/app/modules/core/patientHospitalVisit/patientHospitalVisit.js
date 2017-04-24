@@ -67,8 +67,15 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 			} else {
 				vm.toDay = new Date().toDateString();
 				vm.patient = response;
-				vm.noSearchResult = false;
+				vm.noSearchResult = false;			
+				vm.regDocument = vm.patient.patientBean.document;
 
+				if(vm.regDocument.length > 0){
+					vm.profileSrc = appSettings.baseURL + 'files/' + vm.regDocument[0].docId;
+				}
+				
+				
+				
 				// checks if any requests is pending for the user				
 				if (response.workflowExists && !vm.isSecretary){					
 					vm.formSubmitted = true;
@@ -195,11 +202,14 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 
 		Loader.create('Sending data... Please wait...');		
 
+		var topupEstimateAmount = vm.formData.topupEstimateAmount ? parseFloat(vm.formData.topupEstimateAmount) : 0;
+		var topupComments = vm.formData.topupComments ? vm.formData.topupComments : null;
+		
 		var fd = new FormData();
 		fd.append("pidn", vm.patient.patientBean.pidn);
 		fd.append("topupNeeded", (vm.formData.topUpSelect) ? 'TRUE' : 'FALSE');
-		fd.append("topupEstimateAmount", vm.formData.topupEstimateAmount);
-		fd.append("topupComments", vm.formData.topupComments);
+		fd.append("topupEstimateAmount", topupEstimateAmount);
+		fd.append("topupComments", topupComments);
 
 		// checks to inlcude files selected
 		if (vm.patientFile && vm.patientFile.length > 0) {
@@ -238,11 +248,14 @@ core.controller("PatientHospitalVisitController", ['Loader', '$timeout', '$scope
 		Loader.create('Saving Data .. Please wait ...');
 		var fd = new FormData();
 
+		var topupEstimateAmount = vm.formData.topupEstimateAmount ? parseFloat(vm.formData.topupEstimateAmount) : 0;
+		var topupComments = vm.formData.topupComments ? vm.formData.topupComments : null;
+		
 		fd.append("pidn", vm.pidn);
 		fd.append("amount", parseFloat(vm.formData.amount));
 		fd.append("topupNeeded", (vm.formData.topUpSelect) ? 'TRUE' : 'FALSE');
-		fd.append("topupEstimateAmount", vm.formData.topupEstimateAmount);
-		fd.append("topupComments", vm.formData.topupComments);
+		fd.append("topupEstimateAmount", topupEstimateAmount);
+		fd.append("topupComments", topupComments);
 
 		for (var i=0; i<vm.bill.length;i++){
 			fd.append("patientBills[" + i + "].partnerBillNo",  vm.bill[i].partnerBillNo);

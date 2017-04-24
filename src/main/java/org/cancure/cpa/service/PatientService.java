@@ -29,4 +29,6 @@ public interface PatientService {
     void updateCostApproved(Integer hospitalCostApproved, Integer medicalCostApproved, Integer prn);
 
 	void saveApprovedAmounts(Integer pidn, Integer prn);
+
+	void updateMbApprovalViewedDoctors(String doctors, Integer prn);
 }

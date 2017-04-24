@@ -116,6 +116,18 @@ public class MyTasksServiceImpl implements MyTasksService {
         
         allProcessMap.put("IN_PATIENT_HOSPITAL_VISIT_DEF_KEY", inPatientHospitalVisitList);
 		
+        //Payment
+        /*
+		THIS IS INCOMPLETE. SHOW PAYMENT WORKFLOWS
+        List<Map<String, String>> paymentTaskList = new ArrayList<>();
+        List<Task> paymentTasks = taskService.createTaskQuery()
+                .processDefinitionKey(Constants.PAYMENT_DEF_KEY)
+                .includeProcessVariables().orderByTaskCreateTime().asc()
+                .taskCandidateGroupIn(roles).list();
+		*/
+        //paymentTaskList = extractPaymentTaskAttributes(paymentTasks);
+		
+		//allProcessMap.put("PAYMENT_DEF_KEY", hospitalVisitList);
 		
 		return allProcessMap;
 	}
@@ -228,7 +240,7 @@ public class MyTasksServiceImpl implements MyTasksService {
 		return list;
 	}
 	
-	private Map<String, Object> extractHistoryTaskAttributes(List<HistoricTaskInstance> tasks,String patientID) {
+	private Map<String, Object> extractHistoryTaskAttributes(List<HistoricTaskInstance> tasks, String patientID) {
 		Map<String, Object> parentMap = new HashMap<>();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 		PatientBean patient=patientService.get(Integer.parseInt(patientID));
@@ -238,6 +250,11 @@ public class MyTasksServiceImpl implements MyTasksService {
 		
 		String nextTask = null;
 		String nextTaskKey = null;
+		
+		if (tasks == null) {
+			// Patient record might have been directly inserted, just return data from the Patient table.
+			 return createPatientWithoutHistory(parentMap, patient, taskList);
+		}
 		
 		Collections.sort(tasks, new Comparator<HistoricTaskInstance>(){
 
@@ -334,6 +351,28 @@ public class MyTasksServiceImpl implements MyTasksService {
             parentMap.put("nextTask", "Rejected");
             parentMap.put("nextTaskKey", "Rejected");
         }*/
+		parentMap.put("tasks", taskList);
+		return parentMap;
+	}
+
+	/**
+	 * Create object for patient records which were inserted directly into the database.
+	 * @param parentMap
+	 * @param patient
+	 * @param taskList
+	 * @return
+	 */
+	private Map<String, Object> createPatientWithoutHistory(Map<String, Object> parentMap, PatientBean patient,
+			List taskList) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("patient", patient);
+		taskList.add(map);
+		
+		Map<String, Object> map2 = new HashMap<>();
+		taskList.add(map2);
+		
+		parentMap.put("nextTask", "N/A");
+		parentMap.put("Owner", "Anyone");
 		parentMap.put("tasks", taskList);
 		return parentMap;
 	}
@@ -518,17 +557,17 @@ public class MyTasksServiceImpl implements MyTasksService {
 				.processDefinitionKey(processKey)
 				.processInstanceBusinessKey(patientId).singleResult();
 			
-		String processInstanceId;
+		String processInstanceId = null;
 		
 		if (procInsts == null) { // No active executions. Check history.
 		    HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
 		    .processDefinitionKey(processKey)
 		    .processInstanceBusinessKey(patientId).singleResult();
 		    
-		    if (historicProcessInstance == null) {
-		        return new HashMap();
-		    } else {
+		    if (historicProcessInstance != null) {
 		        processInstanceId = historicProcessInstance.getId();
+		    } else {
+		    	// Patient record might have been directly inserted into database.
 		    }
 		    
 		} else {
@@ -536,11 +575,14 @@ public class MyTasksServiceImpl implements MyTasksService {
 		}
 		
 		
-		List<HistoricTaskInstance> taskHistory = historyService.createHistoricTaskInstanceQuery()
-			.processInstanceId(processInstanceId).includeProcessVariables()
-			.orderByTaskCreateTime().asc().list();
+		List<HistoricTaskInstance> taskHistory = null;
+		if (processInstanceId != null) {
+			taskHistory = historyService.createHistoricTaskInstanceQuery()
+				.processInstanceId(processInstanceId).includeProcessVariables()
+				.orderByTaskCreateTime().asc().list();
+		}
 		
-		return extractHistoryTaskAttributes(taskHistory,patientId);
+		return extractHistoryTaskAttributes(taskHistory, patientId);
 		
 	}
 	

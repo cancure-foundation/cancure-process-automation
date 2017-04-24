@@ -15,7 +15,7 @@
       </timerEventDefinition>
     </boundaryEvent>
     <sequenceFlow id="flow11" sourceRef="boundarytimer1" targetRef="endevent1"></sequenceFlow>
-    <serviceTask id="InpatientClosureTasks" name="InPatient Closure Tasks" activiti:expression="#{inpatientHospitalVisitService.performClosureTasks(pidn, patientVisitId)}"></serviceTask>
+    <serviceTask id="InpatientClosureTasks" name="InPatient Closure Tasks" activiti:expression="#{inPatientHospitalVisitService.performClosureTasks(pidn, patientVisitId)}"></serviceTask>
     <sequenceFlow id="flow15" sourceRef="InPatientTopupParmaApprovedAmount" targetRef="InpatientClosureTasks"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow17" sourceRef="inpatientVisitInput" targetRef="exclusivegateway1"></sequenceFlow>

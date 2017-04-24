@@ -38,11 +38,11 @@ public class PaymentWorkflowService {
 	private PaymentWorkflowRepository paymentWorkflowRepository;
 	
 	public String getMaxTopupApprovalWaitTime(){
-		return "R/" + getSettingsInHours(13);
+		return getSettingsInHours(13);
 	}
 	
 	public String getMaxSelectPharmaTime(){
-		return "R/" + getSettingsInHours(13);
+		return getSettingsInHours(13);
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class PaymentWorkflowService {
 	 */
 	private String getSettingsInHours(Integer id){
 		Settings sett = settingsRepository.findOne(id);
-		return "PT" + sett.getValue() + "H";
+		return sett.getValue();
 	}
 
 	public String startPaymentWorkflow(PaymentBean paymentBean, PaymentWorkflow paymentWorkflow) {

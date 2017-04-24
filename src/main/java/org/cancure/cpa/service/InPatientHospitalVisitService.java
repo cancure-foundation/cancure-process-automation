@@ -37,11 +37,11 @@ public class InPatientHospitalVisitService {
 	private PatientVisitRepository patientVisitRepository;
 	
 	public String getMaxTopupApprovalWaitTime(){
-		return "R/" + getSettingsInHours(13);
+		return getSettingsInHours(13);
 	}
 	
 	public String getMaxSelectPharmaTime(){
-		return "R/" + getSettingsInHours(13);
+		return getSettingsInHours(13);
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class InPatientHospitalVisitService {
 	 */
 	private String getSettingsInHours(Integer id){
 		Settings sett = settingsRepository.findOne(id);
-		return "PT" + sett.getValue() + "H";
+		return sett.getValue();
 	}
 
 	public String startInPatientHospitalVisitWorkflow(Map<String, Object> variables, String pidn, Integer patientVisitId) {
