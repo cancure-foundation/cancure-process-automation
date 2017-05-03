@@ -253,7 +253,7 @@
                 <div class="timeline-body">
                     <div class="text-center nextTask" ng-if="vm.nextTask.name && !vm.patientReject">
                         <div class="title"> Next Step : <b>{{vm.nextTask.name}} </b></div>
-                        <div class="sub-title"> ({{vm.nextTask.description}}) </div>
+                        <div class="sub-title"> ({{vm.nextTask.description || "N/A"}}) </div>
                         <span class="goto" ng-click="vm.nextAction()" ng-show="vm.nextAction(true)"> GO </span>
                     </div>
                     <div class="text-center nextTask" ng-if="vm.patientReject">
