@@ -8,25 +8,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class CampServiceImpl implements CampService {
 
-	@Autowired
-	CampRepository campRepo;
-	
-	@Override
-	public Camp saveCamp(Camp camp) {
-		                      
-		return campRepo.save(camp);
-	}
+    @Autowired
+    CampRepository campRepo;
 
-	@Override
-	public Iterable<Camp> listCamp() {
-		// TODO Auto-generated method stub
-		return campRepo.findAll();
-	}
+    @Override
+    public Camp saveCamp(Camp camp) {
 
-	@Override
-	public Camp getCamp(Integer Camp_id) {
-		// TODO Auto-generated method stub
-		return campRepo.findOne(Camp_id);
-	}
+        return campRepo.save(camp);
+    }
+
+    @Override
+    public Iterable<Camp> listCamp() {
+        // TODO Auto-generated method stub
+        return campRepo.findAll();
+    }
+
+    @Override
+    public Camp getCamp(Integer Camp_id) {
+        // TODO Auto-generated method stub
+        return campRepo.findOne(Camp_id);
+    }
 
 }
