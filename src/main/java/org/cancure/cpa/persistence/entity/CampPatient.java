@@ -10,15 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="patient_camp")
-public class PatientCamp {
+@Table(name = "camp_patient")
+public class CampPatient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "patient_camp_id")
-    private Integer id;
+    @Column(name = "camp_patient_id")
+    private Integer campPatientId;
 
-    private Integer uid;
+    private String uid;
 
     private String name;
 
@@ -26,16 +26,16 @@ public class PatientCamp {
 
     private String gender;
 
-    private String contact;
+    private String phone;
 
     @Column(name = "camp_id")
     private Integer campId;
 
-    public Integer getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -55,20 +55,20 @@ public class PatientCamp {
         this.gender = gender;
     }
 
-    public String getContact() {
-        return contact;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    
+    public Integer getCampPatientId() {
+        return campPatientId;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCampPatientId(Integer campPatientId) {
+        this.campPatientId = campPatientId;
     }
 
     public Date getDob() {

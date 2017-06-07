@@ -16,6 +16,9 @@ public class Camp {
     @Column(name = "camp_id")
     private Integer campId;
     
+    @Column(name = "camp_name")
+    private String campName;
+    
     @Column(name = "camp_place")
     private String campPlace;
     
@@ -23,17 +26,16 @@ public class Camp {
     private Date campDate;
     
     @Column(name = "medical_team")
-    private Integer medicalTeam; 
+    private String medicalTeam; 
     
-    @Column(name = "local_partner")
-    private String localPartner;
+    @Column(name = "local_poc_name")
+    private String pocName;
     
-    private String name;
+    @Column(name = "local_poc_phone")
+    private String pocPhone;
     
-    @Column(name = "poc_contact")
-    private String pocContact;
-    
-    private String email;
+    @Column(name = "local_poc_email")
+    private String pocEmail;
     
     @Column(name = "patient_count")
     private Integer patientCount;
@@ -62,44 +64,40 @@ public class Camp {
         this.campDate = campDate;
     }
 
-    public Integer getMedicalTeam() {
+    public String getMedicalTeam() {
         return medicalTeam;
     }
 
-    public void setMedicalTeam(Integer medicalTeam) {
+    public void setMedicalTeam(String medicalTeam) {
         this.medicalTeam = medicalTeam;
     }
 
-    public String getLocalPartner() {
-        return localPartner;
+    public String getPocName() {
+        return pocName;
     }
 
-    public void setLocalPartner(String localPartner) {
-        this.localPartner = localPartner;
+    public void setPocName(String pocName) {
+        this.pocName = pocName;
     }
 
-    public String getName() {
-        return name;
+    public String getPocPhone() {
+        return pocPhone;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPocPhone(String pocPhone) {
+        this.pocPhone = pocPhone;
     }
 
-    public String getPocContact() {
-        return pocContact;
+    public String getPocEmail() {
+        return pocEmail;
     }
 
-    public void setPocContact(String pocContact) {
-        this.pocContact = pocContact;
+    public void setPocEmail(String pocEmail) {
+        this.pocEmail = pocEmail;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPatientCount(Integer patientCount) {
+        this.patientCount = patientCount;
     }
 
     public int getPatientCount() {
@@ -108,6 +106,14 @@ public class Camp {
 
     public void setPatientCount(int patientCount) {
         this.patientCount = patientCount;
+    }
+
+    public String getCampName() {
+        return campName;
+    }
+
+    public void setCampName(String campName) {
+        this.campName = campName;
     }
 
 }
