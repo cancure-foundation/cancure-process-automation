@@ -236,4 +236,54 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
     
+    $stateProvider.state('app.camp', {
+        url: '/camps',
+        templateUrl: 'app/modules/core/camps/camp/campManage.html',
+        controller: 'CampManageController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Camps'
+        }
+    });
+    
+    $stateProvider.state('app.camp.campCreate', {
+        url: '/campcreate',
+        templateUrl: 'app/modules/core/camps/camp/campCreate/campCreate.html',
+        controller: 'CampCreateController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Camp Create'
+        }
+    });
+    
+    $stateProvider.state('app.camp.campSearch', {
+        url: '/campsearch',
+        templateUrl: 'app/modules/core/camps/camp/campSearch/campSearch.html',
+        controller: 'CampSearchController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Camp Search'
+        }
+    });
+    
+    $stateProvider.state('app.campPatientRegister', {
+        url: '/camps',
+        templateUrl: 'app/modules/core/camps/patient/Register.html',
+        controller: 'CampPatientRegisterController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Camp Patient Register'
+        }
+    });
+    
+    $stateProvider.state('app.campReports', {
+        url: '/camps',
+        templateUrl: 'app/modules/core/camps/reports/Report.html',
+        controller: 'CampReportController',
+        controllerAs: 'vm',
+        data: {
+            pageTitle: 'Camp Reports'
+        }
+    });
+    
 }]);
