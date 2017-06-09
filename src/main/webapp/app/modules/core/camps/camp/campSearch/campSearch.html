@@ -1,0 +1,19 @@
+<div class="searchPatient" id="searchPatient">
+    <div class="row searchBox">
+        <form data-ng-submit="vm.search();" name="vm.searchForm" autocomplete="off">
+            <div class="col-md-3 col-xs-12">
+                <div class="input-box">
+                    <label>
+                    	Camp Name
+                        <req>*</req>
+                    </label>
+                    <input type="text" required data-ng-model="vm.formData.searchText" maxlength="20" required placeholder="Enter Camp Name" >
+                </div>
+            </div>
+            <div class="col-md-1 col-xs-12 hidden-xs">
+                <button class="md-raised" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+
+</div>

@@ -143,16 +143,35 @@ app.constant('appSettings', {
 		icon: "money",
 		state: "payments",
 		pageId : 11
-	}],
+	},
+	{
+		title: "Camps",
+		icon: "medkit",
+		state: "camp.campCreate",
+		pageId : 12
+	},
+	{
+		title: "Camp Patients",
+		icon: "user-md",
+		state: "campPatientRegister",
+		pageId : 13
+	},
+	{
+		title: "Camp Reports",
+		icon: "file-text-o",
+		state: "campReports",
+		pageId : 14
+	}
+	],
 	
 	pageAccess : {
 		ROLE_GUEST : [0, 9],
 		ROLE_SECRETARY : [0, 9, 11],
 		ROLE_EXECUTIVE_COMMITTEE : [0, 9],
-		ROLE_ADMIN : [0, 1, 3, 4, 5, 6, 9, 10, 11],
+		ROLE_ADMIN : [0, 1, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14],
 		ROLE_HOSPITAL_POC : [0, 2, 7, 9],
 		ROLE_DOCTOR : [0, 9],
-		ROLE_PROGRAM_COORDINATOR : [0, 2, 9],
+		ROLE_PROGRAM_COORDINATOR : [0, 2, 9, 12, 13, 14],
 		ROLE_PHARMACY : [0, 8, 9]
 	},
 	
