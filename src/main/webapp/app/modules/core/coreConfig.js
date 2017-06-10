@@ -266,9 +266,9 @@ core.config(["$stateProvider", function ($stateProvider) {
         }
     });
     
-    $stateProvider.state('app.campPatientRegister', {
-        url: '/camps',
-        templateUrl: 'app/modules/core/camps/patient/Register.html',
+    $stateProvider.state('app.camp.patientRegister', {
+        url: '/camppatientregistration',
+        templateUrl: 'app/modules/core/camps/camp/patientRegistration/campPatientRegistration.html',
         controller: 'CampPatientRegisterController',
         controllerAs: 'vm',
         data: {
