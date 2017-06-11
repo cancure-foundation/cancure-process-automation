@@ -10,15 +10,58 @@
     }
     
 </script>
+
 <div class="content" style="padding-top:0px;">
+	
+	<div class="panel-body" ng-show="!vm.campSelected">
+       <form ng-submit="vm.searchCamp();" name="vm.campSearchForm" autocomplete="off">
+       		<div class="col-md-4 col-xs-12 input-box">
+               <label>Camp Date <req>*</req></label>
+               <input id="dobpicker" type="date" data-ng-model="vm.campSearchForm.date" required placeholder="Enter Camp Date" onkeydown="return false;"/>
+           	</div>
+           	<div class="col-md-4 col-xs-12">
+                <button type="submit" class="btn btn-success" style="margin-right: 8px;">
+                    Search Camp
+                </button>
+            </div>
+       </form>
+       
+       <div ng-show="vm.campSearched" class="panel panel-info" style="padding:15px;">
+	        <div class="row">
+	            <div class="col-xs-offset-3 col-xs-6">
+	                <table class="table table-bordered" style="margin-bottom: 0px;">
+	                    <th class="col-xs-4">Camp Name</th>
+	                    <th class="col-xs-4">Place</th>
+	                    <th class="col-xs-4">POC Name</th>
+	                    <th class="col-xs-4">Register</th>
+	                    <tr class="" ng-repeat="camp in vm.camps">
+	                        <td class="col-xs-4">{{camp.campName}}</td>
+	                        <td class="col-xs-4">{{camp.campPlace}}</td>
+	                        <td class="col-xs-4">{{camp.localPOC}}</td>
+	                        <td class="col-xs-4" ng-click="vm.selectCamp(camp.campId)">Register People</td>
+	                    </tr>
+	                </table>
+	            </div>
+	        </div>
+	    </div>
+       
+    </div>
+       
+</div>
+
+<div class="content" ng-show="vm.campSelected" style="padding-top:0px;">
     <h4 ng-hide="vm.campCreated">
-    	Fill the form to create a Camp Patient.
+    	Fill the form to register a patient in the camp "{{ vm.selectedCamp.campName }}".
     	<div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h4>
     <h4 ng-show="vm.campCreated">Patient created with the following details.</h4>
     <div ng-hide="vm.campCreated" class="panel panel-info row">
         <div class="panel-body">
             <form ng-submit="vm.createLab();" name="vm.registerForm" autocomplete="off">
+                <div class="col-md-4 col-xs-12 input-box">
+                    <label>Camp Name <req>*</req></label>
+                    {{ vm.selectedCamp.campName }}
+                </div>
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>Name <req>*</req></label>
                     <input type="text" data-ng-model="vm.formData.name" required placeholder="Enter name" />
@@ -59,6 +102,7 @@
                         Save Patient
                     </button>
                     <input type="clear" class="btn btn-warning" ng-click="vm.formData = {};" value="Clear Form">
+                    <input type="clear" class="btn btn-warning" ng-click="vm.resetCamp();" value="Search Camps">
                 </div>
             </form>
         </div>
@@ -80,7 +124,10 @@
             </div>
             <div class="col-xs-12 text-center" style="padding-top: 15px;">
                 <button class="btn btn-success" ng-click="vm.formData = {};vm.campCreated=false;">
-                    Register another Lab
+                    Register another patient in "{{ vm.selectedCamp.name }}"
+                </button>
+                <button class="btn btn-success" ng-click="vm.formData = {};vm.campCreated=false;">
+                    Search camps
                 </button>
             </div>
         </div>
