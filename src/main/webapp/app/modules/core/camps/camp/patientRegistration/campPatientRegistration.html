@@ -16,8 +16,8 @@
 	<div class="panel-body" ng-show="!vm.campSelected">
        <form ng-submit="vm.searchCamp();" name="vm.campSearchForm" autocomplete="off">
        		<div class="col-md-4 col-xs-12 input-box">
-               <label>Camp Date <req>*</req></label>
-               <input id="dobpicker" type="date" data-ng-model="vm.campSearchForm.date" required placeholder="Enter Camp Date" onkeydown="return false;"/>
+               <label>Camp Month/Year <req>*</req></label>
+               <input type="month" ng-model = "vm.campSearchForm.searchMonthYear" required>
            	</div>
            	<div class="col-md-4 col-xs-12">
                 <button type="submit" class="btn btn-success" style="margin-right: 8px;">

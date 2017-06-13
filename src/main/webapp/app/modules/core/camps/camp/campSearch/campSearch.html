@@ -4,10 +4,10 @@
             <div class="col-md-3 col-xs-12">
                 <div class="input-box">
                     <label>
-                    	Camp Name
+                    	Month, Year
                         <req>*</req>
                     </label>
-                    <input type="text" required data-ng-model="vm.formData.searchText" maxlength="20" required placeholder="Enter Camp Name" >
+                    <input type="month" ng-model = "vm.formData.searchMonthYear" required>
                 </div>
             </div>
             <div class="col-md-1 col-xs-12 hidden-xs">
@@ -23,14 +23,16 @@
 	            <div class="col-xs-offset-3 col-xs-6">
 	                <table class="table table-bordered" style="margin-bottom: 0px;">
 	                    <th class="col-xs-4">Camp Name</th>
-	                    <th class="col-xs-4">Place</th>
+	                    <th class="col-xs-4">Date</th>
+	                    <th class="col-xs-4">Venue</th>
 	                    <th class="col-xs-4">POC Name</th>
 	                    <th class="col-xs-4">Register</th>
 	                    <tr class="" ng-repeat="camp in vm.camps">
 	                        <td class="col-xs-4">{{camp.campName}}</td>
+	                        <td class="col-xs-4">{{camp.campDate}}</td>
 	                        <td class="col-xs-4">{{camp.campPlace}}</td>
 	                        <td class="col-xs-4">{{camp.localPOC}}</td>
-	                        <td class="col-xs-4" ng-click="vm.selectCamp(camp.campId)">View Patients</td>
+	                        <td class="col-xs-4" ng-click="vm.selectCamp(camp.campId)"><a>View Patients</a></td>
 	                    </tr>
 	                </table>
 	            </div>
@@ -45,15 +47,19 @@
 		<div class="panel panel-info" style="padding:15px;">
 			<h3>Patients of camp "{{ vm.selectedCamp.campName }}"</h3>
 	        <table class="table table-bordered" style="margin-bottom: 0px;">
+	            <th class="col-xs-2">ID</th>
 	            <th class="col-xs-2">Name</th>
 	            <th class="col-xs-2">Age</th>
 	            <th class="col-xs-3">Phone</th>
 	            <th class="col-xs-3">Address</th>
+	            <th class="col-xs-3">Action</th>
 	            <tr class="" ng-repeat="pat in vm.campPatients">
+	                <td class="col-xs-2">{{pat.id}}</td>
 	                <td class="col-xs-2">{{pat.name}}</td>
 	                <td class="col-xs-2">{{pat.age}}</td>
 	                <td class="col-xs-3">{{pat.phone}}</td>   
 	                <td class="col-xs-3">{{pat.address}}</td>                     
+	                <td class="col-xs-3" ng-click="vm.uploadResults({{pat.id}})"><a>Upload Results</a></td>
 	            </tr>
 	        </table>
 	        <div>

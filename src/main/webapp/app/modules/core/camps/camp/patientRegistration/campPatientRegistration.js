@@ -3,6 +3,7 @@ core.controller("CampPatientRegisterController", ['$scope', '$timeout', '$stateP
 	var vm = this;
 	vm.campSearched = false;
 	vm.campSearchForm = {};
+	vm.campSearchForm.searchMonthYear = new Date();
 	vm.selectedCamp = {};
 	vm.formData = {};
 	vm.camps = [];
@@ -17,7 +18,9 @@ core.controller("CampPatientRegisterController", ['$scope', '$timeout', '$stateP
 	}];
 	
 	var init = function() {
-		var id = $stateParams.labId;
+		vm.campSearchForm.searchMonthYear = new Date();
+		alert(vm.campSearchForm.searchMonthYear);
+		/*var id = $stateParams.labId;
 		if (id) {
 			Loader.create('Please wait .. Loading Data ...');
 			apiService.serviceRequest({
@@ -27,7 +30,7 @@ core.controller("CampPatientRegisterController", ['$scope', '$timeout', '$stateP
 				Loader.destroy();
 				vm.alllabtests = response[0].listValues;
 			});
-		}
+		}*/
 	}
 
 	vm.searchCamp = function() {
@@ -53,4 +56,5 @@ core.controller("CampPatientRegisterController", ['$scope', '$timeout', '$stateP
 		vm.campSearchForm = {};
 	}
 	
+	init();
 }]);
