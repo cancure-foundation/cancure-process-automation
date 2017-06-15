@@ -1,3 +1,9 @@
+<style>
+.md-dialog-container {
+      z-index: 1000;
+}
+</style>
+
 <div class="searchPatient" id="searchPatient">
     <div class="row searchBox" ng-show= "!vm.campSearched">
         <form data-ng-submit="vm.searchCamp();" name="vm.searchForm" autocomplete="off">
@@ -59,7 +65,11 @@
 	                <td class="col-xs-2">{{pat.age}}</td>
 	                <td class="col-xs-3">{{pat.phone}}</td>   
 	                <td class="col-xs-3">{{pat.address}}</td>                     
-	                <td class="col-xs-3" ng-click="vm.uploadResults({{pat.id}})"><a>Upload Results</a></td>
+	                <td class="col-xs-3" ng-click="vm.uploadResults({{pat.id}})"><a>Results</a>
+	                	<md-button class="md-primary md-raised" ng-click="showAdvanced($event)">
+					      Custom Dialog
+					    </md-button>
+	                </td>
 	            </tr>
 	        </table>
 	        <div>
