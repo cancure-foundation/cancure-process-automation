@@ -1,5 +1,8 @@
 package org.cancure.cpa.service;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.cancure.cpa.persistence.entity.Camp;
 import org.cancure.cpa.persistence.repository.CampRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +21,19 @@ public class CampServiceImpl implements CampService {
     }
 
     @Override
-    public Iterable<Camp> listCamp() {
-        // TODO Auto-generated method stub
-        return campRepo.findAll();
+    public Iterable<Camp> getCampsInAMonth(int month, int year) {
+    	
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.clear();
+    	calendar.set(Calendar.MONTH, month-1);
+    	calendar.set(Calendar.YEAR, year);
+    	calendar.set(Calendar.DAY_OF_MONTH, 1);
+    	Date startDate = calendar.getTime();
+    	
+    	calendar.add(Calendar.MONTH, 1);
+    	Date endDate = calendar.getTime();
+    	
+    	return campRepo.getCampsInAMonth(startDate, endDate);
     }
 
     @Override

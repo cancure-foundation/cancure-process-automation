@@ -5,7 +5,7 @@ import org.cancure.cpa.persistence.entity.Camp;
 public interface CampService {
     Camp saveCamp(Camp camp);
 
-    Iterable<Camp> listCamp();
-
     Camp getCamp(Integer Camp_id);
+
+	Iterable<Camp> getCampsInAMonth(int month, int year);
 }
