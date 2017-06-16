@@ -8,6 +8,7 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	vm.campPatientsSearched = false;
 	vm.campPatients = [];
 	vm.selectedCamp = {};
+	vm.selectedPatient = {};
 	
 	vm.selectCamp = function(id) {
 		for (var i=0; i < vm.camps.length; i++) {
@@ -38,18 +39,23 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 		vm.camps = [];
 		vm.campPatientsSearched = false;
 		vm.campPatients = [];
+		vm.selectedPatient = {};
 	}
 	
 	$scope.status = '  ';
 	$scope.customFullscreen = false;
 	$scope.showAdvanced = function(ev) {
+		vm.selectedPatient = {"id": "20170201001", "name": "John doe", "age": 32, "phone" : "987678678", "address": "Kochi, kerala", "gender": "male", 
+				"CampLabTests" : [{"testName": "Pap Smear"} , {"testName": "Ultrasound"}], "campName" : "Lions club" };
+		
 	    $mdDialog.show({
 	      controller: DialogController,
 	      templateUrl: 'app/modules/core/camps/camp/campSearch/campTestResult.html',
 	      parent: angular.element(document.body),
 	      targetEvent: ev,
 	      clickOutsideToClose:true,
-	      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+	      fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+	      locals:{dataToPass: vm.selectedPatient}
 	    })
 	    .then(function(answer) {
 	      $scope.status = 'You said the information was "' + answer + '".';
@@ -58,7 +64,13 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	    });
 	};
 	
-	function DialogController($scope, $mdDialog) {
+	function DialogController($scope, $mdDialog, dataToPass) {
+		$scope.selectedPatient = dataToPass;
+		
+		$scope.showPat = function() {
+			alert($scope.selectedPatient.name);
+		}
+		
 	    $scope.hide = function() {
 	      $mdDialog.hide();
 	    };
