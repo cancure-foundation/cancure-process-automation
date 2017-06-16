@@ -1,13 +1,19 @@
+<style>
+.md-dialog-container {
+      z-index: 1000;
+}
+</style>
+
 <div class="searchPatient" id="searchPatient">
-    <div class="row searchBox">
-        <form data-ng-submit="vm.search();" name="vm.searchForm" autocomplete="off">
+    <div class="row searchBox" ng-show= "!vm.campSearched">
+        <form data-ng-submit="vm.searchCamp();" name="vm.searchForm" autocomplete="off">
             <div class="col-md-3 col-xs-12">
                 <div class="input-box">
                     <label>
-                    	Camp Name
+                    	Month, Year
                         <req>*</req>
                     </label>
-                    <input type="text" required data-ng-model="vm.formData.searchText" maxlength="20" required placeholder="Enter Camp Name" >
+                    <input type="month" ng-model = "vm.formData.searchMonthYear" required>
                 </div>
             </div>
             <div class="col-md-1 col-xs-12 hidden-xs">
@@ -16,4 +22,60 @@
         </form>
     </div>
 
+	<div class="panel-body" ng-show="vm.campSearched">
+		<div ng-show="vm.campSearched" class="panel panel-info" style="padding:15px;">
+			<h3>Camps</h3>
+	        <div class="row">
+	            <div class="col-xs-offset-3 col-xs-6">
+	                <table class="table table-bordered" style="margin-bottom: 0px;">
+	                    <th class="col-xs-4">Camp Name</th>
+	                    <th class="col-xs-4">Date</th>
+	                    <th class="col-xs-4">Venue</th>
+	                    <th class="col-xs-4">POC Name</th>
+	                    <th class="col-xs-4">Register</th>
+	                    <tr class="" ng-repeat="camp in vm.camps">
+	                        <td class="col-xs-4">{{camp.campName}}</td>
+	                        <td class="col-xs-4">{{camp.campDate}}</td>
+	                        <td class="col-xs-4">{{camp.campPlace}}</td>
+	                        <td class="col-xs-4">{{camp.localPOC}}</td>
+	                        <td class="col-xs-4" ng-click="vm.selectCamp(camp.campId)"><a>View Patients</a></td>
+	                    </tr>
+	                </table>
+	            </div>
+	        </div>
+	        <div>
+	        	<button class="md-raised" ng-click="vm.reset()">Reset</button>
+	        </div>
+	    </div>
+	</div>
+
+	<div class="panel-body" ng-show="vm.campPatientsSearched">
+		<div class="panel panel-info" style="padding:15px;">
+			<h3>Patients of camp "{{ vm.selectedCamp.campName }}"</h3>
+	        <table class="table table-bordered" style="margin-bottom: 0px;">
+	            <th class="col-xs-2">ID</th>
+	            <th class="col-xs-2">Name</th>
+	            <th class="col-xs-2">Age</th>
+	            <th class="col-xs-3">Phone</th>
+	            <th class="col-xs-3">Address</th>
+	            <th class="col-xs-3">Action</th>
+	            <tr class="" ng-repeat="pat in vm.campPatients">
+	                <td class="col-xs-2">{{pat.id}}</td>
+	                <td class="col-xs-2">{{pat.name}}</td>
+	                <td class="col-xs-2">{{pat.age}}</td>
+	                <td class="col-xs-3">{{pat.phone}}</td>   
+	                <td class="col-xs-3">{{pat.address}}</td>                     
+	                <td class="col-xs-3">
+	                	<md-button class="md-primary md-raised" ng-click="showAdvanced($event)">
+					      Test Results
+					    </md-button>
+	                </td>
+	            </tr>
+	        </table>
+	        <div>
+	        	<button class="md-raised">Download Report</button>
+	        </div>
+	    </div>
+    </div>
+	    
 </div>

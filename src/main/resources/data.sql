@@ -27,6 +27,7 @@ insert into list values (6, 'RecommendationType');
 insert into list values (7, 'IDProof');
 insert into list values (8, 'IncomeProof');
 insert into list values (9, 'TypeOfSupportSought');
+insert into list values (10, 'CampLabTests');
 
 insert into list_value values (1, 1, 'Wife');
 insert into list_value values (2, 1, 'Husband');
@@ -94,6 +95,17 @@ insert into list_value values (55, 9, 'Lab Tests');
 insert into list_value values (56, 9, 'Treatment');
 insert into list_value values (57, 9, 'Medicine');
 insert into list_value values (58, 9, 'Others');
+
+insert into list_value values (59, 10, 'Ultrasound');
+insert into list_value values (60, 10, 'Mammogram');
+insert into list_value values (61, 10, 'Pap Smear');
+insert into list_value values (62, 10, 'PSA');
+insert into list_value values (63, 10, 'Serum PSA');
+insert into list_value values (64, 10, 'Serum CEA');
+insert into list_value values (65, 10, 'AFP');
+insert into list_value values (66, 10, 'TFT');
+insert into list_value values (67, 10, 'Serum TG');
+insert into list_value values (68, 10, 'FNAC');
 
 
 insert into OAUTH_CLIENT_DETAILS values('cancureapp', 'restservice', 'cancure123456', 'read,write', 'password,refresh_token', null, 'USER', null,null, '{}', null);

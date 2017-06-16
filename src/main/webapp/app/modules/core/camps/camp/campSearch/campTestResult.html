@@ -1,0 +1,85 @@
+<md-dialog aria-label="Camp Test Results">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Camp Patient's Test Results</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div class="row">
+        	<div class="col-md-4 col-xs-12 input-box">
+                <label>Patient ID</label>
+                {{ selectedPatient.id }}
+            </div>
+            <div class="col-md-4 col-xs-12 input-box">
+                <label>Camp</label>
+                {{ selectedPatient.campName }}
+            </div>
+        </div>
+        
+        <div class="row">
+        	<div class="col-md-4 col-xs-12 input-box">
+                <label>Patient Name</label>
+                {{ selectedPatient.name }}
+            </div>
+            <div class="col-md-4 col-xs-12 input-box">
+                <label>Age</label>
+                {{ selectedPatient.age }}
+            </div>
+        </div>
+		
+		<div class="row">        	
+        	<div class="col-md-4 col-xs-12 input-box">
+                <label>Gender</label>
+                {{ selectedPatient.gender }}
+            </div>
+            
+            <div class="col-md-4 col-xs-12 input-box">
+                <label>Phone Number</label>
+                {{ selectedPatient.phone }}
+            </div>
+        </div>
+        
+        <div class="row">
+        	<div class="panel panel-info" style="padding:15px;">
+				<h3>Tests Taken</h3>
+		        <div class="row">
+		            <div class="col-xs-offset-3 col-xs-6">
+		                <table class="table table-bordered" style="margin-bottom: 0px;">
+		                    <th class="col-xs-4">Test Name</th>
+		                    <th class="col-xs-4">Result Text</th>
+		                    <th class="col-xs-4">File</th>
+		                    <tr class="" ng-repeat="test in selectedPatient.CampLabTests">
+		                        <td class="col-xs-4">{{test.testName}}</td>
+		                        <td class="col-xs-4">{{test.testResultText}}</td>
+		                        <td class="col-xs-4">File</td>
+		                    </tr>
+		                </table>
+		            </div>
+		        </div>
+		        <div>
+		        	<button class="md-raised" ng-click="vm.reset()">Save Test Results</button>
+		        </div>
+	    	</div>
+        </div>
+        
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="showPat()">
+       Show
+      </md-button>
+      <md-button ng-click="answer('not useful')">
+       Close
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
