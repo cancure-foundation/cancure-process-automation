@@ -341,6 +341,36 @@ create table patient_visit_documents (
 	doc_path varchar(250)
 );
 
+create table camp (
+	camp_id int(10) primary key auto_increment,
+	camp_name varchar(100),
+	camp_place varchar(100),
+	camp_date date,
+	medical_team varchar(100),
+	local_poc_name varchar(100),
+	local_poc_phone varchar(20),
+	local_poc_email varchar(100),
+	patient_count int(10) 
+ );
+ 
+create table camp_patient (
+	camp_patient_id int(10) primary key auto_increment,
+	uid varchar(100),
+	name varchar(100),
+	dob date,
+	gender varchar(20),
+	phone varchar(20),
+	camp_id int(10) references camp(camp_id)
+ ); 
+ 
+create table camp_patient_test_results (
+	test_result_id int(10) primary key auto_increment,
+	test_result_text varchar(250),
+	test_name varchar(100),
+	test_result_path varchar(250),
+	camp_patient_id int(10) references camp_patient(camp_patient_id)
+ ); 
+ 
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),
