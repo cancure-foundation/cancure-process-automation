@@ -19,23 +19,26 @@ core.controller("CampPatientRegisterController", ['$scope', '$timeout', '$stateP
 	
 	var init = function() {
 		vm.campSearchForm.searchMonthYear = new Date();
-		alert(vm.campSearchForm.searchMonthYear);
-		/*var id = $stateParams.labId;
-		if (id) {
-			Loader.create('Please wait .. Loading Data ...');
-			apiService.serviceRequest({
-				URL: 'common/lov/CampLabTests',
-				method: 'GET'
-			}, function (response) {
-				Loader.destroy();
-				vm.alllabtests = response[0].listValues;
-			});
-		}*/
+		apiService.serviceRequest({
+			URL: 'common/lov/CampLabTests',
+			method: 'GET'
+		}, function (response) {
+			Loader.destroy();
+			vm.alllabtests = response[0].listValues;
+		});
 	}
 
 	vm.searchCamp = function() {
-		vm.campSearched = true;
-		vm.camps = [{"campId": 1, "campName" : "Thrikkakara", "campPlace" : "Kakkanad", "localPOC": "Ajith"}];
+		var month = vm.campSearchForm.searchMonthYear.getMonth() + 1;
+		var year = vm.campSearchForm.searchMonthYear.getFullYear();
+		
+		apiService.serviceRequest({
+			URL: 'camp/' + month + '/' + year,
+			method: 'GET'
+		}, function (response) {
+			vm.camps = response;
+			vm.campSearched = true;
+		});
 	}
 
 	vm.selectCamp = function(id) {

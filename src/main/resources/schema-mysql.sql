@@ -344,8 +344,8 @@ create table patient_visit_documents (
 create table camp (
 	camp_id int(10) primary key auto_increment,
 	camp_name varchar(100),
-	camp_place varchar(100),
-	camp_date date,
+	camp_place varchar(100) not null,
+	camp_date date not null,
 	medical_team varchar(100),
 	local_poc_name varchar(100),
 	local_poc_phone varchar(20),
@@ -355,9 +355,9 @@ create table camp (
  
 create table camp_patient (
 	camp_patient_id int(10) primary key auto_increment,
-	uid varchar(100),
-	name varchar(100),
-	dob date,
+	uid varchar(100) not null,
+	name varchar(100) not null,
+	age number(3),
 	gender varchar(20),
 	phone varchar(20),
 	camp_id int(10) references camp(camp_id)

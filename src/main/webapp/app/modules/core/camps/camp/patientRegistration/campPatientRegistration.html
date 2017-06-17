@@ -37,7 +37,7 @@
 	                    <tr class="" ng-repeat="camp in vm.camps">
 	                        <td class="col-xs-4">{{camp.campName}}</td>
 	                        <td class="col-xs-4">{{camp.campPlace}}</td>
-	                        <td class="col-xs-4">{{camp.localPOC}}</td>
+	                        <td class="col-xs-4">{{camp.pocName}}</td>
 	                        <td class="col-xs-4" ng-click="vm.selectCamp(camp.campId)">Register People</td>
 	                    </tr>
 	                </table>
@@ -57,7 +57,8 @@
     <h4 ng-show="vm.campCreated">Patient created with the following details.</h4>
     <div ng-hide="vm.campCreated" class="panel panel-info row">
         <div class="panel-body">
-            <form ng-submit="vm.createLab();" name="vm.registerForm" autocomplete="off">
+            <form ng-submit="vm.createLab();" name="vm.formData
+            " autocomplete="off">
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>Camp Name <req>*</req></label>
                     {{ vm.selectedCamp.campName }}
@@ -75,15 +76,15 @@
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>Age<req>*</req></label>
-                    <input type="text" data-ng-model="vm.formData.age" required placeholder="Enter Age" onkeypress="return validatephone(event);" />
+                    <input type="text" data-ng-model="vm.formData.age" maxlength="3" required placeholder="Enter Age" onkeypress="return validatephone(event);" />
                 </div>
                 
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>Phone Number<req>*</req></label>
-                    <input type="text" data-ng-model="vm.formData.phone" required onkeypress="return validatephone(event);" placeholder="Enter Phone Number" />
+                    <input type="text" data-ng-model="vm.formData.phone" maxlength="12" required onkeypress="return validatephone(event);" placeholder="Enter Phone Number" />
                 </div>
                 
-                <div class="col-md-4 col-xs-12 input-box">
+                <div class="col-md-12 col-xs-12 input-box">
                     <fieldset class="appFieldset">
 	                    <legend>Please select the tests taken -</legend>
 	                    <md-input-container class="md-block" style="margin: 8px 0px;">

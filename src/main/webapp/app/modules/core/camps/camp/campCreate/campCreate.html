@@ -21,15 +21,15 @@
             <form ng-submit="vm.createLab();" name="vm.registerForm" autocomplete="off">
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>Camp Name <req>*</req></label>
-                    <input type="text" data-ng-model="vm.formData.name" required placeholder="Enter Camp name" />
+                    <input type="text" data-ng-model="vm.formData.campName" required placeholder="Enter Camp name" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>Venue <req>*</req></label>
-                    <input type="text" data-ng-model="vm.formData.place" required placeholder="Enter Camp Venue" />
+                    <input type="text" data-ng-model="vm.formData.campPlace" required placeholder="Enter Camp Venue" />
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>Camp Date <req>*</req></label>
-                    <input id="dobpicker" type="date" data-ng-model="vm.formData.date" required placeholder="Enter Camp Date" onkeydown="return false;"/>
+                    <input id="dobpicker" type="date" data-ng-model="vm.formData.campDate" required placeholder="Enter Camp Date" onkeydown="return false;"/>
                 </div>
                 
                 <div class="col-md-4 col-xs-12 input-box">
@@ -65,22 +65,11 @@
         </div>
     </div>
     <div ng-show="vm.campCreated" class="panel panel-info" style="padding:15px;">
-        <div class="row">
-            <div class="col-xs-offset-3 col-xs-6">
-                <table class="table table-bordered" style="margin-bottom: 0px;">
-                    <th class="col-xs-4">Name</th>
-                    <th class="col-xs-4">Address</th>
-                    <th class="col-xs-4">Contact</th>
-                    <tr>
-                        <td class="col-xs-4">{{vm.formData.name}}</td>
-                        <td class="col-xs-4">{{vm.formData.address}}</td>
-                        <td class="col-xs-4">{{vm.formData.contact}}</td>
-                    </tr>
-                </table>
-            </div>
+        <div class="row" style="text-align:center; color:red">
+            <b>Camp has been created successfully.</b>
             <div class="col-xs-12 text-center" style="padding-top: 15px;">
                 <button class="btn btn-success" ng-click="vm.formData = {};vm.campCreated=false;">
-                    Register another Lab
+                    Create another Camp
                 </button>
             </div>
         </div>

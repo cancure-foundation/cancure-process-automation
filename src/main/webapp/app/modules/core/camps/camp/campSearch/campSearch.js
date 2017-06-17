@@ -24,10 +24,17 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	}
 	
 	vm.searchCamp = function() {
-		vm.campSearched = true;
-		vm.camps = [{"campId": 1, "campDate":"01-JUN-2017", "campName" : "Thrikkakara", "campPlace" : "Kakkanad", "localPOC": "Ajith"},
-		            {"campId": 2, "campDate":"01-MAR-2017", "campName" : "St. Marys school", "campPlace" : "Kochi", "localPOC": "Madhav"},
-		            {"campId": 3, "campDate":"01-FEB-2017", "campName" : "Town hall", "campPlace" : "Palakkad", "localPOC": "Fredy"}];
+		
+		var month = vm.formData.searchMonthYear.getMonth() + 1;
+		var year = vm.formData.searchMonthYear.getFullYear();
+		
+		apiService.serviceRequest({
+			URL: 'camp/' + month + '/' + year,
+			method: 'GET'
+		}, function (response) {
+			vm.camps = response;
+			vm.campSearched = true;
+		});
 	}
 	
 	vm.uploadResults = function(id) {

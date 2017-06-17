@@ -20,7 +20,6 @@ public class CampController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/camp")
 	public Camp saveCamp(@RequestBody Camp camp) {
-		camp.setCampDate(new Date(System.currentTimeMillis()));
 		camp.setPatientCount(0);
 		return campservice.saveCamp(camp);
 	}

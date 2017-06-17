@@ -22,7 +22,7 @@ public class CampPatient {
 
     private String name;
 
-    private Date dob;
+    private Integer age;
 
     private String gender;
 
@@ -71,19 +71,19 @@ public class CampPatient {
         this.campPatientId = campPatientId;
     }
 
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
     public Integer getCampId() {
         return campId;
     }
 
-    public void setCampId(Integer campId) {
+    public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public void setCampId(Integer campId) {
         this.campId = campId;
     }
 

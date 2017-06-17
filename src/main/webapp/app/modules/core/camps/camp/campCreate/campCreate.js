@@ -2,25 +2,20 @@ core.controller("CampCreateController", ['$scope', '$timeout', '$stateParams', '
                                          function ($scope, $timeout, $stateParams, Flash, apiService, appSettings, Loader) {
 	var vm = this;
 	vm.formData = {};
-	vm.labCreated = false;
-	vm.MedicalTeam = [];
+	vm.campCreated = false;
+	vm.MedicalTeams = [];
 	
 	var init = function() {
-		var id = $stateParams.labId;
-		if (id) {
-			Loader.create('Please wait .. Loading Data ...');
-			apiService.serviceRequest({
-				URL: 'common/lov/CampMedicalTeam',
-				method: 'GET'
-			}, function (response) {
-				Loader.destroy();
-				vm.MedicalTeam = response[0].listValues;
-			});
-		}
+		apiService.serviceRequest({
+			URL: 'common/lov/CampMedicalTeam',
+			method: 'GET'
+		}, function (response) {
+			vm.MedicalTeams = response[0].listValues;
+		});
 	}
 	
 	// init function, execution starts here
-	//init();
+	init();
 
 	/**
 	 * function to handle save button click
@@ -29,28 +24,16 @@ core.controller("CampCreateController", ['$scope', '$timeout', '$stateParams', '
 		Loader.create('Please wait ...');
 
 		var serverData = angular.copy(vm.formData);
-		serverData.enabled = true;
 
 		// making the server call
 		apiService.serviceRequest({
-			URL: 'lab/save',
+			URL: 'camp',
 			method: 'POST',
 			payLoad: serverData
 		}, function (response) {
 			Loader.destroy();
-			vm.labCreated = true; // to show the user summary div
+			vm.campCreated = true; // to show the user summary div
 		});
 	};	
-	/**
-	 * function to show created user
-	 */
-	vm.createNwLabBtn = function (){
-		vm.labCreated = false; // to hide the user summary div
-		$timeout(function (){
-			vm.formData = {};      
-			vm.formData.roles = [];
-		});
-		vm.registerForm.$setUntouched();
-		vm.registerForm.$setPristine();
-	}
+	
 }]);
