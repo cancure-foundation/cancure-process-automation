@@ -8,7 +8,7 @@ core.controller("CampPatientRegisterController", ['$scope', '$timeout', '$stateP
 	vm.formData = {};
 	vm.camps = [];
 	
-	vm.alllabtests = [{"listValueId":"4","listId":1,"value":"Daughter"},{"listValueId":"8","listId":1,"value":"Mother"},{"listValueId":"7","listId":1,"value":"Father"},{"listValueId":"3","listId":1,"value":"Son"},{"listValueId":"1","listId":1,"value":"Wife"},{"listValueId":"9","listId":1,"value":"Friend"},{"listValueId":"5","listId":1,"value":"Sister"},{"listValueId":"2","listId":1,"value":"Husband"},{"listValueId":"10","listId":1,"value":"Well Wisher"},{"listValueId":"6","listId":1,"value":"Brother"}];
+	vm.alllabtests = [];
 	vm.allgenders = [{
 		value : 'Male'
 	},{
@@ -57,6 +57,18 @@ core.controller("CampPatientRegisterController", ['$scope', '$timeout', '$stateP
 		vm.selectedCamp = {};
 		vm.campSelected = false;
 		vm.campSearchForm = {};
+		vm.formData = {};
+	}
+	
+	vm.createPatient = function() {
+		
+		apiService.serviceRequest({
+			URL: 'camp/patient',
+			method: 'POST'
+		}, function (response) {
+			vm.campCreated = true;
+		});
+		
 	}
 	
 	init();

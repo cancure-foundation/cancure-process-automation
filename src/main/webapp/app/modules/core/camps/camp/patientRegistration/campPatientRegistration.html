@@ -57,8 +57,7 @@
     <h4 ng-show="vm.campCreated">Patient created with the following details.</h4>
     <div ng-hide="vm.campCreated" class="panel panel-info row">
         <div class="panel-body">
-            <form ng-submit="vm.createLab();" name="vm.formData
-            " autocomplete="off">
+            <form ng-submit="vm.createPatient();" name="vm.formData" autocomplete="off">
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>Camp Name <req>*</req></label>
                     {{ vm.selectedCamp.campName }}
@@ -89,7 +88,7 @@
 	                    <legend>Please select the tests taken -</legend>
 	                    <md-input-container class="md-block" style="margin: 8px 0px;">
 	                        <div ng-repeat="test in vm.alllabtests" class="col-xs-4" style="padding-left: 0px;">
-	                            <md-checkbox checklist-value="test.listValueId" style="display:block;margin-bottom: 18px;" >
+	                            <md-checkbox checklist-value="test.value" style="display:block;margin-bottom: 18px;" >
 	                                {{test.value}}
 	                            </md-checkbox>
 	                        </div>
@@ -111,18 +110,6 @@
     
     <div ng-show="vm.campCreated" class="panel panel-info" style="padding:15px;">
         <div class="row">
-            <div class="col-xs-offset-3 col-xs-6">
-                <table class="table table-bordered" style="margin-bottom: 0px;">
-                    <th class="col-xs-4">Name</th>
-                    <th class="col-xs-4">Address</th>
-                    <th class="col-xs-4">Contact</th>
-                    <tr>
-                        <td class="col-xs-4">{{vm.formData.name}}</td>
-                        <td class="col-xs-4">{{vm.formData.address}}</td>
-                        <td class="col-xs-4">{{vm.formData.contact}}</td>
-                    </tr>
-                </table>
-            </div>
             <div class="col-xs-12 text-center" style="padding-top: 15px;">
                 <button class="btn btn-success" ng-click="vm.formData = {};vm.campCreated=false;">
                     Register another patient in "{{ vm.selectedCamp.name }}"
