@@ -5,6 +5,7 @@ core.controller("CampPatientRegisterController", ['$scope', '$timeout', '$stateP
 	vm.campSearchForm = {};
 	vm.campSearchForm.searchMonthYear = new Date();
 	vm.selectedCamp = {};
+	vm.patientCreated = false;
 	vm.formData = {};
 	vm.camps = [];
 	
@@ -57,25 +58,32 @@ core.controller("CampPatientRegisterController", ['$scope', '$timeout', '$stateP
 		vm.selectedCamp = {};
 		vm.campSelected = false;
 		vm.campSearchForm = {};
+		vm.patientCreated = false;
 		vm.formData = {};
 	}
 	
 	vm.createPatient = function() {
-		//vm.labTests
-		var keys = [];
+		var serverData = angular.copy(vm.formData);
+		serverData.campPatientTestResults = [];
+		serverData.campId = vm.selectedCamp.campId;
+		
+		var i=0;
 		for (var key in vm.labTests) {
 		  if (vm.labTests.hasOwnProperty(key) && vm.labTests[key]) {
-			  keys.push(key);
+			  serverData.campPatientTestResults[i] = {};
+			  serverData.campPatientTestResults[i].testName = key;
+			  i++;
 		  }
 		}
 		
-		/*apiService.serviceRequest({
+		apiService.serviceRequest({
 			URL: 'camp/patient',
-			method: 'POST'
+			method: 'POST',
+			payLoad: serverData
 		}, function (response) {
-			vm.campCreated = true;
+			Loader.destroy();
+			vm.patientCreated = true;
 		});
-		*/
 	}
 	
 	init();

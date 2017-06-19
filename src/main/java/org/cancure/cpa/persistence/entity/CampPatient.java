@@ -1,12 +1,13 @@
 package org.cancure.cpa.persistence.entity;
 
-import java.sql.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -30,8 +31,19 @@ public class CampPatient {
 
     @Column(name = "camp_id")
     private Integer campId;
+    
+    @OneToMany(mappedBy = "campPatientId")
+    private Set<CampPatientTestResults> campPatientTestResults;
 
-    public String getUid() {
+    public Set<CampPatientTestResults> getCampPatientTestResults() {
+		return campPatientTestResults;
+	}
+
+	public void setCampPatientTestResults(Set<CampPatientTestResults> campPatientTestResults) {
+		this.campPatientTestResults = campPatientTestResults;
+	}
+
+	public String getUid() {
         return uid;
     }
 

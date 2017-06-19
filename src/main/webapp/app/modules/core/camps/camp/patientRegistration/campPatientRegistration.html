@@ -55,7 +55,7 @@
     	<div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h4>
     <h4 ng-show="vm.campCreated">Patient created with the following details.</h4>
-    <div ng-hide="vm.campCreated" class="panel panel-info row">
+    <div ng-hide="vm.patientCreated" class="panel panel-info row">
         <div class="panel-body">
             <form ng-submit="vm.createPatient();" name="vm.formData" autocomplete="off">
                 <div class="col-md-4 col-xs-12 input-box">
@@ -108,13 +108,16 @@
         </div>
     </div>
     
-    <div ng-show="vm.campCreated" class="panel panel-info" style="padding:15px;">
+    <div ng-show="vm.patientCreated" class="panel panel-info" style="padding:15px;">
         <div class="row">
+       		<div class="row" style="text-align:center; color:red">
+            	<b>Patient has been created registered in the camp "{{ vm.selectedCamp.name }}".</b>
+        	</div>
             <div class="col-xs-12 text-center" style="padding-top: 15px;">
-                <button class="btn btn-success" ng-click="vm.formData = {};vm.campCreated=false;">
+                <button class="btn btn-success" ng-click="vm.formData={};vm.patientCreated=false;vm.labTests={};">
                     Register another patient in "{{ vm.selectedCamp.name }}"
                 </button>
-                <button class="btn btn-success" ng-click="vm.formData = {};vm.campCreated=false;">
+                <button class="btn btn-success" ng-click="vm.resetCamp();">
                     Search camps
                 </button>
             </div>
