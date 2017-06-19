@@ -88,7 +88,7 @@
 	                    <legend>Please select the tests taken -</legend>
 	                    <md-input-container class="md-block" style="margin: 8px 0px;">
 	                        <div ng-repeat="test in vm.alllabtests" class="col-xs-4" style="padding-left: 0px;">
-	                            <md-checkbox checklist-value="test.value" style="display:block;margin-bottom: 18px;" >
+	                            <md-checkbox checklist-value="test.value" ng-model="vm.labTests[test.value]" style="display:block;margin-bottom: 18px;" >
 	                                {{test.value}}
 	                            </md-checkbox>
 	                        </div>

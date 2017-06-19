@@ -61,14 +61,21 @@ core.controller("CampPatientRegisterController", ['$scope', '$timeout', '$stateP
 	}
 	
 	vm.createPatient = function() {
+		//vm.labTests
+		var keys = [];
+		for (var key in vm.labTests) {
+		  if (vm.labTests.hasOwnProperty(key) && vm.labTests[key]) {
+			  keys.push(key);
+		  }
+		}
 		
-		apiService.serviceRequest({
+		/*apiService.serviceRequest({
 			URL: 'camp/patient',
 			method: 'POST'
 		}, function (response) {
 			vm.campCreated = true;
 		});
-		
+		*/
 	}
 	
 	init();
