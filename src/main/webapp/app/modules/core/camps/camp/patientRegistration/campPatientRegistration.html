@@ -37,7 +37,7 @@
 	                    <tr class="" ng-repeat="camp in vm.camps">
 	                        <td class="col-xs-4">{{camp.campName}}</td>
 	                        <td class="col-xs-4">{{camp.campPlace}}</td>
-	                        <td class="col-xs-4">{{camp.localPOC}}</td>
+	                        <td class="col-xs-4">{{camp.pocName}}</td>
 	                        <td class="col-xs-4" ng-click="vm.selectCamp(camp.campId)">Register People</td>
 	                    </tr>
 	                </table>
@@ -55,9 +55,9 @@
     	<div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h4>
     <h4 ng-show="vm.campCreated">Patient created with the following details.</h4>
-    <div ng-hide="vm.campCreated" class="panel panel-info row">
+    <div ng-hide="vm.patientCreated" class="panel panel-info row">
         <div class="panel-body">
-            <form ng-submit="vm.createLab();" name="vm.registerForm" autocomplete="off">
+            <form ng-submit="vm.createPatient();" name="vm.formData" autocomplete="off">
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>Camp Name <req>*</req></label>
                     {{ vm.selectedCamp.campName }}
@@ -75,20 +75,20 @@
                 </div>
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>Age<req>*</req></label>
-                    <input type="text" data-ng-model="vm.formData.age" required placeholder="Enter Age" onkeypress="return validatephone(event);" />
+                    <input type="text" data-ng-model="vm.formData.age" maxlength="3" required placeholder="Enter Age" onkeypress="return validatephone(event);" />
                 </div>
                 
                 <div class="col-md-4 col-xs-12 input-box">
                     <label>Phone Number<req>*</req></label>
-                    <input type="text" data-ng-model="vm.formData.phone" required onkeypress="return validatephone(event);" placeholder="Enter Phone Number" />
+                    <input type="text" data-ng-model="vm.formData.phone" maxlength="12" required onkeypress="return validatephone(event);" placeholder="Enter Phone Number" />
                 </div>
                 
-                <div class="col-md-4 col-xs-12 input-box">
+                <div class="col-md-12 col-xs-12 input-box">
                     <fieldset class="appFieldset">
 	                    <legend>Please select the tests taken -</legend>
 	                    <md-input-container class="md-block" style="margin: 8px 0px;">
 	                        <div ng-repeat="test in vm.alllabtests" class="col-xs-4" style="padding-left: 0px;">
-	                            <md-checkbox checklist-value="test.listValueId" style="display:block;margin-bottom: 18px;" >
+	                            <md-checkbox checklist-value="test.value" ng-model="vm.labTests[test.value]" style="display:block;margin-bottom: 18px;" >
 	                                {{test.value}}
 	                            </md-checkbox>
 	                        </div>
@@ -108,25 +108,16 @@
         </div>
     </div>
     
-    <div ng-show="vm.campCreated" class="panel panel-info" style="padding:15px;">
+    <div ng-show="vm.patientCreated" class="panel panel-info" style="padding:15px;">
         <div class="row">
-            <div class="col-xs-offset-3 col-xs-6">
-                <table class="table table-bordered" style="margin-bottom: 0px;">
-                    <th class="col-xs-4">Name</th>
-                    <th class="col-xs-4">Address</th>
-                    <th class="col-xs-4">Contact</th>
-                    <tr>
-                        <td class="col-xs-4">{{vm.formData.name}}</td>
-                        <td class="col-xs-4">{{vm.formData.address}}</td>
-                        <td class="col-xs-4">{{vm.formData.contact}}</td>
-                    </tr>
-                </table>
-            </div>
+       		<div class="row" style="text-align:center; color:red">
+            	<b>Patient has been created registered in the camp "{{ vm.selectedCamp.name }}".</b>
+        	</div>
             <div class="col-xs-12 text-center" style="padding-top: 15px;">
-                <button class="btn btn-success" ng-click="vm.formData = {};vm.campCreated=false;">
+                <button class="btn btn-success" ng-click="vm.formData={};vm.patientCreated=false;vm.labTests={};">
                     Register another patient in "{{ vm.selectedCamp.name }}"
                 </button>
-                <button class="btn btn-success" ng-click="vm.formData = {};vm.campCreated=false;">
+                <button class="btn btn-success" ng-click="vm.resetCamp();">
                     Search camps
                 </button>
             </div>

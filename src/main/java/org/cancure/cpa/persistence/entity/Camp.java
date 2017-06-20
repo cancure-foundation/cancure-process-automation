@@ -103,11 +103,7 @@ public class Camp {
     public int getPatientCount() {
         return patientCount;
     }
-
-    public void setPatientCount(int patientCount) {
-        this.patientCount = patientCount;
-    }
-
+    
     public String getCampName() {
         return campName;
     }

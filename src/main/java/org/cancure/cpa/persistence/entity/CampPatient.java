@@ -1,12 +1,13 @@
 package org.cancure.cpa.persistence.entity;
 
-import java.sql.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,7 +23,7 @@ public class CampPatient {
 
     private String name;
 
-    private Date dob;
+    private Integer age;
 
     private String gender;
 
@@ -30,8 +31,19 @@ public class CampPatient {
 
     @Column(name = "camp_id")
     private Integer campId;
+    
+    @OneToMany(mappedBy = "campPatientId")
+    private Set<CampPatientTestResults> campPatientTestResults;
 
-    public String getUid() {
+    public Set<CampPatientTestResults> getCampPatientTestResults() {
+		return campPatientTestResults;
+	}
+
+	public void setCampPatientTestResults(Set<CampPatientTestResults> campPatientTestResults) {
+		this.campPatientTestResults = campPatientTestResults;
+	}
+
+	public String getUid() {
         return uid;
     }
 
@@ -71,19 +83,19 @@ public class CampPatient {
         this.campPatientId = campPatientId;
     }
 
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
     public Integer getCampId() {
         return campId;
     }
 
-    public void setCampId(Integer campId) {
+    public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public void setCampId(Integer campId) {
         this.campId = campId;
     }
 

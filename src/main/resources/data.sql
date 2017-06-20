@@ -28,6 +28,7 @@ insert into list values (7, 'IDProof');
 insert into list values (8, 'IncomeProof');
 insert into list values (9, 'TypeOfSupportSought');
 insert into list values (10, 'CampLabTests');
+insert into list values (11, 'CampMedicalTeam');
 
 insert into list_value values (1, 1, 'Wife');
 insert into list_value values (2, 1, 'Husband');
@@ -107,6 +108,8 @@ insert into list_value values (66, 10, 'TFT');
 insert into list_value values (67, 10, 'Serum TG');
 insert into list_value values (68, 10, 'FNAC');
 
+insert into list_value values (69, 11, 'Medical Trust Team');
+insert into list_value values (70, 11, 'EMC Team');
 
 insert into OAUTH_CLIENT_DETAILS values('cancureapp', 'restservice', 'cancure123456', 'read,write', 'password,refresh_token', null, 'USER', null,null, '{}', null);
 
