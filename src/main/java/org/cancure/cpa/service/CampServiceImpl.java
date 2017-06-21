@@ -140,12 +140,12 @@ public class CampServiceImpl implements CampService {
 
 	private String flattenTestNames(List<CampPatientTestResultsBean> testResults) {
     	if (testResults != null) {
-    		List<String> tests = new ArrayList<>(); 
+    		StringBuilder tests = new StringBuilder(); 
     		for (CampPatientTestResultsBean cptr: testResults) {
-    			tests.add(cptr.getTestName());
+    			tests.append(cptr.getTestName()).append(", ");
     		}
     		
-    		return String.join(", ", tests);
+    		return tests.substring(0, tests.length()-2);
     	}
     	
     	return "";
@@ -153,12 +153,12 @@ public class CampServiceImpl implements CampService {
     
     private String flattenTestResults(List<CampPatientTestResultsBean> testResults) {
     	if (testResults != null) {
-    		List<String> tests = new ArrayList<>(); 
+    		StringBuilder tests = new StringBuilder();
     		for (CampPatientTestResultsBean cptr: testResults) {
-    			tests.add(cptr.getTestResultText());
+    			tests.append(cptr.getTestResultText()).append("\n");
     		}
     		
-    		return String.join("\n", tests);
+    		return tests.substring(0, tests.length()-1);
     	}
     	
     	return "";
