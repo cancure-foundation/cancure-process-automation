@@ -1,5 +1,8 @@
 package org.cancure.cpa.controller;
 
+import java.util.List;
+
+import org.cancure.cpa.controller.beans.CampPatientBean;
 import org.cancure.cpa.persistence.entity.CampPatient;
 import org.cancure.cpa.service.CampPatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +24,8 @@ public class CampPatientController {
     }
     
     @RequestMapping("camp/{campId}/patients")
-    public Iterable<CampPatient> getPatientByCamp(@PathVariable("campId") Integer campId) {
-        return campPatientService.listCampPatient();
+    public List<CampPatientBean> getPatientByCamp(@PathVariable("campId") Integer campId) {
+        return campPatientService.getPatientByCamp(campId);
     }
 
 }
