@@ -1,10 +1,19 @@
 package org.cancure.cpa.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.sql.Date;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.cancure.cpa.persistence.entity.Camp;
 import org.cancure.cpa.service.CampService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,4 +54,18 @@ public class CampController {
 		return campservice.getCamp(campId);
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/camp/report/{campId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public void downloadCampReport(@PathVariable("campId") Integer campId, HttpServletResponse response) throws IOException {
+		
+		HSSFWorkbook excel = campservice.generateCampReport(campId);
+		returnMimeContent(campId, excel, response);
+	}
+	
+	private void returnMimeContent(Integer campId, HSSFWorkbook excel, HttpServletResponse response) throws IOException {
+    	
+        response.setHeader("Content-Disposition", "attachment; filename=CampReport" + campId + ".xls");        
+        response.setContentType("application/vnd.ms-excel");
+        excel.write(response.getOutputStream());
+        response.flushBuffer();
+    }
 }

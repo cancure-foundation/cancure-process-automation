@@ -9,7 +9,5 @@ public interface CampPatientService {
 
     CampPatient saveCampPatient(CampPatient patientcamp);
 
-    Iterable<CampPatient> listCampPatient();
-
     List<CampPatientBean> getPatientByCamp(Integer campId);
 }

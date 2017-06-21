@@ -1,18 +1,18 @@
 package org.cancure.cpa.controller.beans;
 
-import java.sql.Date;
-
-import org.cancure.cpa.util.CommonUtil;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CampPatientBean {
 
     private Integer campPatientId;
     private String uid;
     private String name;
-    private Date dob;
+    private Integer age;
     private String gender;
     private String phone;
     private Integer campId;
+    private List<CampPatientTestResultsBean> campPatientTestResultsBean = new ArrayList<>();
 
     public String getUid() {
         return uid;
@@ -54,14 +54,6 @@ public class CampPatientBean {
         this.campPatientId = campPatientId;
     }
 
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
     public Integer getCampId() {
         return campId;
     }
@@ -70,7 +62,20 @@ public class CampPatientBean {
         this.campId = campId;
     }
 
-    public Integer getAge(){
-        return CommonUtil.getAge(dob);
-    }
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public List<CampPatientTestResultsBean> getCampPatientTestResultsBean() {
+		return campPatientTestResultsBean;
+	}
+
+	public void setCampPatientTestResultsBean(List<CampPatientTestResultsBean> campPatientTestResultsBean) {
+		this.campPatientTestResultsBean = campPatientTestResultsBean;
+	}
+
 }

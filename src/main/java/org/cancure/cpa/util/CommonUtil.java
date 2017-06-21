@@ -38,5 +38,10 @@ public class CommonUtil {
     	SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
     	return sdf.format(date);
     }
+    
+    public static String formatDateSimple(Date date) {
+    	SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+    	return sdf.format(date);
+    }
 
 }

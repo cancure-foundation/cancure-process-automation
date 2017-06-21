@@ -360,6 +360,9 @@ create table camp_patient (
 	phone varchar(20),
 	camp_id number(10) references camp(camp_id)
  ); 
+
+create index camp_patient_campid_fk_index
+	on camp_patient(camp_id); 
  
 create table camp_patient_test_results (
 	test_result_id number(10) primary key auto_increment,

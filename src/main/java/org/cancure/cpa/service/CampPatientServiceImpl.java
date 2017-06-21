@@ -17,15 +17,9 @@ public class CampPatientServiceImpl implements CampPatientService {
 
     @Override
     public CampPatient saveCampPatient(CampPatient patientcamp) {
-
+    	
         return campPatientRepo.save(patientcamp);
 
-    }
-
-    @Override
-    public Iterable<CampPatient> listCampPatient() {
-
-        return campPatientRepo.findAll();
     }
 
     @Override

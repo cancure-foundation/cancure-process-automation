@@ -68,4 +68,7 @@ public class CampPatientTestResults {
         this.campPatientId = campPatientId;
     }
     
+    public String toString() {
+		return "{CampPatientTestResults -> testName="+ testName + ", id=" + id + "}";
+	}
 }
