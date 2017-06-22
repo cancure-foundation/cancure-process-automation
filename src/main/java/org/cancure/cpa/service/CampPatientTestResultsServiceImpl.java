@@ -32,7 +32,6 @@ public class CampPatientTestResultsServiceImpl implements CampPatientTestResults
 
     @Override
     public List<CampPatientTestResultsBean> getTestResultsByPatientId(Integer campPatientId) {
-        // TODO Auto-generated method stub
         List<CampPatientTestResults> testResultsList = testResultsRepository.findByCampPatientId(campPatientId);
         List<CampPatientTestResultsBean> testResultsBeanList = new ArrayList<>();
         for(CampPatientTestResults testResults: testResultsList){

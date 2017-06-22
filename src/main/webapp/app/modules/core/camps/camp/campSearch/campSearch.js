@@ -56,24 +56,39 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	
 	$scope.status = '  ';
 	$scope.customFullscreen = false;
-	$scope.showAdvanced = function(ev) {
+	$scope.showAdvanced = function(index) {
+		
+		var campPatient = vm.campPatients[index];
+		
+		apiService.serviceRequest({
+			URL: 'camp/patient/' + campPatient.campPatientId + '/testresult',
+			method: 'GET'
+		}, function (response) {
+			vm.selectedPatient = campPatient;
+			vm.selectedPatient.CampLabTests = response;
+			//alert(JSON.stringify(response));
+			
+			$mdDialog.show({
+		      controller: DialogController,
+		      templateUrl: 'app/modules/core/camps/camp/campSearch/campTestResult.html',
+		      parent: angular.element(document.body),
+		      //targetEvent: ev,
+		      clickOutsideToClose:true,
+		      fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+		      locals:{dataToPass: vm.selectedPatient}
+		    })
+		    .then(function(answer) {
+		      $scope.status = 'You said the information was "' + answer + '".';
+		    }, function() {
+		      $scope.status = 'You cancelled the dialog.';
+		    });
+		});
+		
+		/*
 		vm.selectedPatient = {"id": "20170201001", "name": "John doe", "age": 32, "phone" : "987678678", "address": "Kochi, kerala", "gender": "male", 
 				"CampLabTests" : [{"testName": "Pap Smear"} , {"testName": "Ultrasound"}], "campName" : "Lions club" };
-		
-	    $mdDialog.show({
-	      controller: DialogController,
-	      templateUrl: 'app/modules/core/camps/camp/campSearch/campTestResult.html',
-	      parent: angular.element(document.body),
-	      targetEvent: ev,
-	      clickOutsideToClose:true,
-	      fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
-	      locals:{dataToPass: vm.selectedPatient}
-	    })
-	    .then(function(answer) {
-	      $scope.status = 'You said the information was "' + answer + '".';
-	    }, function() {
-	      $scope.status = 'You cancelled the dialog.';
-	    });
+		*/
+	    
 	};
 	
 	function DialogController($scope, $mdDialog, dataToPass) {
