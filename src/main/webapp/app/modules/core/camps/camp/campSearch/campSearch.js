@@ -14,10 +14,15 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 		for (var i=0; i < vm.camps.length; i++) {
 			if (vm.camps[i].campId == id) {
 				vm.selectedCamp = vm.camps[i];
-				vm.campPatientsSearched = true;
-				vm.campPatients = [{"id": "20170201001", "name": "John doe", "age": 32, "phone" : "987678678", "address": "Kochi, kerala"},
-				                   {"id": "20170201002", "name": "Jane doe", "age": 34, "phone" : "5487678678", "address": "Kochi, kerala"},
-				                   {"id": "20170201003", "name": "Joan Doe", "age": 83, "phone" : "677678678", "address": "Kochi, kerala"}];
+				
+				apiService.serviceRequest({
+					URL: 'camp/' + id + '/patients',
+					method: 'GET'
+				}, function (response) {
+					vm.campPatients = response;
+					vm.campPatientsSearched = true;
+				});
+				
 				break;
 			}
 		}
@@ -51,24 +56,39 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	
 	$scope.status = '  ';
 	$scope.customFullscreen = false;
-	$scope.showAdvanced = function(ev) {
+	$scope.showAdvanced = function(index) {
+		
+		var campPatient = vm.campPatients[index];
+		
+		apiService.serviceRequest({
+			URL: 'camp/patient/' + campPatient.campPatientId + '/testresult',
+			method: 'GET'
+		}, function (response) {
+			vm.selectedPatient = campPatient;
+			vm.selectedPatient.CampLabTests = response;
+			//alert(JSON.stringify(response));
+			
+			$mdDialog.show({
+		      controller: DialogController,
+		      templateUrl: 'app/modules/core/camps/camp/campSearch/campTestResult.html',
+		      parent: angular.element(document.body),
+		      //targetEvent: ev,
+		      clickOutsideToClose:true,
+		      fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+		      locals:{dataToPass: vm.selectedPatient}
+		    })
+		    .then(function(answer) {
+		      $scope.status = 'You said the information was "' + answer + '".';
+		    }, function() {
+		      $scope.status = 'You cancelled the dialog.';
+		    });
+		});
+		
+		/*
 		vm.selectedPatient = {"id": "20170201001", "name": "John doe", "age": 32, "phone" : "987678678", "address": "Kochi, kerala", "gender": "male", 
 				"CampLabTests" : [{"testName": "Pap Smear"} , {"testName": "Ultrasound"}], "campName" : "Lions club" };
-		
-	    $mdDialog.show({
-	      controller: DialogController,
-	      templateUrl: 'app/modules/core/camps/camp/campSearch/campTestResult.html',
-	      parent: angular.element(document.body),
-	      targetEvent: ev,
-	      clickOutsideToClose:true,
-	      fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
-	      locals:{dataToPass: vm.selectedPatient}
-	    })
-	    .then(function(answer) {
-	      $scope.status = 'You said the information was "' + answer + '".';
-	    }, function() {
-	      $scope.status = 'You cancelled the dialog.';
-	    });
+		*/
+	    
 	};
 	
 	function DialogController($scope, $mdDialog, dataToPass) {
@@ -89,6 +109,10 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	    $scope.answer = function(answer) {
 	      $mdDialog.hide(answer);
 	    };
+	}
+	
+	vm.downloadReport = function(campId) {
+		window.open("camp/report/" + campId);
 	}
 	
 }]);

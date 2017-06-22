@@ -353,6 +353,9 @@ create table camp (
 	patient_count int(10) 
  );
  
+create index camp_patient_campid_fk_index
+	on camp_patient(camp_id); 
+ 
 create table camp_patient (
 	camp_patient_id int(10) primary key auto_increment,
 	uid varchar(100) not null,

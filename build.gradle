@@ -53,6 +53,7 @@ dependencies {
 	compile("com.itextpdf:itextpdf:5.5.9")
 	compile("org.apache.commons:commons-email:1.2")
 	compile("com.itextpdf.tool:xmlworker:5.5.9")
+	compile("org.apache.poi:poi:3.9")
 	
 	
     testCompile("junit:junit")

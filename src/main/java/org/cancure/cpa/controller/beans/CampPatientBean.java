@@ -1,8 +1,7 @@
 package org.cancure.cpa.controller.beans;
 
-import java.util.Set;
-
-import org.cancure.cpa.persistence.entity.CampPatientTestResults;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CampPatientBean {
 
@@ -13,7 +12,7 @@ public class CampPatientBean {
     private String gender;
     private String phone;
     private Integer campId;
-    private Set<CampPatientTestResults> campPatientTestResults;
+    private List<CampPatientTestResultsBean> campPatientTestResultsBean = new ArrayList<>();
 
     public String getUid() {
         return uid;
@@ -63,21 +62,20 @@ public class CampPatientBean {
         this.campId = campId;
     }
 
-    public Integer getAge() {
-        return age;
-    }
+	public Integer getAge() {
+		return age;
+	}
 
-    public void setAge(Integer age) {
-        this.age = age;
-    }
+	public void setAge(Integer age) {
+		this.age = age;
+	}
 
-    public Set<CampPatientTestResults> getCampPatientTestResults() {
-        return campPatientTestResults;
-    }
+	public List<CampPatientTestResultsBean> getCampPatientTestResultsBean() {
+		return campPatientTestResultsBean;
+	}
 
-    public void setCampPatientTestResults(Set<CampPatientTestResults> campPatientTestResults) {
-        this.campPatientTestResults = campPatientTestResults;
-    }
+	public void setCampPatientTestResultsBean(List<CampPatientTestResultsBean> campPatientTestResultsBean) {
+		this.campPatientTestResultsBean = campPatientTestResultsBean;
+	}
 
-    
 }

@@ -53,27 +53,27 @@
 		<div class="panel panel-info" style="padding:15px;">
 			<h3>Patients of camp "{{ vm.selectedCamp.campName }}"</h3>
 	        <table class="table table-bordered" style="margin-bottom: 0px;">
-	            <th class="col-xs-2">ID</th>
+	            <th class="col-xs-2">UID</th>
 	            <th class="col-xs-2">Name</th>
 	            <th class="col-xs-2">Age</th>
 	            <th class="col-xs-3">Phone</th>
-	            <th class="col-xs-3">Address</th>
+	            <th class="col-xs-3">Gender</th>
 	            <th class="col-xs-3">Action</th>
 	            <tr class="" ng-repeat="pat in vm.campPatients">
-	                <td class="col-xs-2">{{pat.id}}</td>
+	                <td class="col-xs-2">{{pat.campPatientId}}</td>
 	                <td class="col-xs-2">{{pat.name}}</td>
 	                <td class="col-xs-2">{{pat.age}}</td>
 	                <td class="col-xs-3">{{pat.phone}}</td>   
-	                <td class="col-xs-3">{{pat.address}}</td>                     
+	                <td class="col-xs-3">{{pat.gender}}</td>                     
 	                <td class="col-xs-3">
-	                	<md-button class="md-primary md-raised" ng-click="showAdvanced($event)">
+	                	<md-button class="md-primary md-raised" ng-click="showAdvanced($index)">
 					      Test Results
 					    </md-button>
 	                </td>
 	            </tr>
 	        </table>
 	        <div>
-	        	<button class="md-raised">Download Report</button>
+	        	<button class="md-raised" ng-click="vm.downloadReport(vm.selectedCamp.campId)">Download Camp Report</button>
 	        </div>
 	    </div>
     </div>
