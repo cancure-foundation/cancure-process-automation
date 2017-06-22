@@ -8,4 +8,6 @@ public interface CampService {
     Camp getCamp(Integer Camp_id);
 
 	Iterable<Camp> getCampsInAMonth(int month, int year);
+
+    void updatePatientCount(Integer campId);
 }

@@ -7,6 +7,7 @@ import org.cancure.cpa.persistence.entity.Camp;
 import org.cancure.cpa.persistence.repository.CampRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class CampServiceImpl implements CampService {
@@ -40,6 +41,15 @@ public class CampServiceImpl implements CampService {
     public Camp getCamp(Integer Camp_id) {
         // TODO Auto-generated method stub
         return campRepo.findOne(Camp_id);
+    }
+
+    @Transactional
+    @Override
+    public void updatePatientCount(Integer campId) {
+        
+        Integer patientCount = (campRepo.findOne(campId).getPatientCount())+1;
+        campRepo.updatePatientCount(patientCount, campId);
+        
     }
 
 }

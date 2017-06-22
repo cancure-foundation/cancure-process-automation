@@ -17,15 +17,10 @@ public class CampPatientTestResultsController {
     @Autowired
     CampPatientTestResultsService campPatientTestResultsService;
 
-    @RequestMapping(method = RequestMethod.POST, value = "camp/patient/test/result/save")
+    @RequestMapping(method = RequestMethod.POST, value = "camp/patient/test/result")
     public CampPatientTestResults saveCampPatientTestResults(
             @RequestBody CampPatientTestResults campPatientTestResults) {
         return campPatientTestResultsService.saveTestResult(campPatientTestResults);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "camp/patient/test/result/list")
-    public Iterable<CampPatientTestResults> getCampPatientTestResults() {
-        return campPatientTestResultsService.listTestResults();
     }
     
     @RequestMapping(method = RequestMethod.POST, value = "camp/patient/test/result/{patientId}")
