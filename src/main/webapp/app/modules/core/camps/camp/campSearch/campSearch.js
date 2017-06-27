@@ -1,5 +1,5 @@
-core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiService', 'appSettings', '$mdDialog',
-                                           function ($scope, $state, Loader, apiService, appSettings, $mdDialog) {
+core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiService', 'appSettings', '$mdDialog', '$timeout',
+                                           function ($scope, $state, Loader, apiService, appSettings, $mdDialog, $timeout) {
 	var vm = this;
 	vm.formData = {}
 	vm.formData.searchMonthYear = new Date();
@@ -72,7 +72,7 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 		      controller: DialogController,
 		      templateUrl: 'app/modules/core/camps/camp/campSearch/campTestResult.html',
 		      parent: angular.element(document.body),
-		      //targetEvent: ev,
+//		      targetEvent: ev,
 		      clickOutsideToClose:true,
 		      fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
 		      locals:{dataToPass: vm.selectedPatient}
@@ -92,7 +92,10 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	};
 	
 	function DialogController($scope, $mdDialog, dataToPass) {
+		var vm= this;
 		$scope.selectedPatient = dataToPass;
+		$scope.testFormData = {};
+		$scope.testFormData.testResult = [];
 		
 		$scope.showPat = function() {
 			alert($scope.selectedPatient.name);
@@ -109,6 +112,18 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	    $scope.answer = function(answer) {
 	      $mdDialog.hide(answer);
 	    };
+	    	    
+	    $scope.saveTestResults = function() {
+			alert('hi ' + $scope.testFormData.testResult[1].testResultId);
+			//alert(JSON.stringify($scope));
+			alert(JSON.stringify($scope.testFormData));
+			
+			//Loader.create('Please wait while we save test results.');
+			var fd = new FormData();
+			//localVm = angular.copy($scope.testFormData);
+			
+			// To do. Check patientRegistration.js
+		}
 	}
 	
 	vm.downloadReport = function(campId) {
