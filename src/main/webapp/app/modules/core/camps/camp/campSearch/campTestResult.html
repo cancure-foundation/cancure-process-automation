@@ -57,7 +57,7 @@
 	                        <td>
 	                        	<div ng-if = "test.testResultText">{{test.testResultText}}</div>
 	                        	<div ng-if = "!test.testResultText">
-	                        		<textarea ng-model="testFormData.testResult[$index].testResultText" rows="5" cols="10"></textarea>
+	                        		<textarea ng-model="testFormData.testResult[$index].testResultText" required rows="5" cols="10"></textarea>
 								</div>
 	                        </td>
 	                        <td>
@@ -65,7 +65,7 @@
 	                        		<!-- <input type="file" onchange="angular.element(this).scope().testReportFileSelection(this)"/> -->
 	                        		<input type="hidden" ng-model = "testFormData.testResult[$index].testResultId" 
 	                        			value="{{test.id}}" ng-init="testFormData.testResult[$index].testResultId=test.id"/>
-									<input data-file id="id_image" name="image"
+									<input data-file id="id_image" name="image" required
 										ng-model="testFormData.testResult[$index].testResultFile" type="file">
 								</div>
 	                        	<div ng-if = "test.testResultText">
@@ -76,12 +76,14 @@
 	                    </tr>
 	                </table>
 		        </div>
-		        <div>
+		        <div ng-show="saving" style="color:red">
+		        	Saving...Please wait.
+		        </div>
+		        <div ng-hide="saving">
 		        	<button class="md-raised" type="submit">Save Test Results</button>
 		        </div>
 		        
 	    	</div>
-	    	<!-- </form> -->
         </div>
         
       </div>
