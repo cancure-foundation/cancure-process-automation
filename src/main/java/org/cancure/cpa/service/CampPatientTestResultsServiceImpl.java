@@ -3,9 +3,10 @@ package org.cancure.cpa.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cancure.cpa.controller.beans.CampPatientBean;
+import javax.transaction.Transactional;
+
 import org.cancure.cpa.controller.beans.CampPatientTestResultsBean;
-import org.cancure.cpa.persistence.entity.CampPatient;
+import org.cancure.cpa.controller.beans.CampPatientTestResultsBeanList;
 import org.cancure.cpa.persistence.entity.CampPatientTestResults;
 import org.cancure.cpa.persistence.repository.CampPatientTestResultsRepository;
 import org.springframework.beans.BeanUtils;
@@ -18,10 +19,17 @@ public class CampPatientTestResultsServiceImpl implements CampPatientTestResults
     @Autowired
     CampPatientTestResultsRepository testResultsRepository;
 
+    @Transactional
     @Override
-    public CampPatientTestResults saveTestResult(CampPatientTestResults campPatientTestResults) {
-
-        return testResultsRepository.save(campPatientTestResults);
+    public void saveTestResult(CampPatientTestResultsBeanList campPatientTestResultsList) {
+    	if (campPatientTestResultsList != null && campPatientTestResultsList.getCampPatientTestResultsBeanList() != null && 
+    			!campPatientTestResultsList.getCampPatientTestResultsBeanList().isEmpty()) {
+    		for (CampPatientTestResultsBean bean : campPatientTestResultsList.getCampPatientTestResultsBeanList()) {
+    			CampPatientTestResults entity = new CampPatientTestResults();
+    			BeanUtils.copyProperties(bean, entity);
+    			testResultsRepository.save(entity);
+    		}
+    	}
     }
 
     @Override
