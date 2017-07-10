@@ -1,5 +1,5 @@
 <md-dialog aria-label="Camp Test Results">
-  <form ng-cloak>
+  <form ng-cloak ng-submit="saveTestResults();">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Camp Patient's Test Results</h2>
@@ -40,49 +40,62 @@
         </div>
         
         <div class="row">
+        	<!-- <form ng-submit="vm.saveTestResults();" > -->
         	<div class="panel panel-info" style="padding:15px;">
 				<h3>Tests Taken</h3>
+				
 		        <div class="row">
 	                <table class="table table-bordered" style="margin-bottom: 0px;">
+	                    <th>Test Id</th>
 	                    <th>Test Name</th>
 	                    <th>Result Text</th>
 	                    <th>File</th>
 	                    <th>Action</th>
 	                    <tr class="" ng-repeat="test in selectedPatient.CampLabTests">
+	                        <td>{{test.id}}</td>
 	                        <td>{{test.testName}}</td>
 	                        <td>
 	                        	<div ng-if = "test.testResultText">{{test.testResultText}}</div>
 	                        	<div ng-if = "!test.testResultText">
-	                        		<textarea rows="5" cols="10"></textarea>
+	                        		<textarea ng-model="testFormData.testResult[$index].testResultText" required rows="5" cols="10"></textarea>
 								</div>
 	                        </td>
 	                        <td>
-	                        	<div ng-if = "!test.testResultText"><input type="file" /></div>
+	                        	<div ng-if = "!test.testResultText">
+	                        		<!-- <input type="file" onchange="angular.element(this).scope().testReportFileSelection(this)"/> -->
+	                        		<input type="hidden" ng-model = "testFormData.testResult[$index].testResultId" 
+	                        			value="{{test.id}}" ng-init="testFormData.testResult[$index].testResultId=test.id"/>
+									<input data-file id="id_image" name="image" required
+										ng-model="testFormData.testResult[$index].testResultFile" type="file">
+								</div>
 	                        	<div ng-if = "test.testResultText">
 	                        		<a href="files/idcard/{{vm.patientDetails.prn}}">Download Test Report</a>
 	                        	</div>
 	                        </td>
-	                        <td><a ng-click="vm.deleteTestReport(test.id)">Delete Result</a></td>
+	                        <td><a ng-if = "test.testResultText" ng-click="vm.deleteTestReport(test.id)">Delete Result</a></td>
 	                    </tr>
 	                </table>
 		        </div>
-		        <div>
-		        	<button class="md-raised" ng-click="vm.reset()">Save Test Results</button>
+		        <div ng-show="saving" style="color:red">
+		        	Saving...Please wait.
 		        </div>
+		        <div ng-hide="saving">
+		        	<button class="md-raised" type="submit">Save Test Results</button>
+		        </div>
+		        
 	    	</div>
         </div>
         
       </div>
     </md-dialog-content>
 
+
     <md-dialog-actions layout="row">
       <span flex></span>
-      <md-button ng-click="showPat()">
-       Show
-      </md-button>
       <md-button ng-click="answer('not useful')">
        Close
       </md-button>
+      
     </md-dialog-actions>
   </form>
 </md-dialog>

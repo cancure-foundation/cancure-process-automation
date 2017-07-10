@@ -1,5 +1,5 @@
-core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiService', 'appSettings', '$mdDialog',
-                                           function ($scope, $state, Loader, apiService, appSettings, $mdDialog) {
+core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiService', 'appSettings', '$mdDialog', '$timeout', 'Flash',
+                                           function ($scope, $state, Loader, apiService, appSettings, $mdDialog, $timeout, Flash) {
 	var vm = this;
 	vm.formData = {}
 	vm.formData.searchMonthYear = new Date();
@@ -72,7 +72,7 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 		      controller: DialogController,
 		      templateUrl: 'app/modules/core/camps/camp/campSearch/campTestResult.html',
 		      parent: angular.element(document.body),
-		      //targetEvent: ev,
+//		      targetEvent: ev,
 		      clickOutsideToClose:true,
 		      fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
 		      locals:{dataToPass: vm.selectedPatient}
@@ -92,11 +92,10 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	};
 	
 	function DialogController($scope, $mdDialog, dataToPass) {
+		var vm= this;
 		$scope.selectedPatient = dataToPass;
-		
-		$scope.showPat = function() {
-			alert($scope.selectedPatient.name);
-		}
+		$scope.testFormData = {};
+		$scope.testFormData.testResult = [];
 		
 	    $scope.hide = function() {
 	      $mdDialog.hide();
@@ -109,6 +108,43 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	    $scope.answer = function(answer) {
 	      $mdDialog.hide(answer);
 	    };
+	    	    
+	    $scope.saveTestResults = function() {
+	    	$scope.saving = true;
+			//alert('hi ' + $scope.testFormData.testResult[1].testResultId);
+			//alert(JSON.stringify($scope));
+			//alert(JSON.stringify($scope.testFormData));
+			
+			//Loader.create('Please wait while we save test results.');
+			var count=0;
+			var fd = new FormData();
+			for (var i = 0; i < $scope.selectedPatient.CampLabTests.length; i++){
+				if ($scope.testFormData.testResult[i]) {
+					fd.append("campPatientTestResultsBeanList[" + count + "].id", $scope.testFormData.testResult[i].testResultId);
+					fd.append("campPatientTestResultsBeanList[" + count + "].testResultText", $scope.testFormData.testResult[i].testResultText);
+					fd.append("campPatientTestResultsBeanList[" + count + "].testFile", $scope.testFormData.testResult[i].testResultFile);
+					fd.append("campPatientTestResultsBeanList[" + count + "].testFileName", $scope.testFormData.testResult[i].testResultFile.name);
+					count++;
+				}
+			}
+			
+			// To do. Check patientRegistration.js
+			apiService.serviceRequest({
+				URL: 'camp/patient/testresult',
+				method: 'POST',
+				payLoad: fd,
+				headers: {
+					'Content-Type': undefined
+				}
+			}, function (response) {
+				$scope.saving = false;
+				Flash.create('success', 'Test Results have been saved successfully', 'large-text');
+				$scope.cancel();
+			}, function(response) {
+				Flash.create('danger', 'Test Results could not be saved. ' + response, 'large-text');
+				$scope.cancel();
+			});
+		}
 	}
 	
 	vm.downloadReport = function(campId) {

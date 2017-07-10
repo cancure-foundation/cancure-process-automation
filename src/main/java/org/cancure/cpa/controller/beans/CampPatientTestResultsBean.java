@@ -8,8 +8,18 @@ public class CampPatientTestResultsBean {
     private String testResultText;
     private String testName; 
     private String testResultPath;
-    private MultipartFile testFile;    
-    private Integer campPatientId;
+    private MultipartFile testFile;
+    private String testFileName;
+    
+    public String getTestFileName() {
+		return testFileName;
+	}
+
+	public void setTestFileName(String testFileName) {
+		this.testFileName = testFileName;
+	}
+
+	private Integer campPatientId;
 
     public Integer getId() {
         return id;

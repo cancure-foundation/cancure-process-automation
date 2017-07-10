@@ -3,6 +3,7 @@ package org.cancure.cpa.controller;
 import java.util.List;
 
 import org.cancure.cpa.controller.beans.CampPatientTestResultsBean;
+import org.cancure.cpa.controller.beans.CampPatientTestResultsBeanList;
 import org.cancure.cpa.persistence.entity.CampPatientTestResults;
 import org.cancure.cpa.service.CampPatientTestResultsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,10 @@ public class CampPatientTestResultsController {
     CampPatientTestResultsService campPatientTestResultsService;
 
     @RequestMapping(method = RequestMethod.POST, value = "camp/patient/testresult")
-    public CampPatientTestResults saveCampPatientTestResults(
-            @RequestBody CampPatientTestResults campPatientTestResults) {
-        return campPatientTestResultsService.saveTestResult(campPatientTestResults);
+    public String saveCampPatientTestResults(
+            CampPatientTestResultsBeanList campPatientTestResultsBean) {
+        //campPatientTestResultsService.saveTestResult(campPatientTestResultsBean);
+        return "{\"status\" : \"SUCCESS\"}";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "camp/patient/testresult")
