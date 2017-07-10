@@ -9,17 +9,8 @@ public class CampPatientTestResultsBean {
     private String testName; 
     private String testResultPath;
     private MultipartFile testFile;
-    private String testFileName;
-    
-    public String getTestFileName() {
-		return testFileName;
-	}
-
-	public void setTestFileName(String testFileName) {
-		this.testFileName = testFileName;
-	}
-
-	private Integer campPatientId;
+    private Integer campId;
+    private Integer campPatientId;
 
     public Integer getId() {
         return id;
@@ -67,6 +58,14 @@ public class CampPatientTestResultsBean {
 
     public void setCampPatientId(Integer campPatientId) {
         this.campPatientId = campPatientId;
+    }
+
+    public Integer getCampId() {
+        return campId;
+    }
+
+    public void setCampId(Integer campId) {
+        this.campId = campId;
     }
 
         
