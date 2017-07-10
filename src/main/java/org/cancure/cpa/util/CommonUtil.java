@@ -43,5 +43,11 @@ public class CommonUtil {
     	SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
     	return sdf.format(date);
     }
-
+    
+    public static String generateUID(Date date, Integer patientCount, Integer campId) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String uid =  campId+ sdf.format(date) + String.format("%04d", patientCount+1);
+        return uid;
+              
+    }
 }

@@ -1,11 +1,17 @@
 package org.cancure.cpa.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.cancure.cpa.controller.beans.CampPatientBean;
 import org.cancure.cpa.persistence.entity.CampPatient;
+import org.cancure.cpa.persistence.entity.CampPatientTestResults;
 import org.cancure.cpa.persistence.repository.CampPatientRepository;
+import org.cancure.cpa.persistence.repository.CampPatientTestResultsRepository;
+import org.cancure.cpa.persistence.repository.CampRepository;
+import org.cancure.cpa.util.CommonUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,11 +20,27 @@ import org.springframework.stereotype.Component;
 public class CampPatientServiceImpl implements CampPatientService {
     @Autowired
     CampPatientRepository campPatientRepo;
+    
+    @Autowired
+    CampRepository campRepo;
+    
+    @Autowired
+    CampPatientTestResultsRepository CampPatientTestResultsRepo;
 
     @Override
     public CampPatient saveCampPatient(CampPatient patientcamp) {
     	
-        return campPatientRepo.save(patientcamp);
+        Integer patientCount = campRepo.findOne(patientcamp.getCampId()).getPatientCount();
+        Date date = campRepo.findOne(patientcamp.getCampId()).getCampDate();
+        String uid= CommonUtil.generateUID(date, patientCount, patientcamp.getCampId());
+        patientcamp.setUid(uid);
+        CampPatient campPatient =  campPatientRepo.save(patientcamp);
+        Set<CampPatientTestResults> campPatientTestResults = patientcamp.getCampPatientTestResults();
+        for(CampPatientTestResults campPatientTestResultsBean : campPatientTestResults){
+            campPatientTestResultsBean.setCampPatientId(patientcamp.getCampPatientId());
+            CampPatientTestResultsRepo.save(campPatientTestResultsBean);
+        }
+        return campPatient;
 
     }
 
