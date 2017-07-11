@@ -149,18 +149,6 @@ app.constant('appSettings', {
 		icon: "medkit",
 		state: "camp.campCreate",
 		pageId : 12
-	},
-	{
-		title: "Camp Patients",
-		icon: "user-md",
-		state: "campPatientRegister",
-		pageId : 13
-	},
-	{
-		title: "Camp Reports",
-		icon: "file-text-o",
-		state: "campReports",
-		pageId : 14
 	}
 	],
 	

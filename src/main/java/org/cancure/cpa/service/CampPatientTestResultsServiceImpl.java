@@ -62,24 +62,22 @@ public class CampPatientTestResultsServiceImpl implements CampPatientTestResults
     
     @Override
     public CampPatientTestResults getCampPatientTestResults(Integer testResultId) {
-        // TODO Auto-generated method stub
         return testResultsRepository.findOne(testResultId);
     }
 
     @Override
     public void deleteTestResultsById(Integer testResultId) {
-        // TODO Auto-generated method stub
-        CampPatientTestResults campPatientTestResults = testResultsRepository.findOne(testResultId);
-        String filePath = campPatientTestResults.getTestResultPath();
-        if(filePath!=null){
-            File file = new File(fileSavePath + filePath);
-            Boolean status = file.delete();
-            if(status){
-                campPatientTestResults.setTestResultPath(null);
-                campPatientTestResults.setTestResultText(null);
-                testResultsRepository.save(campPatientTestResults);
-            } 
-        }  
+		CampPatientTestResults campPatientTestResults = testResultsRepository.findOne(testResultId);
+		String filePath = campPatientTestResults.getTestResultPath();
+		if (filePath != null) {
+			File file = new File(fileSavePath + filePath);
+			Boolean status = file.delete();
+			if (status) {
+				campPatientTestResults.setTestResultPath(null);
+				campPatientTestResults.setTestResultText(null);
+				testResultsRepository.save(campPatientTestResults);
+			}
+		}
     }
 
 }

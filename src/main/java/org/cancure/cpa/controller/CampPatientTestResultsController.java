@@ -30,9 +30,14 @@ public class CampPatientTestResultsController {
         return campPatientTestResultsService.getTestResultsByPatientId(patientId);
     }
     
-    @RequestMapping(method = RequestMethod.GET, value = "camp/patient/delete/testresult/{testResultId}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "camp/patient/testresult/{testResultId}")
     public String deleteTestResultsById(@PathVariable("testResultId") Integer testResultId) {
          campPatientTestResultsService.deleteTestResultsById(testResultId);
          return "{\"status\" : \"SUCCESS\"}";
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "camp/patient/testresult/email")
+    public List<CampPatientTestResultsBean> emailTestReport(@PathVariable("patientId") Integer patientId) {
+        return campPatientTestResultsService.getTestResultsByPatientId(patientId);
     }
 }
