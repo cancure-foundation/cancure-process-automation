@@ -353,9 +353,6 @@ create table camp (
 	patient_count int(10) 
  );
  
-create index camp_patient_campid_fk_index
-	on camp_patient(camp_id); 
- 
 create table camp_patient (
 	camp_patient_id int(10) primary key auto_increment,
 	uid varchar(100) not null,
@@ -365,14 +362,20 @@ create table camp_patient (
 	phone varchar(20),
 	camp_id int(10) references camp(camp_id)
  ); 
- 
+
+create index camp_patient_campid_fk_index
+	on camp_patient(camp_id); 
+	
 create table camp_patient_test_results (
 	test_result_id int(10) primary key auto_increment,
 	test_result_text varchar(250),
 	test_name varchar(100),
 	test_result_path varchar(250),
 	camp_patient_id int(10) references camp_patient(camp_patient_id)
- ); 
+ );
+ 
+create index camp_patient_test_results_fk_index
+	on camp_patient_test_results(camp_patient_id); 
  
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),

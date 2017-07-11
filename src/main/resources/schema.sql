@@ -370,7 +370,10 @@ create table camp_patient_test_results (
 	test_name varchar(100),
 	test_result_path varchar(250),
 	camp_patient_id number(10) references camp_patient(camp_patient_id)
- ); 
+ );
+
+create index camp_patient_test_results_fk_index
+	on camp_patient_test_results(camp_patient_id); 
  
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
