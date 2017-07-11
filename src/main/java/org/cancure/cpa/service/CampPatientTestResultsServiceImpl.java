@@ -32,12 +32,13 @@ public class CampPatientTestResultsServiceImpl implements CampPatientTestResults
         
     	if (campPatientTestResultsList != null && campPatientTestResultsList.getCampPatientTestResultsBeanList() != null && 
     			!campPatientTestResultsList.getCampPatientTestResultsBeanList().isEmpty()) {
-    	    new File(fileSavePath + "/camp/" + campPatientTestResultsList.getCampPatientTestResultsBeanList().get(0).getCampId()).mkdirs();
+    	    Integer campId = campPatientTestResultsList.getCampId();
+    	    new File(fileSavePath + "/camp/" + campId).mkdirs();
     		for (CampPatientTestResultsBean bean : campPatientTestResultsList.getCampPatientTestResultsBeanList()) {
     			CampPatientTestResults entity = new CampPatientTestResults();
     			//save file 
     			String originalFileName = bean.getTestFile().getOriginalFilename();
-    			String filePath = "/camp/" + bean.getCampId() + "/" + bean.getId() + "_" +originalFileName;
+    			String filePath = "/camp/" + campId + "/" + bean.getId() + "_" +originalFileName;
     			File file = new File(fileSavePath + filePath);
                 bean.getTestFile().transferTo(file);
                 BeanUtils.copyProperties(bean, entity);
@@ -45,12 +46,6 @@ public class CampPatientTestResultsServiceImpl implements CampPatientTestResults
     			testResultsRepository.save(entity);
     		}
     	}
-    }
-
-    @Override
-    public Iterable<CampPatientTestResults> listTestResults() {
-        // TODO Auto-generated method stub
-        return testResultsRepository.findAll();
     }
 
     @Override
@@ -74,7 +69,17 @@ public class CampPatientTestResultsServiceImpl implements CampPatientTestResults
     @Override
     public void deleteTestResultsById(Integer testResultId) {
         // TODO Auto-generated method stub
-        testResultsRepository.delete(testResultId);
+        CampPatientTestResults campPatientTestResults = testResultsRepository.findOne(testResultId);
+        String filePath = campPatientTestResults.getTestResultPath();
+        if(filePath!=null){
+            File file = new File(fileSavePath + filePath);
+            Boolean status = file.delete();
+            if(status){
+                campPatientTestResults.setTestResultPath(null);
+                campPatientTestResults.setTestResultText(null);
+                testResultsRepository.save(campPatientTestResults);
+            } 
+        }  
     }
 
 }

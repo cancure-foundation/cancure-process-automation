@@ -25,11 +25,6 @@ public class CampPatientTestResultsController {
         return "{\"status\" : \"SUCCESS\"}";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "camp/patient/testresult")
-    public Iterable<CampPatientTestResults> getCampPatientTestResults() {
-        return campPatientTestResultsService.listTestResults();
-    }
-    
     @RequestMapping(method = RequestMethod.GET, value = "camp/patient/{patientId}/testresult")
     public List<CampPatientTestResultsBean> getTestResultsByPatientId(@PathVariable("patientId") Integer patientId) {
         return campPatientTestResultsService.getTestResultsByPatientId(patientId);

@@ -71,7 +71,7 @@
 										ng-model="testFormData.testResult[$index].testResultFile" type="file">
 								</div>
 	                        	<div ng-if = "test.testResultText">
-	                        		<a href="files/testresult/{{vm.patientDetails.prn}}">Download Test Report</a>
+	                        		<a href="files/testresult/{{test.id}}">Download Test Report</a>
 	                        	</div>
 	                        </td>
 	                        <td><a ng-if = "test.testResultText" ng-click="vm.deleteTestReport(test.id)">Delete Result</a></td>

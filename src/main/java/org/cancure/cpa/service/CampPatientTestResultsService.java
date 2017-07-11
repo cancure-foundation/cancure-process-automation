@@ -9,8 +9,6 @@ import org.cancure.cpa.persistence.entity.CampPatientTestResults;
 public interface CampPatientTestResultsService {
 
     void saveTestResult(CampPatientTestResultsBeanList campPatientTestResults) throws Exception;
-
-    Iterable<CampPatientTestResults> listTestResults();
     
     List<CampPatientTestResultsBean> getTestResultsByPatientId(Integer campPatientId);
 

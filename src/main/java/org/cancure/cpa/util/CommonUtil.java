@@ -46,7 +46,7 @@ public class CommonUtil {
     
     public static String generateUID(Date date, Integer patientCount, Integer campId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String uid =  campId+ sdf.format(date) + String.format("%04d", patientCount+1);
+        String uid =  sdf.format(date) + campId+ String.format("%04d", patientCount+1);
         return uid;
               
     }
