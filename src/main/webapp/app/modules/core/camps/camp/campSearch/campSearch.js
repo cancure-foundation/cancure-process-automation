@@ -123,7 +123,9 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 					fd.append("campPatientTestResultsBeanList[" + count + "].id", $scope.testFormData.testResult[i].testResultId);
 					fd.append("campPatientTestResultsBeanList[" + count + "].testResultText", $scope.testFormData.testResult[i].testResultText);
 					fd.append("campPatientTestResultsBeanList[" + count + "].testFile", $scope.testFormData.testResult[i].testResultFile);
-					fd.append("campPatientTestResultsBeanList[" + count + "].testFileName", $scope.testFormData.testResult[i].testResultFile.name);
+					fd.append("campPatientTestResultsBeanList[" + count + "].testName", $scope.testFormData.testResult[i].testName);
+					fd.append("campPatientTestResultsBeanList[" + count + "].campId", $scope.selectedPatient.campId);
+					fd.append("campPatientTestResultsBeanList[" + count + "].campPatientId", $scope.selectedPatient.campPatientId);
 					count++;
 				}
 			}

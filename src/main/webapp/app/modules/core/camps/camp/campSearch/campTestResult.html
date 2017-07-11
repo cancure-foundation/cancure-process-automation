@@ -65,11 +65,13 @@
 	                        		<!-- <input type="file" onchange="angular.element(this).scope().testReportFileSelection(this)"/> -->
 	                        		<input type="hidden" ng-model = "testFormData.testResult[$index].testResultId" 
 	                        			value="{{test.id}}" ng-init="testFormData.testResult[$index].testResultId=test.id"/>
+	                        		<input type="hidden" ng-model = "testFormData.testResult[$index].testName" 
+	                        			value="{{test.testName}}" ng-init="testFormData.testResult[$index].testName=test.testName"/>
 									<input data-file id="id_image" name="image" required
 										ng-model="testFormData.testResult[$index].testResultFile" type="file">
 								</div>
 	                        	<div ng-if = "test.testResultText">
-	                        		<a href="files/idcard/{{vm.patientDetails.prn}}">Download Test Report</a>
+	                        		<a href="files/testresult/{{vm.patientDetails.prn}}">Download Test Report</a>
 	                        	</div>
 	                        </td>
 	                        <td><a ng-if = "test.testResultText" ng-click="vm.deleteTestReport(test.id)">Delete Result</a></td>

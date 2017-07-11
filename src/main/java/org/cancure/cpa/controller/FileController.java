@@ -8,9 +8,11 @@ import java.net.URLConnection;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.cancure.cpa.persistence.entity.CampPatientTestResults;
 import org.cancure.cpa.persistence.entity.PatientBills;
 import org.cancure.cpa.persistence.entity.PatientDocument;
 import org.cancure.cpa.persistence.entity.PatientVisitDocuments;
+import org.cancure.cpa.service.CampPatientTestResultsService;
 import org.cancure.cpa.service.PatientBillService;
 import org.cancure.cpa.service.PatientDocumentService;
 import org.cancure.cpa.service.PatientVisitDocumentService;
@@ -42,6 +44,9 @@ public class FileController {
     
     @Autowired
     private PatientBillService patientBillService;
+    
+    @Autowired
+    private CampPatientTestResultsService campPatientTestResultsService;
 
     @RequestMapping(value = "/files/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public void getFile(@PathVariable("id") Integer id, HttpServletResponse response) throws IOException {
@@ -88,6 +93,14 @@ public class FileController {
         
         PatientBills patBills = patientBillService.getPatientBills(id);
         String filePath = fileSavePath + patBills.getPartnerBillPath();
+        returnMimeContent(filePath, response);
+    }
+    
+    @RequestMapping("/files/testresult/{id}")
+    public void getCampTestResults(@PathVariable("id") Integer id, HttpServletResponse response) throws IOException {
+        
+        CampPatientTestResults campPatientTestResults = campPatientTestResultsService.getCampPatientTestResults(id);
+        String filePath = fileSavePath + campPatientTestResults.getTestResultPath();
         returnMimeContent(filePath, response);
     }
 }

@@ -24,6 +24,7 @@ import org.cancure.cpa.util.CommonUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class CampServiceImpl implements CampService {
@@ -162,5 +163,14 @@ public class CampServiceImpl implements CampService {
     	}
     	
     	return "";
+    }
+
+    @Transactional
+    @Override
+    public void updatePatientCount(Integer campId) {
+        
+        Integer patientCount = (campRepo.findOne(campId).getPatientCount())+1;
+        campRepo.updatePatientCount(patientCount, campId);
+        
     }
 }

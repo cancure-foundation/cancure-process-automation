@@ -11,4 +11,6 @@ public interface CampService {
 	Iterable<Camp> getCampsInAMonth(int month, int year);
 
 	HSSFWorkbook generateCampReport(Integer campId);
+
+    void updatePatientCount(Integer campId);
 }

@@ -20,8 +20,8 @@ public class CampPatientTestResultsController {
 
     @RequestMapping(method = RequestMethod.POST, value = "camp/patient/testresult")
     public String saveCampPatientTestResults(
-            CampPatientTestResultsBeanList campPatientTestResultsBean) {
-        //campPatientTestResultsService.saveTestResult(campPatientTestResultsBean);
+            CampPatientTestResultsBeanList campPatientTestResultsBean) throws Exception {
+        campPatientTestResultsService.saveTestResult(campPatientTestResultsBean);
         return "{\"status\" : \"SUCCESS\"}";
     }
 
@@ -33,5 +33,11 @@ public class CampPatientTestResultsController {
     @RequestMapping(method = RequestMethod.GET, value = "camp/patient/{patientId}/testresult")
     public List<CampPatientTestResultsBean> getTestResultsByPatientId(@PathVariable("patientId") Integer patientId) {
         return campPatientTestResultsService.getTestResultsByPatientId(patientId);
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "camp/patient/delete/testresult/{testResultId}")
+    public String deleteTestResultsById(@PathVariable("testResultId") Integer testResultId) {
+         campPatientTestResultsService.deleteTestResultsById(testResultId);
+         return "{\"status\" : \"SUCCESS\"}";
     }
 }
