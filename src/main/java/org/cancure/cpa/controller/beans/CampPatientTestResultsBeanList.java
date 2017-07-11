@@ -4,9 +4,19 @@ import java.util.List;
 
 public class CampPatientTestResultsBeanList {
 
+    private Integer campId;
 	private List<CampPatientTestResultsBean> campPatientTestResultsBeanList;
 
-	public List<CampPatientTestResultsBean> getCampPatientTestResultsBeanList() {
+	
+	public Integer getCampId() {
+        return campId;
+    }
+
+    public void setCampId(Integer campId) {
+        this.campId = campId;
+    }
+
+    public List<CampPatientTestResultsBean> getCampPatientTestResultsBeanList() {
 		return campPatientTestResultsBeanList;
 	}
 

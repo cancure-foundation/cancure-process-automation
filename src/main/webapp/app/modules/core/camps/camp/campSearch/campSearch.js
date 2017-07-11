@@ -124,11 +124,11 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 					fd.append("campPatientTestResultsBeanList[" + count + "].testResultText", $scope.testFormData.testResult[i].testResultText);
 					fd.append("campPatientTestResultsBeanList[" + count + "].testFile", $scope.testFormData.testResult[i].testResultFile);
 					fd.append("campPatientTestResultsBeanList[" + count + "].testName", $scope.testFormData.testResult[i].testName);
-					fd.append("campPatientTestResultsBeanList[" + count + "].campId", $scope.selectedPatient.campId);
 					fd.append("campPatientTestResultsBeanList[" + count + "].campPatientId", $scope.selectedPatient.campPatientId);
 					count++;
 				}
 			}
+			fd.append("campId", $scope.selectedPatient.campId);
 			
 			// To do. Check patientRegistration.js
 			apiService.serviceRequest({
