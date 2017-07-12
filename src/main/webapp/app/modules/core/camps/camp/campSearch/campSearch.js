@@ -108,14 +108,26 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	    $scope.answer = function(answer) {
 	      $mdDialog.hide(answer);
 	    };
+	    
+	    $scope.deleteTestReport = function(testid) {
+	    	if (confirm('Are you sure you want to delete the test report?')) {
+	    		
+	    		apiService.serviceRequest({
+					URL: 'camp/patient/testresult/' + testid,
+					method: 'DELETE'
+				}, function (response) {
+					Flash.create('success', 'Test Result has been deleted successfully', 'large-text');
+					$scope.cancel();
+				}, function(response) {
+					Flash.create('danger', 'Test Results could not be deleted. ' + response, 'large-text');
+					$scope.cancel();
+				});
+	    		
+	    	}
+	    }
 	    	    
 	    $scope.saveTestResults = function() {
 	    	$scope.saving = true;
-			//alert('hi ' + $scope.testFormData.testResult[1].testResultId);
-			//alert(JSON.stringify($scope));
-			//alert(JSON.stringify($scope.testFormData));
-			
-			//Loader.create('Please wait while we save test results.');
 			var count=0;
 			var fd = new FormData();
 			for (var i = 0; i < $scope.selectedPatient.CampLabTests.length; i++){
@@ -130,7 +142,6 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 			}
 			fd.append("campId", $scope.selectedPatient.campId);
 			
-			// To do. Check patientRegistration.js
 			apiService.serviceRequest({
 				URL: 'camp/patient/testresult',
 				method: 'POST',
@@ -147,6 +158,11 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 				$scope.cancel();
 			});
 		}
+	    
+	    $scope.emailReport = function(patientuid) {
+	    	
+	    }
+	    
 	}
 	
 	vm.downloadReport = function(campId) {

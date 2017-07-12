@@ -111,11 +111,11 @@
     <div ng-show="vm.patientCreated" class="panel panel-info" style="padding:15px;">
         <div class="row">
        		<div class="row" style="text-align:center; color:red">
-            	<b>Patient has been created registered in the camp "{{ vm.selectedCamp.name }}".</b>
+            	<b>Patient has been created registered in the camp "{{ vm.selectedCamp.campName }}".</b>
         	</div>
             <div class="col-xs-12 text-center" style="padding-top: 15px;">
                 <button class="btn btn-success" ng-click="vm.formData={};vm.patientCreated=false;vm.labTests={};">
-                    Register another patient in "{{ vm.selectedCamp.name }}"
+                    Register another patient in "{{ vm.selectedCamp.campName }}"
                 </button>
                 <button class="btn btn-success" ng-click="vm.resetCamp();">
                     Search camps

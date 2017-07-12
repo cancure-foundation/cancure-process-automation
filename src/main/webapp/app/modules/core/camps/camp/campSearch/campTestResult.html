@@ -1,4 +1,4 @@
-<md-dialog aria-label="Camp Test Results">
+<md-dialog aria-label="Camp Test Results" style="width:800px">
   <form ng-cloak ng-submit="saveTestResults();">
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -74,7 +74,7 @@
 	                        		<a href="files/testresult/{{test.id}}">Download Test Report</a>
 	                        	</div>
 	                        </td>
-	                        <td><a ng-if = "test.testResultText" ng-click="vm.deleteTestReport(test.id)">Delete Result</a></td>
+	                        <td><a ng-if = "test.testResultText" ng-click="deleteTestReport(test.id)">Delete Result</a></td>
 	                    </tr>
 	                </table>
 		        </div>
@@ -94,7 +94,10 @@
 
     <md-dialog-actions layout="row">
       <span flex></span>
-      <md-button ng-click="answer('not useful')">
+      <md-button class="md-raised" ng-click="emailReport(selectedPatient.uid)">
+       Email Test Reports To Camp Representative 
+      </md-button>
+      <md-button class="md-raised" ng-click="answer('not')">
        Close
       </md-button>
       
