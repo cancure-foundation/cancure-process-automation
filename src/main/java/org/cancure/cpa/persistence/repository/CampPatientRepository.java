@@ -6,7 +6,7 @@ import org.cancure.cpa.persistence.entity.CampPatient;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-public interface CampPatientRepository extends CrudRepository<CampPatient, Integer> {
+public interface CampPatientRepository extends CrudRepository<CampPatient, Long> {
 
 	List<CampPatient> findByCampId(Integer campId);
     

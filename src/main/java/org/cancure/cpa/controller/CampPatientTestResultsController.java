@@ -26,7 +26,7 @@ public class CampPatientTestResultsController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "camp/patient/{patientId}/testresult")
-    public List<CampPatientTestResultsBean> getTestResultsByPatientId(@PathVariable("patientId") Integer patientId) {
+    public List<CampPatientTestResultsBean> getTestResultsByPatientId(@PathVariable("patientId") Long patientId) {
         return campPatientTestResultsService.getTestResultsByPatientId(patientId);
     }
     
@@ -36,8 +36,8 @@ public class CampPatientTestResultsController {
          return "{\"status\" : \"SUCCESS\"}";
     }
     
-    @RequestMapping(method = RequestMethod.GET, value = "camp/patient/testresult/email")
-    public String emailTestReport(@PathVariable("patientId") Integer patientId) throws Exception {
+    @RequestMapping(method = RequestMethod.GET, value = "camp/patient/{patientId}/testresult/email")
+    public String emailTestReport(@PathVariable("patientId") Long patientId) throws Exception {
         campPatientTestResultsService.notifyLocalPartner(patientId);
         return "{\"status\" : \"SUCCESS\"}";
     }

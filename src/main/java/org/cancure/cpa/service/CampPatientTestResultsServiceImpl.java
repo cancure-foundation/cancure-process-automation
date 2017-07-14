@@ -64,7 +64,7 @@ public class CampPatientTestResultsServiceImpl implements CampPatientTestResults
     }
 
     @Override
-    public List<CampPatientTestResultsBean> getTestResultsByPatientId(Integer campPatientId) {
+    public List<CampPatientTestResultsBean> getTestResultsByPatientId(Long campPatientId) {
         List<CampPatientTestResults> testResultsList = testResultsRepository.findByCampPatientId(campPatientId);
         List<CampPatientTestResultsBean> testResultsBeanList = new ArrayList<>();
         for(CampPatientTestResults testResults: testResultsList){
@@ -76,7 +76,7 @@ public class CampPatientTestResultsServiceImpl implements CampPatientTestResults
     }
     
     @Override
-    public void notifyLocalPartner(Integer campPatientId) throws Exception {
+    public void notifyLocalPartner(Long campPatientId) throws Exception {
         
         CampPatient campPatient = campPatientRepo.findOne(campPatientId);
         Camp camp = campRepo.findOne(campPatient.getCampId());
@@ -108,7 +108,7 @@ public class CampPatientTestResultsServiceImpl implements CampPatientTestResults
         values.put("patientPhone", campPatient.getPhone());
         values.put("patientTestNames", patientTestNames);
 
-        new EmailNotifier().notify(userSet, "CampTestReport_email", values, attachmentPaths);
+        new EmailNotifier().notify(userSet, "CampTestReport", values, attachmentPaths);
         
     }
 

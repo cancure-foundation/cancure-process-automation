@@ -26,7 +26,7 @@ public class CampPatientTestResults {
     private String testResultPath;
     
     @Column(name = "camp_patient_id")
-    private Integer campPatientId;
+    private Long campPatientId;
 
     public Integer getId() {
         return id;
@@ -60,11 +60,11 @@ public class CampPatientTestResults {
         this.testResultPath = testResultPath;
     }
 
-    public Integer getCampPatientId() {
+    public Long getCampPatientId() {
         return campPatientId;
     }
 
-    public void setCampPatientId(Integer campPatientId) {
+    public void setCampPatientId(Long campPatientId) {
         this.campPatientId = campPatientId;
     }
     

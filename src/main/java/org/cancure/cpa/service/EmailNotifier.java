@@ -90,9 +90,9 @@ public class EmailNotifier implements Notifier {
 			EmailAttachment attachment = new EmailAttachment();
 			attachment.setPath(path);
 			attachment.setDisposition(EmailAttachment.ATTACHMENT);
-			attachment.setDescription("Test Report");
 			File file = new File(path);
 			String aName = file.getName();
+			attachment.setDescription(aName);
 			attachment.setName(aName);
 			email.attach(attachment);
 		}

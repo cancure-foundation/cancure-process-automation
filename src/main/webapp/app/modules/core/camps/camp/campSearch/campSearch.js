@@ -159,8 +159,13 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 			});
 		}
 	    
-	    $scope.emailReport = function(patientuid) {
-	    	
+	    $scope.emailReport = function(patientid) {
+	    	apiService.serviceRequest({
+				URL: 'camp/patient/' + patientid + '/testresult/email',
+				method: 'GET'
+			}, function (response) {
+				Flash.create('success', 'Test Results have been emailed to Camp POC.', 'large-text');
+			});
 	    }
 	    
 	}
