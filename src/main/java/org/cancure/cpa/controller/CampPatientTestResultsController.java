@@ -37,7 +37,8 @@ public class CampPatientTestResultsController {
     }
     
     @RequestMapping(method = RequestMethod.GET, value = "camp/patient/testresult/email")
-    public List<CampPatientTestResultsBean> emailTestReport(@PathVariable("patientId") Integer patientId) {
-        return campPatientTestResultsService.getTestResultsByPatientId(patientId);
+    public String emailTestReport(@PathVariable("patientId") Integer patientId) throws Exception {
+        campPatientTestResultsService.notifyLocalPartner(patientId);
+        return "{\"status\" : \"SUCCESS\"}";
     }
 }

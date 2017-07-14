@@ -65,42 +65,4 @@ public class CampPatientServiceImpl implements CampPatientService {
         }
         return campPatientBeanList;
     }
-
-    @Override
-    public void notifyLocalPartner(Integer campPatientId) throws Exception {
-        
-        CampPatient campPatient = campPatientRepo.findOne(campPatientId);
-        Camp camp = campRepo.findOne(campPatient.getCampId());
-        
-        User user = new User();
-        user.setName(camp.getPocName());
-        user.setEmail(camp.getPocEmail());
-        user.setPhone(camp.getPocPhone());
-        Set<User> userSet = new HashSet<>();
-        userSet.add(user);
-        
-        
-        List<CampPatientTestResults> campPatientTestResults =  campPatientTestResultsRepo.findByCampPatientId(campPatientId);
-        List<String> attachmentPaths = new ArrayList<>();
-        List<String> patientTestNames = new ArrayList<>();
-        for(CampPatientTestResults campPatientTestResultsBean : campPatientTestResults){
-            attachmentPaths.add( fileSavePath + campPatientTestResultsBean.getTestResultPath());
-            patientTestNames.add(campPatientTestResultsBean.getTestName());
-        }
-        
-        Map<String, Object> values = new HashMap<>();
-        values.put("patientName", campPatient.getName());
-        values.put("campVenue", camp.getCampPlace());
-        values.put("campDate", camp.getCampDate());
-        values.put("campVenue", camp.getCampPlace());
-        values.put("patientUID", campPatient.getUid());
-        values.put("patientAge", campPatient.getAge());
-        values.put("patientGender", campPatient.getGender());
-        values.put("patientPhone", campPatient.getPhone());
-        values.put("patientTestNames", patientTestNames);
-
-        new EmailNotifier().notify(userSet, "CampTestReport_email", values, attachmentPaths);
-        
-    }
-
 }

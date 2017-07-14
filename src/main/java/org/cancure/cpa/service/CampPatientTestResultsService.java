@@ -16,4 +16,6 @@ public interface CampPatientTestResultsService {
 
     void deleteTestResultsById(Integer testResultId);
 
+	void notifyLocalPartner(Integer campPatientId) throws Exception;
+
 }
