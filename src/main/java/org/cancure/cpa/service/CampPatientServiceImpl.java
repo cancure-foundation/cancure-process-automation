@@ -2,18 +2,24 @@ package org.cancure.cpa.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.cancure.cpa.controller.beans.CampPatientBean;
+import org.cancure.cpa.persistence.entity.Camp;
 import org.cancure.cpa.persistence.entity.CampPatient;
 import org.cancure.cpa.persistence.entity.CampPatientTestResults;
+import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.persistence.repository.CampPatientRepository;
 import org.cancure.cpa.persistence.repository.CampPatientTestResultsRepository;
 import org.cancure.cpa.persistence.repository.CampRepository;
 import org.cancure.cpa.util.CommonUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component("campPatientService")
@@ -25,8 +31,11 @@ public class CampPatientServiceImpl implements CampPatientService {
     CampRepository campRepo;
     
     @Autowired
-    CampPatientTestResultsRepository CampPatientTestResultsRepo;
+    CampPatientTestResultsRepository campPatientTestResultsRepo;
 
+    @Value("${spring.files.save.path}")
+    private String fileSavePath;
+    
     @Override
     public CampPatient saveCampPatient(CampPatient patientcamp) {
     	
@@ -38,7 +47,7 @@ public class CampPatientServiceImpl implements CampPatientService {
         Set<CampPatientTestResults> campPatientTestResults = patientcamp.getCampPatientTestResults();
         for(CampPatientTestResults campPatientTestResultsBean : campPatientTestResults){
             campPatientTestResultsBean.setCampPatientId(patientcamp.getCampPatientId());
-            CampPatientTestResultsRepo.save(campPatientTestResultsBean);
+            campPatientTestResultsRepo.save(campPatientTestResultsBean);
         }
         return campPatient;
 
@@ -55,6 +64,43 @@ public class CampPatientServiceImpl implements CampPatientService {
             campPatientBeanList.add(campPatientBean);
         }
         return campPatientBeanList;
+    }
+
+    @Override
+    public void notifyLocalPartner(Integer campPatientId) throws Exception {
+        
+        CampPatient campPatient = campPatientRepo.findOne(campPatientId);
+        Camp camp = campRepo.findOne(campPatient.getCampId());
+        
+        User user = new User();
+        user.setName(camp.getPocName());
+        user.setEmail(camp.getPocEmail());
+        user.setPhone(camp.getPocPhone());
+        Set<User> userSet = new HashSet<>();
+        userSet.add(user);
+        
+        
+        List<CampPatientTestResults> campPatientTestResults =  campPatientTestResultsRepo.findByCampPatientId(campPatientId);
+        List<String> attachmentPaths = new ArrayList<>();
+        List<String> patientTestNames = new ArrayList<>();
+        for(CampPatientTestResults campPatientTestResultsBean : campPatientTestResults){
+            attachmentPaths.add( fileSavePath + campPatientTestResultsBean.getTestResultPath());
+            patientTestNames.add(campPatientTestResultsBean.getTestName());
+        }
+        
+        Map<String, Object> values = new HashMap<>();
+        values.put("patientName", campPatient.getName());
+        values.put("campVenue", camp.getCampPlace());
+        values.put("campDate", camp.getCampDate());
+        values.put("campVenue", camp.getCampPlace());
+        values.put("patientUID", campPatient.getUid());
+        values.put("patientAge", campPatient.getAge());
+        values.put("patientGender", campPatient.getGender());
+        values.put("patientPhone", campPatient.getPhone());
+        values.put("patientTestNames", patientTestNames);
+
+        new EmailNotifier().notify(userSet, "CampTestReport_email", values, attachmentPaths);
+        
     }
 
 }

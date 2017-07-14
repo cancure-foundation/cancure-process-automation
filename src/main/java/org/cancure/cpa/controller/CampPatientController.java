@@ -35,5 +35,10 @@ public class CampPatientController {
     public List<CampPatientBean> getPatientByCamp(@PathVariable("campId") Integer campId) {
         return campPatientService.getPatientByCamp(campId);
     }
+    
+    @RequestMapping("camp/partnernotification/{campPatientId}")
+    public void notifyLocalPartners(@PathVariable("campPatientId") Integer campPatientId) throws Exception {
+        campPatientService.notifyLocalPartner(campPatientId);;
+    }
 
 }
