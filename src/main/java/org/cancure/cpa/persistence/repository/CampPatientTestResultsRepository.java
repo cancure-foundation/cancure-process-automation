@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CampPatientTestResultsRepository extends CrudRepository<CampPatientTestResults, Integer>  {
 
-    List<CampPatientTestResults> findByCampPatientId(Integer campPatientId);
+    List<CampPatientTestResults> findByCampPatientId(Long campPatientId);
 }

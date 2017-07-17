@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CampPatientBean {
 
-    private Integer campPatientId;
+    private Long campPatientId;
     private String uid;
     private String name;
     private Integer age;
@@ -46,11 +46,11 @@ public class CampPatientBean {
         this.phone = phone;
     }
 
-    public Integer getCampPatientId() {
+    public Long getCampPatientId() {
         return campPatientId;
     }
 
-    public void setCampPatientId(Integer campPatientId) {
+    public void setCampPatientId(Long campPatientId) {
         this.campPatientId = campPatientId;
     }
 

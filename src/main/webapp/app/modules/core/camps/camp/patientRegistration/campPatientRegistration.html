@@ -14,31 +14,37 @@
 <div class="content" style="padding-top:0px;">
 	
 	<div class="panel-body" ng-show="!vm.campSelected">
-       <form ng-submit="vm.searchCamp();" name="vm.campSearchForm" autocomplete="off">
-       		<div class="col-md-4 col-xs-12 input-box">
-               <label>Camp Month/Year <req>*</req></label>
-               <input type="month" ng-model = "vm.campSearchForm.searchMonthYear" required>
-           	</div>
-           	<div class="col-md-4 col-xs-12">
-                <button type="submit" class="btn btn-success" style="margin-right: 8px;">
-                    Search Camp
-                </button>
-            </div>
-       </form>
+       <div class="row">
+	       <form ng-submit="vm.searchCamp();" autocomplete="off">
+	       		<div class="col-md-4 col-xs-12 input-box">
+	               <label>Camp Month/Year <req>*</req></label>
+	               <input type="month" ng-model = "vm.campSearchForm.searchMonthYear" required>
+	           	</div>
+	           	<div class="col-md-4 col-xs-12">
+	           		<label>&nbsp;</label>
+	                <button type="submit" class="btn btn-success" style="margin-top: 25px;">
+	                    Search Camp
+	                </button>
+	            </div>
+	       </form>
+       </div>
        
-       <div ng-show="vm.campSearched" class="panel panel-info" style="padding:15px;">
+       <div ng-show="vm.campSearched" class="panel panel-info" style="padding:15px; width:100%">
+       		<div class="row"><h3>Camps</h3></div>
 	        <div class="row">
-	            <div class="col-xs-offset-3 col-xs-6">
-	                <table class="table table-bordered" style="margin-bottom: 0px;">
-	                    <th class="col-xs-4">Camp Name</th>
-	                    <th class="col-xs-4">Place</th>
-	                    <th class="col-xs-4">POC Name</th>
-	                    <th class="col-xs-4">Register</th>
-	                    <tr class="" ng-repeat="camp in vm.camps">
-	                        <td class="col-xs-4">{{camp.campName}}</td>
-	                        <td class="col-xs-4">{{camp.campPlace}}</td>
-	                        <td class="col-xs-4">{{camp.pocName}}</td>
-	                        <td class="col-xs-4" ng-click="vm.selectCamp(camp.campId)">Register People</td>
+	            <div>
+	                <table class="table table-bordered" style="margin: 5px; width:90%">
+	                    <th>Camp Name</th>
+	                    <th>Camp Date</th>
+	                    <th>Place</th>
+	                    <th>POC Name</th>
+	                    <th>Register</th>
+	                    <tr ng-repeat="camp in vm.camps">
+	                        <td>{{camp.campName}}</td>
+	                        <td>{{camp.campDate | date : 'dd-MMM-yyyy'}}</td>
+	                        <td>{{camp.campPlace}}</td>
+	                        <td>{{camp.pocName}}</td>
+	                        <td ng-click="vm.selectCamp(camp.campId)"><a>Register People</a></td>
 	                    </tr>
 	                </table>
 	            </div>

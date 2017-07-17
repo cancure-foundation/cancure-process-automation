@@ -18,7 +18,7 @@ public class CampPatient {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "camp_patient_id")
-    private Integer campPatientId;
+    private Long campPatientId;
 
     private String uid;
 
@@ -76,11 +76,11 @@ public class CampPatient {
         this.phone = phone;
     }
     
-    public Integer getCampPatientId() {
+    public Long getCampPatientId() {
         return campPatientId;
     }
 
-    public void setCampPatientId(Integer campPatientId) {
+    public void setCampPatientId(Long campPatientId) {
         this.campPatientId = campPatientId;
     }
 

@@ -98,7 +98,7 @@ public class CampServiceImpl implements CampService {
         setRowStyle(row, style, 6);
         
         if (campPatients != null) {
-        	Map<Integer, CampPatientBean> map = new HashMap<>();
+        	Map<Long, CampPatientBean> map = new HashMap<>();
         	short index = 2;
         	for (Object[] campList : campPatients) {
         		CampPatient cp = (CampPatient)campList[0];

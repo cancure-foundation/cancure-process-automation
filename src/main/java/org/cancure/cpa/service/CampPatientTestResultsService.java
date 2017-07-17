@@ -10,10 +10,12 @@ public interface CampPatientTestResultsService {
 
     void saveTestResult(CampPatientTestResultsBeanList campPatientTestResults) throws Exception;
     
-    List<CampPatientTestResultsBean> getTestResultsByPatientId(Integer campPatientId);
+    List<CampPatientTestResultsBean> getTestResultsByPatientId(Long campPatientId);
 
     CampPatientTestResults getCampPatientTestResults(Integer testResultId);
 
     void deleteTestResultsById(Integer testResultId);
+
+	void notifyLocalPartner(Long campPatientId) throws Exception;
 
 }

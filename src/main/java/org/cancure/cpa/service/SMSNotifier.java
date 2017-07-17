@@ -64,4 +64,11 @@ public class SMSNotifier implements Notifier {
 		}
 	}
 
+	@Override
+	public void notify(Set<User> userSet, String messageId, Map<String, Object> values, List<String> attachmentPaths)
+			throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
