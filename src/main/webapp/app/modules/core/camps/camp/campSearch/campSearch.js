@@ -66,7 +66,18 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 		}, function (response) {
 			vm.selectedPatient = campPatient;
 			vm.selectedPatient.CampLabTests = response;
-			//alert(JSON.stringify(response));
+			vm.selectedPatient.unsavedCampTestResults = false;
+			vm.selectedPatient.savedCampTestResults = false;
+				
+			for (var j=0; j<vm.selectedPatient.CampLabTests.length;j++ ) {
+				if (vm.selectedPatient.CampLabTests[j].testResultText == null) {
+					vm.selectedPatient.unsavedCampTestResults = true;
+				}
+				
+				if (vm.selectedPatient.CampLabTests[j].testResultText) {
+					vm.selectedPatient.savedCampTestResults = true;
+				}
+			}
 			
 			$mdDialog.show({
 		      controller: DialogController,
