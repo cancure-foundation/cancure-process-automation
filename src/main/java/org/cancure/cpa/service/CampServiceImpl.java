@@ -140,20 +140,20 @@ public class CampServiceImpl implements CampService {
 	}
 
 	private String flattenTestNames(List<CampPatientTestResultsBean> testResults) {
-    	if (testResults != null) {
+    	if (testResults != null && !testResults.isEmpty()) {
     		StringBuilder tests = new StringBuilder(); 
     		for (CampPatientTestResultsBean cptr: testResults) {
     			tests.append(cptr.getTestName()).append(", ");
     		}
     		
-    		return tests.substring(0, tests.length()-2);
+    		return tests.length() > 1 ? tests.substring(0, tests.length()-2) : "";
     	}
     	
     	return "";
     }
     
     private String flattenTestResults(List<CampPatientTestResultsBean> testResults) {
-    	if (testResults != null) {
+    	if (testResults != null && !testResults.isEmpty()) {
     		StringBuilder tests = new StringBuilder();
     		for (CampPatientTestResultsBean cptr: testResults) {
     			tests.append(cptr.getTestResultText()).append("\n");
