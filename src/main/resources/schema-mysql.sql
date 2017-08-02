@@ -357,7 +357,7 @@ create table camp_patient (
 	camp_patient_id int(10) primary key auto_increment,
 	uid varchar(100) not null,
 	name varchar(100) not null,
-	age number(3),
+	age int(3),
 	gender varchar(20),
 	phone varchar(20),
 	camp_id int(10) references camp(camp_id)

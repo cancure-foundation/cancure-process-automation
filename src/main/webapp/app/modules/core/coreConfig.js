@@ -247,7 +247,7 @@ core.config(["$stateProvider", function ($stateProvider) {
     });
     
     $stateProvider.state('app.camp.campCreate', {
-        url: '/campcreate',
+        url: '/campcreate/:campId',
         templateUrl: 'app/modules/core/camps/camp/campCreate/campCreate.html',
         controller: 'CampCreateController',
         controllerAs: 'vm',

@@ -1,5 +1,5 @@
-core.controller("CampPatientRegisterController", ['$scope', '$timeout', '$stateParams', 'Flash', 'apiService', 'appSettings', 'Loader',
-                                         function ($scope, $timeout, $stateParams, Flash, apiService, appSettings, Loader) {
+core.controller("CampPatientRegisterController", ['$scope', '$state', '$timeout', '$stateParams', 'Flash', 'apiService', 'appSettings', 'Loader',
+                                         function ($scope, $state, $timeout, $stateParams, Flash, apiService, appSettings, Loader) {
 	var vm = this;
 	vm.campSearched = false;
 	vm.campSearchForm = {};
@@ -84,6 +84,11 @@ core.controller("CampPatientRegisterController", ['$scope', '$timeout', '$stateP
 			Loader.destroy();
 			vm.patientCreated = true;
 		});
+	}
+	
+	vm.editCamp = function(id){
+		$scope.$parent.vm.currentNavItem  = "app.camp.campCreate";
+		$state.go('app.camp.campCreate', { campId: id });
 	}
 	
 	init();

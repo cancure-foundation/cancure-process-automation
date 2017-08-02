@@ -6,8 +6,11 @@ import java.util.Map;
 import org.cancure.cpa.persistence.entity.InvestigatorType;
 import org.cancure.cpa.persistence.entity.ListOfValues;
 import org.cancure.cpa.persistence.entity.Settings;
+import org.cancure.cpa.persistence.entity.User;
 import org.cancure.cpa.service.CommonService;
+import org.cancure.cpa.service.PasswordNotifier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,8 @@ public class CommonController {
 
 	@Autowired
 	private CommonService commonService;
+	@Autowired
+	private PasswordNotifier passwordNotifier;
 	
 	@RequestMapping("/common/investigatorTypes")
 	public Iterable<InvestigatorType> getInvestigatorTypes(){
@@ -52,5 +57,28 @@ public class CommonController {
 	@RequestMapping("/common/settings")
 	public Iterable<Settings> getAllSettings(){
 		return commonService.findAllSettings();
+	}
+	
+	@RequestMapping("/common/testemail")
+	public Map<String, String> testEmail(){
+		Map<String, String> map = new HashMap<>();
+		User user;
+		try {
+			
+			user = new User();
+			user.setEmail("dantis@msn.com");
+			user.setName("Dantis P S");
+			user.setLogin("dantis");
+			passwordNotifier.notify(user, "dantis@cancure", false);
+			map.put("status dominic", "success");
+			System.out.println("Send to dantis");
+			
+		} catch (Exception e) {
+			map.put("status dominic", "failed");
+			map.put("message", e.toString());
+		}
+	
+		
+		return map;
 	}
 }

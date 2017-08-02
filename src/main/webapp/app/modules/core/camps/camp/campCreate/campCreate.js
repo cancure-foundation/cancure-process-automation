@@ -11,7 +11,26 @@ core.controller("CampCreateController", ['$scope', '$timeout', '$stateParams', '
 			method: 'GET'
 		}, function (response) {
 			vm.MedicalTeams = response[0].listValues;
+			fetchCamp();
 		});
+	}
+	
+	var fetchCamp = function() {
+		var id = $stateParams.campId;
+		if (id) {
+			Loader.create('Please wait .. Loading Camp Data ...');
+			vm.editMode = true;
+			apiService.serviceRequest({
+				URL: 'camp/' + id,
+				method: 'GET'
+			}, function (response) {
+				Loader.destroy();
+				var parts =response.campDate.split('-');
+				var mydate = new Date(parts[0],parts[1]-1,parts[2]);
+				vm.formData = response;
+				vm.formData.campDate = mydate;
+			});
+		}
 	}
 	
 	// init function, execution starts here
