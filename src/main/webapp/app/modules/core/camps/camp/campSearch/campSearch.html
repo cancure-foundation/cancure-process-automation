@@ -52,26 +52,24 @@
 	<div class="panel-body" ng-show="vm.campPatientsSearched">
 		<div class="panel panel-info" style="padding:15px;">
 			<h3>Patients of camp "{{ vm.selectedCamp.campName }}"</h3>
-	        <table class="table table-bordered" style="margin-bottom: 0px;">
-	            <th class="col-xs-2">UID</th>
-	            <th class="col-xs-2">Name</th>
-	            <th class="col-xs-2">Age</th>
-	            <th class="col-xs-3">Phone</th>
-	            <th class="col-xs-3">Gender</th>
-	            <th class="col-xs-3">Action</th>
-	            <tr class="" ng-repeat="pat in vm.campPatients">
-	                <td class="col-xs-2">{{pat.uid}}</td>
-	                <td class="col-xs-2">{{pat.name}}</td>
-	                <td class="col-xs-2">{{pat.age}}</td>
-	                <td class="col-xs-3">{{pat.phone}}</td>   
-	                <td class="col-xs-3">{{pat.gender}}</td>                     
-	                <td class="col-xs-3">
-	                	<md-button class="md-primary md-raised" ng-click="showAdvanced($index)">
+	        <table ng-table="vm.campPatientTableParams" class="table table-condensed table-bordered table-striped" show-filter="true">
+				<tr ng-repeat="pat in $data">
+			        <td title="'UID'" filter="{ uid: 'number'}" sortable="'uid'">
+			            {{pat.uid}}</td>
+			        <td title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+			            {{pat.name}}</td>    
+			        <td title="'Age'">
+			            {{pat.age}}</td>
+			        <td title="'Phone'">{{pat.phone}}</td>
+			        <td title="'Gender'">{{pat.gender}}</td>
+			        <td title="'Action'">
+			        	<md-button class="md-primary md-raised" ng-click="showAdvanced($index)">
 					      Test Results
 					    </md-button>
-	                </td>
-	            </tr>
-	        </table>
+					</td>    
+			    </tr>
+			</table>    
+	        
 	        <div>
 	        	<button class="md-raised" ng-click="vm.downloadReport(vm.selectedCamp.campId)">Download Camp Report</button>
 	        </div>

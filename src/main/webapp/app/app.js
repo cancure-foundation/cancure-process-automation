@@ -1,6 +1,6 @@
 var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'flash', 'ngCookies', 'loader', 'ngAnimate', 'ngMaterial', 'ngSanitize', 'ngIdle',
                                  //main modules
-                                 'login', 'core' , 'errorPages']);
+                                 'login', 'core' , 'errorPages', 'ngTable']);
 
 app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', 'IdleProvider', 'KeepaliveProvider',
             function ($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, IdleProvider, KeepaliveProvider) {
