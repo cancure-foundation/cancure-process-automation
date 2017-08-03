@@ -112,6 +112,7 @@ public class OAuth2ServerConfiguration {
 					.antMatchers("/hospital/list").authenticated()
 					.antMatchers("/hospital/**").authenticated()
 					
+					.antMatchers("/common/testemail").permitAll()
 					.antMatchers("/common/lovs/**").authenticated()
 					.antMatchers("/common/**").authenticated()
 					

@@ -1,5 +1,5 @@
-core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiService', 'appSettings', '$mdDialog', '$timeout', 'Flash',
-                                           function ($scope, $state, Loader, apiService, appSettings, $mdDialog, $timeout, Flash) {
+core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiService', 'appSettings', '$mdDialog', '$timeout', 'Flash', 'NgTableParams',
+                                           function ($scope, $state, Loader, apiService, appSettings, $mdDialog, $timeout, Flash, NgTableParams) {
 	var vm = this;
 	vm.formData = {}
 	vm.formData.searchMonthYear = new Date();
@@ -19,6 +19,9 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 					URL: 'camp/' + id + '/patients',
 					method: 'GET'
 				}, function (response) {
+					vm.campPatientTableParams = new NgTableParams({sorting: {
+			            uid: 'asc'     
+			        }}, { dataset: response});
 					vm.campPatients = response;
 					vm.campPatientsSearched = true;
 				});

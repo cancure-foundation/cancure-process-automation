@@ -35,15 +35,21 @@
 	            <div>
 	                <table class="table table-bordered" style="margin: 5px; width:90%">
 	                    <th>Camp Name</th>
+	                    <th>Camp Locality</th>
 	                    <th>Camp Date</th>
-	                    <th>Place</th>
 	                    <th>POC Name</th>
+	                    <th>POC Phone</th>
+	                    <th>POC Email</th>
+	                    <th>Edit</th>
 	                    <th>Register</th>
 	                    <tr ng-repeat="camp in vm.camps">
 	                        <td>{{camp.campName}}</td>
-	                        <td>{{camp.campDate | date : 'dd-MMM-yyyy'}}</td>
 	                        <td>{{camp.campPlace}}</td>
+	                        <td>{{camp.campDate | date : 'dd-MMM-yyyy'}}</td>
 	                        <td>{{camp.pocName}}</td>
+	                        <td>{{camp.pocPhone}}</td>
+	                        <td>{{camp.pocEmail}}</td>
+	                        <td ng-click="vm.editCamp(camp.campId)"><a>Edit</a></td>
 	                        <td ng-click="vm.selectCamp(camp.campId)"><a>Register People</a></td>
 	                    </tr>
 	                </table>

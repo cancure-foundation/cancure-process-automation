@@ -12,7 +12,7 @@
 </script>
 <div class="content" style="padding-top:0px;">
     <h4 ng-hide="vm.campCreated">
-    	Fill the form to create a Camp.
+    	Fill the form to create/edit Camp.
     	<div class="req-indicator">(All fields marked <req>*</req> are mandatory.)</div>
     </h4>
     <h4 ng-show="vm.campCreated">Camp created with the following details.</h4>
@@ -66,7 +66,7 @@
     </div>
     <div ng-show="vm.campCreated" class="panel panel-info" style="padding:15px;">
         <div class="row" style="text-align:center; color:red">
-            <b>Camp has been created successfully.</b>
+            <b>Camp has been saved successfully.</b>
             <div class="col-xs-12 text-center" style="padding-top: 15px;">
                 <button class="btn btn-success" ng-click="vm.formData = {};vm.campCreated=false;">
                     Create another Camp
