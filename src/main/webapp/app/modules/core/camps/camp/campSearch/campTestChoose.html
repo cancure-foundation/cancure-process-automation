@@ -1,0 +1,79 @@
+<md-dialog aria-label="Camp Test Results" style="width:800px">
+  <form ng-cloak ng-submit="saveTests();">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Select Tests</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div class="row">
+        	<div class="col-md-4 col-xs-12 input-box">
+                <label>UID</label>
+                {{ selectedPatient.uid }}
+            </div>
+        	<div class="col-md-4 col-xs-12 input-box">
+                <label>Patient Name</label>
+                {{ selectedPatient.name }}
+            </div>
+            <div class="col-md-4 col-xs-12 input-box">
+                <label>Age</label>
+                {{ selectedPatient.age }}
+            </div>
+        </div>
+		
+		<div class="row">        	
+        	<div class="col-md-4 col-xs-12 input-box">
+                <label>Gender</label>
+                {{ selectedPatient.gender }}
+            </div>
+            
+            <div class="col-md-4 col-xs-12 input-box">
+                <label>Phone Number</label>
+                {{ selectedPatient.phone }}
+            </div>
+        </div>
+        
+        <div class="row">
+	        <div class="col-md-12 col-xs-12 input-box">
+	            <fieldset class="appFieldset">
+	             <legend>Please select the prescribed tests -</legend>
+	             <md-input-container class="md-block" style="margin: 8px 0px;">
+	                 <div ng-repeat="test in alllabtests" class="col-xs-4" style="padding-left: 0px;">
+	                     <md-checkbox checklist-value="test.value" ng-model="labTests[test.value]" style="display:block;margin-bottom: 18px;" >
+	                         {{test.value}}
+	                     </md-checkbox>
+	                 </div>
+	             </md-input-container>
+	         </fieldset>
+	            
+	        </div>
+        </div>
+        
+        
+        
+
+      </div>
+    </md-dialog-content>
+
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <div ng-show="saving" style="color:red">
+      	Saving...Please wait.
+      </div>
+      <md-button ng-hide="saving" class="md-raised" type="submit">
+       Save
+      </md-button>
+      <md-button class="md-raised" ng-click="answer('not')">
+       Close
+      </md-button>
+      
+    </md-dialog-actions>
+  </form>
+</md-dialog>

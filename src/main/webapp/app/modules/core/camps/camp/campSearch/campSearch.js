@@ -9,6 +9,7 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	vm.campPatients = [];
 	vm.selectedCamp = {};
 	vm.selectedPatient = {};
+	vm.alllabtests = null;
 	
 	vm.selectCamp = function(id) {
 		for (var i=0; i < vm.camps.length; i++) {
@@ -104,6 +105,79 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 		*/
 	    
 	};
+	
+	$scope.chooseTests = function(index) {
+		var campPatient = vm.campPatients[index];
+		getAllTests(campPatient);
+	}
+	
+	var showChooseTestsDialog = function(campPatient, alllabtests, currentlySelectedTests) {
+		$mdDialog.show({
+		      controller: DialogControllerTestChoose,
+		      templateUrl: 'app/modules/core/camps/camp/campSearch/campTestChoose.html',
+		      parent: angular.element(document.body),
+		      clickOutsideToClose:true,
+		      fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+		      locals:{dataToPass: { "selectedPatient" : campPatient, 
+		    	  					"alllabtests" : alllabtests, 
+		    	  					"currentlySelectedTests" : currentlySelectedTests}
+		      }
+		    })
+		    .then(function(answer) {
+		      $scope.status = 'You said the information was "' + answer + '".';
+		    }, function() {
+		      $scope.status = 'You cancelled the dialog.';
+		});
+	}
+	
+	var getAllTests = function(campPatient) {
+		if (!vm.alllabtests) {
+			apiService.serviceRequest({
+				URL: 'common/lov/CampLabTests',
+				method: 'GET'
+			}, function (response) {
+				Loader.destroy();
+				vm.alllabtests = response[0].listValues;
+				getCurrentlySelectTests(campPatient, vm.alllabtests);
+			});
+		} else {
+			getCurrentlySelectTests(campPatient, vm.alllabtests);
+		}
+	}
+	
+	var getCurrentlySelectTests = function(campPatient) {
+		apiService.serviceRequest({
+			URL: 'camp/patient/' + campPatient.campPatientId + '/testresult',
+			method: 'GET'
+		}, function (response) {
+			showChooseTestsDialog(campPatient, vm.alllabtests, response);
+		});
+	}
+	
+	function DialogControllerTestChoose($scope, $mdDialog, dataToPass) {
+		var vm= this;
+		$scope.selectedPatient = dataToPass.selectedPatient;
+		$scope.alllabtests = dataToPass.alllabtests;
+		$scope.currentlySelectedTests = dataToPass.currentlySelectedTests;
+		$scope.labTests = {};
+		if (dataToPass.currentlySelectedTests && dataToPass.currentlySelectedTests.length > 0) {
+			for (var i=0; i < dataToPass.currentlySelectedTests.length; i ++) {
+				$scope.labTests[dataToPass.currentlySelectedTests[i].testName] = true;
+			}
+		}
+		
+		$scope.cancel = function() {
+	      $mdDialog.cancel();
+	    };
+	    
+	    $scope.answer = function(answer) {
+	      $mdDialog.hide(answer);
+	    };
+	    
+	    $scope.saveTests = function() {
+	    	alert('Gonna save');
+	    }
+	}
 	
 	function DialogController($scope, $mdDialog, dataToPass) {
 		var vm= this;
