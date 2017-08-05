@@ -63,10 +63,10 @@
 			        <td title="'Phone'">{{pat.phone}}</td>
 			        <td title="'Gender'">{{pat.gender}}</td>
 			        <td title="'Action'">
-			        	<md-button class="md-primary md-raised" ng-click="chooseTests($index)">
+			        	<md-button class="md-primary md-raised" ng-click="chooseTests(pat.campPatientId)">
 					      Choose Tests
 					    </md-button>
-			        	<md-button class="md-primary md-raised" ng-click="showAdvanced($index)">
+			        	<md-button class="md-primary md-raised" ng-click="showAdvanced(pat.campPatientId)">
 					      Test Results
 					    </md-button>
 					</td>    

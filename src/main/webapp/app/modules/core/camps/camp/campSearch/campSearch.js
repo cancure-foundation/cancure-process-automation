@@ -60,9 +60,8 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	
 	$scope.status = '  ';
 	$scope.customFullscreen = false;
-	$scope.showAdvanced = function(index) {
-		
-		var campPatient = vm.campPatients[index];
+	$scope.showAdvanced = function(campPatientId) {
+		var campPatient = pickPatient(campPatientId);
 		
 		apiService.serviceRequest({
 			URL: 'camp/patient/' + campPatient.campPatientId + '/testresult',
@@ -106,9 +105,17 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	    
 	};
 	
-	$scope.chooseTests = function(index) {
-		var campPatient = vm.campPatients[index];
+	$scope.chooseTests = function(campPatientId) {
+		var campPatient = pickPatient(campPatientId);
 		getAllTests(campPatient);
+	}
+	
+	var pickPatient = function(campPatientId) {
+		for (var i=0; i < vm.campPatients.length; i++) {
+			if (vm.campPatients[i].campPatientId == campPatientId) {
+				return vm.campPatients[i]; 
+			}
+		}
 	}
 	
 	var showChooseTestsDialog = function(campPatient, alllabtests, currentlySelectedTests) {
@@ -160,6 +167,7 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 		$scope.alllabtests = dataToPass.alllabtests;
 		$scope.currentlySelectedTests = dataToPass.currentlySelectedTests;
 		$scope.labTests = {};
+		
 		if (dataToPass.currentlySelectedTests && dataToPass.currentlySelectedTests.length > 0) {
 			for (var i=0; i < dataToPass.currentlySelectedTests.length; i ++) {
 				$scope.labTests[dataToPass.currentlySelectedTests[i].testName] = true;
@@ -175,7 +183,29 @@ core.controller("CampSearchController", ['$scope', '$state', 'Loader', 'apiServi
 	    };
 	    
 	    $scope.saveTests = function() {
-	    	alert('Gonna save');
+	    	$scope.saving = true;
+	    	var serverData = {};
+	    	serverData.campPatientTestResults = [];
+	    	
+	    	var i=0;
+			for (var key in $scope.labTests) {
+			  if ($scope.labTests.hasOwnProperty(key) && $scope.labTests[key]) {
+				  serverData.campPatientTestResults[i] = {};
+				  serverData.campPatientTestResults[i].testName = key;
+				  i++;
+			  }
+			}
+			
+			serverData.campPatientId = $scope.selectedPatient.campPatientId;
+			
+			apiService.serviceRequest({
+				URL: 'camp/patient',
+				method: 'PUT',
+				payLoad: serverData
+			}, function (response) {
+				Loader.destroy();
+				$mdDialog.cancel();
+			});
 	    }
 	}
 	

@@ -35,14 +35,13 @@ public class EmailNotifier implements Notifier {
 		
 		ApplicationContext context = ApplicationContextProvider.getApplicationContext();
 		
-		Environment env = context.getBean(Environment.class);
-		String enabled = env.getProperty("email.enabled");
+		SettingsRepository settingsRepo = context.getBean(SettingsRepository.class);
+		String enabled = settingsRepo.findOne(33).getValue(); //'Email Enabled
 		
 		if (!Boolean.valueOf(enabled)){
 			return;
 		}
 		
-		SettingsRepository settingsRepo = context.getBean(SettingsRepository.class);
 		List<Settings> settingsTemplateList = settingsRepo.findByDisplayName(messageId + "_email");
 		if (settingsTemplateList == null || settingsTemplateList.isEmpty()) {
 			Log.getLogger().error("Email template not found for " + messageId + "_email.");
@@ -50,12 +49,11 @@ public class EmailNotifier implements Notifier {
 		}
 		
 		String message = TemplateUtil.process(settingsTemplateList.get(0).getValue(), values);
-		
-		String host = env.getProperty("email.server");
-		String port = env.getProperty("email.port");
-		String from = env.getProperty("email.from");
-		String password = env.getProperty("email.password");
-		
+				
+		String host = settingsRepo.findOne(34).getValue(); //email.server
+		String port = settingsRepo.findOne(35).getValue(); //Email Port
+		String from = settingsRepo.findOne(36).getValue(); //Email From
+		String password = settingsRepo.findOne(37).getValue(); //Email Password
 		
 		HtmlEmail email = new HtmlEmail();
 		

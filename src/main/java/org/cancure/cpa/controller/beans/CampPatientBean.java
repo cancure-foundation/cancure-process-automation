@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CampPatientBean {
 
-    private Long campPatientId;
+    private Long campPatientId; //Primary key
     private String uid;
     private String name;
     private Integer age;

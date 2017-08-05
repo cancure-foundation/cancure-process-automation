@@ -31,6 +31,12 @@ public class CampPatientController {
         return campPatient;
     }
     
+    @RequestMapping(method = RequestMethod.PUT, value = "camp/patient")
+    public String updateCampPatientTests(@RequestBody CampPatient patientcamp) {
+        campPatientService.updateCampPatientTests(patientcamp);
+        return "{\"status\" : \"SUCCESS\"}";
+    }
+    
     @RequestMapping("camp/{campId}/patients")
     public List<CampPatientBean> getPatientByCamp(@PathVariable("campId") Integer campId) {
         return campPatientService.getPatientByCamp(campId);
