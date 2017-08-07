@@ -4,6 +4,7 @@ import org.activiti.engine.ActivitiException;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.cancure.cpa.persistence.entity.User;
+import org.cancure.cpa.persistence.repository.SettingsRepository;
 import org.cancure.cpa.util.ApplicationContextProvider;
 import org.cancure.cpa.util.Log;
 import org.springframework.context.ApplicationContext;
@@ -20,17 +21,18 @@ public class PasswordNotifierServiceImpl implements PasswordNotifier {
         }
         ApplicationContext context = ApplicationContextProvider.getApplicationContext();
         
-        Environment env = context.getBean(Environment.class);
-        String enabled = env.getProperty("email.enabled");
+        SettingsRepository settingsRepo = context.getBean(SettingsRepository.class);
+		String enabled = settingsRepo.findOne(33).getValue(); //'Email Enabled
         
         if (!Boolean.valueOf(enabled)){
             return;
         }
         
-        String host = env.getProperty("email.server");
-        String port = env.getProperty("email.port");
-        String from = env.getProperty("email.from");
-        String password = env.getProperty("email.password");
+        String host = settingsRepo.findOne(34).getValue(); //email.server
+		String port = settingsRepo.findOne(35).getValue(); //Email Port
+		String from = settingsRepo.findOne(36).getValue(); //Email From
+		String password = settingsRepo.findOne(37).getValue(); //Email Password
+
         HtmlEmail email = new HtmlEmail();
         StringBuffer message = new StringBuffer("");
         String mailText = resetPassword ? "Your password has been reset." : "You have been registered with Cancure.";
@@ -53,7 +55,7 @@ public class PasswordNotifierServiceImpl implements PasswordNotifier {
                 + "Visit <a href='www.cancure.in.net'>www.cancure.in.net</a> <br> <br>"
                 + "<b>Thanks,</b> <br>"
                 + "Admin"
-                + "</div>"
+                + "</div><br><i>Please do not reply to this email</i><br>"
                 + "</div>");
         try {
             email.setHtmlMsg(message.toString());

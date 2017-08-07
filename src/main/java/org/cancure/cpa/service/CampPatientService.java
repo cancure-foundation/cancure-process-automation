@@ -10,4 +10,6 @@ public interface CampPatientService {
     CampPatient saveCampPatient(CampPatient patientcamp);
 
     List<CampPatientBean> getPatientByCamp(Integer campId);
+
+	String updateCampPatientTests(CampPatient patientcamp);
 }

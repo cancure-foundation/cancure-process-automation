@@ -148,6 +148,11 @@ insert into settings values (29, 'SMS Enabled (true/false)', 'true');
 insert into settings values (30, 'SMS Username', 'ed@cancure.in');
 insert into settings values (31, 'SMS Hash key', 'hashkey');
 insert into settings values (32, 'CampTestReport_email', '<div style="border : 2px solid #f4961c;"><div style="background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;">Cancure Foundation</div><div style="padding:15px;color: #222d32;font-weight:500;">Greetings from Cancure, <br><br>We are sending you the Lab test results of "${patientName}" who attended our Camp at ${campVenue} on ${campDate}.<br> <br><table border=1 style="border-collapse: collapse;"><tr><th style="padding:4px 8px;"> UID</th><th style="padding:4px 8px;"> Patient Name</th><th>Age</th><th>Gender</th><th>Phone</th></tr><tr><td style="padding:4px 8px;">${patientUID}</td><td style="padding:4px 8px;">${patientName}</td><td>${patientAge}</td><td>${patientGender}</td><td>${patientPhone}</td></tr></table><br> <br> <b>Tests Conducted -</b><ul><#list patientTestNames as item><li>${item}</li></#list></ul>Test results are attached with this email.<br><br><b>Thanks,</b> <br>Cancure</div></div>');
+insert into settings values (33, 'Email Enabled (true/false)', 'true');
+insert into settings values (34, 'Email Server', 'mail.cancure.in.net');
+insert into settings values (35, 'Email Port', '25');
+insert into settings values (36, 'Email From', 'admin@cancure.in.net');
+insert into settings values (37, 'Email Password', 'admin@cancure');
 
 
 insert into account_types values (1, 'Cancure');
