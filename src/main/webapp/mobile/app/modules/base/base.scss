@@ -1,0 +1,75 @@
+header {
+    height: 100px;
+    color: #000;
+    background: $primary-color;
+    padding: 0px 15px;
+    .col-xs-2,
+    .col-xs-8 {
+        font-size: 1.2em;
+        line-height: 100px;
+        text-transform: uppercase;
+        font-weight: bold;
+        height: 100px;
+    }
+    .col-xs-2 {
+        text-align: center;
+        font-size: 1.4em;
+    }
+    .title {
+        display: table;
+        div {
+            height: 100%;
+            display: table-cell;
+            vertical-align: middle;
+            img {
+                max-height: 75%;
+            }
+        }
+    }
+    .user-info {
+        background: rgba(0, 0, 0, 0.1);
+    }
+}
+
+.sidenav {
+    font-size: 1em;
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    background-color: rgb(33, 33, 33);
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+
+@media all and (max-width: 399px) {
+    header {
+        height: 50px;
+        .col-xs-2,
+        .col-xs-8 {
+            line-height: 50px;
+            height: 50px;
+        }
+    }
+}
+
+@media all and (min-width: 400px) and (max-width:799px) {
+    header {
+        height: 75px;
+        .col-xs-2,
+        .col-xs-8 {
+            line-height: 75px;
+            height: 75px;
+        }
+    }
+}
+
+@media all and (min-width: 800px) and (max-width:1000px) {
+    .user-overlay {
+        .head {
+            height: 175px;
+        }
+    }
+}

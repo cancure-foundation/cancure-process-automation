@@ -1,0 +1,146 @@
+@import 'variable.scss';
+@import "base/base.scss";
+@import "login/login.scss";
+@import "home/home.scss";
+@import "patientRegHistory/patientRegHistory.scss";
+@import "patientRegNextAction/patientRegNextAction.scss";
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "../node_modules/font-awesome/css/font-awesome.min.css";
+@import "../node_modules/angular-material/angular-material.min.css";
+body,
+html,
+ui-view {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    overflow: hidden;
+    font-family: $app-font-family;
+    font-size: $app-font-size;
+}
+
+.center-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    background-color: #ecf0f5; 
+    ui-view.ng-leave {}
+    ui-view.ng-enter {
+        transition: all .8s;
+        display: block;
+        opacity: 0;
+        transform: none;
+    }
+    ui-view.ng-enter.ng-enter-active {
+        opacity: 1;
+        transform: none;
+    }
+    ui-view.ng-leave.ng-leave-active {
+        opacity: 0;
+        transform: none;
+    }
+}
+
+.animate-show-hide.ng-hide {
+    opacity: 0;
+}
+
+.animate-show-hide.ng-hide-add,
+.animate-show-hide.ng-hide-remove {
+    transition: all linear 0.5s;
+}
+
+.pageLoad {
+    position: absolute;
+    top: 40%;
+    text-align: center;
+    width: 100%;
+}
+
+.md-toast-content {
+    min-height: 75px !important;
+    font-size: 1em !important;
+}
+
+
+/**
+* app toast message
+*/
+
+@media all and (min-width: 400px) and (max-width:799px) {}
+
+@media all and (min-width: 800px) and (max-width:1000px) {}
+
+
+/**
+* app toast message
+*/
+
+.loader-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: all .2s linear;
+    z-index: 10002;
+    width: 100%;
+    height: 0%;
+    background: rgba(0, 0, 0, 0.8);
+    .tracka {
+        position: relative;
+        height: 25px;
+        color: #fff;
+        width: 120px;
+        text-align: center;
+        top: 50%;
+        left: 50%;
+        margin: -60px 0 0 -58px;
+        font-size: 18px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+    .loader {
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        margin: -75px 0 0 -75px;
+    }
+    @keyframes spin {
+        from {
+            background-color: #749a02;
+            -webkit-box-shadow: 0 0 9px #333;
+        }
+        50% {
+            background-color: #91bd09;
+            -webkit-box-shadow: 0 0 18px #91bd09;
+        }
+        to {
+            background-color: #749a02;
+            -webkit-box-shadow: 0 0 9px #333;
+        }
+    }
+    .flyOut {
+        opacity: 0;
+        transform: scale(0.5) translateX(800px);
+    }
+    .flyIn {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@media all and (max-width: 399px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+@media all and (min-width: 400px) and (max-width:799px) {
+    body {
+        font-size: 24px;
+    }
+}
+
+@media all and (min-width: 800px) and (max-width:1000px) {}
