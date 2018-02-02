@@ -1,7 +1,6 @@
 package org.cancure.cpa.service;
 
-import static org.cancure.cpa.common.Constants.IN_PATIENT_HOSPITAL_VISIT_DEF_KEY;
-
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -144,7 +143,12 @@ public class MyTasksServiceImpl implements MyTasksService {
 	private Map<String, String> extractOneHospitalVisitTask(Task t) {
 		Map<String, String> map = new HashMap<>();
 		map.put("executionId", t.getExecutionId());
-		map.put("createTime", t.getCreateTime() != null ? t.getCreateTime().toString() : null);
+		String createTime = null;
+		if(t.getCreateTime() != null){
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-YYYY hh:mm:ss");  
+			createTime = dateFormat.format(t.getCreateTime());
+		}
+		map.put("createTime", createTime != null ? createTime : null);
 		map.put("id", t.getId());
 		map.put("nextTask", t.getName());
 		map.put("nextTaskKey" ,t.getTaskDefinitionKey());
@@ -467,7 +471,12 @@ public class MyTasksServiceImpl implements MyTasksService {
 	private Map<String, String> extractOneTask(Task t){
 		Map<String, String> map = new HashMap<>();
 		map.put("executionId", t.getExecutionId());
-		map.put("createTime", t.getCreateTime() != null ? t.getCreateTime().toString() : null);
+		String createTime = null;
+		if(t.getCreateTime() != null){
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-YYYY hh:mm:ss");  
+			createTime = dateFormat.format(t.getCreateTime());
+		}
+		map.put("createTime", createTime != null ? createTime : null);
 		map.put("id", t.getId());
 		map.put("nextTask", t.getName());
 		map.put("nextTaskKey" ,t.getTaskDefinitionKey());

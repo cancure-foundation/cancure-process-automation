@@ -1,0 +1,35 @@
+<!--------------------------!
+            152HQ
+!--------------------------->
+<div class="checkIn animate-show-hide" ng-cloak style="height: {{vm.holderHeight}}px;">
+
+    <div class="contents animate-show-hide" ng-show="vm.pageLoad" style="height: {{vm.holderHeight}}px;">
+        <div class="track-indicator clearfix" ng-click="vm.toggleHelp($event);">
+            <div class="title clearfix">
+                <i class="ion-help-buoy section-title-icon" style="color: #FE3F3F;"></i>
+                <span class="section-title-text">I Need Help</span>
+            </div>
+            <div class="sub-title">
+                Once Activated, this alarm will alert the Hub and others that you require assistance.
+            </div>
+            <div class="text-center help-button" ng-class="{'active' : vm.userSettings.helpReq.active}">
+                <div class="animate-switch-container" ng-switch on="vm.userSettings.helpReq.active">
+                    <div class="animate-switch" ng-switch-when=true>
+                        Help Requested
+                    </div>
+                    <div class="animate-switch" ng-switch-default>
+                        Activate
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pageLoad" ng-hide="vm.pageLoad">
+        <i class="material-icons fa-spin">settings</i> <br> Loading data ...
+    </div>
+
+</div>
+<!--------------------------!
+            152HQ
+!--------------------------->

@@ -1,0 +1,23 @@
+<!--------------------------!
+            152HQ
+!--------------------------->
+<md-dialog class="job-number-confirm">
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <h2 class="md-title">Update Job</h2>
+            <div class="list-holder">
+                <select ng-model="jobnumber">
+                    <option class="select-title" value="" selected="selected">Select Job number</option>
+                    <option value="{{item.id}}" ng-repeat="item in jobList">{{item.text}}</option>
+                </select>
+            </div>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" style="color: #3f51b5;">
+        <md-button ng-click="answer(0)"> cancel </md-button> <span flex></span>
+        <md-button md-autofocus ng-click="answer(1)"> Update </md-button>
+    </md-dialog-actions>
+</md-dialog>
+<!--------------------------!
+            152HQ
+!--------------------------->

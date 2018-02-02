@@ -1,0 +1,27 @@
+<!--------------------------!
+            152HQ
+!--------------------------->
+
+<md-dialog class="take-accounts">
+
+    <md-toolbar>
+        <div class="clearfix head">
+            Select Take2 account
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <div ng-repeat="item in category" class="list-holder" ng-click="select(item, $index);">
+                <div class="cat-list">
+                    <div class="cat-name">{{item.accountName}} </div>
+                </div>
+            </div>
+        </div>
+    </md-dialog-content>
+    
+</md-dialog>
+
+<!--------------------------!
+            152HQ
+!--------------------------->

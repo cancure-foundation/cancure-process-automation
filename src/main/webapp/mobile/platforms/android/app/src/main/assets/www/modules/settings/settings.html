@@ -1,0 +1,60 @@
+<!--------------------------!
+            152HQ
+!--------------------------->
+<div class="settings animate-show-hide">
+    <div class="title text-center">Settings</div>
+    <div class="content animate-show-hide" ng-show="vm.pageLoad">
+
+        <div class="img-holder">
+            <div class="pic">
+                <div>
+                    <img ng-src="{{vm.userSettings.dp.src}}" src="images/login/default-dp.png" ng-show="!vm.dp.src" />
+                    <img ng-src="{{vm.dp.src}}" ng-show="vm.dp.src" />
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <div class="text-center">choose to update your avatar</div>
+            <div class="action">
+                <div class="selection clearfix animate-show-hide">
+                    <div class="item" ng-click="vm.selectPic('file');"><i class="ion-image" aria-hidden="true"></i> <br>Gallery</div>
+                    <div class="item" ng-click="vm.selectPic('camera');"><i class="ion-camera" aria-hidden="true"></i> <br>Camera</div>
+                    <input type="file" id="profile-img-picker" style="display: none;" onchange="angular.element(this).scope().vm.fileSelect(this);" />
+                </div>
+                <div class="btn-holder" ng-show="vm.dp.src">
+                    <md-button class="md-raised" ng-click="vm.saveDP();">
+                        <span ng-show="!vm.imgSaving">Save IMAGE</span>
+                        <span ng-show="vm.imgSaving"><i class="material-icons fa-spin">autorenew</i></span>
+                    </md-button>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+
+            <div class="head">
+                <div class="text">Manually sync data</div>
+            </div>
+            <div class="text-center start-btn" ng-click="vm.syncData();">Sync data</div>
+        </div>
+
+        <div class="category">
+            <div class="head">
+                <div class="text">Support logs</div>
+            </div>
+            <div class="text-center start-btn" ng-click="vm.sendLogs();">Send logs</div>
+        </div>
+
+        <div class="text-center app-info" style="margin-bottom: 15px;line-height: normal;"><img src="images/base/Bundyon%20Black.png" /> <span style="font-size: 0.8em; padding-left: 10px;"> v{{vm.version}}</span></div>
+        <div class="text-center app-info" style=""><a href="https://152hq.com/" target="_blank"><img src="images/base/152hqblack.png" /></a></div>
+
+    </div>
+
+    <div class="pageLoad" ng-hide="vm.pageLoad">
+        <i class="material-icons fa-spin">settings</i> <br> Loading data ...
+    </div>
+
+</div>
+<!--------------------------!
+            152HQ
+!--------------------------->
