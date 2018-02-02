@@ -101,6 +101,8 @@
                         method: 'POST',
                         url: appConfig.requestURL.whoami
                     }, function (success) {
+                        debugger
+                        apiService.updatePushId(success.pushId, success.id);
                         window.localStorage.setItem("lastUser", userDetails.email); // sets the last logged in user email to localstorage
                         window.localStorage.setItem("lastUserPassword", userDetails.password); // sets the last logged in user password to localstorage
                         window.localStorage.setItem("userdetails", angular.toJson(success)); // set loginToken to localstorage
@@ -108,7 +110,7 @@
                     }, function (fail) { // service fails
                         vm.logging = false;
                         console.log("Login error due to service issue.");
-                        apiService.toast("Action Failed. Try again!", {
+                        apiService.toast("Action Failed. Try again!", { 
                             type: 'f'
                         });
                     });

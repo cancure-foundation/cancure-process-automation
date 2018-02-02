@@ -2,7 +2,7 @@
 --create user 'cancure'@'localhost' identified by 'cancure123';
 --grant all privileges on cancure.* to 'cancure'@'localhost';
 
-insert into user values (1,'Cancure','cancure','admin@cancure.in.net','9048998963','$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true, false);
+insert into user values (1,'Cancure','cancure','admin@cancure.in.net','9048998963','$2a$10$G5Hv6YeTOfV7SKU2s9rHEO3ZRGB6KjeeQIZi44xCL.flTQZeHFTm2', true, false, null);
  
 insert into role(id, name, display_name) values (1,'ROLE_ADMIN', 'Admin');
 insert into role(id, name, display_name) values (2,'ROLE_GUEST', 'Guest');

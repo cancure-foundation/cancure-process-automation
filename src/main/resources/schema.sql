@@ -857,3 +857,6 @@ alter table ACT_ID_MEMBERSHIP
     add constraint ACT_FK_MEMB_USER
     foreign key (USER_ID_)
     references ACT_ID_USER;
+
+alter table user
+    add column push_id varchar(256);

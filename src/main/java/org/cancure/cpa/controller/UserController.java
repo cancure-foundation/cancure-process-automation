@@ -8,12 +8,14 @@ import org.cancure.cpa.persistence.entity.Role;
 import org.cancure.cpa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin
 @RestController
 public class UserController {
 
@@ -73,6 +75,11 @@ public class UserController {
 	@RequestMapping(method= RequestMethod.POST, value="/user/firstlogin/save")
     public String firstLogin(@RequestBody UserSuperBean user){
         return userService.firstLogin(user);
+    }
+	
+	@RequestMapping(method= RequestMethod.POST, value="/user/pushid/save/{id}/{pushId}")
+    public UserBean savePushId(@PathVariable("id") Integer id, @PathVariable("pushId") String pushId){
+        return userService.savePushId(id, pushId);
     }
 
 }

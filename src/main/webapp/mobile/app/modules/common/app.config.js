@@ -16,7 +16,8 @@
                 whoami: 'user/whoami',
                 myQueue: 'tasks/my',
                 patientHistory: 'tasks/history/',
-                hpocDoctors: 'doctor/hpoclist' // to get all doctors under that HPOC
+                hpocDoctors: 'doctor/hpoclist', // to get all doctors under that HPOC
+                pushId: 'user/pushid/save' // to get all doctors under that HPOC
             },
             fileType: ['txt', 'doc', 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'xlsx', 'xlsm'], // file types allowed for upload
             imgFileType: ['png', 'jpg', 'jpeg'], // image types allowed for upload

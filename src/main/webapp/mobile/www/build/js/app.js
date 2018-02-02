@@ -49,142 +49,77 @@
     }
 
 })();
-/**
- * 152HQ
- **/
 (function () {
     "use strict";
-
-    mainController.$inject = ["$scope", "$state", "$window", "$timeout", "$transitions", "$http", "appConfig", "apiService", "$rootScope", "$mdDialog"];
-    angular
-        .module('cancure')
-        .controller('mainController', mainController);
-
+    homeController.$inject = ["$scope", "$state", "$timeout", "fs", "$mdDialog", "appConfig", "$rootScope", "apiService"];
+    angular.module('cancure').controller('homeController', homeController);
     /* ngInject */
-    function mainController($scope, $state, $window, $timeout, $transitions, $http, appConfig, apiService, $rootScope, $mdDialog) {
+    function homeController($scope, $state, $timeout, fs, $mdDialog, appConfig, $rootScope, apiService) {
         var vm = this;
-        vm.online = true;
 
-        /**
-         * exection starts here
-         **/
-        function init() {
+        vm.init = function () {
+            vm.list = []; // take2 list
+            vm.user = angular.fromJson(window.localStorage.getItem('user'));
+            vm.appTitle = appConfig.title; // binds app title from config
+            vm.showPage = false;
+            vm.loadError = false;
 
-            vm.user = angular.fromJson(window.localStorage.getItem("userdetails"));
-            appConfig.rolesList = vm.user.roles;
-
-            vm.token = window.localStorage.getItem('loginToken'); // get username from session             
-
-            /* vm.userName = vm.user.firstName + ' ' + vm.user.lastName;*/
-            vm.appTitle = appConfig.title;
-            vm.appVersion = appConfig.version;
-
+            // check connectivity
             if (navigator && navigator.connection && navigator.connection.type == 'none') {
-                vm.online = false;
-            }
-
-            /** set the center div height **/
-            vm.setCenterheight();
-
-            /** set the center div height on resize **/
-            angular.element($window).bind('resize', function () {
-                if (!vm.adjusting)
-                    $timeout(function () {
-                        vm.adjusting = true;
-                        vm.setCenterheight();
-                    }, 100)
-            });
-
-            // set UI element visibility on state change
-            $transitions.onFinish({}, function (action) {
-                if (document.getElementById('center-content'))
-                    document.getElementById('center-content').scrollTop = 0; // to scroll new view top
-            });
-        };
-        /**
-         * set the center div height
-         **/
-        vm.setCenterheight = function () {
-            if (!document.getElementsByTagName('header'))
-                return; // retruns if view is not rendereded(login page)
-
-            var html = document.documentElement,
-                hHeight = (document.getElementsByTagName('header')[0]) ? document.getElementsByTagName('header')[0].offsetHeight : 0,
-                centerContent = document.getElementById('center-content');
-
-            if (centerContent) {
-                centerContent.style.height = html.clientHeight - (hHeight) + "px";
-            }
-
-            vm.adjusting = false;
-        };
-
-        /**
-         * logout action
-         **/
-        vm.logout = function () {
-            var confirm = $mdDialog.confirm()
-                .title('Confirm logout')
-                .textContent('Are you sure to exit session')
-                .ok('Yes')
-                .cancel('No');
-
-            $mdDialog.show(confirm).then(function () {
-                apiService.logout();
-            }, function () {
-
-            });
-        };
-
-        /**
-         * 
-         */
-        vm.showAlert = function ($event) {
-            DialogController.$inject = ["$scope", "$mdDialog", "appConfig"];
-            $mdDialog
-                .show({
-                    parent: angular.element(document.body),
-                    targetEvent: $event,
-                    template: '<md-dialog aria-label="List dialog" class="row roleDialogBx" style="padding:15px;">' +
-                        '  <md-dialog-content>' +
-                        '  <table class="table table-bordered" style="margin-bottom:15px;">' +
-                        '	<th class="col-xs-4">Name</th>' +
-                        '	<th class="col-xs-4">Roles</th>' +
-                        '		<tr>' +
-                        '		<td class="col-xs-4">' +
-                        vm.user.name +
-                        '</td>' +
-                        '		<td class="col-xs-4">' +
-                        '      		<div ng-repeat="item in items">' +
-                        '        			{{item.displayName}}' +
-                        '             </div>' +
-                        '        </td>' +
-                        '    </tr>' +
-                        '</table>' +
-                        '  </md-dialog-content>' +
-                        '  <md-dialog-actions style="min-height:auto;">' +
-                        '    <md-button ng-click="closeDialog()" class="md-primary" style="border: 1px solid rgb(63,81,181);border-radius:8px;margin:0px;">' +
-                        '      Close' +
-                        '    </md-button>' +
-                        '  </md-dialog-actions>' +
-                        '</md-dialog>',
-                    controller: DialogController,
-                    openFrom: 'top' 
+                apiService.toast("No internet connection. Please try again when online.", {
+                    type: 'f'
                 });
-
-            function DialogController($scope, $mdDialog, appConfig) {
-                $scope.items = appConfig.rolesList;
-                $scope.closeDialog = function () {
-                    $mdDialog.hide();
-                }
+                vm.showPage = true;
+                vm.loadError = true;
+                $timeout();
+                return;
             }
+            vm.getQueue();
+        };
+        /**
+         * get the queue details
+         */
+        vm.getQueue = function () {
+            apiService.serviceRequest({
+                url: appConfig.requestURL.myQueue
+            }, function (response) {
+                if (!response) {
+                    vm.showPage = true;
+                    vm.loadError = true;
+                    return;
+                }
+
+                if (!response.PATIENT_REG_PROCESS_DEF_KEY) {
+                    vm.showPage = true;
+                    vm.loadError = true;
+                    return;
+                }
+                 
+                var tmp = [];
+                tmp.push(response.PATIENT_REG_PROCESS_DEF_KEY);
+                tmp.push(response.IN_PATIENT_HOSPITAL_VISIT_DEF_KEY);
+                tmp.push(response.PATIENT_HOSPITAL_VISIT_DEF_KEY);
+
+                for (var i = 0; i < tmp.length; i++) {
+                    var item = tmp[i];
+                    for (var j = 0; j < item.length; j++) {
+                        vm.list.push(item[j]);
+                        vm.list[j].createTime = new Date(vm.list[j].createTime);
+                    }
+                } 
+  
+                $timeout(function () {
+                    vm.showPage = true;
+                }, 200);
+
+            }, function () {
+                vm.showPage = true;
+                vm.loadError = true;
+            });
         };
 
-
-        init();
-
+        vm.init();
     }
-
 })();
 //set global configuration of application and it can be accessed by injecting appConstants in any modules
 
@@ -204,7 +139,8 @@
                 whoami: 'user/whoami',
                 myQueue: 'tasks/my',
                 patientHistory: 'tasks/history/',
-                hpocDoctors: 'doctor/hpoclist' // to get all doctors under that HPOC
+                hpocDoctors: 'doctor/hpoclist', // to get all doctors under that HPOC
+                pushId: 'user/pushid/save' // to get all doctors under that HPOC
             },
             fileType: ['txt', 'doc', 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'xlsx', 'xlsm'], // file types allowed for upload
             imgFileType: ['png', 'jpg', 'jpeg'], // image types allowed for upload
@@ -217,18 +153,18 @@
     apiService.$inject = ["$rootScope", "$http", "$q", "$state", "appConfig", "$mdToast", "$document", "$rootScope", "$timeout"];
     angular.module('cancure').service('apiService', apiService);
 
-    function apiService($rootScope, $http, $q, $state, appConfig, $mdToast, $document, $rootScope,  $timeout) {
+    function apiService($rootScope, $http, $q, $state, appConfig, $mdToast, $document, $rootScope, $timeout) {
         var $self = this;
         /**
          * function to place http request
          */
         $self.serviceRequest = function (config, success, fail) {
             var requestParams = angular.merge({
-                method: config.method || "GET"
-                , url: appConfig.baseURL + config.url
-                , params: config.params || {}
-                , data: config.data || {}
-                , headers: config.headers || {
+                method: config.method || "GET",
+                url: appConfig.baseURL + config.url,
+                params: config.params || {},
+                data: config.data || {},
+                headers: config.headers || {
                     'Content-Type': 'application/json'
                 }
             }, config.addOns);
@@ -239,8 +175,7 @@
                     else {
                         if (fail) fail(response.data);
                     }
-                }
-                else {
+                } else {
                     if (fail) fail(response.data);
                 }
             }, function errorCallback(response) {
@@ -275,8 +210,7 @@
                         return b.length - a.length;
                     })[0];
                     if (success) success(text);
-                }
-                else {
+                } else {
                     if (fail) fail();
                 }
             }, function (error) { // in case of error in recording
@@ -299,6 +233,37 @@
                 window.localStorage.removeItem(key);
             });
             $state.go('login'); // navigate to login
+        };
+        /**
+         * Get push service token and send to hub
+         */
+        $self.updatePushId = function (pushId, userId) {
+            if (typeof (cordova) == "undefined")
+                return;
+
+            // check for connectivity
+            if (navigator && navigator.connection && navigator.connection.type == 'none') {
+                return;
+            }
+
+            window.plugins.OneSignal.getPermissionSubscriptionState(function (status) {
+                if (!status || !status.subscriptionStatus) {
+                    return;
+                }
+                if (pushId != status.subscriptionStatus.userId) {
+                    $self.serviceRequest({
+                        method: 'POST',
+                        url: appConfig.requestURL.pushId,
+                        params: {
+                            id: userId,
+                            pushId: status.subscriptionStatus.userId
+                        }
+                    }, function (data) {
+
+                    });
+                }
+
+            });
         };
     }
 })();
@@ -463,77 +428,142 @@
         }
     }
 })();
+/**
+ * 152HQ
+ **/
 (function () {
     "use strict";
-    homeController.$inject = ["$scope", "$state", "$timeout", "fs", "$mdDialog", "appConfig", "$rootScope", "apiService"];
-    angular.module('cancure').controller('homeController', homeController);
+
+    mainController.$inject = ["$scope", "$state", "$window", "$timeout", "$transitions", "$http", "appConfig", "apiService", "$rootScope", "$mdDialog"];
+    angular
+        .module('cancure')
+        .controller('mainController', mainController);
+
     /* ngInject */
-    function homeController($scope, $state, $timeout, fs, $mdDialog, appConfig, $rootScope, apiService) {
+    function mainController($scope, $state, $window, $timeout, $transitions, $http, appConfig, apiService, $rootScope, $mdDialog) {
         var vm = this;
+        vm.online = true;
 
-        vm.init = function () {
-            vm.list = []; // take2 list
-            vm.user = angular.fromJson(window.localStorage.getItem('user'));
-            vm.appTitle = appConfig.title; // binds app title from config
-            vm.showPage = false;
-            vm.loadError = false;
+        /**
+         * exection starts here
+         **/
+        function init() {
 
-            // check connectivity
+            vm.user = angular.fromJson(window.localStorage.getItem("userdetails"));
+            appConfig.rolesList = vm.user.roles;
+
+            vm.token = window.localStorage.getItem('loginToken'); // get username from session             
+
+            /* vm.userName = vm.user.firstName + ' ' + vm.user.lastName;*/
+            vm.appTitle = appConfig.title;
+            vm.appVersion = appConfig.version;
+
             if (navigator && navigator.connection && navigator.connection.type == 'none') {
-                apiService.toast("No internet connection. Please try again when online.", {
-                    type: 'f'
-                });
-                vm.showPage = true;
-                vm.loadError = true;
-                $timeout();
-                return;
+                vm.online = false;
             }
-            vm.getQueue();
+
+            /** set the center div height **/
+            vm.setCenterheight();
+
+            /** set the center div height on resize **/
+            angular.element($window).bind('resize', function () {
+                if (!vm.adjusting)
+                    $timeout(function () {
+                        vm.adjusting = true;
+                        vm.setCenterheight();
+                    }, 100)
+            });
+
+            // set UI element visibility on state change
+            $transitions.onFinish({}, function (action) {
+                if (document.getElementById('center-content'))
+                    document.getElementById('center-content').scrollTop = 0; // to scroll new view top
+            });
         };
         /**
-         * get the queue details
-         */
-        vm.getQueue = function () {
-            apiService.serviceRequest({
-                url: appConfig.requestURL.myQueue
-            }, function (response) {
-                if (!response) {
-                    vm.showPage = true;
-                    vm.loadError = true;
-                    return;
-                }
+         * set the center div height
+         **/
+        vm.setCenterheight = function () {
+            if (!document.getElementsByTagName('header'))
+                return; // retruns if view is not rendereded(login page)
 
-                if (!response.PATIENT_REG_PROCESS_DEF_KEY) {
-                    vm.showPage = true;
-                    vm.loadError = true;
-                    return;
-                }
-                 
-                var tmp = [];
-                tmp.push(response.PATIENT_REG_PROCESS_DEF_KEY);
-                tmp.push(response.IN_PATIENT_HOSPITAL_VISIT_DEF_KEY);
-                tmp.push(response.PATIENT_HOSPITAL_VISIT_DEF_KEY);
+            var html = document.documentElement,
+                hHeight = (document.getElementsByTagName('header')[0]) ? document.getElementsByTagName('header')[0].offsetHeight : 0,
+                centerContent = document.getElementById('center-content');
 
-                for (var i = 0; i < tmp.length; i++) {
-                    var item = tmp[i];
-                    for (var j = 0; j < item.length; j++) {
-                        vm.list.push(item[j]);
-                        vm.list[j].createTime = new Date(vm.list[j].createTime);
-                    }
-                } 
-  
-                $timeout(function () {
-                    vm.showPage = true;
-                }, 200);
+            if (centerContent) {
+                centerContent.style.height = html.clientHeight - (hHeight) + "px";
+            }
 
+            vm.adjusting = false;
+        };
+
+        /**
+         * logout action
+         **/
+        vm.logout = function () {
+            var confirm = $mdDialog.confirm()
+                .title('Confirm logout')
+                .textContent('Are you sure to exit session')
+                .ok('Yes')
+                .cancel('No');
+
+            $mdDialog.show(confirm).then(function () {
+                apiService.logout();
             }, function () {
-                vm.showPage = true;
-                vm.loadError = true;
+
             });
         };
 
-        vm.init();
+        /**
+         * 
+         */
+        vm.showAlert = function ($event) {
+            DialogController.$inject = ["$scope", "$mdDialog", "appConfig"];
+            $mdDialog
+                .show({
+                    parent: angular.element(document.body),
+                    targetEvent: $event,
+                    template: '<md-dialog aria-label="List dialog" class="row roleDialogBx" style="padding:15px;">' +
+                        '  <md-dialog-content>' +
+                        '  <table class="table table-bordered" style="margin-bottom:15px;">' +
+                        '	<th class="col-xs-4">Name</th>' +
+                        '	<th class="col-xs-4">Roles</th>' +
+                        '		<tr>' +
+                        '		<td class="col-xs-4">' +
+                        vm.user.name +
+                        '</td>' +
+                        '		<td class="col-xs-4">' +
+                        '      		<div ng-repeat="item in items">' +
+                        '        			{{item.displayName}}' +
+                        '             </div>' +
+                        '        </td>' +
+                        '    </tr>' +
+                        '</table>' +
+                        '  </md-dialog-content>' +
+                        '  <md-dialog-actions style="min-height:auto;">' +
+                        '    <md-button ng-click="closeDialog()" class="md-primary" style="border: 1px solid rgb(63,81,181);border-radius:8px;margin:0px;">' +
+                        '      Close' +
+                        '    </md-button>' +
+                        '  </md-dialog-actions>' +
+                        '</md-dialog>',
+                    controller: DialogController,
+                    openFrom: 'top' 
+                });
+
+            function DialogController($scope, $mdDialog, appConfig) {
+                $scope.items = appConfig.rolesList;
+                $scope.closeDialog = function () {
+                    $mdDialog.hide();
+                }
+            }
+        };
+
+
+        init();
+
     }
+
 })();
 /**
  * Author:152HQ
@@ -639,6 +669,8 @@
                         method: 'POST',
                         url: appConfig.requestURL.whoami
                     }, function (success) {
+                        debugger
+                        apiService.updatePushId(success.pushId, success.id);
                         window.localStorage.setItem("lastUser", userDetails.email); // sets the last logged in user email to localstorage
                         window.localStorage.setItem("lastUserPassword", userDetails.password); // sets the last logged in user password to localstorage
                         window.localStorage.setItem("userdetails", angular.toJson(success)); // set loginToken to localstorage

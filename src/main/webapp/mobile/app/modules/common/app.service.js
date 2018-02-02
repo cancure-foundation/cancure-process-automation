@@ -1,18 +1,18 @@
 (function () {
     angular.module('cancure').service('apiService', apiService);
 
-    function apiService($rootScope, $http, $q, $state, appConfig, $mdToast, $document, $rootScope,  $timeout) {
+    function apiService($rootScope, $http, $q, $state, appConfig, $mdToast, $document, $rootScope, $timeout) {
         var $self = this;
         /**
          * function to place http request
          */
         $self.serviceRequest = function (config, success, fail) {
             var requestParams = angular.merge({
-                method: config.method || "GET"
-                , url: appConfig.baseURL + config.url
-                , params: config.params || {}
-                , data: config.data || {}
-                , headers: config.headers || {
+                method: config.method || "GET",
+                url: appConfig.baseURL + config.url,
+                params: config.params || {},
+                data: config.data || {},
+                headers: config.headers || {
                     'Content-Type': 'application/json'
                 }
             }, config.addOns);
@@ -23,8 +23,7 @@
                     else {
                         if (fail) fail(response.data);
                     }
-                }
-                else {
+                } else {
                     if (fail) fail(response.data);
                 }
             }, function errorCallback(response) {
@@ -59,8 +58,7 @@
                         return b.length - a.length;
                     })[0];
                     if (success) success(text);
-                }
-                else {
+                } else {
                     if (fail) fail();
                 }
             }, function (error) { // in case of error in recording
@@ -83,6 +81,37 @@
                 window.localStorage.removeItem(key);
             });
             $state.go('login'); // navigate to login
+        };
+        /**
+         * Get push service token and send to hub
+         */
+        $self.updatePushId = function (pushId, userId) {
+            if (typeof (cordova) == "undefined")
+                return;
+
+            // check for connectivity
+            if (navigator && navigator.connection && navigator.connection.type == 'none') {
+                return;
+            }
+
+            window.plugins.OneSignal.getPermissionSubscriptionState(function (status) {
+                if (!status || !status.subscriptionStatus) {
+                    return;
+                }
+                if (pushId != status.subscriptionStatus.userId) {
+                    $self.serviceRequest({
+                        method: 'POST',
+                        url: appConfig.requestURL.pushId,
+                        params: {
+                            id: userId,
+                            pushId: status.subscriptionStatus.userId
+                        }
+                    }, function (data) {
+
+                    });
+                }
+
+            });
         };
     }
 })();
