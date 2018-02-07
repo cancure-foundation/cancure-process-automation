@@ -1,0 +1,293 @@
+<!--------------------------!
+            152HQ
+!--------------------------->
+
+<div class="survey" id="survey-container">
+
+    <div class="complete text-center">
+        <b>
+            <div ng-if="vm.viewOnly && !vm.screen2"><i class="fa fa-check-square" aria-hidden="true"></i> You have completed this {{vm.appTitle}}.</div>
+            <div class="t2-type text-center" ng-if="vm.formData.takeSetName && vm.questions.length > 0"> Type: {{vm.formData.takeSetName}}</div>
+            <div style="font-size: .6em;" ng-if="vm.formData.takeSetName && vm.questions.length > 0 && !vm.screen2 && !vm.screen3 && !vm.viewOnly">(All fields marked <span class="mandatory">*</span> are mandatory)</div>
+        </b>
+    </div>
+
+    <div ng-if="vm.questions.length > 0">
+
+        <div ng-show="vm.screen1" class="screen1">
+
+            <div class="head">
+                <div class="dt clearfix">
+                    <div class="pull-left">{{vm.formData.day}}</div>
+                    <div class="pull-right">{{vm.formData.time}}</div>
+                </div>
+            </div>
+            <div class="q" style="margin-top: 24px;">
+                <label class="clearfix" ng-click="vm.locateUser();">
+                <span class="pull-left">Location<span class="mandatory">*</span></span>                
+                <icon class="pull-right map-icon">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i> 
+                    Find Location
+                </icon>
+            </label>
+                <info ng-if="!vm.viewOnly">Please ensure your device GPS is turned on</info>
+                <textarea id="loc-text-area" type="text" ng-model="vm.formData.location" placeholder="Current location" ng-readonly="vm.viewOnly" limit-to="1000"> </textarea>
+                <info class="animate-show-hide" ng-show="vm.formData.accuracy && vm.formData.location">GPS Accuracy : {{vm.formData.accuracy}} meters.</info>
+            </div>
+            <div class="q" ng-show="vm.formData.job.isActive" style="margin-top: 24px;">
+                <label class="clearfix">
+                <span class="pull-left">Job Number<span class="mandatory" ng-show="vm.formData.job.required">*</span></span>   
+            </label>
+                <input type="text" ng-model="vm.formData.reference" placeholder="Enter job number" ng-readonly="vm.viewOnly" limit-to="250" />
+            </div>
+
+            <div class="homeQ" ng-if="vm.homeQuestions.length > 0">
+                <label class="clearfix">
+                <span class="pull-left">Questions</span>   
+            </label>
+                <div class="questions" ng-repeat="item in vm.homeQuestions">
+                    <div class="q"><span>{{$index+1}}. </span>{{item.questionText}}<span class="mandatory" ng-show="item.isRequired">*</span></div>
+
+                    <div class="toggle clearfix" ng-if="item.correctAnswer == false">
+                        <div class="yes pull-left" ng-class="{'no-active' : item.answer == true}" ng-click="vm.toggleHomeAnswer(item, true);">
+                            <!--<i class="fa fa-thumbs-down" aria-hidden="true"></i>-->Yes</div>
+                        <div class="no pull-left" ng-class="{'yes-active' : item.answer == false}" ng-click="vm.toggleHomeAnswer(item, false);">
+                            <!--<i class="fa fa-thumbs-up" aria-hidden="true"></i>-->No</div>
+                    </div>
+
+                    <div class="toggle clearfix" ng-if="item.correctAnswer == true">
+                        <div class="yes pull-left" ng-class="{'yes-active' : item.answer == true}" ng-click="vm.toggleHomeAnswer(item, true);">
+                            <!--<i class="fa fa-thumbs-up" aria-hidden="true"></i>-->Yes</div>
+                        <div class="no pull-left" ng-class="{'no-active' : item.answer == false}" ng-click="vm.toggleHomeAnswer(item, false);">
+                            <!--<i class="fa fa-thumbs-down" aria-hidden="true"></i>-->No</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q">
+                <label class="clearfix" ng-click="vm.getSpeech('formField', 'task', '', $event);">
+                <span class="pull-left">Task being carried out<span class="mandatory">*</span></span>     
+                 <icon class="pull-right map-icon">
+                     <i class="fa fa-microphone" aria-hidden="true"></i>
+                     Speak Now
+                </icon>
+            </label>
+                <textarea ng-model="vm.formData.task" placeholder="Current task details" ng-readonly="vm.viewOnly"></textarea>
+            </div>
+            <div class="q" style="margin-bottom: 0px;">
+                <label>Who is included in this {{vm.appTitle}}?<span class="mandatory">*</span></label>
+                <div class="toggle clearfix">
+
+                    <button class="yes pull-left" ng-class="{'yes-active' : vm.formData.IncludedTeam == false}" ng-click="vm.toggleTaskOwner(false);">I'm alone</button>
+
+                    <button class="no pull-right" ng-class="{'no-active' : vm.formData.IncludedTeam == true}" ng-click="vm.toggleTaskOwner(true);">My team</button>
+
+                </div>
+            </div>
+
+            <md-button class="md-raised" ng-click="vm.nextScreen($event);">
+                <div ng-switch on="vm.formData.status">
+                    <div ng-switch-when="c">VIEW {{vm.appTitle}} <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+                    <div ng-switch-when="ns">VIEW {{vm.appTitle}} <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+                    <div ng-switch-when="p">CONTINUE {{vm.appTitle}} <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+                    <div ng-switch-default>START {{vm.appTitle}} <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+                </div>
+            </md-button>
+
+        </div>
+
+        <div ng-show="vm.screen2" class="screen2 animate-show-hide">
+            <div class="content">
+                <div class="head">
+                    <div class="clearfix">
+                        <div class="pull-left">
+                            <img class="img-responsive" src="images/survey/clock.png" />
+                        </div>
+                        <div class="pull-right text-center">
+                            <div>
+                                <span><b>{{vm.appTitle}}</b></span> <br>
+                                <span>for Safety</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="msg">
+                        Use to identify <b>AND</b> control hazards before you start work
+                    </div>
+                </div>
+
+                <div class="body">
+                    <span>1. Stop, look, walk around the task.</span>
+
+                    <span>2. Think about the task, have a clear plan.</span>
+
+                    <span>3. Identify and assess hazards that exist or may be created by the task and rate their risk level.</span>
+
+                    <span>4. Control the risk and communicate.</span>
+
+                    <span>5. Do the task if low risk and keep a look out for changes.</span>
+                </div>
+                <div class="btm">
+                    <b>{{vm.appTitle}}</b> - prove it safe before you start work
+                </div>
+            </div>
+            <md-button class="md-raised" ng-click="vm.nextScreen($event);">
+                I UNDERSTAND <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </md-button>
+
+        </div>
+
+        <div ng-show="vm.screen3" class="screen3 animate-show-hide">
+            <div class="questions" ng-repeat="item in vm.questions">
+
+                <div class="q"><span>{{$index+1}}. </span>{{item.questionText}}</div>
+
+                <div class="toggle clearfix" ng-if="item.correctAnswer == false">
+                    <div class="yes pull-left" ng-class="{'no-active' : item.answer == true}" ng-click="vm.toggleAnswer(item, true);">
+                        <!--<i class="fa fa-thumbs-down" aria-hidden="true"></i>-->Yes</div>
+                    <div class="no pull-left" ng-class="{'yes-active' : item.answer == false}" ng-click="vm.toggleAnswer(item, false);">
+                        <!--<i class="fa fa-thumbs-up" aria-hidden="true"></i>-->No</div>
+                </div>
+
+                <div class="toggle clearfix" ng-if="item.correctAnswer == true">
+                    <div class="yes pull-left" ng-class="{'yes-active' : item.answer == true}" ng-click="vm.toggleAnswer(item, true);">
+                        <!--<i class="fa fa-thumbs-up" aria-hidden="true"></i>-->Yes</div>
+                    <div class="no pull-left" ng-class="{'no-active' : item.answer == false}" ng-click="vm.toggleAnswer(item, false);">
+                        <!--<i class="fa fa-thumbs-down" aria-hidden="true"></i>-->No</div>
+                </div>
+                <div ng-model="item.showComments" ng-click="item.showComments=!item.showComments;vm.save('p');" class="comments" ng-show="item.answer != undefined">
+                    <i class="fa fa-plus-square" aria-hidden="true" ng-show="!item.showComments"></i>
+                    <i class="fa fa-minus-square" aria-hidden="true" ng-show="item.showComments"></i> Comments
+                </div>
+                <div class="more-info animate-show-hide" ng-show="item.answer != undefined && item.showComments">
+
+                    <div ng-show="vm.formData.rateHazardsRequired && item.answer != item.correctAnswer">
+                        <div class="risk-info">
+                            <div class="clearfix">
+                                <span class="pull-left">Risk Details</span>
+                                <icon class="pull-right " ng-click="vm.getSpeech('other', item, 'risk', $event);">
+                                    <i class="fa fa-microphone" aria-hidden="true"></i> Speak
+                                </icon>
+                            </div>
+                            <textarea ng-model="item.risk" placeholder="Provide risk details" ng-blur="vm.save('p')" ng-readonly="vm.viewOnly" limit-to="250"></textarea>
+                        </div>
+
+                        <div class="risk-info">
+                            <div class="clearfix">
+                                <span class="pull-left">Control Details</span>
+                                <icon class="pull-right" ng-click="vm.getSpeech('other', item, 'control', $event);">
+                                    <i class="fa fa-microphone" aria-hidden="true"></i> Speak
+                                </icon>
+                            </div>
+                            <textarea ng-model="item.control" placeholder="What control did you put in place" ng-blur="vm.save('p')" ng-readonly="vm.viewOnly" limit-to="2000"></textarea>
+                        </div>
+
+                        <div class="instrct">
+                            <b>Instructions</b>
+                            <ul>
+                                <li>Rate how your control has changed the Risk by using the sliders below.</li>
+                                <li>Slide across to the appropriate location, the rating is shown on the right.</li>
+                                <li>Your Risk Rating will be shown below.</li>
+                            </ul>
+                        </div>
+
+                        <div class="consequence">
+                            <div class="text clearfix">
+                                <div class="pull-left">Consequence</div>
+                                <div class="pull-right" ng-if="item.consequence">{{item.consequence || 0}} - <b>{{item.consequenceCat}}</b></div>
+                            </div>
+                            <input ng-disabled="vm.viewOnly" type="range" max="5" ng-model="item.consequence" ng-change="vm.rangeChange(item);" />
+                        </div>
+
+                        <div class="likelihood">
+                            <div class="text clearfix">
+                                <div class="pull-left">Likelyhood </div>
+                                <div class="pull-right" ng-if="item.likelihood">{{item.likelihood || 0}} - <b>{{item.likelyHoodCat}}</b></div>
+                            </div>
+                            <input ng-disabled="vm.viewOnly" type="range" max="5" ng-model="item.likelihood" ng-change="vm.rangeChange(item);" />
+                        </div>
+
+                        <div ng-show="item.riskRating" class="riskRate animate-show-hide" ng-class="{'l-risk' : item.riskRating == 'L','m-risk' : item.riskRating == 'M','h-risk' : item.riskRating == 'H','e-risk' : item.riskRating == 'E'}">
+                            <div class="name">{{item.riskRatingDesc.name}} </div>
+                            <div class="desc">{{item.riskRatingDesc.desc}} </div>
+                        </div>
+                    </div>
+
+                    <div class="risk-info" ng-show="(vm.formData.rateHazardsRequired && item.answer == item.correctAnswer) || !vm.formData.rateHazardsRequired">
+                        <div class="clearfix">
+                            <span class="pull-left">Notes</span>
+                            <icon class="pull-right " ng-click="vm.getSpeech('other', item, 'notes', $event);">
+                                <i class="fa fa-microphone" aria-hidden="true"></i> Speak
+                            </icon>
+                        </div>
+                        <textarea ng-model="item.notes" placeholder="Provide additional notes" ng-blur="vm.save('p')" ng-readonly="vm.viewOnly" limit-to="1000"></textarea>
+                    </div>
+
+                    <div class="file-capture">
+                        <div class="text-center" style="font-size: 0.8em;">Attach files and add caption below.</div>
+                        <div class="selection clearfix animate-show-hide">
+                            <div class="item" ng-click="vm.fileSelect(item);"><i class="fa fa-file-text-o" aria-hidden="true"></i> <br>Attach a file</div>
+                            <div class="item" ng-click="vm.captureImage(item);"><i class="fa fa-camera" aria-hidden="true"></i> <br>Capture Image</div>
+                        </div>
+                        <div class="img-list" ng-repeat="file in item.files | orderBy:$index:false">
+                            <div class="img-title clearfix">
+                                <div class="index">#{{$index+1}}</div>
+                                <div class="img-name">{{file.title}}</div>
+                                <div class="delete" ng-click="vm.deleteFile(item, $index, $event);">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </div>
+                            </div>
+
+                            <div class="img-holder">
+                                <img ng-src="{{file.src}}" ng-if="file.src" />
+                                <span ng-if="!file.src">Preview not available</span>
+                            </div>
+                            <div class="img-caption">
+                                <div class=" clearfix">
+                                    <span class="pull-left">Caption</span>
+                                    <icon class="pull-right" ng-click="vm.getSpeech('other', file, 'caption', $event);">
+                                        <i class="fa fa-microphone" aria-hidden="true"></i> Speak
+                                    </icon>
+                                </div>
+                                <textarea ng-model="file.caption" placeholder="Please enter a descriptive caption" ng-blur="vm.save('p')" ng-readonly="vm.viewOnly" limit-to="100"></textarea>
+                            </div>
+                        </div>
+                        <div class="empty" ng-if="!item.files || item.files.length == 0">No Files attached.</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="clearfix" ng-if="!vm.viewOnly">
+                <div style="font-size: .8em;font-size: 0.6em;text-align: center;margin-bottom: 4px;">(click SAVE to edit later, COMPLETE to submit to HUB)</div>
+                <md-button class="md-raised" ng-click="vm.save('p', true)">
+                    SAVE
+                </md-button>
+                <md-button class="md-raised md-warn md-button md-ink-ripple" ng-click="vm.sync()" style="margin-right:0;margin-left:2%;">
+                    Complete
+                </md-button>
+            </div>
+
+            <div class="clearfix text-center" ng-if="vm.viewOnly">
+                <md-button class="md-raised" ng-click="vm.sync();" style="float: initial;width: 60%; margin: 0;">
+                    <i class="fa fa-home" aria-hidden="true"></i> Go Home
+                </md-button>
+            </div>
+
+        </div>
+    </div>
+
+    <div ng-if="vm.questions.length == 0" class="text-center pageLoad">
+        <div style="margin-bottom: 12px;">Unable to load questions.</div>
+        <b ng-click="vm.init();" style="background: rgba(0,0,0,.1);padding: 4px 8px;border-radius: 8px;margin-right: 24px;">Retry</b>
+        <b ui-sref="app.home" style="background: rgba(0,0,0,.1);padding: 4px 8px;border-radius: 8px;margin-top: 24px;">Home</b>
+    </div>
+
+</div>
+
+<div class="pageLoad" ng-hide="vm.questions">
+    <i class="fa fa-cog fa-spin" aria-hidden="true"></i> <br> Loading data ...
+</div>
+<!--------------------------!
+            152HQ
+!--------------------------->

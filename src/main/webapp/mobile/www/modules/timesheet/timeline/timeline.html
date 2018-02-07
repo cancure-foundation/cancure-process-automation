@@ -1,0 +1,64 @@
+<!--------------------------!
+            152HQ
+!--------------------------->
+<div class="timeline-view animate-show-hide">
+
+    <div class="header-section" id="header-section">
+        <div class="time-clock">
+            {{vm.day | date:'EEEE, MMMM d'}}
+        </div>
+
+        <div class="date-control">
+            <div class="holder">
+                <div class="pull-left">
+                    <div>Shift duration: <span style="font-size: 1em;">{{vm.time}}</span></div>
+                    <span>(Data shown is only for completed sessions)</span>
+                </div>
+                <div class="pull-right" ui-sref="app.timesheet({'day':vm.day})">
+                    <span>Back</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="contents animate-show-hide" ng-show="vm.pageLoad && !vm.loadFail" style="height: {{vm.ulHeight}}px;">
+        <ul class="timeline">
+            <li class="start clearfix" ng-repeat="item in vm.timelineList" ng-class="{'start' : item.type==4,'stop' : item.type==1,'pause' : item.type==2,'resume' : item.type==3}">
+                <div class="timeline-badge pull-left" style="height: {{vm.holderHeight}}px;">
+                    <div>
+                        <i class="ion-play" ng-class="{'ion-play' : item.type==4,'ion-stop' : item.type==1,'ion-pause' : item.type==2,'ion-play' : item.type==3}"></i>
+                    </div>
+                </div>
+                <div class="timeline-panel pull-right" style="height: {{vm.holderHeight}}px;">
+                    <div class="timeline-heading" style="height: {{vm.holderHeight}}px;">
+                        <span class="timeline-title">{{item.date | date:'h:mm a'}}</span>
+                        <span class="showNextDay" ng-if="item.showNextDay">({{item.date | date:'EEEE, MMMM d'}})</span>
+                    </div>
+                </div>
+
+                <div class="job-holder" ng-if="item.type==4 && item.jobNumber && item.jobNumber.text" ng-click="vm.editJobDetails(item);">
+                    <div class="edit"><i class="material-icons">edit</i></div>
+                    <div class="line"></div>
+                    <div class="job-desc"><b>Job: </b> {{item.jobNumber.text}}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="pageLoad" ng-hide="vm.pageLoad">
+        <i class="material-icons fa-spin">settings</i> <br> Loading timeline data ...
+    </div>
+
+    <div class="pageLoad" ng-show="vm.loadFail">
+        <i class="material-icons">error</i> <br>
+        <div style="margin: 0 auto 12px auto;width: 80%;text-align: center;">
+            <span ng-if="!vm.timelineList">Unable to load data.</span>
+            <span ng-if="vm.timelineList.length == 0"><div>No data available for</div> {{vm.day | date:'EEEE, MMMM d'}}</span>
+        </div><b ng-click="vm.init();" style="background: rgba(0,0,0,.1);padding: 4px 8px;border-radius: 8px;margin-right: 24px;">Retry</b>
+        <b ui-sref="app.timesheet" style="background: rgba(0,0,0,.1);padding: 4px 8px;border-radius: 8px;margin-top: 24px;">Back</b>
+    </div>
+
+</div>
+<!--------------------------!
+            152HQ
+!--------------------------->

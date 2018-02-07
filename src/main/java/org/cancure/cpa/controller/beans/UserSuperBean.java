@@ -26,6 +26,8 @@ public class UserSuperBean {
 	
 	private Boolean firstLog;
 	
+	private String pushId;
+	
 	private Doctor doctor;
 	
 	private Integer hospitalId;
@@ -116,5 +118,15 @@ public class UserSuperBean {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}    
+	}
+
+	public String getPushId() {
+		return pushId;
+	}
+
+	public void setPushId(String pushId) {
+		this.pushId = pushId;
+	}
+	
+	
 }

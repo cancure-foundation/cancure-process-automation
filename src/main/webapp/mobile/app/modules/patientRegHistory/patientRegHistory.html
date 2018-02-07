@@ -1,0 +1,170 @@
+<!-- Main content -->
+<div class="patientRegHistory">
+    <div class="content-header">
+        <h1>
+            Patient History
+        </h1>
+    </div>
+    <!-- row -->
+    <div class="row" ng-show="vm.showPage && !vm.loadError">
+        <div class="col-md-12">
+            <!-- The time line -->
+            <ul class="timeline">
+                <li class="task-1">
+                    <i class="fa fa-bars bg-blue-gradient text-white"></i>
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <div class="title">{{vm.regDetails.nextTask}}</div>
+                            <div class="sub-title">({{vm.regDetails.description}})</div>
+                        </div>
+                        <div class="timeline-body">
+                            <div class="patient-details">
+                                <div class="item">
+                                    <div class="field">Patient name</div>
+                                    <div class="value">{{vm.patientDetails.name}}</div>
+                                    <div class="prn">
+                                        <span class="key-item">PRN : {{vm.patientDetails.prn}}</span>
+                                        <span class="key-item" ng-if="vm.patientDetails.pidn">PIDN : {{vm.patientDetails.pidn}}</span>
+                                        <span class="key-item" ng-switch on="vm.patientDetails.patientType">
+                                                		<span ng-switch-when="inPatient">IN Patient</span>
+                                        <span ng-switch-when="outPatient">OUT Patient</span>
+                                        <span ng-switch-default>NEW Patient</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="item" style="width: 50%;float: left;">
+                                    <div class="field">Age</div>
+                                    <div class="value">{{vm.patientDetails.age}}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="field">Gender</div>
+                                    <div class="value">{{vm.patientDetails.gender}}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="field">Contact</div>
+                                    <div class="value">{{vm.patientDetails.contact}}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="field">Patient Total Income</div>
+                                    <div class="value">{{vm.patientDetails.totalIncome | currency:'₹'}}</div>
+                                </div>
+                                <div class="item" ng-show="vm.patientDetails.hospitalCostEstimate || vm.patientDetails.medicalCostEstimate">
+                                    <div class="field">Estimated Costs</div>
+                                    <div class="value"> <span ng-switch on="vm.patientDetails.patientType">
+                                                	<span ng-switch-when="inPatient">{{vm.patientDetails.hospitalCostEstimate | currency:'₹'}} </span>
+                                        <span ng-switch-when="outPatient">{{vm.patientDetails.medicalCostEstimate | currency:'₹'}} </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="item" ng-show="vm.patientDetails.hospitalCostApproved || vm.patientDetails.medicalCostApproved">
+                                    <div class="field">Approved Amount</div>
+                                    <div class="value"> <span ng-switch on="vm.patientDetails.patientType">
+                                                	<span ng-switch-when="inPatient">{{vm.patientDetails.hospitalCostApproved | currency:'₹'}}  </span>
+                                        <span ng-switch-when="outPatient">{{vm.patientDetails.medicalCostApproved | currency:'₹'}}  </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  <div class="row">
+                                <div class="col-md-6 col-sd-8 col-xs-12">
+                                    <table class="table table-bordered" style="margin-bottom: 0px;">
+                                        <tr>
+                                            <td rowspan="5" class="user_img">
+                                                <img ng-show="vm.profileSrc" ng-src="{{vm.profileSrc}}" />
+                                                <i ng-hide="vm.profileSrc" class="fa fa-user" aria-hidden="true" />
+                                                <div style="padding-bottom: 5px;">
+                                                   
+                                                </div>
+                                            </td>
+                                        </tr>                                       
+                                    </table>
+                                </div>
+                            </div>-->
+
+                        </div>
+                    </div>
+                    <li class="time-label" ng-if="vm.regDetails">
+                        <span ng-class="(vm.regDetails.endTime) ? 'bg-green-gradient' : 'bg-red-gradient' ">
+                        	{{vm.regDetails.createTime | date:'MMM d, y h:mm a'}}
+                    	</span>
+                    </li>
+                </li>
+
+                <li ng-repeat="task in vm.tasks" class="otherTasks">
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <div class="title"><b>{{task.nextTask}}</b></div>
+                            <div class="sub-title">({{task.description}})</div>
+                        </div>
+                        <div class="timeline-body">
+                            <div ng-hide="task.investigation" class="empty-text">No Investigation Comments available.</div>
+                            <div ng-show="task.investigation">
+                                <div class="item">
+                                    <div class="field">Investigator Name</div>
+                                    <div class="value">{{task.investigation.investigatorName}} <i style="font-size:0.8em;">({{task.investigation.investigatorType}})</i></div>
+                                </div>
+                                <div class="item">
+                                    <div class="field">Investigator Date</div>
+                                    <div class="value">{{task.investigation.investigationDate| date:'MMM d, y h:mm a'}} </div>
+                                </div>
+                                <div class="item">
+                                    <div class="field">Comments</div>
+                                    <div class="value" style="word-break: break-all; white-space: pre-line;background:#ecf0f5; padding:4px; border:1px solid #ccc;">{{task.investigation.comments || "Not Available"}}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="field">Status</div>
+                                    <div class="value">{{task.investigation.status || "Not Applicable"}} </div>
+                                </div>
+                                <div class="item empty-text" ng-hide="task.documents.length > 0">
+                                    No additional documents uploaded.
+                                </div>
+                                <div class="item" ng-repeat="item in task.documents" ng-show="task.documents.length > 0">
+                                    <div class="field">Document Uploaded</div>
+                                    <div class="value"><a href="/files/{{item.docId}}">{{item.docCategory}} <i  style="font-size:0.8em;">({{item.docType}})</i></a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="time-label" ng-if="task.endTime">
+                        <span class="bg-green-gradient">
+                        	{{task.endTime  | date:'MMM d, y h:mm a'}} 
+                    	</span>
+                    </div>
+                </li>
+
+                <li>
+                    <i class="fa fa-clock-o bg-gray"></i>
+                </li>
+                <li ng-if="vm.nextTask">
+                    <div class="timeline-item">
+                        <div class="timeline-body">
+                            <div class="text-center nextTask" ng-if="vm.nextTask.name && !vm.patientReject">
+                                <div class="title">
+                                    <div style="    font-size: 0.8em;    font-weight: normal;">Next Step:</div> <b>{{vm.nextTask.name}} </b></div>
+                                <div class="sub-title"> <i>({{vm.nextTask.description}})</i> </div>
+                                <span class="goto" ng-click="vm.nextAction()" ng-show="vm.nextAction(true)"> GO </span>
+                            </div>
+                            <div class="text-center nextTask" ng-if="vm.patientReject">
+                                Application has been rejected.
+                            </div>
+                            <div class="text-center nextTask" ng-if="vm.patientDetails.pidn">
+                                <span class="goto"> 
+                                	<a href="/files/idcard/{{vm.patientDetails.prn}}" style="color:white">Download ID Card</a>  
+                                	<i class="fa fa-arrow-circle-down" aria-hidden="true"></i>                                	
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="pageLoad" ng-hide="vm.showPage"> <i class="fa fa-cog fa-spin" aria-hidden="true"></i>
+        <br> Loading Patient details ... </div>
+
+    <div class="pageLoad" ng-show="vm.loadError"> <i class="fa fa-frown-o" aria-hidden="true"></i>
+        <br> Failed to load data. </div>
+</div>

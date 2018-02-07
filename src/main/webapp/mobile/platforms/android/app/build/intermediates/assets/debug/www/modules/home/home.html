@@ -1,0 +1,47 @@
+<div class="home animate-show-hide" id="home-container">
+    <div class="content" ng-show="vm.showPage && !vm.loadError && vm.list.length != 0">
+        <div class="list" ng-if="vm.list.length != 0">
+            <div class="info text-center animate-show-hide">
+                You have <b>{{vm.list.length}}</b> <span ng-if="vm.list.length == 1">patient</span><span ng-if="vm.list.length !=1">patients</span> in your queue.
+            </div>
+
+            <div class="whiteframe" ng-repeat="item in vm.list | orderBy:item.prn:false">
+                <div class="head">
+                    <div class="date clearfix" ng-class="{'risk' : item.risk == true}">
+                        <div class="pull-left">
+                            PRN: {{item.prn}}
+                        </div>
+                        <div class="pull-right">
+                            {{item.createTime | date:'MMM d, y h:mm a'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="details clearfix">
+                    <div class="text">Patient name</div>
+                    <div class="patientName">
+                        {{item.patientName}}
+                        <span class="typeindicator-btn new" ng-switch on="item.patientType" ng-class="{'in':item.patientType='inPatient', 'out':item.patientType='outPatient'}">
+                                                		<span ng-switch-when="inPatient">IN Patient</span>
+                        <span ng-switch-when="outPatient">OUT Patient</span>
+                        <span ng-switch-default>NEW Patient</span>
+                        </span>
+                    </div>
+
+                    <div class="text" style="padding-top:14px;">Next task</div>
+                    <div class="nextTask">
+                        {{item.nextTask}}
+                    </div>
+                    <div class="view-btn" ui-sref="app.patientRegHistory({ prn: item.prn })">View</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pageLoad" ng-hide="vm.showPage"> <i class="fa fa-cog fa-spin" aria-hidden="true"></i>
+        <br> Loading your queue ... </div>
+
+    <div class="pageLoad" ng-show="vm.loadError"> <i class="fa fa-frown-o" aria-hidden="true"></i>
+        <br> Failed to load data. </div>
+
+    <div class="pageLoad" ng-show="vm.list.length == 0 && vm.showPage && !vm.loadError"> <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+        <br> You have no pending queue. </div>

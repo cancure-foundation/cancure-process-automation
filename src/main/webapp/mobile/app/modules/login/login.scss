@@ -1,0 +1,154 @@
+.login {
+    height: 100%;
+    display: table;
+    width: 100%;
+    background: rgba(255, 132, 0, 1);
+    background: -moz-linear-gradient(top, rgba(255, 132, 0, 1) 0%, rgba(135, 12, 12, 1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 132, 0, 1)), color-stop(100%, rgba(135, 12, 12, 1)));
+    background: -webkit-linear-gradient(top, rgba(255, 132, 0, 1) 0%, rgba(135, 12, 12, 1) 100%);
+    background: -o-linear-gradient(top, rgba(255, 132, 0, 1) 0%, rgba(135, 12, 12, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(255, 132, 0, 1) 0%, rgba(135, 12, 12, 1) 100%);
+    background: linear-gradient(to bottom, rgba(255, 132, 0, 1) 0%, rgba(135, 12, 12, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff8400', endColorstr='#870c0c', GradientType=0);
+    * {
+        outline: none;
+    }
+    .animate-show-hide.ng-hide-add {
+        transition: none;
+    }
+    .content {
+        display: table-cell;
+        vertical-align: middle;
+        width: 100%;
+        .img-holder {
+            position: absolute;
+            top: 5%;
+            width: 100%;
+            left: 0;
+            img {
+                width: 55%;
+                margin: 0 auto;
+            }
+        }
+        form {
+            text-align: center;
+            width: 80%;
+            margin: 0 auto;
+            .input-holder {
+                .icon-holder {
+                    height: 65px;
+                    width: 65px;
+                    line-height: 65px;
+                    background: #fff;
+                    position: absolute;
+                    z-index: 10;
+                    border-top-left-radius: 12px !important;
+                    border-bottom-left-radius: 12px !important;
+                    i {
+                        color: #b9b9b9;
+                        font-size: 1.4em;
+                    }
+                }
+                input {
+                    width: 100%;
+                    margin-bottom: 8%;
+                    padding-left: 70px;
+                    border: none;
+                    color: #b9b9b9;
+                    border-radius: 12px !important;
+                    background: #fff;
+                    height: 65px;
+                }
+                .disc[type=number] {
+                    &:last-child {  
+                        -webkit-text-security: disc;
+                    }
+                }
+                ::-webkit-input-placeholder {
+                    color: rgba(0, 0, 0, 0.3);
+                    font-size: 0.8em;
+                }
+            }
+            .btn-holder {
+                position: relative;
+                button {
+                    background-color: transparent;
+                    width: 100%;
+                    height: 65px;
+                    color: #fff;
+                    font-size: 1em;
+                    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .4);*/
+                    border: 2px solid #fff;
+                    border-radius: 12px;
+                }
+            }
+            .text {
+                padding-top: 8%;
+                text-align: center;
+            }
+            .forgot-pass {
+                text-align: right;
+                font-size: .8em;
+                float: left;
+                width: 50%;
+                color: #fff;
+            }
+            .remember {
+                @extend .forgot-pass;
+                text-align: left;
+                font-weight: bold;
+                md-input-container {
+                    margin: 0px;
+                    vertical-align: top;
+                    transition: none !important;
+                    md-checkbox {
+                        margin: 0px;
+                        .md-container {
+                            .md-icon {
+                                border-color: #fff;
+                                &::after {
+                                    border-color: $primary-color;
+                                }
+                            }
+                            .md-ripple-container {
+                                display: none;
+                            }
+                        }
+                    }
+                    md-checkbox.md-checked .md-icon {
+                        background-color: #fff;
+                    }
+                    md-checkbox .md-label {
+                        vertical-align: top;
+                        margin-left: 24px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media all and (max-width: 500px) {
+    .login {
+        .content {
+            form {
+                .btn-holder {
+                    button {
+                        height: 45px;
+                    }
+                }
+                .input-holder {
+                    .icon-holder {
+                        height: 45px;
+                        width: 45px;
+                        line-height: 45px;
+                    }
+                    input {
+                        height: 45px;
+                        padding-left: 50px;
+                    }
+                }
+            }
+        }
+    }
+}

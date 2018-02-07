@@ -1,0 +1,60 @@
+<header>
+    <div class="row">
+        <div class="col-xs-8 title" ui-sref="app.home">
+            <div>
+                <!--<img class="img-responsive" src="images/base/take2%20app%20logo.png" />--><i>cancure_logo</i> </div>
+        </div>
+        <div class="col-xs-2" ng-click="vm.showAlert($event)"> <span><i class="fa fa-user" aria-hidden="true"></i></span> </div>
+        <div class="col-xs-2 user-info" ng-click="vm.logout(true);"> <span><i class="fa fa-power-off" aria-hidden="true"></i></span> </div>
+    </div>
+</header>
+<div class="app-overlay" id="app-overlay" ng-click="vm.toggleAppNav();">
+    <div id="app-side-nav" class="sidenav">
+        <div class="nav-container">
+            <div class="nav-items"><i class="fa fa-home" aria-hidden="true"></i>
+                <br><span>Home</span></div>
+            <div class="nav-items"><i class="fa fa-user-o" aria-hidden="true"></i>
+                <br><span>Home</span></div>
+            <div class="nav-items"><i class="fa fa-user-o" aria-hidden="true"></i>
+                <br><span>Home</span></div>
+        </div>
+        <div class="nav-container">
+            <div class="nav-items"><i class="fa fa-home" aria-hidden="true"></i>
+                <br><span>Home</span></div>
+            <div class="nav-items"><i class="fa fa-user-o" aria-hidden="true"></i>
+                <br><span>Home</span></div>
+            <div class="nav-items"><i class="fa fa-user-o" aria-hidden="true"></i>
+                <br><span>Home</span></div>
+        </div>
+    </div>
+</div>
+<div class="user-overlay" id="user-overlay" ng-click="vm.toggleUserInfo();">
+    <div id="user-side-nav" class="sidenav">
+        <div class="head clearfix">
+            <div class="close">
+                <div> <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+            </div>
+            <div class="user_details pull-left">
+                <p>Welcome, <span>{{vm.userName}}</span></p>
+            </div>
+            <div class="avatar pull-right">
+                <div class="img-holder">
+                    <div> <img src="images/base/avatar.png" ng-src="{{vm.avatar}}" /> </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <ul>
+                <li href="#" ui-sref="app.guide"><i class="fa fa-book" aria-hidden="true"></i>{{vm.appTitle}} Reference Guide</li>
+                <a href="http://2bsafe.site/help.html" target="_blank">
+                    <li href="#"><i class="fa fa-question-circle" aria-hidden="true"></i>Help</li>
+                </a>
+                <li ng-click="vm.logout();"><i class="fa fa-sign-out" aria-hidden="true"></i>Sign Out</li>
+            </ul>
+            <div class="app-version"> <span>version: {{vm.appVersion}}</span> </div>
+        </div>
+    </div>
+</div>
+<div class="center-content" id="center-content">
+    <ui-view></ui-view>
+</div>

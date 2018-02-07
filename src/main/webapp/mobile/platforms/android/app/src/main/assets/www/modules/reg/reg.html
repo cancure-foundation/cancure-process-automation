@@ -1,0 +1,50 @@
+<!--------------------------!
+            152HQ
+!--------------------------->
+<div class="reg" id="reg-page">
+    <div class="controls animate-show-hide" ui-sref="login">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        <div class="t1">Sign up</div>
+        <div class="t2">Get started with your name</div>
+    </div>
+    <div class="reg-form">
+        <form ng-submit="vm.register($event);" class="" name="reg-form">
+            <md-input-container class="md-block">
+                <label>First Name</label>
+                <input type="text" ng-model="vm.formData.firstName" required ng-readonly="vm.registering" />
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>Last Name</label>
+                <input type="text" ng-model="vm.formData.lastName" required ng-readonly="vm.registering" />
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>Email</label>
+                <input type="email" ng-model="vm.formData.email" required ng-readonly="vm.registering" />
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>Password</label>
+                <input type="password" ng-model="vm.formData.password" required ng-readonly="vm.registering" />
+            </md-input-container>
+            
+            <md-input-container class="md-block">
+                <label>Confirm Password</label>
+                <input type="password" ng-model="vm.formData.cPassword" required ng-readonly="vm.registering" />
+            </md-input-container>
+            
+            <button id="login-btn" hidden="hidden"></button>
+            
+            <md-button class="md-raised" ng-click="vm.checkForm();">
+                <span ng-show="!vm.registering">REGISTER</span>
+                <span ng-show="vm.registering"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></span>
+            </md-button>
+        </form>
+
+    </div>
+
+</div>
+<!--------------------------!
+            152HQ
+!--------------------------->

@@ -1,0 +1,75 @@
+.patientRegNextAction {
+    padding: 12px;
+    margin: 12px;
+    background: #fff;
+    border: 1px solid #ccc;
+    .header {
+        padding-bottom: 12px;
+        text-align: center;
+        .req-indicator {
+            font-size: 0.8em;
+            req {
+                color: red;
+            }
+        }
+    }
+    .item {
+        margin-bottom: 12px;
+        &:last-child {
+            margin-bottom: 0 !important;
+        }
+        .field {
+            font-size: 0.8em;
+        }
+        .value {
+            font-weight: bold;
+        }
+        .prn {
+            .key-item {
+                color: #fff;
+                font-size: 0.8em;
+                padding: 2px 6px;
+                text-align: center;
+                border-radius: 6px;
+                display: inline-block;
+                background: #31708f;
+            }
+        }
+        a {
+            text-decoration: none;
+        }
+    }
+    .panel {
+        margin-bottom: 0px;
+        .panel-body {
+            padding: 12px;
+        }
+        .panel-item {
+            margin-bottom: 12px;
+            &:last-child {
+                margin-bottom: 0 !important;
+            }
+            label {
+                font-size: 0.8em;
+            }
+            .value {
+                font-weight: bold;
+            }
+            req {
+                color: red;
+            }
+            textarea,
+            input {
+                width: 100%;
+                border: 1px solid #ccc;
+                resize: none;
+            }
+            input {
+                padding-left: 12px;
+            }
+            ::-webkit-input-placeholder {
+                font-size: 0.8em;
+            }
+        }
+    }
+}
