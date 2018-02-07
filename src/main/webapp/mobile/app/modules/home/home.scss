@@ -34,10 +34,11 @@ md-menu-item {
                 position: relative;
                 box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
                 border: 1px solid rgba(0, 0, 0, .14);
+                background: #fff;
                 .head {
                     .date {
-                        background-color: $app-grey-dark;
-                        color: #b8c7ce;
+                        background-color: #00a081;
+                        color: #fff;
                         padding: 8px 12px;
                         border-radius: 6px;
                         .day {
@@ -68,11 +69,12 @@ md-menu-item {
                     }
                     .view-btn {
                         margin-top: 12px;
-                        background-color: $app-grey-dark;
-                        color: #fff;
-                        height: 35px;
-                        line-height: 35px;
-                        padding: 0 12px;
+                        background-color: #fff;
+                        color: #ca0000;
+                        height: 40px;
+                        line-height: 40px;
+                        padding: 0 20px;
+                        border: 1px solid #ca0000;
                         display: inline-block;
                         float: right;
                         text-align: center;
@@ -88,7 +90,13 @@ md-menu-item {
                         display: inline-block;
                     }
                     .new {
-                        background: blue;
+                        background: #9138c7;
+                    }
+                    .out {
+                        background: #d65042;
+                    }
+                    .in {
+                        background: #25c557;
                     }
                 }
             }

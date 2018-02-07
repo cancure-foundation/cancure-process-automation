@@ -1,10 +1,15 @@
 .login {
     height: 100%;
     display: table;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
     width: 100%;
-    background: $primary-color;
+    background: rgba(255, 132, 0, 1);
+    background: -moz-linear-gradient(top, rgba(255, 132, 0, 1) 0%, rgba(135, 12, 12, 1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 132, 0, 1)), color-stop(100%, rgba(135, 12, 12, 1)));
+    background: -webkit-linear-gradient(top, rgba(255, 132, 0, 1) 0%, rgba(135, 12, 12, 1) 100%);
+    background: -o-linear-gradient(top, rgba(255, 132, 0, 1) 0%, rgba(135, 12, 12, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(255, 132, 0, 1) 0%, rgba(135, 12, 12, 1) 100%);
+    background: linear-gradient(to bottom, rgba(255, 132, 0, 1) 0%, rgba(135, 12, 12, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff8400', endColorstr='#870c0c', GradientType=0);
     * {
         outline: none;
     }
@@ -40,7 +45,7 @@
                     border-top-left-radius: 12px !important;
                     border-bottom-left-radius: 12px !important;
                     i {
-                        color: $secondary-color;
+                        color: #b9b9b9;
                         font-size: 1.4em;
                     }
                 }
@@ -49,13 +54,13 @@
                     margin-bottom: 8%;
                     padding-left: 70px;
                     border: none;
-                    color: $secondary-color;
+                    color: #b9b9b9;
                     border-radius: 12px !important;
                     background: #fff;
                     height: 65px;
                 }
                 .disc[type=number] {
-                    &:last-child {
+                    &:last-child {  
                         -webkit-text-security: disc;
                     }
                 }

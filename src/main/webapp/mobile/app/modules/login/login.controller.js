@@ -13,8 +13,8 @@
                 userId: "cancure",
                 password: "cancure"
             }; // form field object
-            vm.screenHeight = window.screen.height + "px";
-            vm.logging = false; // indicate logging in state
+            vm.screenHeight = $('body').height() + "px";
+            vm.logging = false; // indicate logging in state 
             // binds the resize event
             angular.element(window).bind('resize', function () {
                 $timeout(function () {
@@ -101,7 +101,6 @@
                         method: 'POST',
                         url: appConfig.requestURL.whoami
                     }, function (success) {
-                        debugger
                         apiService.updatePushId(success.pushId, success.id);
                         window.localStorage.setItem("lastUser", userDetails.email); // sets the last logged in user email to localstorage
                         window.localStorage.setItem("lastUserPassword", userDetails.password); // sets the last logged in user password to localstorage
@@ -110,7 +109,7 @@
                     }, function (fail) { // service fails
                         vm.logging = false;
                         console.log("Login error due to service issue.");
-                        apiService.toast("Action Failed. Try again!", { 
+                        apiService.toast("Action Failed. Try again!", {
                             type: 'f'
                         });
                     });
@@ -148,6 +147,6 @@
                 .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.None) // restrict plugin alert box when app is in foreground
                 .endInit();
         };
-        init(); 
+        init();
     }
 })();

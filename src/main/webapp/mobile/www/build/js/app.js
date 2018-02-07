@@ -49,78 +49,6 @@
     }
 
 })();
-(function () {
-    "use strict";
-    homeController.$inject = ["$scope", "$state", "$timeout", "fs", "$mdDialog", "appConfig", "$rootScope", "apiService"];
-    angular.module('cancure').controller('homeController', homeController);
-    /* ngInject */
-    function homeController($scope, $state, $timeout, fs, $mdDialog, appConfig, $rootScope, apiService) {
-        var vm = this;
-
-        vm.init = function () {
-            vm.list = []; // take2 list
-            vm.user = angular.fromJson(window.localStorage.getItem('user'));
-            vm.appTitle = appConfig.title; // binds app title from config
-            vm.showPage = false;
-            vm.loadError = false;
-
-            // check connectivity
-            if (navigator && navigator.connection && navigator.connection.type == 'none') {
-                apiService.toast("No internet connection. Please try again when online.", {
-                    type: 'f'
-                });
-                vm.showPage = true;
-                vm.loadError = true;
-                $timeout();
-                return;
-            }
-            vm.getQueue();
-        };
-        /**
-         * get the queue details
-         */
-        vm.getQueue = function () {
-            apiService.serviceRequest({
-                url: appConfig.requestURL.myQueue
-            }, function (response) {
-                if (!response) {
-                    vm.showPage = true;
-                    vm.loadError = true;
-                    return;
-                }
-
-                if (!response.PATIENT_REG_PROCESS_DEF_KEY) {
-                    vm.showPage = true;
-                    vm.loadError = true;
-                    return;
-                }
-                 
-                var tmp = [];
-                tmp.push(response.PATIENT_REG_PROCESS_DEF_KEY);
-                tmp.push(response.IN_PATIENT_HOSPITAL_VISIT_DEF_KEY);
-                tmp.push(response.PATIENT_HOSPITAL_VISIT_DEF_KEY);
-
-                for (var i = 0; i < tmp.length; i++) {
-                    var item = tmp[i];
-                    for (var j = 0; j < item.length; j++) {
-                        vm.list.push(item[j]);
-                        vm.list[j].createTime = new Date(vm.list[j].createTime);
-                    }
-                } 
-  
-                $timeout(function () {
-                    vm.showPage = true;
-                }, 200);
-
-            }, function () {
-                vm.showPage = true;
-                vm.loadError = true;
-            });
-        };
-
-        vm.init();
-    }
-})();
 //set global configuration of application and it can be accessed by injecting appConstants in any modules
 
 (function () {
@@ -581,8 +509,8 @@
                 userId: "cancure",
                 password: "cancure"
             }; // form field object
-            vm.screenHeight = window.screen.height + "px";
-            vm.logging = false; // indicate logging in state
+            vm.screenHeight = $('body').height() + "px";
+            vm.logging = false; // indicate logging in state 
             // binds the resize event
             angular.element(window).bind('resize', function () {
                 $timeout(function () {
@@ -669,7 +597,6 @@
                         method: 'POST',
                         url: appConfig.requestURL.whoami
                     }, function (success) {
-                        debugger
                         apiService.updatePushId(success.pushId, success.id);
                         window.localStorage.setItem("lastUser", userDetails.email); // sets the last logged in user email to localstorage
                         window.localStorage.setItem("lastUserPassword", userDetails.password); // sets the last logged in user password to localstorage
@@ -716,7 +643,79 @@
                 .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.None) // restrict plugin alert box when app is in foreground
                 .endInit();
         };
-        init(); 
+        init();
+    }
+})();
+(function () {
+    "use strict";
+    homeController.$inject = ["$scope", "$state", "$timeout", "fs", "$mdDialog", "appConfig", "$rootScope", "apiService"];
+    angular.module('cancure').controller('homeController', homeController);
+    /* ngInject */
+    function homeController($scope, $state, $timeout, fs, $mdDialog, appConfig, $rootScope, apiService) {
+        var vm = this;
+
+        vm.init = function () {
+            vm.list = []; // take2 list
+            vm.user = angular.fromJson(window.localStorage.getItem('user'));
+            vm.appTitle = appConfig.title; // binds app title from config
+            vm.showPage = false;
+            vm.loadError = false;
+
+            // check connectivity
+            if (navigator && navigator.connection && navigator.connection.type == 'none') {
+                apiService.toast("No internet connection. Please try again when online.", {
+                    type: 'f'
+                });
+                vm.showPage = true;
+                vm.loadError = true;
+                $timeout();
+                return;
+            }
+            vm.getQueue();
+        };
+        /**
+         * get the queue details
+         */
+        vm.getQueue = function () {
+            apiService.serviceRequest({
+                url: appConfig.requestURL.myQueue
+            }, function (response) {
+                if (!response) {
+                    vm.showPage = true;
+                    vm.loadError = true;
+                    return;
+                }
+
+                if (!response.PATIENT_REG_PROCESS_DEF_KEY) {
+                    vm.showPage = true;
+                    vm.loadError = true;
+                    return;
+                }
+
+                var tmp = [];
+                tmp.push(response.PATIENT_REG_PROCESS_DEF_KEY);
+                tmp.push(response.IN_PATIENT_HOSPITAL_VISIT_DEF_KEY);
+                tmp.push(response.PATIENT_HOSPITAL_VISIT_DEF_KEY);
+
+                for (var i = 0; i < tmp.length; i++) {
+                    var item = tmp[i];
+                    for (var j = 0; j < item.length; j++) {
+                        item[j].createTime = new Date(item[j].createTime);
+                        vm.list.push(item[j]);
+                    }
+                } 
+
+                $timeout(function () {
+                    vm.showPage = true;
+                }); 
+
+            }, function () {
+                vm.showPage = true;
+                vm.loadError = true;
+            });
+        };
+
+        vm.init();
     }
 })();
 (function () {
@@ -1124,7 +1123,7 @@
             apiService.serviceRequest({
                 url: url,
                 method: 'POST',
-                payLoad: fd,
+                data: fd,  
                 transformRequest: angular.identity,
                 headers: {
                     'Content-Type': undefined

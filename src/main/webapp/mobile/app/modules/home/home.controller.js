@@ -42,7 +42,7 @@
                     vm.loadError = true;
                     return;
                 }
-                 
+
                 var tmp = [];
                 tmp.push(response.PATIENT_REG_PROCESS_DEF_KEY);
                 tmp.push(response.IN_PATIENT_HOSPITAL_VISIT_DEF_KEY);
@@ -51,14 +51,14 @@
                 for (var i = 0; i < tmp.length; i++) {
                     var item = tmp[i];
                     for (var j = 0; j < item.length; j++) {
+                        item[j].createTime = new Date(item[j].createTime);
                         vm.list.push(item[j]);
-                        vm.list[j].createTime = new Date(vm.list[j].createTime);
                     }
                 } 
-  
+
                 $timeout(function () {
                     vm.showPage = true;
-                }, 200);
+                }); 
 
             }, function () {
                 vm.showPage = true;

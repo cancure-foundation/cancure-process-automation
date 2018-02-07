@@ -123,7 +123,17 @@
          * logout action
          **/
         vm.logout = function () {
-            apiService.logout();
+            var confirm = $mdDialog.confirm()
+                .title('Confirm logout')
+                .textContent('Are you sure to exit session')
+                .ok('Yes')
+                .cancel('No');
+
+            $mdDialog.show(confirm).then(function () {
+                apiService.logout();
+            }, function () {
+
+            });
         };
 
         /**
@@ -131,15 +141,13 @@
          */
         vm.showAlert = function ($event) {
             DialogController.$inject = ["$scope", "$mdDialog", "appConfig"];
-            var parentEl = angular.element(document.body);
             $mdDialog
                 .show({
-                    parent: parentEl,
+                    parent: angular.element(document.body),
                     targetEvent: $event,
-                    template: '<md-dialog aria-label="List dialog" class="row roleDialogBx">' +
+                    template: '<md-dialog aria-label="List dialog" class="row roleDialogBx" style="padding:15px;">' +
                         '  <md-dialog-content>' +
-                        '  <div class="username"> User Details </div>' +
-                        '  <table class="table table-bordered">' +
+                        '  <table class="table table-bordered" style="margin-bottom:15px;">' +
                         '	<th class="col-xs-4">Name</th>' +
                         '	<th class="col-xs-4">Roles</th>' +
                         '		<tr>' +
@@ -154,13 +162,14 @@
                         '    </tr>' +
                         '</table>' +
                         '  </md-dialog-content>' +
-                        '  <md-dialog-actions>' +
-                        '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                        '  <md-dialog-actions style="min-height:auto;">' +
+                        '    <md-button ng-click="closeDialog()" class="md-primary" style="border: 1px solid rgb(63,81,181);border-radius:8px;margin:0px;">' +
                         '      Close' +
                         '    </md-button>' +
                         '  </md-dialog-actions>' +
                         '</md-dialog>',
-                    controller: DialogController
+                    controller: DialogController,
+                    openFrom: 'top' 
                 });
 
             function DialogController($scope, $mdDialog, appConfig) {
@@ -189,18 +198,19 @@
             lang: "en", // app default locale format
 
             baseURL: 'http://cancure.in.net/', // app service URL 
-            /*baseURL: 'http://localhost:8080/', // app service URL */
-            requestURL: { 
+           /* baseURL: 'http://localhost:8080/', // app service URL  */ 
+            requestURL: {
                 login: 'oauth/token',
                 whoami: 'user/whoami',
                 myQueue: 'tasks/my',
                 patientHistory: 'tasks/history/',
-                hpocDoctors: 'doctor/hpoclist' // to get all doctors under that HPOC
+                hpocDoctors: 'doctor/hpoclist', // to get all doctors under that HPOC
+                pushId: 'user/pushid/save' // to get all doctors under that HPOC
             },
             fileType: ['txt', 'doc', 'docx', 'pdf', 'png', 'jpg', 'jpeg', 'xlsx', 'xlsm'], // file types allowed for upload
             imgFileType: ['png', 'jpg', 'jpeg'], // image types allowed for upload
 
-            rolesList: [] // stores all role names (authority)
+            rolesList: [] // stores all role names (authority) 
 
         });
 })();
@@ -208,18 +218,18 @@
     apiService.$inject = ["$rootScope", "$http", "$q", "$state", "appConfig", "$mdToast", "$document", "$rootScope", "$timeout"];
     angular.module('cancure').service('apiService', apiService);
 
-    function apiService($rootScope, $http, $q, $state, appConfig, $mdToast, $document, $rootScope,  $timeout) {
+    function apiService($rootScope, $http, $q, $state, appConfig, $mdToast, $document, $rootScope, $timeout) {
         var $self = this;
         /**
          * function to place http request
          */
         $self.serviceRequest = function (config, success, fail) {
             var requestParams = angular.merge({
-                method: config.method || "GET"
-                , url: appConfig.baseURL + config.url
-                , params: config.params || {}
-                , data: config.data || {}
-                , headers: config.headers || {
+                method: config.method || "GET",
+                url: appConfig.baseURL + config.url,
+                params: config.params || {},
+                data: config.data || {},
+                headers: config.headers || {
                     'Content-Type': 'application/json'
                 }
             }, config.addOns);
@@ -230,8 +240,7 @@
                     else {
                         if (fail) fail(response.data);
                     }
-                }
-                else {
+                } else {
                     if (fail) fail(response.data);
                 }
             }, function errorCallback(response) {
@@ -266,8 +275,7 @@
                         return b.length - a.length;
                     })[0];
                     if (success) success(text);
-                }
-                else {
+                } else {
                     if (fail) fail();
                 }
             }, function (error) { // in case of error in recording
@@ -290,6 +298,37 @@
                 window.localStorage.removeItem(key);
             });
             $state.go('login'); // navigate to login
+        };
+        /**
+         * Get push service token and send to hub
+         */
+        $self.updatePushId = function (pushId, userId) {
+            if (typeof (cordova) == "undefined")
+                return;
+
+            // check for connectivity
+            if (navigator && navigator.connection && navigator.connection.type == 'none') {
+                return;
+            }
+
+            window.plugins.OneSignal.getPermissionSubscriptionState(function (status) {
+                if (!status || !status.subscriptionStatus) {
+                    return;
+                }
+                if (pushId != status.subscriptionStatus.userId) {
+                    $self.serviceRequest({
+                        method: 'POST',
+                        url: appConfig.requestURL.pushId,
+                        params: {
+                            id: userId,
+                            pushId: status.subscriptionStatus.userId
+                        }
+                    }, function (data) {
+
+                    });
+                }
+
+            });
         };
     }
 })();
@@ -464,7 +503,7 @@
 
         vm.init = function () {
             vm.list = []; // take2 list
-            vm.user = angular.fromJson(window.localStorage.getItem('user'));
+            vm.user = angular.fromJson(window.localStorage.getItem('user'));  
             vm.appTitle = appConfig.title; // binds app title from config
             vm.showPage = false;
             vm.loadError = false;
@@ -509,10 +548,10 @@
                     var item = tmp[i];
                     for (var j = 0; j < item.length; j++) {
                         vm.list.push(item[j]);
-                        vm.list[i].createTime = new Date(vm.list[i].createTime);
+                        vm.list[j].createTime = new Date(vm.list[j].createTime);
                     }
                 } 
-
+  
                 $timeout(function () {
                     vm.showPage = true;
                 }, 200);
@@ -540,10 +579,10 @@
         function init() {
             vm.formData = {
                 userId: "cancure",
-                password: "cancure"
+                password: "C@ncure@123"
             }; // form field object
-            vm.screenHeight = window.screen.height + "px";
-            vm.logging = false; // indicate logging in state
+            vm.screenHeight = $('body').height() + "px";
+            vm.logging = false; // indicate logging in state 
             // binds the resize event
             angular.element(window).bind('resize', function () {
                 $timeout(function () {
@@ -630,6 +669,7 @@
                         method: 'POST',
                         url: appConfig.requestURL.whoami
                     }, function (success) {
+                        apiService.updatePushId(success.pushId, success.id);
                         window.localStorage.setItem("lastUser", userDetails.email); // sets the last logged in user email to localstorage
                         window.localStorage.setItem("lastUserPassword", userDetails.password); // sets the last logged in user password to localstorage
                         window.localStorage.setItem("userdetails", angular.toJson(success)); // set loginToken to localstorage
@@ -675,7 +715,7 @@
                 .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.None) // restrict plugin alert box when app is in foreground
                 .endInit();
         };
-        init(); 
+        init();
     }
 })();
 (function () {
@@ -1083,7 +1123,7 @@
             apiService.serviceRequest({
                 url: url,
                 method: 'POST',
-                payLoad: fd,
+                data: fd,  
                 transformRequest: angular.identity,
                 headers: {
                     'Content-Type': undefined
@@ -1095,7 +1135,6 @@
                 $state.go('app.patientRegHistory', {
                     prn: $scope.prn
                 });
-
             });
         };
         /**

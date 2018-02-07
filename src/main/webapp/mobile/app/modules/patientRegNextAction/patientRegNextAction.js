@@ -263,7 +263,7 @@
             apiService.serviceRequest({
                 url: url,
                 method: 'POST',
-                payLoad: fd,
+                data: fd,  
                 transformRequest: angular.identity,
                 headers: {
                     'Content-Type': undefined

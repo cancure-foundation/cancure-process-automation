@@ -5,8 +5,8 @@
                 You have <b>{{vm.list.length}}</b> <span ng-if="vm.list.length == 1">patient</span><span ng-if="vm.list.length !=1">patients</span> in your queue.
             </div>
 
-            <div class="whiteframe" ng-repeat="item in vm.list | orderBy:$index:true">
-                <div class="head" ng-click="vm.redirect('survey', item)">
+            <div class="whiteframe" ng-repeat="item in vm.list | orderBy:item.prn:false">
+                <div class="head">
                     <div class="date clearfix" ng-class="{'risk' : item.risk == true}">
                         <div class="pull-left">
                             PRN: {{item.prn}}
@@ -20,7 +20,7 @@
                     <div class="text">Patient name</div>
                     <div class="patientName">
                         {{item.patientName}}
-                        <span class="typeindicator-btn new" ng-switch on="item.patientType">
+                        <span class="typeindicator-btn new" ng-switch on="item.patientType" ng-class="{'in':item.patientType=='inPatient', 'out':item.patientType=='outPatient'}">
                                                 		<span ng-switch-when="inPatient">IN Patient</span>
                         <span ng-switch-when="outPatient">OUT Patient</span>
                         <span ng-switch-default>NEW Patient</span>

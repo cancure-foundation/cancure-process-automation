@@ -56,7 +56,7 @@
     <preference name="loglevel" value="DEBUG" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="UIWebViewDecelerationSpeed" value="normal" />
-    <preference name="StatusBarBackgroundColor" value="#dc7c00" />
+    <preference name="StatusBarBackgroundColor" value="#f97e00" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="orientation" value="portrait" />
     <preference name="SplashScreenDelay" value="4500" />
