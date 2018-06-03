@@ -152,7 +152,8 @@ insert into settings values (33, 'Email Enabled (true/false)', 'true');
 insert into settings values (34, 'Email Server', 'mail.cancure.in.net');
 insert into settings values (35, 'Email Port', '25');
 insert into settings values (36, 'Email From', 'admin@cancure.in.net');
-insert into settings values (37, 'Email Password', 'admin@cancure');
+insert into settings values (37, 'Email Password', 'wrong password');
+insert into settings values (38, 'ContactUs_email', '<div style="border : 2px solid #f4961c;"><div style="background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;">Cancure Foundation</div><div style="padding:15px;color:#222d32;font-weight:500;">From: ${name} <br/>  Phone: ${phone} <br/> E-Mail: ${email} <br/> Message:<br/> ${message} <br/>${click} <br/></div></div>');
 
 
 insert into account_types values (1, 'Cancure');

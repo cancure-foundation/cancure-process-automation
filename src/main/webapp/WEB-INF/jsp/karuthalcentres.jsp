@@ -91,7 +91,7 @@ The second Karuthal Kendram (Cancer Doubt Clearing Centre) a unique project of C
 </section>
 <footer class="footer">
 	<div class="container">
-		Copyright <?php echo date('Y');?>. Cancure Foundation.
+		Copyright 2015. Cancure Foundation.
 	</div>
 </footer>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

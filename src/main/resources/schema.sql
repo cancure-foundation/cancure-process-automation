@@ -374,7 +374,31 @@ create table camp_patient_test_results (
 
 create index camp_patient_test_results_fk_index
 	on camp_patient_test_results(camp_patient_id); 
- 
+
+create table payment_details (
+	transaction_id
+	product_name
+	product_quantity
+	product_amount
+	payer_fname
+	message
+	payer_address
+	payer_city
+	payer_state
+	payer_zip
+	payer_country
+	organisation
+	designation
+	mobile
+	telo
+	telr
+	payer_email
+	status
+	order_id
+)
+	
+	
+	
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),
@@ -892,3 +916,8 @@ alter table ACT_ID_MEMBERSHIP
     add constraint ACT_FK_MEMB_USER
     foreign key (USER_ID_)
     references ACT_ID_USER;
+
+
+
+    
+    

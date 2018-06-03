@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,6 @@ public class HomeController {
 	}
 	
 	public static void main(String args[]) {
-		System.out.println(new java.text.SimpleDateFormat("HHmmss").format(new java.util.Date()) + (new java.util.Random().nextInt(9632 - 1234) + 1234));
+		System.out.println(new EmailValidator().isValid("d@s.com", null));
 	}
 }

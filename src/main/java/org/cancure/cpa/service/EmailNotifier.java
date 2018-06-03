@@ -16,7 +16,6 @@ import org.cancure.cpa.util.ApplicationContextProvider;
 import org.cancure.cpa.util.Log;
 import org.cancure.cpa.util.TemplateUtil;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.env.Environment;
 
 public class EmailNotifier implements Notifier {
 
@@ -62,7 +61,7 @@ public class EmailNotifier implements Notifier {
 			for (User user : userSet){
 				email.addTo(user.getEmail());
 			}
-			email.setSubject("Cancure Notification");
+			email.setSubject(values.get("EmailSubject") != null ? (String)values.get("EmailSubject") : "Cancure Notification");
 			email.setHtmlMsg(message);
 			email.setHostName(host);
 			email.setSmtpPort(Integer.parseInt(port));
