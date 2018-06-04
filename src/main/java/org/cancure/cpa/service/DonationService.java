@@ -6,7 +6,7 @@ public interface DonationService {
 
 	void saveDonation(DonationBean bean);
 
-	void updateDonation(String orderId, String status, String paymentMode, String email, String statusMessage,
-			String failureMessage, String amount, String trackingId);
+	void updateDonation(String orderId, String orderStatus, String paymentMode, String email, String statusMessage,
+			String failureMessage, String status, String amount, String trackingId);
 
 }

@@ -113,7 +113,7 @@ public class DonationController {
 		request.setAttribute("orderStatus", orderStatus);
 		
 		
-		donationSevice.updateDonation(orderId, orderStatus, paymentMode, email, statusMessage, failureMessage, amount, trackingId);
+		donationSevice.updateDonation(orderId, orderStatus, paymentMode, email, statusMessage, failureMessage, status, amount, trackingId);
 		
 		
 		if ("Success".equals(orderStatus)) {

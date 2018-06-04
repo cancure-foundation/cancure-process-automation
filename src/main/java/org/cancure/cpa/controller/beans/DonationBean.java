@@ -62,7 +62,14 @@ public class DonationBean {
 	private String submit;
 	private String workingKey;
 	private String accessCode;
+	private String notesValue;
 	
+	public String getNotesValue() {
+		return notesValue;
+	}
+	public void setNotesValue(String notesValue) {
+		this.notesValue = notesValue;
+	}
 	public String getWorkingKey() {
 		return workingKey;
 	}

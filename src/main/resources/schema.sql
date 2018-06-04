@@ -375,28 +375,37 @@ create table camp_patient_test_results (
 create index camp_patient_test_results_fk_index
 	on camp_patient_test_results(camp_patient_id); 
 
-create table payment_details (
-	transaction_id
-	product_name
-	product_quantity
-	product_amount
-	payer_fname
-	message
-	payer_address
-	payer_city
-	payer_state
-	payer_zip
-	payer_country
-	organisation
-	designation
-	mobile
-	telo
-	telr
-	payer_email
-	status
-	order_id
-)
-	
+
+
+CREATE TABLE payment_details (
+  pay_id number(11) primary key NOT NULL AUTO_INCREMENT,
+  transaction_id varchar(900) NOT NULL,
+  organisation varchar(900) NOT NULL,
+  designation varchar(900) NOT NULL,
+  product_name varchar(900) NOT NULL,
+  product_quantity varchar(900) NOT NULL,
+  product_amount decimal(11,2) NOT NULL,
+  payer_fname varchar(900) NOT NULL,
+  payer_lname varchar(900) NOT NULL,
+  payer_address varchar(900) NOT NULL,
+  message varchar(900) NOT NULL,
+  mobile varchar(900) NOT NULL,
+  telo varchar(900) NOT NULL,
+  telr varchar(900) NOT NULL,
+  payer_city varchar(900) NOT NULL,
+  tracking_id varchar(900) NOT NULL,
+  order_id varchar(900) NOT NULL,
+  order_status varchar(900) NOT NULL,
+  payment_mode varchar(900) NOT NULL,
+  status_message varchar(900) NOT NULL,
+  failure_message varchar(900) NOT NULL,
+  payer_state varchar(900) NOT NULL,
+  payer_zip varchar(900) NOT NULL,
+  payer_country varchar(900) NOT NULL,
+  payer_email varchar(900) NOT NULL,
+  status varchar(900) NOT NULL,
+  date timestamp
+);
 	
 	
 create table ACT_GE_PROPERTY (
