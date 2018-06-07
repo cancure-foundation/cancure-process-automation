@@ -1,3 +1,4 @@
+<%@page import = "java.io.*" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -50,8 +51,6 @@
     valign:top;
 }
 	</style>
-<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-
 <header class="header">
 	<div class="container row">
 		<div class="logo">
@@ -59,33 +58,50 @@
 		</div>
 		<div class="nav-container">
 			<%@include file="menu.html" %>
+			<br/>
 			<div class="page-header">Newsletter</div>
 		</div>
 	</div>
 </header>
 <section class="innerpage contactPage">
 	<div class="container">
-		<div>
-			<img src="../images/v1/news/1.jpg" class="img-responsive">
-			<img src="../images/v1/news/2.jpg" class="img-responsive">
-			<img src="../images/v1/news/3.jpg" class="img-responsive">
-			<img src="../images/v1/news/4.jpg" class="img-responsive">
-			<img src="../images/v1/news/5.jpg" class="img-responsive">
-			<img src="../images/v1/news/6.jpg" class="img-responsive">
-			<img src="../images/v1/news/7.jpg" class="img-responsive">
-			<img src="../images/v1/news/8.jpg" class="img-responsive">
-			<img src="../images/v1/news/9.jpg" class="img-responsive">
-			<img src="../images/v1/news/10.jpg" class="img-responsive">
-			<img src="../images/v1/news/11.jpg" class="img-responsive">
-			<img src="../images/v1/news/12.jpg" class="img-responsive">
-	
+		<div style="">
+			
+			<table>
+			    <tr>
+			    
+			    <%
+			    String newsLetterPath = getServletContext().getRealPath("/images/v1/newsletter/");
+			    File newsLetterDir = new File(newsLetterPath);
+			    String[] dirs = newsLetterDir.list(new FilenameFilter() {
+			    	  @Override
+			    	  public boolean accept(File current, String name) {
+			    	    return new File(current, name).isDirectory();
+			    	  }
+			    	});
+			    
+			    for (String newsLetterMonth : dirs) {
+			    %>
+				
+				<td style="padding:50px;text-align:center;">
+                 <a href="newslettermore?id=<%= newsLetterMonth %>"> 
+                  <img src="../images/v1/newsletter/<%= newsLetterMonth %>/thumb.jpg" style="width:120px; height:170px; "  alt="newsletter <%= newsLetterMonth %>" />
+                  </a>
+              <br/>
+              <span style="text-align:center; font-size:12px;"> <a href="newslettermore?id=<%= newsLetterMonth %>"> 
+          <%= newsLetterMonth %> </a></span> </td>
+             		
+
+				<%}%>			    
+</tr>
+</table>
 		</div>
 	
 	</div>
 </section>
 <footer class="footer">
 	<div class="container">
-		Copyright 2015. Cancure Foundation.
+		Copyright 2018. Cancure Foundation.
 	</div>
 </footer>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
