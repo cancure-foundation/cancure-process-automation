@@ -1,5 +1,4 @@
-<%@page import="java.util.*"%>
-
+<%@page import = "java.io.*" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -51,83 +50,37 @@
 .mainmenu ul{
     valign:top;
 }
-
-.contactForm1 input, .contactForm1 select, .contactForm1 textarea {
-    border: 1px solid #d7d7d7;
-    box-shadow: none;
-    box-sizing: border-box;
-    font-family: "Raleway",sans-serif;
-    height: 44px;
-    margin: 5px 0;
-    padding: 0 15px;
-   
-}
-.col3{
-	width:10%;
-}
 	</style>
 <header class="header">
 	<div class="container row">
 		<div class="logo">
-			<img src="../images/v1/cancure-logo.jpg" alt="" class="img-responsive">
+			<img src="images/cancure-logo.jpg" alt="" class="img-responsive">
 		</div>
 		<div class="nav-container">
 			<%@include file="menu.html" %>
 			<br/>
-			<div class="page-header">Donation - Payment Response</div>
+			<div class="page-header"><a href="newsletter.php">Newsletter</a></div>
 		</div>
-		
 	</div>
 </header>
 <section class="innerpage contactPage">
-
 	<div class="container">
-
-	<center>
-		
-	<%
-		String orderStatus = (String)request.getAttribute("orderStatus");
-		if ("Success".equals(orderStatus)) {
-	%>
-		<br/><p><b>Thank you for payment. Your  transaction is successful. An email has been sent to you with the receipt.</b></p><br/>
-	<%	
-		} else if ("Aborted".equals(orderStatus)) {
-	%>
-		<p>
-		<b>Transaction has been aborted</b>
-		</p>
-	<% } else if ("Failure".equals(orderStatus)) { %>
-		<p><b>Transaction has been declined</b></p>
-	<% } else { %>
-		<br><b>Security Error. Illegal access detected.</b>
-	<% } %>
-	
-	<table border="1">
-		<%
-			String pname=null;
-			String pvalue=null;
-			Hashtable hs = (Hashtable)request.getAttribute("paymentResultMap");
-			Enumeration enumeration = hs.keys();
-			while(enumeration.hasMoreElements()) {
-				pname=""+enumeration.nextElement();
-				pvalue=""+ hs.get(pname);
-		%>
-			<tr>
-				<td><%= pname %> </td>
-				<td> <%= pvalue %> </td>
-			</tr>
-		<%
-			}
-	%>
-	</table>
-	
-	</center>
-	
-	<center>
-		<p>
-			<a href="/"><b>HOME</b></a>
-		</p>
-	</center>
+		<div style="">
+			
+			<%
+			String month = request.getParameter("id");
+			String newsLetterPath = getServletContext().getRealPath("/images/v1/newsletter/" + month);
+			File newsLetterDir = new File(newsLetterPath);
+			String[] files = newsLetterDir.list();
+			for (String file : files) {
+				if (!"thumb.jpg".equals(file)) {
+			%>
+			<img src="../images/v1/newsletter/<%=month%>/<%=file%>" style="width:1000px;"  alt="newsletter" class="img-responsive" />
+			
+			<% } 
+			} %>
+			
+		</div>
 	
 	</div>
 </section>
@@ -138,8 +91,6 @@
 </footer>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/jquery-1.10.1.min.js"><\/script>')</script>
-<script src="js/easelibs.jquery.js"></script>
-<script src="js/jump.jquery.js"></script>
 <script>
 $(function() {  
 	    var pull        = $('#trigger');  
@@ -154,4 +105,3 @@ $(function() {
 </script>
 </body>
 </html>
-	

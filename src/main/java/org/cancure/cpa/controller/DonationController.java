@@ -1,6 +1,7 @@
 package org.cancure.cpa.controller;
 
 import java.net.URLDecoder;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.cancure.cpa.controller.beans.DonationBean;
+import org.cancure.cpa.persistence.entity.Donation;
 import org.cancure.cpa.service.DonationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,14 +49,48 @@ public class DonationController {
 		request.setAttribute("accessCode", ACCESS_CODE);
 		request.setAttribute("workingKey", WORKING_KEY);
 
+		if (model.getProduct_name() == null) {
+			model.setProduct_name("Donation");
+		}
 		// Insert into DB
 		donationSevice.saveDonation(model);
 
 		return "ccavRequestHandler";
 	}
+	
+	/**
+	 * This end point is only for testing payments using ccAvenue and not for production use.
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/mockCCAvenue", method = {RequestMethod.POST, RequestMethod.GET})
+	public String mockCCAvenue(HttpServletRequest request) throws Exception {
+	
+		AesCryptUtil aesUtil=new AesCryptUtil(WORKING_KEY);
+		String encResp= request.getParameter("encRequest");
+		
+		String resp = aesUtil.decrypt(encResp);
+		String[] keyVals = resp.split("&");
+		HashMap<String, String> map = new HashMap<>();
+		for (String kv : keyVals) {
+			String[] param = kv.split("=");
+			if (param.length == 2) {
+				map.put(param[0], URLDecoder.decode(param[1]));
+			}
+		}
+		
+		String value = "orderId=" + map.get("order_id") + 
+				"&trackingId=" + map.get("tid") + 
+				"&x=y&orderStatus=Success&failureMessage=xyz&paymentMode=online&six=6&status=Success&statusMessage=howdy&nine=9&amount="
+				+ map.get("amount") + "&eleven=11&twelve=12&thirteen=13&fourteen=14&fifteen=15&sixteen=16&seventeen=17&email=" + map.get("billing_email");
+		String encStr = aesUtil.encrypt(value);
+		
+		return "redirect:/donateResponseHandler?encResp=" + encStr;
+	}
 
 	@RequestMapping(value = "/donateResponseHandler", method = {RequestMethod.POST, RequestMethod.GET})
-	public String paymentResponse(HttpServletRequest request) {
+	public String paymentResponse(HttpServletRequest request) throws Exception {
 		
 		String encResp= request.getParameter("encResp");
 		AesCryptUtil aesUtil=new AesCryptUtil(WORKING_KEY);
@@ -113,11 +149,10 @@ public class DonationController {
 		request.setAttribute("orderStatus", orderStatus);
 		
 		
-		donationSevice.updateDonation(orderId, orderStatus, paymentMode, email, statusMessage, failureMessage, status, amount, trackingId);
-		
+		Donation don = donationSevice.updateDonation(orderId, orderStatus, paymentMode, email, statusMessage, failureMessage, status, amount, trackingId);
 		
 		if ("Success".equals(orderStatus)) {
-			//generateReceipt();
+			donationSevice.notifyUser(don, request.getServletContext());
 		
 		} else if ("Aborted".equals(orderStatus)) {
 			

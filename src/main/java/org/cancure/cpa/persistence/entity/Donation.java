@@ -25,7 +25,7 @@ public class Donation {
 	private String productName;
 	
 	@Column(name="product_quantity")
-	private String productQuantity;
+	private Integer productQuantity;
 	
 	@Column(name="product_amount")
 	private String productAmount;
@@ -130,11 +130,11 @@ public class Donation {
 		this.productName = productName;
 	}
 
-	public String getProductQuantity() {
+	public Integer getProductQuantity() {
 		return productQuantity;
 	}
 
-	public void setProductQuantity(String productQuantity) {
+	public void setProductQuantity(Integer productQuantity) {
 		this.productQuantity = productQuantity;
 	}
 

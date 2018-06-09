@@ -8,15 +8,21 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.cancure.cpa.persistence.entity.Settings;
 import org.cancure.cpa.persistence.entity.User;
+import org.cancure.cpa.persistence.repository.SettingsRepository;
 import org.cancure.cpa.service.EmailNotifier;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class ContactUsController {
+	
+	@Autowired
+	private SettingsRepository settingsRepository;
 
 	@RequestMapping(value = "/contactus", method = {RequestMethod.POST, RequestMethod.GET})
 	public String contactus(HttpServletRequest request) {
@@ -24,7 +30,7 @@ public class ContactUsController {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String phone = request.getParameter("phone");
-		String click = request.getParameter("click");
+		String click = request.getParameter("click") == null? "" : request.getParameter("click");
 		String message = request.getParameter("message");
 		
 		String errName = null;
@@ -54,7 +60,8 @@ public class ContactUsController {
 		if (!error) {
 			Set<User> userSet = new HashSet<>();
 			User user = new User();
-			user.setEmail("secretary@cancure.in");
+			Settings secEmail = settingsRepository.findOne(40);
+			user.setEmail(secEmail != null ? secEmail.getValue(): "secretary@cancure.in");
 			userSet.add(user);
 			
 			String result = "Thank You For Sending Mail! We will be in touch with you shortly";

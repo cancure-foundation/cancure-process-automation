@@ -112,7 +112,7 @@ The Karuthal Camp as the ECDC is popularly known and had its first camp on Febru
 </section>
 <footer class="footer">
 	<div class="container">
-		Copyright <?php echo date('Y');?>. Cancure Foundation.
+		Copyright 2018. Cancure Foundation.
 	</div>
 </footer>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
