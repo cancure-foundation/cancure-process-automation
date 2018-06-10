@@ -155,6 +155,13 @@ insert into settings values (37, 'Email Password', 'wrong password');
 insert into settings values (38, 'ContactUs_email', '<div style="border : 2px solid #f4961c;"><div style="background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;">Cancure Foundation</div><div style="padding:15px;color:#222d32;font-weight:500;">From: ${name} <br/>  Phone: ${phone} <br/> E-Mail: ${email} <br/> Message:<br/> ${message} <br/>${click} <br/></div></div>');
 insert into settings values (39, 'DonationThanks_email', '<div style="border : 2px solid #f4961c;"><div style="background-color: #f4961c;color: #fff;padding:8px 15px;font-weight:600;">Hello ${name},</div><div style="padding:15px;color:#222d32;font-weight:500;"> <br/> Thank you for your donation of Rs. ${amount} to Cancure Foundation. You receipt is attached with this email. <br/><br/>Thanks,<br/>Cancure</div></div>');
 insert into settings values (40, 'SecretaryEmail', 'secretary@cancure.in');
+insert into settings values (41, 'Donation_redirect_url', 'http://cancure.in.net/donateResponseHandler');
+insert into settings values (42, 'Donation_cancel_url', 'http://cancure.in.net/donateResponseHandler');
+
+-- DO NOT COMMIT VALUES TO GITHUB
+insert into settings values (43, 'DonationMerchantId', '1234');
+insert into settings values (44, 'DonationAccessCode', '1234');
+insert into settings values (45, 'DonationWorkingKey', '1234');
 
 insert into account_types values (1, 'Cancure');
 insert into account_types values (2, 'Patient');

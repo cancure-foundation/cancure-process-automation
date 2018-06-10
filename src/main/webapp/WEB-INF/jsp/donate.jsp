@@ -441,8 +441,8 @@
 					<input required type="number" value="<%= request.getParameter("price") %>" onkeypress="return isNumberKey(event)" class="form-control" name="amount" id="amount" />
 						<input type="hidden" name="currency" value="INR"/>
 			<input type="hidden" name="language" value="EN"/>
-			<input type="hidden" name="redirect_url" value="http://cancure.in/donateResponseHandler"/>
-			<input type="hidden" name="cancel_url" value="http://cancure.in/donateResponseHandler"/>
+			<input type="hidden" name="redirect_url" value="<%=request.getAttribute("redirectUrl")%>"/>
+			<input type="hidden" name="cancel_url" value="<%=request.getAttribute("cancelUrl")%>"/>
 					</div>
 				   <fieldset>
    <div class="form-group" style="display:inline; ">

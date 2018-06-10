@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import org.cancure.cpa.controller.beans.DonationBean;
 import org.cancure.cpa.persistence.entity.Donation;
+import org.cancure.cpa.persistence.repository.SettingsRepository;
 import org.cancure.cpa.service.DonationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,18 +24,24 @@ import com.ccavenue.security.AesCryptUtil;
 @Controller
 public class DonationController {
 
-	@Value("${merchant.data}")
-	private String MERCHANT_DATA;
-
-	@Value("${working_key}")
-	private String WORKING_KEY;
-
-	@Value("${access.code}")
-	private String ACCESS_CODE;
+	@Autowired
+	private SettingsRepository settingsRepository;
 
 	@Autowired
 	private DonationService donationSevice;
 
+	@RequestMapping(value = "/donateform", method = RequestMethod.GET)
+	public String paymentForm(HttpServletRequest request) {
+
+		String redirectUrl = settingsRepository.findOne(41).getValue();
+		String cancelUrl = settingsRepository.findOne(42).getValue();
+		
+		request.setAttribute("redirectUrl", redirectUrl);
+		request.setAttribute("cancelUrl", cancelUrl);
+		
+		return "donate";
+	}
+	
 	@RequestMapping(value = "/donate", method = RequestMethod.POST)
 	public String payment(@Valid DonationBean model, BindingResult bindingResult, HttpServletRequest request) {
 
@@ -42,12 +49,16 @@ public class DonationController {
 			return "donate";
 		}
 
-		model.setMerchant_id(MERCHANT_DATA);
-		model.setWorkingKey(WORKING_KEY);
-		model.setAccessCode(ACCESS_CODE);
+		String merchantId = settingsRepository.findOne(43).getValue();
+		String accessCode = settingsRepository.findOne(44).getValue();
+		String workingKey = settingsRepository.findOne(45).getValue();
+		
+		model.setMerchant_id(merchantId);
+		model.setWorkingKey(workingKey);
+		model.setAccessCode(accessCode);
 
-		request.setAttribute("accessCode", ACCESS_CODE);
-		request.setAttribute("workingKey", WORKING_KEY);
+		request.setAttribute("accessCode", accessCode);
+		request.setAttribute("workingKey", workingKey);
 
 		if (model.getProduct_name() == null) {
 			model.setProduct_name("Donation");
@@ -67,7 +78,8 @@ public class DonationController {
 	@RequestMapping(value = "/mockCCAvenue", method = {RequestMethod.POST, RequestMethod.GET})
 	public String mockCCAvenue(HttpServletRequest request) throws Exception {
 	
-		AesCryptUtil aesUtil=new AesCryptUtil(WORKING_KEY);
+		String workingKey = settingsRepository.findOne(45).getValue();
+		AesCryptUtil aesUtil=new AesCryptUtil(workingKey);
 		String encResp= request.getParameter("encRequest");
 		
 		String resp = aesUtil.decrypt(encResp);
@@ -92,8 +104,9 @@ public class DonationController {
 	@RequestMapping(value = "/donateResponseHandler", method = {RequestMethod.POST, RequestMethod.GET})
 	public String paymentResponse(HttpServletRequest request) throws Exception {
 		
+		String workingKey = settingsRepository.findOne(45).getValue();
 		String encResp= request.getParameter("encResp");
-		AesCryptUtil aesUtil=new AesCryptUtil(WORKING_KEY);
+		AesCryptUtil aesUtil=new AesCryptUtil(workingKey);
 		String decResp = aesUtil.decrypt(encResp);
 		StringTokenizer tokenizer = new StringTokenizer(decResp, "&");
 		Hashtable hs=new Hashtable();
