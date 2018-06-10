@@ -379,7 +379,7 @@ create index camp_patient_test_results_fk_index
 
 CREATE TABLE payment_details (
   pay_id int(11) primary key AUTO_INCREMENT,
-  transaction_id varchar(100) CHARACTER SET utf8
+  transaction_id varchar(100) CHARACTER SET utf8,
   organisation varchar(100),
   designation varchar(100),
   product_name varchar(100),
