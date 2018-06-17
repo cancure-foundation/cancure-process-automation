@@ -1,7 +1,6 @@
 package org.cancure.cpa.controller;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
 
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
@@ -12,12 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
-	
-	@RequestMapping("/")
-	public String welcome(Map<String, Object> model) {
-		model.put("year", new Date());
-		return "home";
-	}
 	
 	@RequestMapping("/news/{page}")
 	public String what(@PathVariable("page") String page, @RequestParam Map<String,String> allRequestParams, Map<String, Object> model) {

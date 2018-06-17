@@ -200,7 +200,7 @@
 	<div class="slider-container"></div>	
 	<div class="container row">
 		<div class="logo">
-			<img src="images/v1/cancure-logo.jpg" alt="" class="img-responsive">
+			<img src="../images/v1/cancure-logo.jpg" alt="" class="img-responsive">
 		</div>
 		<div class="nav-container">
 			<%@include file="menu.html" %>
@@ -208,7 +208,7 @@
 		
 				<div  class="normalSec" align="right" style=" padding-top:20px; ">
 		<ul class="drawer" >
-<li> <a href="#">  <span><img src="images/v1/upcoming.gif" alt="santhwana"/></span> </a>
+<li> <a href="#">  <span><img src="../images/v1/upcoming.gif" alt="santhwana"/></span> </a>
 <ul >
 <li id="insidel"> <a href="/news/santhwanakendram"> <img src="images/v1/Santhwana.png" alt="santhwana"/> </a> </li>
 <li id="insidel"> <a href="/news/rotary-mammobus"> <img src="images/v1/mammobus.png" alt="santhwana"/> </a> </li>
@@ -250,7 +250,7 @@
 			<div class="big-title">can <span>care.</span> can <span>share.</span> can <span>cure.</span></div>
 			<a href="/news/donate" class="btn-trans">MAKE A DONATION</a>
 		</div>
-		<img src="images/v1/kid.jpg" alt="" class="img-responsive">
+		<img src="../images/v1/kid.jpg" alt="" class="img-responsive">
 		<div class="contentSec">
 			<div class="row commonbg">
 				<div class="splitSec">

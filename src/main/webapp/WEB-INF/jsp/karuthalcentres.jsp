@@ -5,7 +5,7 @@
 <title>Cancure Foundation</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width">
-<%@include file="link.html" %>
+<%@include file="links.html" %>
 <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
