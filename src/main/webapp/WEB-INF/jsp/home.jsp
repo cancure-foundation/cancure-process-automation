@@ -210,8 +210,8 @@
 		<ul class="drawer" >
 <li> <a href="#">  <span><img src="../images/v1/upcoming.gif" alt="santhwana"/></span> </a>
 <ul >
-<li id="insidel"> <a href="/news/santhwanakendram"> <img src="images/v1/Santhwana.png" alt="santhwana"/> </a> </li>
-<li id="insidel"> <a href="/news/rotary-mammobus"> <img src="images/v1/mammobus.png" alt="santhwana"/> </a> </li>
+<li id="insidel"> <a href="/news/santhwanakendram"> <img src="../images/v1/Santhwana.png" alt="santhwana"/> </a> </li>
+<li id="insidel"> <a href="/news/rotary-mammobus"> <img src="../images/v1/mammobus.png" alt="Rotary Mammobus"/> </a> </li>
 </ul>
 </li>
 
