@@ -180,8 +180,8 @@ public class DonationController {
 		return "ccavResponseHandler";
 	}
 
-	public static void main(String args[]) {
+	/*public static void main(String args[]) {
 		System.out.println(new java.text.SimpleDateFormat("HHmmss").format(new java.util.Date())
 				+ (new java.util.Random().nextInt(9632 - 1234) + 1234));
-	}
+	}*/
 }

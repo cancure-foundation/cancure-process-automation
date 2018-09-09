@@ -19,7 +19,5 @@ public class HomeController {
 		return page;
 	}
 	
-	public static void main(String args[]) {
-		System.out.println(new EmailValidator().isValid("d@s.com", null));
-	}
+	
 }

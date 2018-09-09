@@ -75,11 +75,5 @@ public class CurrencyUtil {
         return "Rupees " + Rupees + paise + " Only";
     }
  
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        System.out.println("56721351.61 = " + CurrencyUtil.convertToIndianCurrency("56721351.61"));
-    }
  
 }
