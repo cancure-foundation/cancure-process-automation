@@ -1,3 +1,6 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import = "java.io.*" %>
 <!doctype html>
 <html lang="en">
@@ -79,8 +82,16 @@
 			    	    return new File(current, name).isDirectory();
 			    	  }
 			    	});
+			    SimpleDateFormat fmt = new SimpleDateFormat("MMM-yyyy");
+			    List<java.util.Date> dirsList = new ArrayList<>();
+			    for (String str : dirs) {
+			    	dirsList.add(fmt.parse(str));
+			    }
+			    java.util.Collections.sort(dirsList);
 			    
-			    for (String newsLetterMonth : dirs) {
+			    for (int i=dirsList.size(); i > 0; i--) {
+			    	java.util.Date newsLetterMonthDate = dirsList.get(i-1);
+			    	String newsLetterMonth = fmt.format(newsLetterMonthDate);
 			    %>
 				
 				<td style="padding:50px;text-align:center;">

@@ -178,9 +178,9 @@ public class DonationServiceImpl implements DonationService {
 		
 		return f;
 	}
-	
+	/*
 	public static void main(String[] args) {
 		new DonationServiceImpl().generateReceipt(null, null);
 	}
-
+*/
 }

@@ -83,11 +83,13 @@
 	</style>
 	<div class="container">
 
+	<iframe width="560" height="315" style="max-width:100%;" src="https://www.youtube.com/embed/_s0oB6Ovq6M?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> <br/><br/>
 	
 		
 			<h1>Rotary - Cancure Mobile Mammogram Project - <span style="float:9px;"><i style="float:9px;">An Initiative of Rotary International & Cancure Foundation</i></span></h1>
 			As per the statistics available in the Cancer Registry, Regional Cancer centre, Thiruvananthapuram, cancer of the breast is the leading cancer among women in the state of Kerala. These figures are expected to increase if corrective steps are not taken now. Sizable number of women in the rural parts of the state are either illiterate or semi literate and do not have the awareness or infrastructure in terms of hospitals or clinics for periodical checkups. It is only in the advanced stage they come for treatment for breast cancer which becomes prohibitively high and adversely affect the family budget. Breast cancer is one cancer which can be detected early and cured completely. The screening tests like mammography, clinical breast examination and breast self examination can to a very large extent detect the disease. With this objective Rotary International District 3201 has come forward in association with Amrita Institute of Medical Sciences and Research Centre (AIMS) and Cancure Foundation to launch a project to enable screening for breast cancer by providing a mobile Mammo bus.   A formal MoU has been entered between Rotary International District 3201, Cancure Foundation and AIMS as parties. The Mammo bus is expected to be delivered by the end of March 2018. <br/><br/>
-		<img src="../images/v1/mamobus.jpg" alt="mammobus" class="img-responsive" />
+		<img src="../images/v1/Mammovehicle2.jpg" alt="mammobus" class="img-responsive" />
+		<img src="../images/v1/Mammovehicle1.JPG" alt="mammobus" class="img-responsive" />
 		<p>
 			
 			<b>Objective: </b> Early Detection and Awareness Creation of Cancer
@@ -98,6 +100,12 @@
 			<br/>
 			<b>Target Group:</b> All Women above 35 years of age in the rural parts of the states of Kerala and Tamil Nadu.
 			<br/>
+			
+			
+			<h1>Milestones</h1>
+			Govt of Kerala has granted us Road Tax Exemption, first time for a non ambulance vehicle to receive such an exemption.<br>
+			Ms. Asha Sarath has volunteered to become the brand ambassador for this project and has done a short video.
+			
 			<h1>Strategic Partners </h1>
 			<ul style="padding-left:20px;">
 			    <li>	Rotary International District 3201</li>

@@ -90,10 +90,23 @@
 
 <iframe width="560" height="315" style="max-width:100%;" src="https://www.youtube.com/embed/qOKYML1h-tA?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> <br/><br/>
 			The need for a palliative care and rehabilitation center got initiated  sighting the plight of the poor and abandoned patients who  are terminally ill and housed at the isolation ward of the General Hospital, Ernakulam. It is not uncommon to hear reports regarding many unfortunate victims of fate who end up in hospital with diseases, without anyone claiming for that person, and then becoming destitute who have no other place to go even after discharge from the Hospital. The existing isolation ward at the General Hospital is already overcrowded and the patients are forced to sleep on the floor and even in the corridors. A team of volunteers lead by Mr. Peter is today doing whatever possible to take care of these hapless patients at the General Hospital, Ernakulam. Mr. Peter requested Cancure Foundation to set up an exclusive center to take care of such terminally sick and poor patients who have nowhere to go after discharge, where he and his team can provide their services. Thus was born Cancure Santhwana Kendram -our humble effort to add life and color to the twilight days of those less fortunate and an attempt to grant them a graceful and peaceful exit. <br/> <br/>
+			
+			<h1>BPCL Donates 50 lakhs</h1>
+			<img src="../images/v1/bpclLogo.jpg" class="img-responsive"  /><br>
+			BPCL Kochi Refinery has decided to donate Rs 50 Lakh as their CSR contribution to Cancure for its Santhwana Kendram project 
+			and hence becoming the First Platinum Partner of the Project. By this contribution one floor of the centre will be named after BPCL. 
+			A formal letter on this effect was handed over by Mr. Prasad K Paniker, Executive Director of BPCL Kochi Refineries during the Annual 
+			General Meeting of the Foundation. We sincerely thank and express our gratitude towards this kind gesture of BPCL for their Contribution 
+			towards the project which is a major milestone in the Foundation's history. <br><br>
+			<img src="../images/v1/bpclDonates50L.jpg" class="img-responsive"  /><br>
+			
 			<h1>LOCATION</h1>
 			Cancure located a suitable site at Vypeen and with the generous donations received from various quarters, Foundation was able to buy approximately 16 Cents of land on August 16, 2016. Coinciding with the World Cancer Day on February 04, 2017, the foundation stone was laid by Justice KK Usha former Chief Justice, High Court of Kerala in the presence of distinguished dignitaries .
 				<br/><br/>
 				<img src="../images/v1/sk1.png" class="img-responsive"  />
+				<br><br>
+				<img src="../images/v1/SanthwanaKendramStatusSep18.jpg" class="img-responsive"  />
+				
 			<h1>FACILITIES</h1>
 			Cancure has received the approval for the construction of the center from the Elankunnapuzha Panchayat for a built-up area of nearly 11,000 sq. feet. Once completed, the center will have:
 			<ul style="padding-left:25px;">
