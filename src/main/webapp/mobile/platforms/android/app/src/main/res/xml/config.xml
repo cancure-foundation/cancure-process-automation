@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="site.cancure" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="SpeechRecognition">
+        <param name="android-package" value="com.pbakondy.SpeechRecognition" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="OneSignalPush">
+        <param name="android-package" value="com.plugin.gcm.OneSignalPush" />
+    </feature>
+    <name>Cancure</name>
+    <description>
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <allow-intent href="market:*" />
+    <icon density="ldpi" src="res/icon/android/ldpi/ic_launcher.png" />
+    <icon density="mdpi" src="res/icon/android/mdpi/ic_launcher.png" />
+    <icon density="hdpi" src="res/icon/android/hdpi/ic_launcher.png" />
+    <icon density="xhdpi" src="res/icon/android/xhdpi/ic_launcher.png" />
+    <icon density="xxhdpi" src="res/icon/android/xxhdpi/ic_launcher.png" />
+    <icon density="xxxhdpi" src="res/icon/android/xxxhdpi/ic_launcher.png" />
+    <splash density="port-hdpi" src="res/screen/android/hdpi@480x800.png" />
+    <splash density="port-ldpi" src="res/screen/android/ldpi@200x320.png" />
+    <splash density="port-mdpi" src="res/screen/android/mdpi@320x480.png" />
+    <splash density="port-xhdpi" src="res/screen/android/xhdpi@720px1280.png" />
+    <splash density="port-xxhdpi" src="res/screen/android/xxhdpi@960x1600.png" />
+    <splash density="port-xxxhdpi" src="res/screen/android/xxxhdpi@1280x1920.png" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="UIWebViewBounce" value="false" />
+    <preference name="UIWebViewDecelerationSpeed" value="normal" />
+    <preference name="StatusBarBackgroundColor" value="#f97e00" />
+    <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="orientation" value="portrait" />
+    <preference name="SplashScreenDelay" value="4500" />
+    <preference name="FadeSplashScreenDuration" value="500" />
+    <preference name="StatusBarOverlaysWebView" value="true" />
+    <preference name="android-minSdkVersion" value="19" />
+</widget>

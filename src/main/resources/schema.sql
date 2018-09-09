@@ -926,7 +926,5 @@ alter table ACT_ID_MEMBERSHIP
     foreign key (USER_ID_)
     references ACT_ID_USER;
 
-
-
-    
-    
+alter table user
+    add column push_id varchar(256);

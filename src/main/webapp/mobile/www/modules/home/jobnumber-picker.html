@@ -1,0 +1,34 @@
+<!--------------------------!
+            152HQ
+!--------------------------->
+
+<md-dialog class="job-number-confirm">
+
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <h2 class="md-title">Confirm Clock-in</h2>
+            <div class="list-holder">
+                <div class="desc">Add job number</div>
+                <select ng-model="jobnumber">
+						<option class="select-title" value="" selected="selected">Select Job</option>
+						 <option value="{{item.id}}" ng-repeat="item in jobList">{{item.text}}</option>
+					</select>
+            </div>
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="color: #3f51b5;">
+        <md-button ng-click="answer(0)">
+            NO
+        </md-button>
+        <span flex></span>
+        <md-button md-autofocus ng-click="answer(1)">
+            YES
+        </md-button>
+    </md-dialog-actions>
+
+</md-dialog>
+
+<!--------------------------!
+            152HQ
+!--------------------------->

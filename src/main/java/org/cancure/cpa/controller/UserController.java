@@ -74,5 +74,10 @@ public class UserController {
     public String firstLogin(@RequestBody UserSuperBean user){
         return userService.firstLogin(user);
     }
+	
+	@RequestMapping(method= RequestMethod.POST, value="/user/pushid/save/{id}/{pushId}")
+    public UserBean savePushId(@PathVariable("id") Integer id, @PathVariable("pushId") String pushId){
+        return userService.savePushId(id, pushId);
+    }
 
 }

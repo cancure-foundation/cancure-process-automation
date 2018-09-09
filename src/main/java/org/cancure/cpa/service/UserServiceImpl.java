@@ -178,4 +178,13 @@ public class UserServiceImpl implements UserService {
         return "{\"status\" : \"SUCCESS\"}";
     }
 
+	@Override
+	public UserBean savePushId(Integer id, String pushId) {
+		// TODO Auto-generated method stub
+		User user = userRepo.updatePushId(pushId, id);
+        UserBean userBean = new UserBean();
+        BeanUtils.copyProperties(user, userBean);
+        return userBean;
+	}
+
 }

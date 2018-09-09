@@ -1,0 +1,36 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "site.cancure"
+    },
+    "cordova-plugin-speechrecognition": {
+      "PACKAGE_NAME": "site.cancure"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "site.cancure"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "site.cancure"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "site.cancure"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "site.cancure"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "site.cancure"
+    },
+    "onesignal-cordova-plugin": {
+      "PACKAGE_NAME": "site.cancure"
+    }
+  },
+  "dependent_plugins": {}
+}

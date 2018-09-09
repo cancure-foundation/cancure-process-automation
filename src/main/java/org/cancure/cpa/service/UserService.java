@@ -16,4 +16,5 @@ public interface UserService {
     UserBean resetPassword(Integer id, Boolean resetPassword);
     String forgotPassword(UserBean userBean);
     String firstLogin(UserSuperBean user);
+	UserBean savePushId(Integer id, String pushId);
 }

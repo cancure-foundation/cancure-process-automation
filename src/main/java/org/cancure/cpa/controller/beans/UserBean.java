@@ -34,6 +34,8 @@ public class UserBean {
 	private String phone;
 	
 	private Boolean firstLog;
+	
+	private String pushId;
 
 	public String getPhone() {
 		return phone;
@@ -98,5 +100,13 @@ public class UserBean {
     public void setFirstLog(Boolean firstLog) {
         this.firstLog = firstLog;
     }
+
+	public String getPushId() {
+		return pushId;
+	}
+
+	public void setPushId(String pushId) {
+		this.pushId = pushId;
+	}
 
 }

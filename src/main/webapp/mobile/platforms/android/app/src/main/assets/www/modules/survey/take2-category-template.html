@@ -1,0 +1,43 @@
+<!--------------------------!
+            152HQ
+!--------------------------->
+
+<md-dialog class="take-sets">
+
+    <md-toolbar>
+        <div class="clearfix head">
+            <div class="left">
+                <div> Select Take2 Type</div>
+            </div>
+            <div class="right" ng-click="closeDialogue();">
+                <div><i class="fa fa-times-circle" aria-hidden="true"></i></div>
+            </div>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <div ng-repeat="item in category" class="list-holder" ng-click="select(item, $index);">
+                <div class="cat-list" ng-class="{'free-user' : $index!=0 && userType != 'p'}">
+
+                    <div ng-if="$index!=0 && userType != 'p'" class="pro-version">
+                        <span class="text"> PREMIUM </span>
+                    </div>
+
+                    <div class="cat-name">{{item.name}} </div>
+                    <div> {{item.description}} </div>
+
+                </div>
+            </div>
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" ng-if="userType != 'p'">
+        <a href="https://2bsafe.net/product/take-2/" target="_blank"><span flex><i class="fa fa-upload" aria-hidden="true"></i> UPGRADE TO PREMIUM</span></a>
+    </md-dialog-actions>
+
+</md-dialog>
+
+<!--------------------------!
+            152HQ
+!--------------------------->

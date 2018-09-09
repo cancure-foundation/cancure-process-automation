@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cancure</title>
+
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, viewport-fit=cover">
+
+    <!--vendor-->
+    <script src="build/js/vendor.js"></script>
+
+    <!--app-->
+    <script src="build/js/app.js"></script>
+
+    <link href="build/css/style.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        angular.element(document).ready(function() {
+            angular.bootstrap(document.body, ['cancure']);
+        });
+    </script>
+
+    <script type="text/javascript">
+        // function to validate contact number
+        function validatephone(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+    <!--cordova-->
+    <script type="text/javascript" src="cordova.js"></script>
+
+</head>
+
+<body>
+
+    <!--------------------------!
+            TCS
+    !--------------------------->
+
+    <ui-view></ui-view>
+
+    <!--------------------------!
+            TCS
+    !--------------------------->
+
+</body>
+
+</html>

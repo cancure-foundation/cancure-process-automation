@@ -1,0 +1,17 @@
+<div class="login" style="height: {{vm.screenHeight}}">
+    <div class="content" style="height: {{vm.screenHeight}}">
+        <div class="img-holder text-center">
+            <!--<img class="img-responsive" src="images/login/logo.png" />--><i>cancure_logo</i></div>
+        <form class="animate-show-hide" ng-submit="vm.login($event);">
+            <div class="input-holder">
+                <div class="icon-holder"> <i class="fa fa-user" aria-hidden="true"></i></div>
+                <input type="text" ng-model="vm.formData.userId" placeholder="User ID" required ng-readonly="vm.logging" /> </div>
+            <div class="input-holder">
+                <div class="icon-holder"> <i class="fa fa-unlock-alt" aria-hidden="true"></i> </div>
+                <input type="password" ng-model="vm.formData.password" placeholder="Password" required ng-readonly="vm.logging" class="disc" /> </div>
+            <div class="btn-holder animate-show-hide">
+                <button class="md-raised" type=submit> <span ng-show="!vm.logging">LOGIN</span> <span ng-show="vm.logging"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></span> </button>
+            </div>
+        </form>
+    </div>
+</div>

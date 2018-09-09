@@ -44,6 +44,9 @@ public class User {
 	@NotNull
 	@Column(name="first_log")
 	private Boolean firstLog;
+	
+	@Column(name="push_id")
+	private String pushId;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
@@ -136,4 +139,13 @@ public class User {
         this.firstLog = firstLog;
     }
 
+	public String getPushId() {
+		return pushId;
+	}
+
+	public void setPushId(String pushId) {
+		this.pushId = pushId;
+	}
+
+    
 }
