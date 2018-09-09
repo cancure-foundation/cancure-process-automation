@@ -376,7 +376,39 @@ create table camp_patient_test_results (
  
 create index camp_patient_test_results_fk_index
 	on camp_patient_test_results(camp_patient_id); 
- 
+
+CREATE TABLE payment_details (
+  pay_id int(11) primary key AUTO_INCREMENT,
+  transaction_id varchar(100) CHARACTER SET utf8,
+  organisation varchar(100),
+  designation varchar(100),
+  product_name varchar(100),
+  product_quantity int,
+  product_amount decimal(11,2) NOT NULL,
+  payer_fname varchar(100) NOT NULL,
+  payer_lname varchar(100),
+  payer_address text CHARACTER SET utf8,
+  message text CHARACTER SET utf8,
+  mobile varchar(100),
+  telo varchar(100),
+  telr varchar(100),
+  payer_city varchar(100),
+  tracking_id varchar(100),
+  order_id varchar(200),
+  order_status varchar(100),
+  payment_mode varchar(100),
+  status_message text,
+  failure_message text,
+  payer_state varchar(100),
+  payer_zip varchar(100),
+  payer_country varchar(200),
+  payer_email varchar(100),
+  status varchar(100) CHARACTER SET utf8,
+  date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+	
+	
+	
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),

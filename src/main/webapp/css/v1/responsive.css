@@ -1,0 +1,197 @@
+@media only screen and (max-width: 1024px){
+	
+}
+
+@media only screen and (max-width: 900px){
+	#trigger {display: block; }
+	.header-info, .nav, .specialSec .sideA, .specialSec .sideB {width: 100%;}
+	.nav {text-align: right; padding-right: 15px;}
+	.mainmenu {
+		display: none; 
+		width: 200px;
+		position: absolute;
+		top: 60px;
+		right: 15px;
+		background: #000;
+		z-index:100;
+	}
+	.mainmenu li {display: block; width: 100%;}
+	
+}
+
+@media only screen and (max-width: 768px){
+	.logo {width: 22%;}
+	.nav-container {width: 78%;}
+	.memberThumbs li {width: 100%;}
+	
+}
+
+@media only screen and (max-width: 600px){
+	.logo {width: 30%;}
+	.nav-container {width: 70%;}
+	.header-info a {font-size: 14px;}
+	.big-title {font-size: 26px;}
+	.splitSec {width: 100%;}
+	.iconContainer {width: 46%; margin: 0 2%;}
+	.col3 {float: none; width: 100%;}
+	
+}
+
+@media only screen and (max-width: 480px){
+	.logo {width: 50%; max-width: 150px;}
+	.mainmenu {top: 180px;}
+	.nav-container {width: 100%;}
+	p {line-height: 24px;}
+	.iconContainer {width: 96%; margin: 0 2%;}
+	.donateSec .subhead {font-size: 30px;}
+	.normalSec {float:left; margin-top:250px; }
+
+	
+}
+
+@media only screen and (max-width: 320px){
+	.normalSec {float:left; margin-top:250px; }
+
+}
+
+@media only screen and (max-width: 768px) and (min-width: 200px){
+   	.normalSec {float:right; margin-top:20px; }
+		.drawer ul {
+  margin: 10;
+  padding: 0;
+}
+
+/* Decor */
+
+
+.drawer {
+    
+  position: relative;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  
+  padding: .4em 0;
+  
+  color: #000;
+  text-align: left;
+  /* Remove 4px gap between <li> */
+  font-size: 0px;
+
+}
+
+.drawer li {
+  pointer-events: none;
+  position: relative;
+  display:block;
+  vertical-align: middle;
+  list-style: none;
+  line-height: 100%;
+  transform: translateZ(0);
+}
+
+.drawer a {
+  pointer-events: auto;
+  position: relative;
+  display: block;
+  min-width: 5em;
+  margin-bottom: .4em;
+  padding: .4em;
+  line-height: 100%;
+  /* Reset font-size */
+  font-size: 16px;
+  text-decoration: none;
+  color: #000;
+  transition: background 0.3s;
+}
+
+.drawer a:active,
+.drawer a:focus {  }
+
+.drawer i {
+  display: block;
+  margin-bottom: .2em;
+  font-size: 2em;
+}
+
+.drawer span {
+  font-size: .625em;
+   display: block;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  opacity:0.1px;
+}
+
+.drawer li:hover ul {
+  /* Open the fly-out menu */
+  transform: translateX(0);
+  opacity:0.1px;
+   display: block;
+  /* Enable this if you wish to replicate hoverIntent */
+}
+
+.drawer > li { display: block;/* Add a shadow to the top-level link */
+  /* Show the shadow when the link is hovered over */
+  /* Fly out menus */
+}
+.drawer > li > ul{
+   
+    
+}
+
+.drawer > li > ul > a{
+    
+   
+}
+.drawer > li > a {  opacity:0.5px; }
+
+.drawer > li:hover { z-index: 100; opacity:1px; display: block; }
+
+.drawer > li ul:hover a {  opacity:1px; display: block; }
+
+.drawer > li a:hover {  opacity:1px; display: block; }
+
+.drawer > li > a:after {
+  content: "";
+  position: absolute;
+   display:block;
+  top: 50px;
+  bottom: 0;
+
+  width: 4px;
+
+ 
+  transition: opacity 0.5s;
+}
+
+#insidel {
+ 
+    
+}
+
+
+#insidel::after {
+    transition: opacity 1s ease;
+     
+}
+#insidel:hover::after {
+    opacity: 0.5;
+    
+}
+.drawer > li ul {
+  position: absolute;
+  /* Stack below the top level */
+  z-index: -1;
+  top: 50px;
+  
+  height: 100%;
+  width: auto;
+  display:block;
+  white-space: nowrap;
+  /* Close the menus */
+  transform: translateX(-1200px);
+  
+  transition: 0.5s transform;
+ 
+} 
+}

@@ -481,7 +481,14 @@ public class MyTasksServiceImpl implements MyTasksService {
 		map.put("nextTask", t.getName());
 		map.put("nextTaskKey" ,t.getTaskDefinitionKey());
 		Map<String, Object> processVars = t.getProcessVariables();
-		Object patientId = processVars.get("prn");
+		Object patientIdObj = processVars.get("prn");
+		Integer patientId;
+		if (patientIdObj instanceof Integer) {
+			patientId = (Integer)patientIdObj;
+		} else {
+			patientId = Integer.parseInt(patientIdObj.toString());
+		}
+		
 		String taskKey = t.getTaskDefinitionKey();
 		
 		PatientBean patientBean = null;
