@@ -54,7 +54,7 @@
 <header class="header">
 	<div class="container row">
 		<div class="logo">
-			<img src="images/cancure-logo.jpg" alt="" class="img-responsive">
+			<img src="../images/v1/cancure-logo.jpg" alt="Cancure" class="img-responsive">
 		</div>
 		<div class="nav-container">
 			<%@include file="menu.html" %>
