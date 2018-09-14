@@ -29,9 +29,11 @@ targetCompatibility = 1.7
 version = '1.0'
 war {
     manifest {
-        attributes 'Implementation-Title': 'Cancure Process Automation',
+        attributes 'Implementation-Title': 'sdfdsfdsfCancure Process Automation',
                    'Implementation-Version': version
     }
+    // Host uses tomcat 7
+    rootSpec.exclude("**/tomcat-embed-jasper*.jar")
 }
 
 jacoco {
